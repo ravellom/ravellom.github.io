@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>RED. Revista de Educación a Distancia</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="RED_files/libs/clipboard/clipboard.min.js"></script>
+<script src="RED_files/libs/quarto-html/quarto.js"></script>
+<script src="RED_files/libs/quarto-html/popper.min.js"></script>
+<script src="RED_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="RED_files/libs/quarto-html/anchor.min.js"></script>
+<link href="RED_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="RED_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="RED_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="RED_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="RED_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.14.0.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">RED. Revista de Educación a Distancia</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="red.-revista-de-educación-a-distancia" class="level2">
+<h2 class="anchored" data-anchor-id="red.-revista-de-educación-a-distancia">RED. Revista de Educación a Distancia</h2>
+<p>Análisis adicionales de los datos ofrecidos por SCimago sobre la revista RRED. Revista de Educación a Distancia.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">"RED.scimago.scopus.xlsx"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df['Year'] = pd.to_datetime(df['Year'], format='%Y')</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Self Cites'</span>] <span class="op">=</span> df[<span class="st">'Self Cites'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Total Cites'</span>] <span class="op">=</span> df[<span class="st">'Total Cites'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'International Collaboration'</span>] <span class="op">=</span> df[<span class="st">'International Collaboration'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">SJR</th>
+<th data-quarto-table-cell-role="th">Documents</th>
+<th data-quarto-table-cell-role="th">Self Cites</th>
+<th data-quarto-table-cell-role="th">Total Cites</th>
+<th data-quarto-table-cell-role="th">Cites / Doc. (4 years)</th>
+<th data-quarto-table-cell-role="th">Cites / Doc. (3 years)</th>
+<th data-quarto-table-cell-role="th">Cites / Doc. (2 years)</th>
+<th data-quarto-table-cell-role="th">International Collaboration</th>
+<th data-quarto-table-cell-role="th">External Cites per document</th>
+<th data-quarto-table-cell-role="th">Cites per document</th>
+<th data-quarto-table-cell-role="th">Non-citable documents</th>
+<th data-quarto-table-cell-role="th">Citable documents</th>
+<th data-quarto-table-cell-role="th">Uncited documents</th>
+<th data-quarto-table-cell-role="th">Cited documents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2018</td>
+<td>0.000</td>
+<td>39</td>
+<td>0</td>
+<td>0</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2019</td>
+<td>0.224</td>
+<td>22</td>
+<td>7</td>
+<td>41</td>
+<td>1.051</td>
+<td>1.051</td>
+<td>1.051</td>
+<td>0</td>
+<td>0.919</td>
+<td>1.051</td>
+<td>2</td>
+<td>37</td>
+<td>24</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2020</td>
+<td>0.336</td>
+<td>24</td>
+<td>3</td>
+<td>114</td>
+<td>1.869</td>
+<td>1.869</td>
+<td>1.869</td>
+<td>33</td>
+<td>1.881</td>
+<td>1.869</td>
+<td>2</td>
+<td>59</td>
+<td>24</td>
+<td>37</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2021</td>
+<td>0.514</td>
+<td>48</td>
+<td>18</td>
+<td>168</td>
+<td>1.976</td>
+<td>1.976</td>
+<td>1.826</td>
+<td>16</td>
+<td>1.829</td>
+<td>1.976</td>
+<td>3</td>
+<td>82</td>
+<td>34</td>
+<td>51</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2022</td>
+<td>0.538</td>
+<td>18</td>
+<td>6</td>
+<td>227</td>
+<td>2.331</td>
+<td>2.415</td>
+<td>2.667</td>
+<td>44</td>
+<td>2.376</td>
+<td>2.415</td>
+<td>1</td>
+<td>93</td>
+<td>27</td>
+<td>67</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Matriz de correlación de todas las columnas</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.figure_factory <span class="im">as</span> ff</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la matriz de correlación</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> df.corr()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una gráfica de matriz de correlación</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> ff.create_annotated_heatmap(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    z<span class="op">=</span>corr_matrix.values,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="bu">list</span>(corr_matrix.columns),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="bu">list</span>(corr_matrix.index),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    colorscale<span class="op">=</span><span class="st">'Viridis'</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    showscale<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    reversescale<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    annotation_text<span class="op">=</span>corr_matrix.<span class="bu">round</span>(<span class="dv">2</span>).values,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    font_colors<span class="op">=</span>[<span class="st">'white'</span>, <span class="st">'black'</span>]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Personalizar la apariencia de la gráfica</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#title_text='Matriz de correlación de la Revista de Educación a Distancia',</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    title_x<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    title_y<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">900</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">900</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    xaxis_showgrid<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    yaxis_showgrid<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    yaxis_autorange<span class="op">=</span><span class="st">'reversed'</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar la gráfica</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>                            <div id="a7a838f0-8769-430a-a5f7-86aa4711a43f" class="plotly-graph-div" style="height:900px; width:900px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a7a838f0-8769-430a-a5f7-86aa4711a43f")) {                    Plotly.newPlot(                        "a7a838f0-8769-430a-a5f7-86aa4711a43f",                        [{"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"reversescale":false,"showscale":true,"x":["Year","SJR","Documents","Self Cites","Total Cites","Cites / Doc. (4 years)","Cites / Doc. (3 years)","Cites / Doc. (2 years)","International Collaboration","External Cites per document","Cites per document","Non-citable documents","Citable documents","Uncited documents","Cited documents"],"y":["Year","SJR","Documents","Self Cites","Total Cites","Cites / Doc. (4 years)","Cites / Doc. (3 years)","Cites / Doc. (2 years)","International Collaboration","External Cites per document","Cites per document","Non-citable documents","Citable documents","Uncited documents","Cited documents"],"z":[[1.0,0.9732267984868552,-0.19863901914280904,0.5321565353901596,0.9974340790829845,0.9457282910826138,0.9533035028477518,0.9594141547600644,0.8350249291396532,0.949042132938046,0.9533035028477518,0.41602514716892186,0.9818858778600489,0.7873085300881967,0.9975866194776679],[0.9732267984868552,1.0,-0.11803042539546674,0.6749400390358243,0.9619401873606015,0.968625620586552,0.9692552023611829,0.9475768968551153,0.7437030095360984,0.9528014618647115,0.9692552023611829,0.6133570989277197,0.9970563648225601,0.9027810465710879,0.9717978198774784],[-0.19863901914280904,-0.11803042539546674,1.0,0.49176759076417587,-0.17519611327426254,-0.28310335794278274,-0.2981155380597553,-0.39464259495356274,-0.4551416593442156,-0.3252305989912298,-0.2981155380597553,0.21348363686197502,-0.18163706648893807,-0.10660190970437629,-0.19087434717645252],[0.5321565353901596,0.6749400390358243,0.49176759076417587,1.0,0.5064421210440891,0.5238097543361826,0.5100163619686284,0.415170585207747,0.03455338588022537,0.45064371714940243,0.5100163619686284,0.8213908441139748,0.6168316472619685,0.7764632633820937,0.5159372145413571],[0.9974340790829845,0.9619401873606015,-0.17519611327426254,0.5064421210440891,1.0,0.9365809182505743,0.9444717238154597,0.9514821549739146,0.8557085677971795,0.9443762849063111,0.9444717238154597,0.3832942236731455,0.9719889526308849,0.7541589739631284,0.9983513709469247],[0.9457282910826138,0.968625620586552,-0.28310335794278274,0.5238097543361826,0.9365809182505743,1.0,0.9994429462869677,0.9857330290500711,0.8349649792594857,0.9956016148680826,0.9994429462869677,0.5952522357864137,0.9804731939498356,0.888170135187703,0.9551074716533239],[0.9533035028477518,0.9692552023611829,-0.2981155380597553,0.5100163619686284,0.9444717238154597,0.9994429462869677,1.0,0.9905047623789246,0.845460346543655,0.9970196361724964,1.0,0.5709268699757926,0.9824235258497429,0.878050055490904,0.9615981381311702],[0.9594141547600644,0.9475768968551153,-0.39464259495356274,0.415170585207747,0.9514821549739146,0.9857330290500711,0.9905047623789246,1.0,0.8872029785652288,0.9930436185687386,0.9905047623789246,0.4626256721745575,0.9688607823060583,0.8224330391481588,0.9648216464014955],[0.8350249291396532,0.7437030095360984,-0.4551416593442156,0.03455338588022537,0.8557085677971795,0.8349649792594857,0.845460346543655,0.8872029785652288,1.0,0.8826857560061426,0.8454603465436551,0.10243591651033311,0.7885011148733296,0.490498631498659,0.858923459414893],[0.949042132938046,0.9528014618647115,-0.3252305989912298,0.45064371714940243,0.9443762849063111,0.9956016148680826,0.9970196361724964,0.9930436185687386,0.8826857560061426,1.0,0.9970196361724964,0.5241559291601942,0.9707859562632452,0.8418783755845592,0.9608073383783506],[0.9533035028477518,0.9692552023611829,-0.2981155380597553,0.5100163619686284,0.9444717238154597,0.9994429462869677,1.0,0.9905047623789246,0.8454603465436551,0.9970196361724964,1.0,0.5709268699757926,0.9824235258497429,0.878050055490904,0.9615981381311702],[0.41602514716892186,0.6133570989277197,0.21348363686197502,0.8213908441139748,0.3832942236731455,0.5952522357864137,0.5709268699757926,0.4626256721745575,0.10243591651033311,0.5241559291601942,0.5709268699757926,1.0,0.5741248155872694,0.8632047626626485,0.4231587892051194],[0.9818858778600489,0.9970563648225601,-0.18163706648893807,0.6168316472619685,0.9719889526308849,0.9804731939498356,0.9824235258497429,0.9688607823060583,0.7885011148733296,0.9707859562632452,0.9824235258497429,0.5741248155872694,1.0,0.8864106399150311,0.9820105253302307],[0.7873085300881967,0.9027810465710879,-0.10660190970437629,0.7764632633820937,0.7541589739631284,0.888170135187703,0.878050055490904,0.8224330391481588,0.490498631498659,0.8418783755845592,0.878050055490904,0.8632047626626485,0.8864106399150311,1.0,0.7832428067031509],[0.9975866194776679,0.9717978198774784,-0.19087434717645252,0.5159372145413571,0.9983513709469247,0.9551074716533239,0.9615981381311702,0.9648216464014955,0.858923459414893,0.9608073383783506,0.9615981381311702,0.4231587892051194,0.9820105253302307,0.7832428067031509,1.0]],"type":"heatmap"}],                        {"annotations":[{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Year","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"SJR","xref":"x","y":"Year","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.2","x":"Documents","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.53","x":"Self Cites","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Total Cites","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Cites / Doc. (4 years)","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Cites / Doc. (3 years)","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cites / Doc. (2 years)","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.84","x":"International Collaboration","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"External Cites per document","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Cites per document","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Non-citable documents","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Citable documents","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.79","x":"Uncited documents","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cited documents","xref":"x","y":"Year","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Year","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"SJR","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.12","x":"Documents","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.67","x":"Self Cites","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Total Cites","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Cites / Doc. (4 years)","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Cites / Doc. (3 years)","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Cites / Doc. (2 years)","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.74","x":"International Collaboration","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"External Cites per document","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Cites per document","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.61","x":"Non-citable documents","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Citable documents","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.9","x":"Uncited documents","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Cited documents","xref":"x","y":"SJR","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.2","x":"Year","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.12","x":"SJR","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Documents","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.49","x":"Self Cites","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.18","x":"Total Cites","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.28","x":"Cites / Doc. (4 years)","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.3","x":"Cites / Doc. (3 years)","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.39","x":"Cites / Doc. (2 years)","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.46","x":"International Collaboration","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.33","x":"External Cites per document","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.3","x":"Cites per document","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.21","x":"Non-citable documents","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.18","x":"Citable documents","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.11","x":"Uncited documents","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.19","x":"Cited documents","xref":"x","y":"Documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.53","x":"Year","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.67","x":"SJR","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.49","x":"Documents","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Self Cites","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Total Cites","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"Cites / Doc. (4 years)","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Cites / Doc. (3 years)","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Cites / Doc. (2 years)","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.03","x":"International Collaboration","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.45","x":"External Cites per document","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Cites per document","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.82","x":"Non-citable documents","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.62","x":"Citable documents","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.78","x":"Uncited documents","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"Cited documents","xref":"x","y":"Self Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Year","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"SJR","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.18","x":"Documents","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Self Cites","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Total Cites","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Cites / Doc. (4 years)","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Cites / Doc. (3 years)","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Cites / Doc. (2 years)","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"International Collaboration","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"External Cites per document","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Cites per document","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.38","x":"Non-citable documents","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Citable documents","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.75","x":"Uncited documents","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cited documents","xref":"x","y":"Total Cites","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Year","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"SJR","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.28","x":"Documents","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"Self Cites","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Total Cites","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (4 years)","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (3 years)","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (2 years)","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.83","x":"International Collaboration","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"External Cites per document","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites per document","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.6","x":"Non-citable documents","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Citable documents","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"Uncited documents","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cited documents","xref":"x","y":"Cites / Doc. (4 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Year","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"SJR","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.3","x":"Documents","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Self Cites","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Total Cites","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (4 years)","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (3 years)","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (2 years)","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.85","x":"International Collaboration","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"External Cites per document","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites per document","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Non-citable documents","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Citable documents","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"Uncited documents","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cited documents","xref":"x","y":"Cites / Doc. (3 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Year","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"SJR","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.39","x":"Documents","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Self Cites","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Total Cites","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (4 years)","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (3 years)","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (2 years)","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"International Collaboration","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"External Cites per document","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites per document","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.46","x":"Non-citable documents","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Citable documents","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.82","x":"Uncited documents","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cited documents","xref":"x","y":"Cites / Doc. (2 years)","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.84","x":"Year","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.74","x":"SJR","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.46","x":"Documents","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.03","x":"Self Cites","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"Total Cites","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.83","x":"Cites / Doc. (4 years)","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.85","x":"Cites / Doc. (3 years)","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"Cites / Doc. (2 years)","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"International Collaboration","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"External Cites per document","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.85","x":"Cites per document","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.1","x":"Non-citable documents","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.79","x":"Citable documents","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.49","x":"Uncited documents","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"Cited documents","xref":"x","y":"International Collaboration","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Year","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"SJR","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.33","x":"Documents","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.45","x":"Self Cites","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Total Cites","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (4 years)","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (3 years)","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (2 years)","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"International Collaboration","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"External Cites per document","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites per document","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"Non-citable documents","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Citable documents","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.84","x":"Uncited documents","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cited documents","xref":"x","y":"External Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.95","x":"Year","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"SJR","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.3","x":"Documents","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.51","x":"Self Cites","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.94","x":"Total Cites","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (4 years)","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites / Doc. (3 years)","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.99","x":"Cites / Doc. (2 years)","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.85","x":"International Collaboration","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"External Cites per document","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cites per document","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Non-citable documents","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Citable documents","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"Uncited documents","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cited documents","xref":"x","y":"Cites per document","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Year","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.61","x":"SJR","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.21","x":"Documents","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.82","x":"Self Cites","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.38","x":"Total Cites","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.6","x":"Cites / Doc. (4 years)","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Cites / Doc. (3 years)","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.46","x":"Cites / Doc. (2 years)","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"0.1","x":"International Collaboration","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"External Cites per document","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Cites per document","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Non-citable documents","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Citable documents","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"Uncited documents","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Cited documents","xref":"x","y":"Non-citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Year","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"SJR","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.18","x":"Documents","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.62","x":"Self Cites","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Total Cites","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Cites / Doc. (4 years)","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Cites / Doc. (3 years)","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"Cites / Doc. (2 years)","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.79","x":"International Collaboration","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"External Cites per document","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Cites per document","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.57","x":"Non-citable documents","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Citable documents","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"Uncited documents","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Cited documents","xref":"x","y":"Citable documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.79","x":"Year","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.9","x":"SJR","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.11","x":"Documents","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.78","x":"Self Cites","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.75","x":"Total Cites","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"Cites / Doc. (4 years)","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"Cites / Doc. (3 years)","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.82","x":"Cites / Doc. (2 years)","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.49","x":"International Collaboration","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.84","x":"External Cites per document","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.88","x":"Cites per document","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"Non-citable documents","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.89","x":"Citable documents","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Uncited documents","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.78","x":"Cited documents","xref":"x","y":"Uncited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Year","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.97","x":"SJR","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"white"},"showarrow":false,"text":"-0.19","x":"Documents","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.52","x":"Self Cites","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Total Cites","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cites / Doc. (4 years)","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cites / Doc. (3 years)","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cites / Doc. (2 years)","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.86","x":"International Collaboration","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"External Cites per document","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.96","x":"Cites per document","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.42","x":"Non-citable documents","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.98","x":"Citable documents","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"0.78","x":"Uncited documents","xref":"x","y":"Cited documents","yref":"y"},{"font":{"color":"black"},"showarrow":false,"text":"1.0","x":"Cited documents","xref":"x","y":"Cited documents","yref":"y"}],"xaxis":{"dtick":1,"gridcolor":"rgb(0, 0, 0)","side":"top","ticks":"","showgrid":false},"yaxis":{"dtick":1,"ticks":"","ticksuffix":"  ","showgrid":false,"autorange":"reversed"},"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"title":{"x":0.5,"y":0.9},"height":900,"width":900},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('a7a838f0-8769-430a-a5f7-86aa4711a43f');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
