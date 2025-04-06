@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiblioClick</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 2rem;
+      background-color: #f0f8ff;
+      color: #2c3e50;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3799;
+    }
+    .form-section, .refs-section {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .author-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .author-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    input, select, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button.add {
+      background-color: #10ac84;
+      color: white;
+      border: none;
+    }
+    button.save {
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+    }
+    button.copy {
+      background-color: #ffa502;
+      color: white;
+      border: none;
+    }
+    button.clear {
+      background-color: #e55039;
+      color: white;
+      border: none;
+    }
+    button.help {
+      background-color: #82589F;
+      color: white;
+      border: none;
+      float: right;
+    }
+    .refs-list {
+      list-style: none;
+      padding: 0;
+    }
+    .ref-item {
+      background: #dff9fb;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ref-text {
+      flex: 1;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>BiblioClick <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button></h1>
+
+  <div class="form-section">
+    <h2>Agregar Referencia</h2>
+    <div class="author-inputs" id="authorInputs">
+      <div class="author-row">
+        <input type="text" placeholder="Nombre">
+        <input type="text" placeholder="Apellido">
+      </div>
+    </div>
+    <button class="add" onclick="addAuthor()">+ Añadir autor</button>
+    <br><br>
+    <input type="text" id="title" placeholder="Título">
+    <select id="docType">
+      <option value="Libro">Libro</option>
+      <option value="Página web">Página web</option>
+      <option value="Artículo">Artículo</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <input type="number" id="year" placeholder="Año">
+    <input type="url" id="url" placeholder="URL (opcional)">
+    <br><br>
+    <button class="save" onclick="addReference()">Guardar referencia</button>
+  </div>
+
+  <div class="refs-section">
+    <h2>Referencias</h2>
+    <ul class="refs-list" id="refsList"></ul>
+    <button class="copy" onclick="copyAll()">📋 Copiar todas</button>
+    <button class="clear" onclick="clearAll()">❌ Limpiar todas</button>
+  </div>
+
+  <script>
+    let maxAuthors = 6;
+
+    function addAuthor() {
+      const container = document.getElementById('authorInputs');
+      if (container.children.length >= maxAuthors) return alert('Máximo 6 autores');
+      const div = document.createElement('div');
+      div.className = 'author-row';
+      div.innerHTML = `<input type="text" placeholder="Nombre">
+                       <input type="text" placeholder="Apellido">
+                       <button onclick="this.parentNode.remove()">🗑️</button>`;
+      container.appendChild(div);
+    }
+
+    function getAuthors() {
+      const inputs = document.querySelectorAll('#authorInputs .author-row');
+      let authors = [];
+      inputs.forEach(row => {
+        const [name, surname] = row.querySelectorAll('input');
+        if (name.value && surname.value) {
+          authors.push(`${surname.value}, ${name.value}`);
+        }
+      });
+      return authors;
+    }
+
+    function addReference() {
+      const authors = getAuthors();
+      const title = document.getElementById('title').value.trim();
+      const docType = document.getElementById('docType').value;
+      const year = document.getElementById('year').value.trim();
+      const url = document.getElementById('url').value.trim();
+
+      if (!authors.length || !title || !year) {
+        alert('Debe completar al menos un autor, el título y el año.');
+        return;
+      }
+
+      let ref = authors.join('; ') + `. ${year}. ${title}. ${docType}.`;
+      if (url) ref += ` ${url}`;
+
+      const li = document.createElement('li');
+      li.className = 'ref-item';
+      li.innerHTML = `<div class="ref-text">${ref}</di
