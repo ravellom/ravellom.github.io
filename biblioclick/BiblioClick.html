@@ -11,18 +11,28 @@
       background-color: #f0f8ff;
       color: #2c3e50;
     }
-    .logo-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
+    .logo-container {
+      text-align: center;
+      margin-bottom: 1rem;
     }
-    .logo-title img {
-      height: 60px;
+    .logo-container img {
+      height: 80px;
     }
-    h1 {
+    .slogan {
+      font-size: 1rem;
       color: #1e3799;
-      margin: 0;
+      margin-top: 0.5rem;
+    }
+    .help-container {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    button.help {
+      background-color: #82589F;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
     }
     .form-section, .refs-section {
       background: #ffffff;
@@ -74,12 +84,6 @@
       color: white;
       border: none;
     }
-    button.help {
-      background-color: #82589F;
-      color: white;
-      border: none;
-      float: right;
-    }
     .refs-list {
       list-style: none;
       padding: 0;
@@ -100,9 +104,12 @@
   </style>
 </head>
 <body>
-  <div class="logo-title">
+  <div class="logo-container">
     <img src="logo_bc.png" alt="Logo BiblioClick">
-    <h1>BiblioClick <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button></h1>
+    <div class="slogan">Crea tus referencias fácilmente</div>
+  </div>
+  <div class="help-container">
+    <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button>
   </div>
 
   <div class="form-section">
