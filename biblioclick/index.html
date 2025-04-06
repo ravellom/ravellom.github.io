@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioClick</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="logo-container">
+    <img src="logo_bc.png" alt="Logo BiblioClick" />
+    <div class="slogan">Crea tus referencias fácilmente</div>
+  </div>
+  <div class="help-container">
+    <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button>
+  </div>
+
+  <div class="form-section">
+    <h2>Agregar Referencia</h2>
+    <div class="author-inputs" id="authorInputs">
+      <div class="author-row">
+        <label>Autor:</label>
+        <input type="text" placeholder="Nombre" />
+        <input type="text" placeholder="Apellido" />
+      </div>
+    </div>
+    <button class="add" onclick="addAuthor()">+ Añadir autor</button>
+    <br /><br />
+    <div class="form-fields">
+      <label for="title">Título:</label>
+      <input type="text" id="title" placeholder="Título" />
+
+      <label for="docType">Tipo de documento:</label>
+      <select id="docType">
+        <option value="Libro">Libro</option>
+        <option value="Página web">Página web</option>
+        <option value="Artículo">Artículo</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label for="year">Año:</label>
+      <input type="number" id="year" placeholder="Año" />
+
+      <label for="url">URL (opcional):</label>
+      <input type="url" id="url" placeholder="URL (opcional)" />
+    </div>
+    <br />
+    <button class="save" onclick="addReference()">Guardar referencia</button>
+  </div>
+
+  <div class="refs-section">
+    <h2>Referencias</h2>
+    <ul class="refs-list" id="refsList"></ul>
+    <button class="copy" onclick="copyAll()">📋 Copiar todas</button>
+    <button class="clear" onclick="clearAll()">❌ Limpiar todas</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
