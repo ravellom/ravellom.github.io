@@ -11,9 +11,18 @@
       background-color: #f0f8ff;
       color: #2c3e50;
     }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .logo-title img {
+      height: 60px;
+    }
     h1 {
-      text-align: center;
       color: #1e3799;
+      margin: 0;
     }
     .form-section, .refs-section {
       background: #ffffff;
@@ -91,7 +100,10 @@
   </style>
 </head>
 <body>
-  <h1>BiblioClick <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button></h1>
+  <div class="logo-title">
+    <img src="logo_bc.png" alt="Logo BiblioClick">
+    <h1>BiblioClick <button class="help" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button></h1>
+  </div>
 
   <div class="form-section">
     <h2>Agregar Referencia</h2>
@@ -156,14 +168,64 @@
       const year = document.getElementById('year').value.trim();
       const url = document.getElementById('url').value.trim();
 
-      if (!authors.length || !title || !year) {
-        alert('Debe completar al menos un autor, el título y el año.');
+      if (!title) {
+        alert('Debe completar al menos el título.');
         return;
       }
 
-      let ref = authors.join('; ') + `. ${year}. ${title}. ${docType}.`;
+      let ref = authors.length ? authors.join('; ') + '. ' : '';
+      ref += year ? `${year}. ` : '';
+      ref += `${title}. ${docType}.`;
       if (url) ref += ` ${url}`;
 
       const li = document.createElement('li');
       li.className = 'ref-item';
-      li.innerHTML = `<div class="ref-text">${ref}</di
+      li.innerHTML = `<div class="ref-text">${ref}</div>
+                      <div>
+                        <button onclick="editReference(this)">✏️</button>
+                        <button onclick="this.closest('li').remove();saveToStorage();">🗑️</button>
+                      </div>`;
+
+      document.getElementById('refsList').appendChild(li);
+      saveToStorage();
+    }
+
+    function copyAll() {
+      const refs = Array.from(document.querySelectorAll('.ref-text')).map(div => div.textContent).join('\n');
+      navigator.clipboard.writeText(refs).then(() => alert('Referencias copiadas.'));
+    }
+
+    function clearAll() {
+      if (confirm('¿Seguro que desea eliminar todas las referencias?')) {
+        document.getElementById('refsList').innerHTML = '';
+        localStorage.removeItem('refs');
+      }
+    }
+
+    function saveToStorage() {
+      const refs = Array.from(document.querySelectorAll('.ref-text')).map(div => div.textContent);
+      localStorage.setItem('refs', JSON.stringify(refs));
+    }
+
+    function loadFromStorage() {
+      const refs = JSON.parse(localStorage.getItem('refs') || '[]');
+      refs.forEach(text => {
+        const li = document.createElement('li');
+        li.className = 'ref-item';
+        li.innerHTML = `<div class="ref-text">${text}</div>
+                        <div>
+                          <button onclick="editReference(this)">✏️</button>
+                          <button onclick="this.closest('li').remove();saveToStorage();">🗑️</button>
+                        </div>`;
+        document.getElementById('refsList').appendChild(li);
+      });
+    }
+
+    function editReference(button) {
+      alert('Funcionalidad de edición en desarrollo.');
+    }
+
+    loadFromStorage();
+  </script>
+</body>
+</html>
