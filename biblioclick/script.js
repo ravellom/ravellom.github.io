@@ -1,4 +1,5 @@
 let maxAuthors = 6;
+let editingIndex = null;
 
 function addAuthor() {
   const container = document.getElementById('authorInputs');
@@ -22,6 +23,25 @@ function getAuthors() {
     }
   });
   return authors;
+}
+
+function fillForm(authors, year, title, type, url) {
+  document.getElementById('authorInputs').innerHTML = '';
+  authors.forEach(author => {
+    const [surname, name] = author.split(', ');
+    const div = document.createElement('div');
+    div.className = 'author-row';
+    div.innerHTML = `<label>Autor:</label>
+                     <input type="text" value="${name || ''}" placeholder="Nombre">
+                     <input type="text" value="${surname || ''}" placeholder="Apellido">
+                     <button onclick="this.parentNode.remove()">🗑️</button>`;
+    document.getElementById('authorInputs').appendChild(div);
+  });
+
+  document.getElementById('title').value = title;
+  document.getElementById('year').value = year;
+  document.getElementById('docType').value = type;
+  document.getElementById('url').value = url || '';
 }
 
 function addReference() {
@@ -49,8 +69,44 @@ function addReference() {
                     <button onclick="this.closest('li').remove();saveToStorage();">🗑️</button>
                   </div>`;
 
-  document.getElementById('refsList').appendChild(li);
+  const list = document.getElementById('refsList');
+
+  if (editingIndex !== null) {
+    list.children[editingIndex].replaceWith(li);
+    editingIndex = null;
+  } else {
+    list.appendChild(li);
+  }
+
   saveToStorage();
+  document.querySelector('.save').textContent = 'Guardar referencia';
+}
+
+function editReference(button) {
+  const li = button.closest('li');
+  const index = Array.from(document.querySelectorAll('.ref-item')).indexOf(li);
+  editingIndex = index;
+
+  const ref = li.querySelector('.ref-text').textContent;
+  const parts = ref.split('. ');
+  let authors = [], year = '', title = '', type = '', url = '';
+
+  if (parts.length >= 3) {
+    if (parts[0].includes(',')) {
+      authors = parts[0].split('; ');
+      year = parts[1];
+      title = parts[2];
+      type = parts[3];
+      url = parts.slice(4).join('. ');
+    } else {
+      title = parts[0];
+      type = parts[1];
+      url = parts.slice(2).join('. ');
+    }
+  }
+
+  fillForm(authors, year, title, type, url);
+  document.querySelector('.save').textContent = 'Actualizar referencia';
 }
 
 function copyAll() {
@@ -82,10 +138,6 @@ function loadFromStorage() {
                     </div>`;
     document.getElementById('refsList').appendChild(li);
   });
-}
-
-function editReference(button) {
-  alert('Funcionalidad de edición en desarrollo.');
 }
 
 window.onload = loadFromStorage;
