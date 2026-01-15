@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital First: Las 7 Funciones</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: #333; }
+        
+        /* Layout */
+        nav { width: 250px; background: var(--primary); color: white; display: flex; flex-direction: column; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+        main { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: start; }
+        
+        /* Menú */
+        h1 { font-size: 1.2rem; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; }
+        button.menu-btn {
+            background: none; border: none; color: rgba(255,255,255,0.7); 
+            text-align: left; padding: 15px; cursor: pointer; font-size: 1rem;
+            transition: 0.3s; border-radius: 8px; margin-bottom: 5px; width: 100%;
+        }
+        button.menu-btn:hover, button.menu-btn.active { background: rgba(255,255,255,0.1); color: white; padding-left: 20px; font-weight: bold; }
+
+        /* Tarjeta Central */
+        .card { background: var(--card-bg); width: 100%; max-width: 600px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        .icon { font-size: 3rem; margin-bottom: 10px; display: block; }
+        h2 { color: var(--primary); margin-top: 0; }
+        p.desc { color: #666; margin-bottom: 30px; line-height: 1.6; }
+
+        /* Áreas Interactivas (Playground) */
+        .playground { border: 2px dashed #ddd; padding: 20px; border-radius: 10px; background: #fafafa; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Elementos UI Específicos */
+        input, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 80%; margin-bottom: 10px; }
+        .btn-action { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .btn-action:hover { opacity: 0.9; }
+        .result-box { margin-top: 15px; font-weight: bold; color: var(--accent); }
+        
+        /* Estilos específicos para canvas (Imaginativa) */
+        canvas { border: 1px solid #000; background: white; cursor: crosshair; }
+
+        /* Estilo Chat (Interaccional) */
+        .chat-box { width: 90%; height: 100px; border: 1px solid #eee; overflow-y: auto; text-align: left; padding: 10px; background: white; margin-bottom: 10px; font-size: 0.9rem; }
+        .msg { background: #e1f5fe; padding: 5px 10px; border-radius: 10px; margin: 5px 0; display: inline-block; }
+
+        /* Responsive */
+        @media (max-width: 768px) { body { flex-direction: column; } nav { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 10px; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>DIGITAL FIRST <br><small>Enfoque Funcional</small></h1>
+        <div id="menu-container">
+            </div>
+    </nav>
+
+    <main>
+        <div id="content-area" class="card">
+            <span class="icon">👋</span>
+            <h2>Bienvenido</h2>
+            <p class="desc">Selecciona una función del menú para experimentar la diferencia entre cada enfoque del proyecto Digital First.</p>
+        </div>
+    </main>
+
+    <script>
+        // DATOS DEL PROYECTO (Fuente: Documento proporcionado)
+        const functionsData = [
+            {
+                id: 'personal',
+                title: '1. Función Personal',
+                icon: '👤',
+                // Cita: Autoexpresión e identidad.
+                desc: 'La tecnología como medio de autoexpresión e identidad. No somos solo usuarios, somos individuos digitales.',
+                color: '#e74c3c',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Crea tu "Bio Digital"</p>
+                        <input type="text" id="nameInput" placeholder="Tu nombre o Nickname">
+                        <textarea id="bioInput" rows="2" placeholder="¿Qué te define en 3 palabras?"></textarea>
+                        <div id="profileCard" style="display:none; border: 1px solid #333; padding: 10px; border-radius: 5px; background: white; width: 80%;">
+                            <h3 id="cardName" style="margin:0; color:#e74c3c;"></h3>
+                            <p id="cardBio" style="font-style:italic;"></p>
+                        </div>
+                        <button class="btn-action" onclick="updateProfile()">Publicar Identidad</button>
+                    </div>`
+            },
+            {
+                id: 'representational',
+                title: '2. Función Representativa',
+                icon: '🌍',
+                // Cita: Difusión de información y conocimiento (Wikis).
+                desc: 'La tecnología para informar y representar la realidad. Construimos conocimiento colectivo (como una Wiki).',
+                color: '#9b59b6',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Detective de Datos. ¿Cuál es el dato real?</p>
+                        <p><em>"El proyecto Digital First involucra a..."</em></p>
+                        <select id="factSelector">
+                            <option value="wrong1">Solo estudiantes de secundaria</option>
+                            <option value="correct">11 países y 15 socios europeos</option>
+                            <option value="wrong2">Empresas de software</option>
+                        </select>
+                        <button class="btn-action" onclick="checkFact()">Verificar Fuente</button>
+                        <p id="factResult" class="result-box"></p>
+                    </div>`
+            },
+            {
+                id: 'interactional',
+                title: '3. Función Interaccional',
+                icon: '💬',
+                // Cita: Herramienta social, debates y foros.
+                desc: 'La tecnología como puente social. Facilita la interacción, el debate y la conexión humana.',
+                color: '#3498db',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Sala de Debate Escolar</p>
+                        <div class="chat-box" id="chatDisplay">
+                            <div class="msg" style="background:#eee">Profesor: ¿Qué opináis de la IA?</div>
+                        </div>
+                        <div style="display:flex; gap:5px; width:90%;">
+                            <input type="text" id="chatInput" placeholder="Escribe tu opinión..." style="margin:0; flex:1;">
+                            <button class="btn-action" style="margin:0;" onclick="sendMessage()">Enviar</button>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'instrumental',
+                title: '4. Función Instrumental',
+                icon: '🛠️',
+                // Cita: Objetivos prácticos y automatización.
+                desc: 'La tecnología como "herramienta" útil. Sirve para hacer cosas: calcular, organizar y optimizar trabajo.',
+                color: '#f1c40f',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Optimizador de Tareas. Calcula el promedio automáticamente.</p>
+                        <div style="display:flex; gap:10px; margin-bottom:10px;">
+                            <input type="number" id="n1" placeholder="Nota 1" style="width:60px; margin:0">
+                            <input type="number" id="n2" placeholder="Nota 2" style="width:60px; margin:0">
+                            <input type="number" id="n3" placeholder="Nota 3" style="width:60px; margin:0">
+                        </div>
+                        <button class="btn-action" onclick="calculateAvg()">Calcular (Automatizar)</button>
+                        <p id="calcResult" class="result-box"></p>
+                    </div>`
+            },
+            {
+                id: 'imaginative',
+                title: '5. Función Imaginativa',
+                icon: '🎨',
+                // Cita: Creatividad, diseño y mundos nuevos.
+                desc: 'La tecnología para crear lo que no existe. Arte digital, diseño y expresión creativa pura.',
+                color: '#2ecc71',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Lienzo Digital. ¡Dibuja algo!</p>
+                        <canvas id="artCanvas" width="300" height="150"></canvas>
+                        <button class="btn-action" onclick="clearCanvas()">Borrar Lienzo</button>
+                    </div>`
+            },
+            {
+                id: 'heuristic',
+                title: '6. Función Heurística',
+                icon: '🔍',
+                // Cita: Exploración, descubrimiento y prueba-error.
+                desc: 'Aprender descubriendo. La tecnología nos permite simular, probar variables y entender el "por qué".',
+                color: '#e67e22',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Simulación de Código de Color</p>
+                        <label>Mueve el deslizador para descubrir el código:</label>
+                        <input type="range" min="0" max="360" value="0" id="hueSlider" oninput="updateHeuristic()" style="width:80%;">
+                        <div id="colorBox" style="width: 50px; height: 50px; background: red; margin-top:10px; border-radius:50%;"></div>
+                        <p id="heuristicValue">Valor: 0</p>
+                    </div>`
+            },
+            {
+                id: 'regulatory',
+                title: '7. Función Regulatoria',
+                icon: '🛡️',
+                // Cita: Normas, ética, privacidad y control.
+                desc: 'La tecnología requiere normas. Entender la privacidad, la ética y la configuración de seguridad.',
+                color: '#34495e',
+                render: `
+                    <div class="playground">
+                        <p><strong>Reto:</strong> Panel de Privacidad</p>
+                        <div style="text-align:left; width:80%;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">
+                                <span>Acceso a Cámara</span>
+                                <input type="checkbox" id="permCam" onchange="checkSecurity()">
+                            </div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">
+                                <span>Rastreo GPS</span>
+                                <input type="checkbox" id="permGPS" onchange="checkSecurity()">
+                            </div>
+                        </div>
+                        <p id="securityStatus" class="result-box" style="color:red;">ESTADO: INSEGURO</p>
+                    </div>`
+            }
+        ];
+
+        // INICIALIZACIÓN
+        const menuContainer = document.getElementById('menu-container');
+        const contentArea = document.getElementById('content-area');
+
+        // Generar Menú Dinámico
+        functionsData.forEach(func => {
+            const btn = document.createElement('button');
+            btn.className = 'menu-btn';
+            btn.innerText = func.title;
+            btn.onclick = () => loadFunction(func);
+            menuContainer.appendChild(btn);
+        });
+
+        // Cargar Función en el Panel Central
+        function loadFunction(data) {
+            // Actualizar estilo botones
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Inyectar HTML
+            contentArea.innerHTML = `
+                <span class="icon" style="color:${data.color}">${data.icon}</span>
+                <h2 style="color:${data.color}">${data.title}</h2>
+                <p class="desc">${data.desc}</p>
+                ${data.render}
+            `;
+
+            // Inicializar Canvas si es la función imaginativa
+            if(data.id === 'imaginative') initCanvas();
+        }
+
+        // --- LÓGICA DE LAS MICRO-APPS ---
+
+        // 1. Personal
+        function updateProfile() {
+            const name = document.getElementById('nameInput').value;
+            const bio = document.getElementById('bioInput').value;
+            if(name && bio) {
+                document.getElementById('cardName').innerText = name;
+                document.getElementById('cardBio').innerText = bio;
+                document.getElementById('profileCard').style.display = 'block';
+            }
+        }
+
+        // 2. Representativa
+        function checkFact() {
+            const val = document.getElementById('factSelector').value;
+            const res = document.getElementById('factResult');
+            if(val === 'correct') {
+                res.innerText = "¡Correcto! Fuente verificada: Documento Proyecto Erasmus+ ";
+                res.style.color = "green";
+            } else {
+                res.innerText = "Información incorrecta. Intenta verificar tus fuentes.";
+                res.style.color = "red";
+            }
+        }
+
+        // 3. Interaccional
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const chat = document.getElementById('chatDisplay');
+            if(input.value.trim() !== "") {
+                const newMsg = document.createElement('div');
+                newMsg.className = 'msg';
+                newMsg.style.background = '#dbf3c8'; // Verde claro para usuario
+                newMsg.innerText = "Tú: " + input.value;
+                chat.appendChild(document.createElement('br'));
+                chat.appendChild(newMsg);
+                input.value = "";
+                // Auto-scroll
+                chat.scrollTop = chat.scrollHeight;
+            }
+        }
+
+        // 4. Instrumental
+        function calculateAvg() {
+            const n1 = parseFloat(document.getElementById('n1').value) || 0;
+            const n2 = parseFloat(document.getElementById('n2').value) || 0;
+            const n3 = parseFloat(document.getElementById('n3').value) || 0;
+            const avg = ((n1 + n2 + n3) / 3).toFixed(2);
+            document.getElementById('calcResult').innerText = `Promedio Automatizado: ${avg}`;
+        }
+
+        // 5. Imaginativa (Canvas simple)
+        let ctx;
+        function initCanvas() {
+            const canvas = document.getElementById('artCanvas');
+            ctx = canvas.getContext('2d');
+            let painting = false;
+
+            function startPosition(e) { painting = true; draw(e); }
+            function endPosition() { painting = false; ctx.beginPath(); }
+            function draw(e) {
+                if (!painting) return;
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#2ecc71';
+                
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            }
+
+            canvas.addEventListener('mousedown', startPosition);
+            canvas.addEventListener('mouseup', endPosition);
+            canvas.addEventListener('mousemove', draw);
+        }
+        function clearCanvas() {
+            const canvas = document.getElementById('artCanvas');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // 6. Heurística
+        function updateHeuristic() {
+            const val = document.getElementById('hueSlider').value;
+            const box = document.getElementById('colorBox');
+            box.style.backgroundColor = `hsl(${val}, 100%, 50%)`;
+            document.getElementById('heuristicValue').innerText = `Valor HSL: ${val} (Experimentando)`;
+        }
+
+        // 7. Regulatoria
+        function checkSecurity() {
+            const cam = document.getElementById('permCam').checked;
+            const gps = document.getElementById('permGPS').checked;
+            const status = document.getElementById('securityStatus');
+            
+            if(!cam && !gps) {
+                status.innerText = "ESTADO: PRIVACIDAD MÁXIMA";
+                status.style.color = "green";
+            } else {
+                status.innerText = "ESTADO: DATOS EXPUESTOS";
+                status.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
