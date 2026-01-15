@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RavelloM - Herramientas Educativas</title>
+    <title>Raidell Avello - Herramientas Educativas con IA</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -25,7 +25,7 @@
             min-height: 100vh;
         }
 
-        /* Cabecera más compacta */
+        /* Cabecera */
         header {
             background: white;
             padding: 30px 20px;
@@ -37,7 +37,7 @@
         h1 {
             margin: 0;
             color: var(--primary);
-            font-size: 2rem; /* Un poco más pequeño */
+            font-size: 2rem;
         }
 
         .subtitle {
@@ -63,11 +63,12 @@
             margin: 0 auto;
             padding: 0 20px;
             display: grid;
-            /* Las tarjetas tendrán un ancho mínimo de 280px, caben más */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
             gap: 20px;
             padding-bottom: 50px;
             flex: 1;
+            /* ESTO ES LO NUEVO: Evita que las cards se estiren */
+            align-items: start; 
         }
 
         /* Tarjetas Minimalistas */
@@ -76,12 +77,13 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #eee;
+            border-top: 4px solid #ccc; /* Línea de color más fina */
+            padding: 20px;
+            /* Altura automática según contenido */
+            height: auto; 
             display: flex;
             flex-direction: column;
-            border: 1px solid #eee;
-            /* La magia del color: borde superior en lugar de cabecera gigante */
-            border-top: 5px solid #ccc; 
-            padding: 20px;
         }
 
         .card:hover {
@@ -89,13 +91,13 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Colores de borde específicos */
+        /* Colores de borde */
         .border-blue { border-top-color: #3498db; }
         .border-red { border-top-color: #ff6961; }
         .border-green { border-top-color: #84fab0; }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin: 0 0 10px 0;
             color: var(--primary);
             font-weight: 600;
@@ -107,8 +109,8 @@
         .card-text {
             font-size: 0.9rem;
             color: #666;
-            margin-bottom: 20px;
-            flex-grow: 1; /* Empuja el botón hacia abajo */
+            margin-bottom: 15px;
+            /* Quitamos el flex-grow para que no empuje el botón abajo */
         }
 
         .btn {
@@ -123,6 +125,8 @@
             font-weight: 600;
             border: 1px solid #ddd;
             transition: all 0.2s;
+            /* Margen superior automático por si acaso, pero pegado al texto */
+            margin-top: auto; 
         }
 
         .btn:hover {
@@ -154,23 +158,23 @@
         <article class="card border-blue">
             <h2 class="card-title">Mapa Creativo <span>🎨</span></h2>
             <p class="card-text">
-                Mapa lúdico de Europa. Colores aleatorios al hacer clic. Ideal para demos visuales rápidas.
+                Mapa lúdico de Europa con colores aleatorios.
             </p>
-            <a href="mapa-colores.html" class="btn">Abrir Herramienta</a>
+            <a href="mapa-colores.html" class="btn">Abrir</a>
         </article>
 
         <article class="card border-red">
             <h2 class="card-title">Europa Bilingüe <span>🌍</span></h2>
             <p class="card-text">
-                Estudio geográfico con lista ordenada y traducción automática (ES/EN). Perfecto para exámenes.
+                Estudio geográfico con lista ordenada y traducción automática (ES/EN).
             </p>
-            <a href="mapa-estudio.html" class="btn">Abrir Herramienta</a>
+            <a href="mapa-estudio.html" class="btn">Abrir</a>
         </article>
 
         <article class="card border-green">
             <h2 class="card-title">Biblio Click <span>📚</span></h2>
             <p class="card-text">
-                Gestor de recursos bibliográficos. Repositorio externo para gestión de referencias.
+                Gestor de recursos bibliográficos externo.
             </p>
             <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn">Ir al Sitio</a>
         </article>
