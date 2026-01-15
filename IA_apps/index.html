@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RavelloM - Herramientas Educativas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Cabecera */
+        header {
+            background: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Contenedor Grid */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsivo automático */
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+
+        /* Tarjetas de Proyectos */
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            height: 140px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        /* Colores específicos para las cabeceras de las cards */
+        .bg-maps-1 { background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .bg-maps-2 { background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
+        .bg-biblio { background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%); }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            color: var(--primary);
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mis Herramientas Digitales</h1>
+        <p class="subtitle">Recursos y aplicaciones desarrollados con asistencia de Inteligencia Artificial</p>
+        <span class="badge">✨ AI Powered Development</span>
+    </header>
+
+    <div class="container">
+
+        <article class="card">
+            <div class="card-header bg-maps-2">
+                Map 🌍
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Europa Bilingüe</h2>
+                <p class="card-text">
+                    Herramienta interactiva para estudiar geografía. Incluye lista numerada cronológica, traducción automática (Español/Inglés) y comprobación visual.
+                </p>
+                <a href="mapa-estudio.html" class="btn">Abrir Mapa</a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-header bg-maps-1">
+                Col 🎨
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Mapa Creativo</h2>
+                <p class="card-text">
+                    Versión lúdica del mapa de Europa. Al hacer clic, los países se colorean de forma aleatoria. Ideal para demostraciones visuales.
+                </p>
+                <a href="mapa-colores.html" class="btn">Abrir Mapa</a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-header bg-biblio">
+                Bib 📚
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Biblio Click</h2>
+                <p class="card-text">
+                    Gestor de recursos bibliográficos. Aplicación externa alojada en repositorio independiente.
+                </p>
+                <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn">Ir al Sitio</a>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <p>© 2024 RavelloM - Desarrollado con ❤️ e IA</p>
+    </footer>
+
+</body>
+</html>
