@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Docente: Función Imaginativa</title>
+    <style>
+        :root {
+            --col-1: #e3f2fd; --border-1: #2196f3;
+            --col-2: #e8f5e9; --border-2: #4caf50;
+            --col-3: #ffebee; --border-3: #f44336;
+            --text: #37474f;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f9fafb; color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        header { text-align: center; margin-bottom: 30px; max-width: 800px; }
+        h1 { margin-bottom: 5px; color: #2c3e50; }
+        p.subtitle { color: #607d8b; }
+
+        /* TABLERO */
+        .board { display: flex; gap: 20px; width: 100%; max-width: 1200px; min-height: 400px; }
+        
+        .column {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid #ccc;
+            transition: background 0.3s;
+        }
+
+        /* Colores de Columnas */
+        .col-inter { border-color: var(--border-1); background: var(--col-1); }
+        .col-benef { border-color: var(--border-2); background: var(--col-2); }
+        .col-risk { border-color: var(--border-3); background: var(--col-3); }
+
+        .col-title { font-weight: bold; text-align: center; margin-bottom: 15px; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* FICHAS (CARDS) */
+        .card-container {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            width: 100%; max-width: 1000px;
+            min-height: 100px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: grab;
+            box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+            max-width: 250px;
+            user-select: none;
+        }
+        .card:active { cursor: grabbing; transform: scale(1.02); }
+        
+        /* Estado al arrastrar sobre una columna */
+        .column.drag-over { filter: brightness(0.95); transform: scale(1.01); }
+
+        /* Estilos de Validación */
+        .correct { border-left: 5px solid #4caf50 !important; }
+        .incorrect { border-left: 5px solid #f44336 !important; }
+
+        /* Botón */
+        .btn-check {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-check:hover { background: #34495e; transform: translateY(-2px); }
+
+        /* Feedback Final */
+        #result-msg { margin-top: 15px; font-weight: bold; font-size: 1.2rem; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Evaluación de Contenidos: Función Imaginativa</h1>
+        <p class="subtitle">Arrastra las fichas inferiores a su categoría conceptual correcta según la teoría presentada.</p>
+    </header>
+
+    <div class="board">
+        <div class="column col-inter" id="zone-inter" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="col-title">🧪 Conexión Interdisciplinar</div>
+            </div>
+
+        <div class="column col-benef" id="zone-benef" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="col-title">💡 Beneficios / Crecimiento</div>
+        </div>
+
+        <div class="column col-risk" id="zone-risk" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+            <div class="col-title">⚠️ Riesgos y Atención</div>
+        </div>
+    </div>
+
+    <div class="card-container" id="source-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+
+    <button class="btn-check" onclick="checkAnswers()">Evaluar Clasificación</button>
+    <div id="result-msg"></div>
+
+    <script>
+        // DATOS DE LAS FICHAS (Basados en tu diapositiva)
+        // Category keys: 'inter' (Interdisciplinar), 'benef' (Beneficios), 'risk' (Riesgos)
+        const cardsData = [
+            { id: 'c1', text: "Recrear eventos históricos en simulaciones", category: 'inter' },
+            { id: 'c2', text: "Apoyo a la autoexpresión y creatividad", category: 'benef' },
+            { id: 'c3', text: "Inmersión excesiva que descuida la actividad física", category: 'risk' },
+            { id: 'c4', text: "Construcción de ecosistemas virtuales (Ciencia)", category: 'inter' },
+            { id: 'c5', text: "Diseño generativo y narración multimedia (Arte)", category: 'inter' },
+            { id: 'c6', text: "Crecimiento cognitivo y emocional", category: 'benef' },
+            { id: 'c7', text: "Dependencia que limita la escritura a mano", category: 'risk' },
+            { id: 'c8', text: "Falta de reflexión crítica sobre el trabajo propio", category: 'risk' },
+            { id: 'c9', text: "Exposición a problemas de privacidad al compartir", category: 'risk' },
+            { id: 'c10', text: "Participación en juegos de roles (Storytelling)", category: 'benef' }
+        ];
+
+        // Función para mezclar (Shuffle)
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Inicializar
+        const container = document.getElementById('source-container');
+        
+        function initGame() {
+            const shuffledCards = shuffle([...cardsData]);
+            shuffledCards.forEach(card => {
+                const el = document.createElement('div');
+                el.className = 'card';
+                el.id = card.id;
+                el.draggable = true;
+                el.innerText = card.text;
+                el.dataset.category = card.category; // Guardamos la respuesta correcta en el elemento
+                el.ondragstart = drag;
+                container.appendChild(el);
+            });
+        }
+
+        // Lógica Drag & Drop
+        function allowDrop(ev) { ev.preventDefault(); }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.target.style.opacity = "0.5";
+        }
+
+        function dragEnter(ev) {
+            if(ev.target.classList.contains('column')) {
+                ev.target.classList.add('drag-over');
+            }
+        }
+
+        function dragLeave(ev) {
+            if(ev.target.classList.contains('column')) {
+                ev.target.classList.remove('drag-over');
+            }
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const card = document.getElementById(data);
+            card.style.opacity = "1";
+            
+            // Identificar la zona de destino correcta (puede ser la columna o un hijo de ella)
+            let target = ev.target;
+            // Si soltamos sobre otra carta o título, buscamos el padre columna
+            while (!target.classList.contains('column') && !target.classList.contains('card-container') && target.parentElement) {
+                target = target.parentElement;
+            }
+
+            target.classList.remove('drag-over');
+            
+            // Solo permitir soltar en columnas o en la zona original
+            if (target.classList.contains('column') || target.classList.contains('card-container')) {
+                target.appendChild(card);
+            }
+        }
+
+        // Lógica de Evaluación
+        function checkAnswers() {
+            let score = 0;
+            let total = cardsData.length;
+            const msg = document.getElementById('result-msg');
+
+            // Mapeo de IDs de zona a categorías
+            const zones = {
+                'zone-inter': 'inter',
+                'zone-benef': 'benef',
+                'zone-risk': 'risk'
+            };
+
+            // Recorrer zonas y validar
+            for (const [zoneId, cat] of Object.entries(zones)) {
+                const zone = document.getElementById(zoneId);
+                const cardsInZone = zone.getElementsByClassName('card');
+                
+                Array.from(cardsInZone).forEach(card => {
+                    if (card.dataset.category === cat) {
+                        score++;
+                        card.classList.add('correct');
+                        card.classList.remove('incorrect');
+                    } else {
+                        card.classList.add('incorrect');
+                        card.classList.remove('correct');
+                    }
+                });
+            }
+
+            // Verificar si quedan cartas sin clasificar
+            const pending = document.getElementById('source-container').getElementsByClassName('card').length;
+            
+            if (pending > 0) {
+                msg.innerText = `¡Aún te faltan ${pending} fichas por clasificar!`;
+                msg.style.color = "#f39c12";
+            } else {
+                if (score === total) {
+                    msg.innerText = `¡Perfecto! ${score}/${total} conceptos clasificados correctamente.`;
+                    msg.style.color = "#27ae60";
+                } else {
+                    msg.innerText = `Has acertado ${score}/${total}. Revisa las fichas marcadas en rojo.`;
+                    msg.style.color = "#c0392b";
+                }
+            }
+        }
+
+        // Arrancar
+        initGame();
+
+    </script>
+</body>
+</html>

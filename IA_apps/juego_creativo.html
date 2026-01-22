@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crononautas: Desafío Mental</title>
+    <style>
+        :root {
+            --past: #d7ccc8; --present: #bbdefb; --future: #263238; /* Presente ahora es azul moderno */
+            --ui-bg: #37474f; --text: #eceff1; --accent: #ffca28; --danger: #ef5350; --safe: #66bb6a;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--ui-bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 900px; width: 100%; background: #455a64; padding: 25px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        h1, h2 { text-align: center; color: var(--accent); margin-top: 0; }
+
+        /* INPUTS */
+        #setup-screen { text-align: center; padding: 20px; }
+        input { display: block; width: 80%; max-width: 400px; margin: 10px auto; padding: 12px; border-radius: 5px; border: none; font-size: 1rem;}
+        
+        .btn-start { 
+            background: var(--accent); color: var(--ui-bg); font-weight: bold; font-size: 1.1rem; 
+            padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; 
+            transition: 0.2s; margin-top: 20px; 
+        }
+        .btn-start:hover { transform: scale(1.05); background: #ffd54f; }
+
+        /* JUEGO */
+        #game-screen { display: none; }
+        
+        #canvas-area { 
+            height: 400px; border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; margin: 20px 0; border: 3px solid #b0bec5;
+            /* Fondo dividido en 3 zonas visuales sin iconos */
+            background: linear-gradient(to right, var(--past) 0%, var(--past) 33.3%, var(--present) 33.3%, var(--present) 66.6%, var(--future) 66.6%, var(--future) 100%);
+            display: flex;
+        }
+        /* Etiquetas de texto puro, sin iconos */
+        .zone-label { 
+            flex: 1; text-align: center; padding-top: 15px; 
+            font-weight: 900; letter-spacing: 2px; font-size: 1.2rem;
+            color: rgba(0,0,0,0.4); pointer-events: none; user-select: none; text-transform: uppercase;
+        }
+        .sprite { position: absolute; font-size: 45px; user-select: none; transition: transform 0.2s; cursor: grab; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        /* HERRAMIENTAS */
+        .toolbar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; }
+        .item-btn { 
+            padding: 10px 15px; border: 2px solid transparent; border-radius: 8px; font-size: 28px; cursor: pointer; 
+            background: rgba(255,255,255,0.1); transition: 0.2s; position: relative; 
+        }
+        .item-btn.selected { border-color: var(--accent); background: rgba(255,202,40, 0.2); transform: translateY(-5px); }
+        .item-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+
+        .btn-publish { background: var(--danger); color: white; font-weight: bold; padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; animation: pulse 2s infinite; display: none; margin-left: 10px; }
+
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 83, 80, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(239, 83, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 83, 80, 0); } }
+        
+        @keyframes shake { 
+            0% { transform: translate(1px, 1px) rotate(0deg); } 
+            10% { transform: translate(-1px, -2px) rotate(-1deg); } 
+            20% { transform: translate(-3px, 0px) rotate(1deg); } 
+            30% { transform: translate(3px, 2px) rotate(0deg); } 
+            40% { transform: translate(1px, -1px) rotate(1deg); } 
+            50% { transform: translate(-1px, 2px) rotate(-1deg); } 
+            60% { transform: translate(-3px, 1px) rotate(0deg); } 
+            70% { transform: translate(3px, 1px) rotate(-1deg); } 
+            80% { transform: translate(-1px, -1px) rotate(1deg); } 
+            90% { transform: translate(1px, 2px) rotate(0deg); } 
+            100% { transform: translate(1px, -2px) rotate(-1deg); } 
+        }
+        .shake-anim { animation: shake 0.5s; }
+
+        #feedback { text-align: center; height: 25px; color: var(--accent); font-style: italic; margin-bottom: 10px; font-weight: bold;}
+
+        /* MODALES */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
+        .modal-content { background: white; color: #333; padding: 30px; border-radius: 15px; max-width: 500px; text-align: center; position: relative; border-top: 10px solid var(--danger); }
+        
+        .data-preview { background: #fff3e0; padding: 15px; border-radius: 5px; text-align: left; margin: 20px 0; border-left: 4px solid var(--danger); }
+        .data-preview p { margin: 5px 0; }
+        
+        .modal-actions { display: flex; gap: 10px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+        .btn-danger { background: white; color: var(--danger); border: 2px solid var(--danger); padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-safe { background: var(--safe); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+
+        .timer-bar { width: 100%; height: 10px; background: #ddd; margin-top: 20px; border-radius: 5px; overflow: hidden; }
+        .progress { height: 100%; background: var(--accent); width: 100%; transition: width 0.1s linear; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="setup-screen">
+            <h1>🚀 Crononautas: Registro</h1>
+            <p>Antes de viajar por el tiempo, necesitamos tu identificación.</p>
+            <div style="margin-top: 30px;">
+                <input type="text" id="userName" placeholder="Nombre y Apellido (Real)">
+                <input type="text" id="userAddress" placeholder="Tu Dirección Real (Calle, número...)">
+            </div>
+            <p style="font-size: 0.8rem; color: #bbb; margin-top: 20px;">(Simulación educativa: Introduce datos para ver el efecto final)</p>
+            <button class="btn-start" onclick="startGame()">Confirmar Identidad</button>
+        </div>
+
+        <div id="game-screen">
+            <h2>✨ El Portal de los Tiempos ✨</h2>
+            <div id="feedback">Selecciona un objeto de abajo para empezar.</div>
+
+            <div id="canvas-area" onclick="tryPlaceItem(event)">
+                <div class="zone-label" style="color: #5d4037;">PASADO</div>
+                <div class="zone-label" style="color: #0d47a1;">PRESENTE</div>
+                <div class="zone-label" style="color: #80deea;">FUTURO</div>
+            </div>
+
+            <div class="toolbar">
+                <button class="item-btn" onclick="selectItem('🤖', 3, this)" title="Robot">🤖</button>
+                <button class="item-btn" onclick="selectItem('📜', 1, this)" title="Pergamino">📜</button>
+                <button class="item-btn" onclick="selectItem('🚗', 2, this)" title="Coche">🚗</button>
+                <button class="item-btn" onclick="selectItem('🛸', 3, this)" title="OVNI">🛸</button>
+                <button class="item-btn" onclick="selectItem('🏺', 1, this)" title="Vasija">🏺</button>
+                <button class="item-btn" onclick="selectItem('💻', 2, this)" title="Laptop">💻</button>
+                <button class="item-btn" onclick="selectItem('🏰', 1, this)" title="Castillo">🏰</button>
+                <button class="item-btn" onclick="selectItem('👾', 3, this)" title="Alien">👾</button>
+                <button class="item-btn" onclick="selectItem('📱', 2, this)" title="Smartphone">📱</button>
+                <button class="btn-publish" id="publishBtn" onclick="triggerPublishAlert()">📡 PUBLICAR</button>
+            </div>
+
+            <p style="text-align: center; font-size: 0.8rem; opacity: 0.7; margin-top: 10px;">Coloca al menos 4 objetos para publicar.</p>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--danger);">⚠️ ALERTA DE PRIVACIDAD</h2>
+            <p>Vas a publicar tu mapa en el servidor global.</p>
+            <p><strong>¡CUIDADO!</strong> Estás enviando estos datos personales:</p>
+            
+            <div class="data-preview">
+                <p><strong>Usuario:</strong> <span id="previewName"></span></p>
+                <p><strong>Casa:</strong> <span id="previewAddress"></span></p>
+            </div>
+
+            <p>¿Es seguro compartir esto con desconocidos?</p>
+
+            <div class="modal-actions">
+                <button class="btn-danger" onclick="finishGame('dangerous')">Publicar con mis datos (Peligroso)</button>
+                <button class="btn-safe" onclick="finishGame('safe')">🛡️ Publicar como ANÓNIMO (Seguro)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="endModal" class="modal">
+        <div class="modal-content" id="endContent" style="border-top-color: var(--safe);"></div>
+    </div>
+
+    <div id="breakModal" class="modal">
+        <div class="modal-content" style="border-top-color: var(--accent);">
+            <h2>🛑 Pausa de Realidad</h2>
+            <p>Detectamos inmersión excesiva.</p>
+            <p><strong>Misión:</strong> Toca algo azul en el mundo real.</p>
+            <div class="timer-bar"><div class="progress" id="breakProgress"></div></div>
+        </div>
+    </div>
+
+    <script>
+        // --- VARIABLES ---
+        let userData = { name: '', address: '' };
+        let currentSelection = { emoji: null, targetZone: 0 };
+        let itemsPlaced = 0;
+        const itemsToPublish = 4;
+        const realityBreakThreshold = 7; // Pausa tras 7 objetos
+
+        // --- LÓGICA ---
+
+        function startGame() {
+            const nameInput = document.getElementById('userName').value.trim();
+            const addrInput = document.getElementById('userAddress').value.trim();
+
+            if (nameInput === '' || addrInput === '') {
+                alert("⚠️ Por favor, introduce datos para la simulación de privacidad.");
+                return;
+            }
+
+            userData.name = nameInput;
+            userData.address = addrInput;
+            
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            showFeedback("Identidad guardada. ¡Empieza a construir!");
+        }
+
+        function selectItem(emoji, zone, btnElement) {
+            currentSelection = { emoji: emoji, targetZone: zone };
+            document.querySelectorAll('.item-btn').forEach(b => b.classList.remove('selected'));
+            btnElement.classList.add('selected');
+            showFeedback(`Seleccionado: ${emoji} ¿Dónde debería ir?`);
+        }
+
+        function tryPlaceItem(e) {
+            if (!currentSelection.emoji) {
+                showFeedback("❌ Primero toca un objeto de la barra inferior.");
+                return;
+            }
+
+            const canvas = document.getElementById('canvas-area');
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+
+            // División de zonas: 1 (0-33%), 2 (33-66%), 3 (66-100%)
+            let clickedZone = 0;
+            if (clickX < width / 3) clickedZone = 1;
+            else if (clickX < (width / 3) * 2) clickedZone = 2;
+            else clickedZone = 3;
+
+            if (clickedZone === currentSelection.targetZone) {
+                placeSprite(e.clientX, e.clientY, currentSelection.emoji);
+                itemsPlaced++;
+                showFeedback("✅ ¡Correcto! Objeto situado en su época.");
+                
+                if (itemsPlaced >= itemsToPublish) {
+                    document.getElementById('publishBtn').style.display = 'inline-block';
+                }
+                if (itemsPlaced === realityBreakThreshold) {
+                    triggerRealityBreak();
+                }
+            } else {
+                showFeedback("⛔ ¡Error Histórico! Ese objeto no pertenece a esta era.");
+                canvas.classList.remove('shake-anim');
+                void canvas.offsetWidth; // Reiniciar animación
+                canvas.classList.add('shake-anim');
+            }
+        }
+
+        function placeSprite(x, y, emoji) {
+            const canvas = document.getElementById('canvas-area');
+            const rect = canvas.getBoundingClientRect();
+            const el = document.createElement('div');
+            el.classList.add('sprite');
+            el.innerText = emoji;
+            // Posicionar centrado donde se hizo clic
+            el.style.left = (x - rect.left - 25) + 'px';
+            el.style.top = (y - rect.top - 25) + 'px';
+            canvas.appendChild(el);
+        }
+
+        function showFeedback(msg) {
+            document.getElementById('feedback').innerText = msg;
+        }
+
+        // --- MODALES ---
+
+        function triggerPublishAlert() {
+            document.getElementById('previewName').innerText = userData.name;
+            document.getElementById('previewAddress').innerText = userData.address;
+            document.getElementById('privacyModal').style.display = 'flex';
+        }
+
+        function finishGame(type) {
+            document.getElementById('privacyModal').style.display = 'none';
+            const endModal = document.getElementById('endModal');
+            const content = document.getElementById('endContent');
+            
+            if (type === 'safe') {
+                content.style.borderColor = 'var(--safe)';
+                content.innerHTML = `
+                    <h1>🛡️ ¡EXCELENTE!</h1>
+                    <p>Has publicado en modo <strong>ANÓNIMO</strong>.</p>
+                    <p>Has protegido tu identidad digital correctamente.</p>
+                    <button class="btn-start" onclick="location.reload()">Reiniciar</button>
+                `;
+            } else {
+                content.style.borderColor = 'var(--danger)';
+                content.innerHTML = `
+                    <h1>⚠️ ¡CUIDADO!</h1>
+                    <p>Has expuesto tu dirección real a todo internet.</p>
+                    <p>Recuerda: nunca publiques datos sensibles en juegos o redes.</p>
+                    <button class="btn-start" style="background:var(--danger)" onclick="location.reload()">Reintentar</button>
+                `;
+            }
+            endModal.style.display = 'flex';
+        }
+
+        function triggerRealityBreak() {
+            const modal = document.getElementById('breakModal');
+            const bar = document.getElementById('breakProgress');
+            modal.style.display = 'flex';
+            let width = 100;
+            const interval = setInterval(() => {
+                width -= 2; 
+                bar.style.width = width + '%';
+                if (width <= 0) {
+                    clearInterval(interval);
+                    modal.style.display = 'none';
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
