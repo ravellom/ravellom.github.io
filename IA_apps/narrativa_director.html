@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Director de Escena - Guion a Storyboard</title>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --panel-grey: #2d2d2d;
+            --text-light: #ecf0f1;
+            --accent: #e74c3c; /* Rojo Cine */
+            --highlight: #f1c40f;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Fuente tipo Guion */
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background: black;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        h1 { margin: 0; text-transform: uppercase; letter-spacing: 3px; }
+        .subtitle { color: #999; font-size: 0.9rem; font-family: sans-serif; margin-top: 5px; }
+
+        /* ESCENARIO (El Guion) */
+        .script-container {
+            background: white;
+            color: black;
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            position: relative;
+        }
+        
+        /* Efecto de papel de guion */
+        .script-container::before {
+            content: "GUION LITERARIO - PÁG 1";
+            position: absolute;
+            top: 5px; right: 10px;
+            font-size: 0.7rem; color: #aaa; font-family: sans-serif;
+        }
+
+        .scene-header { font-weight: bold; text-decoration: underline; margin-bottom: 15px; }
+        .action-text { line-height: 1.6; font-size: 1.1rem; }
+        .highlight { background-color: var(--highlight); padding: 2px 5px; }
+
+        /* OPCIONES (Monitores) */
+        .monitors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin-bottom: 40px;
+        }
+
+        .monitor-card {
+            background: var(--panel-grey);
+            border: 3px solid #444;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .monitor-card:hover { transform: scale(1.03); border-color: var(--highlight); }
+        
+        .monitor-img {
+            width: 100%;
+            height: 150px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 3rem;
+        }
+
+        .monitor-label {
+            padding: 15px;
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Feedback */
+        .feedback-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .feedback-content {
+            background: var(--panel-grey);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: center;
+            border: 2px solid white;
+        }
+        .correct-msg { color: var(--success); font-size: 1.5rem; margin-bottom: 10px; }
+        .incorrect-msg { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
+        .explanation { font-family: sans-serif; margin: 20px 0; line-height: 1.5; }
+        
+        .btn-next {
+            background: white; color: black; border: none; padding: 10px 30px;
+            font-weight: bold; cursor: pointer; border-radius: 20px;
+            font-size: 1rem;
+        }
+        .btn-next:hover { background: var(--highlight); }
+
+        /* Barra de progreso */
+        .progress { color: var(--highlight); margin-bottom: 10px; font-family: sans-serif; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎬 Director de Escena</h1>
+        <p class="subtitle">Del Texto a la Imagen: Selecciona el encuadre correcto</p>
+    </header>
+
+    <div class="progress">Escena <span id="currentScene">1</span> / 5</div>
+
+    <div class="script-container">
+        <div class="scene-header" id="sceneHeader">INT. HABITACIÓN - DÍA</div>
+        <div class="action-text" id="sceneText">
+            CARLOS (30) mira el reloj en la pared. Sus ojos se llenan de lágrimas al ver que es tarde.
+        </div>
+    </div>
+
+    <h3 style="font-family: sans-serif; font-weight: normal; margin-bottom: 20px;">¿Cómo rodarías esto para enfatizar la emoción?</h3>
+
+    <div class="monitors-grid" id="optionsGrid">
+        </div>
+
+    <div id="feedbackModal" class="feedback-modal">
+        <div class="feedback-content" id="feedbackBody">
+            </div>
+    </div>
+
+    <script>
+        // BASE DE DATOS DE ESCENAS (Basado en teoría de Planos y Ángulos)
+        const scenes = [
+            {
+                header: "INT. SALÓN - NOCHE",
+                text: "MARÍA recibe una mala noticia por teléfono. Queremos ver su reacción emocional intensa y el detalle de una lágrima cayendo.",
+                goal: "Emoción / Detalle",
+                options: [
+                    { type: "Plano General", desc: "Vemos toda la habitación y a María pequeña en el sofá.", correct: false },
+                    { type: "Plano Medio", desc: "Vemos a María de la cintura para arriba.", correct: false },
+                    { type: "Primerísimo Primer Plano", desc: "Encuadre cerrado solo en sus ojos y nariz.", correct: true },
+                    { type: "Plano Americano", desc: "Vemos a María de las rodillas para arriba.", correct: false }
+                ],
+                explanation: "¡CORTEN! ✅ Correcto. El <strong>Primerísimo Primer Plano</strong> (Extreme Close-up) es el ideal para captar detalles dramáticos máximos y emociones intensas, eliminando el fondo."
+            },
+            {
+                header: "EXT. DESIERTO - DÍA",
+                text: "Un explorador camina solo. Queremos mostrar su soledad y lo inmenso y peligroso que es el entorno que lo rodea.",
+                goal: "Contexto / Soledad",
+                options: [
+                    { type: "Gran Plano General", desc: "El paisaje ocupa todo, el explorador es un punto diminuto.", correct: true },
+                    { type: "Primer Plano", desc: "Vemos la cara sudorosa del explorador.", correct: false },
+                    { type: "Plano Detalle", desc: "Vemos solo sus botas caminando en la arena.", correct: false },
+                    { type: "Plano Contra-picado", desc: "Vemos al explorador desde abajo, pareciendo grande.", correct: false }
+                ],
+                explanation: "¡EXCELENTE TOMA! ✅ El <strong>Gran Plano General</strong> sirve para describir el entorno y mostrar la pequeñez del personaje frente al mundo."
+            },
+            {
+                header: "INT. CAFETERÍA - DÍA",
+                text: "JUAN y ANA conversan sentados a una mesa. Queremos ver la interacción entre ambos con naturalidad.",
+                goal: "Diálogo / Interacción",
+                options: [
+                    { type: "Plano Cenital", desc: "Cámara totalmente desde arriba (vista de pájaro).", correct: false },
+                    { type: "Plano Medio (Two Shot)", desc: "Encuadre a la altura de la cintura que incluye a los dos.", correct: true },
+                    { type: "Plano Detalle", desc: "Primer plano de la taza de café.", correct: false },
+                    { type: "Primer Plano", desc: "Solo la cara de Juan.", correct: false }
+                ],
+                explanation: "¡BUEN TRABAJO! ✅ El <strong>Plano Medio</strong> (o Two Shot cuando hay dos) es el estándar para diálogos, ya que permite ver la expresión corporal y la relación entre personajes."
+            },
+            {
+                header: "EXT. CALLEJÓN - NOCHE",
+                text: "El VILLANO se acerca a la víctima. Queremos que el Villano parezca gigante, poderoso y amenazador.",
+                goal: "Poder / Amenaza",
+                options: [
+                    { type: "Ángulo Picado", desc: "Cámara desde arriba mirando hacia abajo al Villano.", correct: false },
+                    { type: "Ángulo Normal", desc: "Cámara a la altura de los ojos.", correct: false },
+                    { type: "Ángulo Contrapicado", desc: "Cámara desde abajo mirando hacia arriba al Villano.", correct: true },
+                    { type: "Plano Holandés", desc: "Cámara torcida/inclinada.", correct: false }
+                ],
+                explanation: "¡MAGNÍFICO! ✅ El <strong>Contrapicado</strong> (mirar de abajo a arriba) engrandece al personaje y le otorga una sensación de poder, superioridad o amenaza."
+            },
+            {
+                header: "INT. ESCALERAS - DÍA",
+                text: "El personaje corre bajando las escaleras. Queremos mostrar su fragilidad o inferioridad ante el peligro.",
+                goal: "Debilidad / Inferioridad",
+                options: [
+                    { type: "Ángulo Picado", desc: "Cámara desde arriba mirando al personaje pequeño.", correct: true },
+                    { type: "Ángulo Contrapicado", desc: "Cámara desde abajo.", correct: false },
+                    { type: "Travelling", desc: "La cámara se mueve al lado.", correct: false },
+                    { type: "Zoom In", desc: "Acercamiento óptico.", correct: false }
+                ],
+                explanation: "¡CORRECTO! ✅ El <strong>Ángulo Picado</strong> (de arriba hacia abajo) empequeñece al sujeto, haciéndolo ver vulnerable, débil o inocente."
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function loadScene() {
+            if (currentIndex >= scenes.length) {
+                showFinal();
+                return;
+            }
+
+            const scene = scenes[currentIndex];
+            document.getElementById('sceneHeader').innerText = scene.header;
+            document.getElementById('sceneText').innerText = scene.text;
+            document.getElementById('currentScene').innerText = currentIndex + 1;
+
+            const grid = document.getElementById('optionsGrid');
+            grid.innerHTML = '';
+
+            // Mezclar opciones
+            const shuffledOptions = scene.options.sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = 'monitor-card';
+                
+                // Usamos Placehold.co para generar "Bocetos" visuales con texto
+                // Esto evita necesitar imágenes externas y es muy ligero
+                const imgUrl = `https://placehold.co/300x150/333/FFF?text=${encodeURIComponent(opt.type)}`;
+                
+                card.innerHTML = `
+                    <img src="${imgUrl}" alt="${opt.type}" style="width:100%; display:block;">
+                    <div class="monitor-label">${opt.desc}</div>
+                `;
+                
+                card.onclick = () => checkAnswer(opt, scene.explanation);
+                grid.appendChild(card);
+            });
+        }
+
+        function checkAnswer(option, explanation) {
+            const modal = document.getElementById('feedbackModal');
+            const body = document.getElementById('feedbackBody');
+            
+            modal.style.display = 'flex';
+
+            if (option.correct) {
+                body.innerHTML = `
+                    <div class="correct-msg">🎬 ¡TOMA VÁLIDA!</div>
+                    <div class="explanation">${explanation}</div>
+                    <button class="btn-next" onclick="nextScene()">Siguiente Escena ➡</button>
+                `;
+                body.style.borderColor = 'var(--success)';
+            } else {
+                body.innerHTML = `
+                    <div class="incorrect-msg">❌ ¡CORTEN!</div>
+                    <div class="explanation">Ese plano no transmite lo que pide el guion. <br>Inténtalo de nuevo.</div>
+                    <button class="btn-next" onclick="closeModal()">Reintentar ↺</button>
+                `;
+                body.style.borderColor = 'var(--accent)';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('feedbackModal').style.display = 'none';
+        }
+
+        function nextScene() {
+            closeModal();
+            currentIndex++;
+            loadScene();
+        }
+
+        function showFinal() {
+            document.body.innerHTML = `
+                <header><h1>🎬 RODAJE TERMINADO</h1></header>
+                <div style="text-align:center; padding:50px; color:white;">
+                    <h2>¡Has completado el storyboard!</h2>
+                    <p>Ahora estás listo para visualizar tu propia historia.</p>
+                    <button class="btn-next" onclick="location.reload()">Volver a rodar</button>
+                </div>
+            `;
+        }
+
+        // Iniciar
+        loadScene();
+
+    </script>
+</body>
+</html>

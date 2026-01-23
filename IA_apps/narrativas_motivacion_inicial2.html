@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío: Mito o Realidad</title>
+    <style>
+        :root {
+            --bg-dark: #2c3e50;
+            --card-bg: #ecf0f1;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --blue: #3498db;
+            --text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* HUD (Heads Up Display) */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .lives { color: var(--red); }
+        .score { color: var(--green); }
+
+        /* TARJETA DE JUEGO */
+        .game-card {
+            background: var(--card-bg);
+            color: var(--text);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .category {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            min-height: 100px; /* Para evitar saltos */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* BOTONES */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            color: white;
+        }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-myth { background-color: var(--red); box-shadow: 0 5px 0 #c0392b; }
+        .btn-fact { background-color: var(--green); box-shadow: 0 5px 0 #27ae60; }
+
+        /* FEEDBACK OVERLAY */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.3s;
+        }
+        
+        .overlay.correct { background: rgba(46, 204, 113, 0.95); color: white; }
+        .overlay.wrong { background: rgba(231, 76, 60, 0.95); color: white; }
+
+        .feedback-icon { font-size: 4rem; margin-bottom: 10px; }
+        .feedback-text { font-size: 1.1rem; line-height: 1.4; }
+        .btn-next {
+            margin-top: 20px;
+            background: white;
+            color: var(--text);
+            padding: 10px 30px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* PANTALLA FINAL */
+        #end-screen { display: none; text-align: center; }
+        .rank-badge { font-size: 3rem; margin: 20px 0; display: block;}
+        .final-score { font-size: 2rem; color: var(--green); font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-anim { animation: shake 0.4s; }
+
+    </style>
+</head>
+<body>
+
+    <div class="hud" id="hud">
+        <div class="lives">❤️❤️❤️</div>
+        <div class="score">Puntos: 0</div>
+    </div>
+
+    <div class="game-card" id="game-container">
+        <div class="category">Pregunta <span id="q-number">1</span>/5</div>
+        <div class="question" id="question-text">Cargando...</div>
+
+        <div class="actions">
+            <button class="btn btn-myth" onclick="checkAnswer(false)">MITO ❌</button>
+            <button class="btn btn-fact" onclick="checkAnswer(true)">REALIDAD ✅</button>
+        </div>
+
+        <div class="overlay" id="feedback-overlay">
+            <div class="feedback-icon" id="fb-icon"></div>
+            <div class="feedback-text" id="fb-text"></div>
+            <button class="btn-next" onclick="nextQuestion()">Siguiente ➡</button>
+        </div>
+    </div>
+
+    <div id="end-screen">
+        <h1>¡Juego Terminado!</h1>
+        <div class="rank-badge" id="rank-emoji">🏆</div>
+        <p>Tu puntuación final:</p>
+        <div class="final-score" id="final-score">0</div>
+        <h3 id="rank-title">Rango</h3>
+        <button class="btn btn-fact" onclick="location.reload()">Jugar de Nuevo ↺</button>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE PREGUNTAS (Fuente: Tus Diapositivas) ---
+        const questions = [
+            {
+                text: "La Narrativa Digital es simplemente escanear un cuento y ponerlo en PDF.",
+                isTruth: false,
+                explanation: "¡Es un MITO! La Narrativa Digital combina narración con multimedia (audio, video, interacción) para crear nuevos significados y emociones." 
+                // Fuente: 
+            },
+            {
+                text: "Antes de la Web 2.0, crear contenido audiovisual era muy caro y difícil.",
+                isTruth: true,
+                explanation: "¡REALIDAD! Antes era un privilegio de pocos. Hoy, cualquiera con un móvil es un creador (Prosumidor)."
+                // Fuente: 
+            },
+            {
+                text: "Una buena historia necesita un conflicto o problema que rompa la calma.",
+                isTruth: true,
+                explanation: "¡REALIDAD! Según la estructura clásica (Todorov), sin conflicto o desequilibrio no hay historia que contar."
+                // Fuente: 
+            },
+            {
+                text: "El 'Data Storytelling' utiliza historias para explicar datos matemáticos complejos.",
+                isTruth: true,
+                explanation: "¡REALIDAD! Es una técnica poderosa para humanizar los datos y facilitar la toma de decisiones."
+                // Fuente: 
+            },
+            {
+                text: "Las narrativas digitales solo sirven para la asignatura de Lengua y Literatura.",
+                isTruth: false,
+                explanation: "¡MITO! Son transversales: sirven para explicar Historia, Ciencia, o trabajar valores como la empatía."
+                // Fuente: 
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let lives = 3;
+
+        // Iniciar
+        loadQuestion();
+
+        function loadQuestion() {
+            if (currentIdx >= questions.length) {
+                endGame();
+                return;
+            }
+            document.getElementById('q-number').innerText = currentIdx + 1;
+            document.getElementById('question-text').innerText = questions[currentIdx].text;
+            document.getElementById('feedback-overlay').style.display = 'none';
+        }
+
+        function checkAnswer(userChoice) {
+            const q = questions[currentIdx];
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('fb-icon');
+            const text = document.getElementById('fb-text');
+            const card = document.getElementById('game-container');
+
+            overlay.style.display = 'flex';
+
+            if (userChoice === q.isTruth) {
+                // ACIERTO
+                score += 100;
+                overlay.className = "overlay correct";
+                icon.innerText = "🎉";
+                text.innerHTML = "<strong>¡CORRECTO!</strong><br>" + q.explanation;
+                updateHUD();
+            } else {
+                // FALLO
+                lives--;
+                overlay.className = "overlay wrong";
+                icon.innerText = "💔";
+                text.innerHTML = "<strong>¡OOPS!</strong><br>" + q.explanation;
+                card.classList.add('shake-anim');
+                setTimeout(() => card.classList.remove('shake-anim'), 500);
+                updateHUD();
+                
+                if (lives <= 0) {
+                    setTimeout(endGame, 2000); // Game over rápido
+                }
+            }
+        }
+
+        function nextQuestion() {
+            if (lives > 0) {
+                currentIdx++;
+                loadQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function updateHUD() {
+            document.querySelector('.score').innerText = `Puntos: ${score}`;
+            let hearts = "";
+            for(let i=0; i<lives; i++) hearts += "❤️";
+            document.querySelector('.lives').innerText = hearts;
+        }
+
+        function endGame() {
+            document.getElementById('hud').style.display = 'none';
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('end-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+
+            // Calcular Rango
+            const title = document.getElementById('rank-title');
+            const emoji = document.getElementById('rank-emoji');
+            
+            if (score === 500) {
+                title.innerText = "MAESTRO DE LA NARRATIVA 🌟";
+                emoji.innerText = "👑";
+            } else if (score >= 300) {
+                title.innerText = "CONTADOR DE HISTORIAS 📜";
+                emoji.innerText = "😎";
+            } else {
+                title.innerText = "APRENDIZ DE GUIONISTA 📝";
+                emoji.innerText = "👶";
+            }
+        }
+    </script>
+</body>
+</html>

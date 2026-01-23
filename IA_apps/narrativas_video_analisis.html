@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine-Analista: Ficha Técnica</title>
+    <style>
+        :root {
+            --bg-color: #141414; /* Negro Netflix */
+            --card-bg: #1f1f1f;
+            --accent: #e50914; /* Rojo Cine */
+            --primary: #46d369; /* Verde Acción */
+            --text-main: #ffffff;
+            --text-dim: #b3b3b3;
+            --border-radius: 8px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top right, #2a2a2a 0%, #141414 100%);
+        }
+
+        /* --- CABECERA --- */
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto 40px auto;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; letter-spacing: -1px; }
+        h1 span { color: var(--accent); }
+        .subtitle { color: var(--text-dim); margin: 5px 0 0 0; font-size: 1.1rem; }
+
+        /* Campos de Datos del Alumno */
+        .meta-inputs {
+            display: flex; gap: 15px; flex-wrap: wrap;
+        }
+        .meta-group { display: flex; flex-direction: column; }
+        .meta-group label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .meta-input {
+            background: #333; border: 1px solid #444; color: white;
+            padding: 10px 15px; border-radius: 4px; width: 250px;
+            font-size: 0.9rem; transition: 0.3s;
+        }
+        .meta-input:focus { border-color: var(--primary); outline: none; background: #444; }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- SECCIÓN 1: ANÁLISIS (GRID) --- */
+        .section-title {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        .grid-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+        }
+
+        .card:hover { transform: translateY(-3px); border-color: #555; }
+        .card:focus-within { border-color: var(--primary); }
+
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
+        }
+        .label-text { font-weight: bold; font-size: 1.1rem; color: #ddd; }
+        
+        .hint-btn {
+            background: rgba(255,255,255,0.1); border: none; color: var(--text-dim);
+            width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+            font-weight: bold; transition: 0.2s;
+        }
+        .hint-btn:hover { background: var(--primary); color: black; }
+
+        textarea, select {
+            width: 100%; background: #141414; border: 1px solid #333;
+            color: #eee; padding: 15px; border-radius: 6px;
+            font-family: inherit; font-size: 0.95rem; line-height: 1.5;
+            resize: vertical; min-height: 100px;
+        }
+        select { min-height: 50px; cursor: pointer; }
+        textarea:focus, select:focus { outline: none; border-color: #666; }
+
+        /* --- SECCIÓN 2: ESTRUCTURA (TIMELINE) --- */
+        .timeline-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        /* Línea conectora visual */
+        .timeline-line {
+            position: absolute; left: 50px; top: 80px; bottom: 80px;
+            width: 2px; background: #444; z-index: 0;
+        }
+
+        .timeline-step {
+            display: flex; gap: 20px; margin-bottom: 30px; position: relative; z-index: 1;
+        }
+        .timeline-step:last-child { margin-bottom: 0; }
+
+        .step-icon {
+            width: 40px; height: 40px; background: #333; border: 2px solid var(--text-dim);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: var(--text-main); flex-shrink: 0;
+            margin-left: 30px; /* Alinear con la línea */
+        }
+        
+        .step-content { flex: 1; }
+        
+        .step-title {
+            margin: 0 0 10px 0; font-size: 1rem; color: var(--text-dim); text-transform: uppercase;
+        }
+        
+        /* Colores específicos para fases */
+        .step-1 .step-icon { border-color: #3498db; color: #3498db; }
+        .step-1 .step-title { color: #3498db; }
+        
+        .step-2 .step-icon { border-color: #e74c3c; color: #e74c3c; }
+        .step-2 .step-title { color: #e74c3c; }
+        
+        .step-3 .step-icon { border-color: #f1c40f; color: #f1c40f; }
+        .step-3 .step-title { color: #f1c40f; }
+
+        /* --- BOTONES DE ACCIÓN --- */
+        .actions { margin-top: 40px; text-align: center; }
+        
+        .btn-print {
+            background: var(--text-main); color: black; border: none;
+            padding: 15px 40px; font-size: 1.1rem; font-weight: bold;
+            border-radius: 30px; cursor: pointer; transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+        }
+        .btn-print:hover { transform: scale(1.05); background: var(--primary); }
+
+        /* --- MODALES DE AYUDA --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-box {
+            background: #222; border: 1px solid #444; border-radius: 10px;
+            padding: 30px; max-width: 500px; width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+        
+        .modal-box h3 { margin-top: 0; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .modal-content { line-height: 1.6; color: #ccc; }
+        .modal-content strong { color: white; }
+        .btn-close {
+            margin-top: 20px; background: #333; color: white; border: none;
+            padding: 8px 20px; border-radius: 4px; cursor: pointer; float: right;
+        }
+        .btn-close:hover { background: #555; }
+
+        /* --- ESTILOS PARA IMPRESIÓN --- */
+        @media print {
+            body { background: white; color: black; padding: 0; }
+            .card, .timeline-container, .meta-input, textarea, select {
+                background: white; border-color: #ccc; color: black; box-shadow: none;
+            }
+            .header-container { border-bottom-color: black; }
+            h1 span { color: black; }
+            .btn-print, .hint-btn { display: none; } /* Ocultar botones al imprimir */
+            .section-title { border-left-color: black; color: black; }
+            .timeline-line { background: #ccc; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-analysis { grid-template-columns: 1fr; }
+            .timeline-step { flex-direction: column; gap: 10px; }
+            .step-icon { margin-left: 0; }
+            .timeline-line { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-container">
+        <div>
+            <h1>CINE <span>ANALISTA</span></h1>
+            <p class="subtitle">Ficha de Análisis de Narrativas Digitales</p>
+        </div>
+        <div class="meta-inputs">
+            <div class="meta-group">
+                <label>Estudiante</label>
+                <input type="text" class="meta-input" placeholder="Tu Nombre">
+            </div>
+            <div class="meta-group">
+                <label>Video Analizado</label>
+                <input type="text" class="meta-input" placeholder="Ej: Anuncio SEAT León">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="section-title">01. Guía de Observación</div>
+        
+        <div class="grid-analysis">
+            <div class="card">
+                <div class="card-header">
+                    <span class="label-text">1. ¿Quién narra?</span>
+                    <button class="hint-btn" onclick="openModal('narrador')">?</button>
+                </div>
+                <select>
+                    <option value="">-- Selecciona uno --</option>
+                    <option value="protagonista">Protagonista(as) (1ª Persona)</option>
+                    <option value="testigo">Narrador Testigo (Observador)</option>
+                    <option value="omnisciente">Narrador Omnisciente (Lo sabe todo)</option>
+                    <option value="camara">Objetivo / Cámara (Solo visual)</option>
+                </select>
+                <textarea style="margin-top:10px; height:80px;" placeholder="Justifica tu respuesta...(opcional)"></textarea>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="label-text">2. ¿Qué ocurre? (Sinopsis)</span>
+                    <button class="hint-btn" onclick="openModal('trama')">?</button>
+                </div>
+                <textarea placeholder="Resume brevemente el conflicto principal y la historia..."></textarea>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="label-text">3. Recursos Audiovisuales</span>
+                    <button class="hint-btn" onclick="openModal('recursos')">?</button>
+                </div>
+                <textarea placeholder="Analiza: Música, planos, iluminación, efectos sonoros, ritmo de edición..."></textarea>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="label-text">4. Efecto / Intención</span>
+                    <button class="hint-btn" onclick="openModal('efecto')">?</button>
+                </div>
+                <select>
+                    <option value="">-- Selecciona la función principal --</option>
+                    <option value="ludica">Lúdica (Entretener/Divertir)</option>
+                    <option value="apelativa">Apelativa (Persuadir/Vender)</option>
+                    <option value="referencial">Referencial (Informar/Enseñar)</option>
+                    <option value="emotiva">Emotiva (Expresar sentimientos)</option>
+                </select>
+                <textarea style="margin-top:10px; height:80px;" placeholder="¿Qué busca provocar en el espectador?"></textarea>
+            </div>
+        </div>
+
+        <div class="section-title">02. Estructura del Relato (Todorov)</div>
+
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-step step-1">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Planteamiento (Estado de Equilibrio)</h3>
+                    <textarea placeholder="Describe el inicio: ¿Quiénes son los personajes? ¿Cuál es su situación normal antes del problema?"></textarea>
+                </div>
+            </div>
+
+            <div class="timeline-step step-2">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Nudo / Conflicto (Desequilibrio)</h3>
+                    <textarea placeholder="Describe el problema: ¿Qué suceso rompe la calma? ¿Cuál es el momento de máxima tensión (clímax)?"></textarea>
+                </div>
+            </div>
+
+            <div class="timeline-step step-3">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Desenlace (Nuevo Equilibrio)</h3>
+                    <textarea placeholder="Describe el final: ¿Cómo se resuelve el conflicto? ¿Cuál es la situación final de los personajes?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-print" onclick="window.print()">🖨️ Guardar Ficha (PDF)</button>
+        </div>
+
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-box">
+            <h3 id="modalTitle">Título Ayuda</h3>
+            <div id="modalContent" class="modal-content">Contenido...</div>
+            <button class="btn-close" onclick="document.getElementById('modalOverlay').style.display='none'">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // CONTENIDOS DE AYUDA (Basados en tus diapositivas)
+        const helpData = {
+            narrador: {
+                title: "💡 La Voz Narrativa",
+                content: `
+                    <p>Es la perspectiva desde la que se cuenta la historia.</p>
+                    <ul>
+                        <li><strong>Protagonista:</strong> El personaje principal cuenta su historia ("Yo vi...").</li>
+                        <li><strong>Narrador Omnisciente:</strong> Conoce todo lo que piensan y sienten los personajes.</li>
+                        <li><strong>Cámara/Objetivo:</strong> Muy común en cine y anuncios. No hay voz que narre, solo vemos las acciones externas, como testigos invisibles.</li>
+                    </ul>
+                `
+            },
+            trama: {
+                title: "💡 La Trama (Story)",
+                content: `
+                    <p>Describe la sucesión de eventos principales.</p>
+                    <p>No te pierdas en detalles. Busca el arco central: <strong>Alguien quiere algo y tiene dificultades para conseguirlo.</strong></p>
+                `
+            },
+            recursos: {
+                title: "💡 Lenguaje Audiovisual",
+                content: `
+                    <p>Analiza cómo se construye el sentido:</p>
+                    <ul>
+                        <li><strong>Sonido:</strong> ¿La música genera tensión o alegría? ¿Los silencios son dramáticos?</li>
+                        <li><strong>Imagen:</strong> ¿Usan planos cortos (emoción) o planos generales (contexto)?</li>
+                        <li><strong>Ritmo:</strong> ¿La edición es rápida (acción) o lenta (reflexión)?</li>
+                    </ul>
+                `
+            },
+            efecto: {
+                title: "💡 Intención Comunicativa",
+                content: `
+                    <p>¿Para qué se hizo este video?</p>
+                    <ul>
+                        <li><strong>Persuadir (Apelativa):</strong> Típico de la publicidad. Quiere convencerte de comprar o cambiar una conducta.</li>
+                        <li><strong>Informar (Referencial):</strong> Documentales o noticias. Datos objetivos.</li>
+                        <li><strong>Entretener (Lúdica):</strong> Ficción, cine, humor.</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openModal(key) {
+            const data = helpData[key];
+            document.getElementById('modalTitle').innerHTML = data.title;
+            document.getElementById('modalContent').innerHTML = data.content;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal(e) {
+            if(e.target.id === 'modalOverlay') {
+                e.target.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>

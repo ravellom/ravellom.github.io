@@ -4,146 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raidell Avello - Herramientas Educativas con IA</title>
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f4f6f8;
-            --text: #333;
-            --card-bg: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Cabecera */
-        header {
-            background: white;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid #e1e4e8;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            margin: 0;
-            color: var(--primary);
-            font-size: 2rem;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 1rem;
-            margin-top: 5px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        /* Grid compacta */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 20px;
-            padding-bottom: 50px;
-            flex: 1;
-            /* ESTO ES LO NUEVO: Evita que las cards se estiren */
-            align-items: start; 
-        }
-
-        /* Tarjetas Minimalistas */
-        .card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid #eee;
-            border-top: 4px solid #ccc; /* Línea de color más fina */
-            padding: 20px;
-            /* Altura automática según contenido */
-            height: auto; 
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* Colores de borde */
-        .border-blue { border-top-color: #3498db; }
-        .border-red { border-top-color: #ff6961; }
-        .border-green { border-top-color: #84fab0; }
-
-        .card-title {
-            font-size: 1.15rem;
-            margin: 0 0 10px 0;
-            color: var(--primary);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .card-text {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-            /* Quitamos el flex-grow para que no empuje el botón abajo */
-        }
-
-        .btn {
-            display: block;
-            background-color: #f8f9fa;
-            color: var(--primary);
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid #ddd;
-            transition: all 0.2s;
-            /* Margen superior automático por si acaso, pero pegado al texto */
-            margin-top: auto; 
-        }
-
-        .btn:hover {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 0.85rem;
-            background-color: white;
-            border-top: 1px solid #eee;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
@@ -151,70 +12,100 @@
         <h1>Mis Herramientas Digitales</h1>
         <p class="subtitle">Recursos educativos asistidos por IA</p>
         <span class="badge">✨ AI Powered</span>
+
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openTab(event, 'general')">🌐 General</button>
+            <button class="tab-btn" onclick="openTab(event, 'informacion')">🗂️ Información</button>
+            <button class="tab-btn" onclick="openTab(event, 'erasmus')">📚 Proyectos Erasmus</button>
+            <button class="tab-btn" onclick="openTab(event, 'narativas')">🧩 Narrativas Digitales</button>
+        </div>
     </header>
 
-    <div class="container">
+    <div class="main-content">
 
-        <article class="card border-blue">
-            <h2 class="card-title">Mapa de Europa Interactivo <span>🎨</span></h2>
-            <p class="card-text">
-                Mapa de Europa con colores aleatorios al pinchar cada país.
-            </p>
-            <a href="mapa.html" target="_blank" class="btn">Abrir</a>
-        </article>
+        <div id="general" class="tab-panel active">
+            <article class="card border-blue">
+                <h2 class="card-title">Mapa de Europa <span>🎨</span></h2>
+                <p class="card-text">Mapa interactivo con colores aleatorios al seleccionar países.</p>
+                <a href="mapa.html" target="_blank" class="btn">Abrir</a>
+            </article>
 
-        <article class="card border-red">
-            <h2 class="card-title">Mapa de Europa Interactivo 2<span>🌍</span></h2>
-            <p class="card-text">
-                Mapa de Europa con un solo color por país activo. Además, con lista ordenada y traducción automática (ES/EN) de países seleccionados.
-            </p>
-            <a href="mapa2.html" target="_blank" class="btn">Abrir</a>
-        </article>
+            <article class="card border-blue">
+                <h2 class="card-title">Mapa Interactivo 2 <span>🌍</span></h2>
+                <p class="card-text">Mapa avanzado con traducciones (ES/EN) y selección única.</p>
+                <a href="mapa2.html" target="_blank" class="btn">Abrir</a>
+            </article>
+        </div>
 
-        <article class="card border-green">
-            <h2 class="card-title">Biblio Click <span>📚</span></h2>
-            <p class="card-text">
-                Gestor de bibliográfico simple para primaria.
-            </p>
-            <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn">Abrir</a>
-        </article>
+        <div id="informacion" class="tab-panel">
+            <article class="card border-green">
+                <h2 class="card-title">Biblio Click <span>📚</span></h2>
+                <p class="card-text">Gestor bibliográfico simple diseñado para educación primaria.</p>
+                <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn">Abrir</a>
+            </article>
+        </div>
 
-        <article class="card border-blue">
-            <h2 class="card-title">7 Funciones <span>📚</span></h2>
-            <p class="card-text">
-                Ejemplo del enfoque funcional del proyecto Digital First.
-            </p>
-            <a href="funciones.html" target="_blank" class="btn">Abrir</a>
-        </article>
+        <div id="erasmus" class="tab-panel">
+            <article class="card border-purple">
+                <h2 class="card-title">7 Funciones Digitales <span>🧩</span></h2>
+                <p class="card-text">Micro-experiencias del enfoque funcional Digital First.</p>
+                <a href="funciones.html" target="_blank" class="btn">Abrir</a>
+            </article>
+            <article class="card border-green">
+                <h2 class="card-title">Wiki-Guardian <span>🛡️</span></h2>
+                <p class="card-text">Juego para evaluar la Función Representativa de la información.</p>
+                <a href="juego_el_editor.html" target="_blank" class="btn">Abrir</a>
+            </article>
+            <article class="card border-red">
+                <h2 class="card-title">Función Imaginativa <span>🧠</span></h2>
+                <p class="card-text">Organizador de conceptos para evaluación docente.</p>
+                <a href="creatividad.html" target="_blank" class="btn">Abrir</a>
+            </article>
+            <article class="card border-orange">
+                <h2 class="card-title">Juego Crononautas <span>🚀</span></h2>
+                <p class="card-text">El Portal de los Tiempos. Creatividad y Privacidad.</p>
+                <a href="juego_creativo.html" target="_blank" class="btn">Abrir</a>
+            </article>
+        </div>
 
-        <article class="card border-red">
-            <h2 class="card-title">Función Imaginativa <span>📚</span></h2>
-            <p class="card-text">
-                Evaluación de Contenidos. Arrastra las fichas.
-            </p>
-            <a href="creatividad.html" target="_blank" class="btn">Abrir</a>
-        </article>
+        <div id="narativas" class="tab-panel">
+            <article class="card border-orange">
+                <h2 class="card-title">El Despertar Narrativo <span>✨</span></h2>
+                <p class="card-text">
+                    Actividad de motivación inicial. Descubre mitos y realidades sobre qué es realmente una Narrativa Digital.
+                </p>
+                <a href="narrativas_motivacion_inicial.html" target="_blank" class="btn">Comenzar</a>
+            </article>
+            <article class="card border-blue">
+                <h2 class="card-title">Cine-Analista <span>📝</span></h2>
+                <p class="card-text">
+                    Ficha interactiva para el análisis de narrativas. Incluye guía de observación y estructura de Todorov.
+                </p>
+                <a href="narrativas_video_analisis.html" target="_blank" class="btn">Abrir</a>
+            </article>
+            <article class="card border-purple">
+                <h2 class="card-title">Arquitecto de Historias <span>🏗️</span></h2>
+                <p class="card-text">
+                    Practica la estructura narrativa de Todorov. Ordena el "caos" en noticias y cuentos clásicos.
+                </p>
+                <a href="narrativas_todorov.html" target="_blank" class="btn">Abrir</a>
+            </article>
+            <article class="card border-orange">
+                <h2 class="card-title">Director de Escena <span>🎬</span></h2>
+                <p class="card-text">
+                    Convierte texto en imagen. Elige el plano y ángulo de cámara correcto para cada escena del guion.
+                </p>
+                <a href="narrativa_director.html" target="_blank" class="btn">Abrir</a>
+            </article>
+        </div>
 
-        <article class="card border-green">
-            <h2 class="card-title">🚀 JUEGO - Crononautas<span>📚</span></h2>
-            <p class="card-text">
-                El Portal de los Tiempos ✨ ¡Empieza a construir!.
-            </p>
-            <a href="juego_creativo.html" target="_blank" class="btn">Abrir</a>
-        </article>
-
-        <article class="card border-blue">
-            <h2 class="card-title">Wiki-Guardian <span>📚</span></h2>
-            <p class="card-text">
-                Evaluación: Función Representativa (Informar, investigar, wikis, datos).
-            </p>
-            <a href="juego_el_editor.html" target="_blank" class="btn">Abrir</a>
-        </article>
     </div>
 
     <footer>
         <p>© 2026 Raidell Avello - Desarrollado con ❤️ e IA</p>
     </footer>
+
+    <script src="js/script.js"></script>
 
 </body>
 </html>

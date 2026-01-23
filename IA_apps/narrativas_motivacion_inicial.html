@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Despertar Narrativo</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-front: #ffffff;
+            --card-back: #2c3e50;
+            --text-front: #333;
+            --text-back: #fff;
+            --accent: #ff9f43;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        header { text-align: center; margin-bottom: 40px; max-width: 800px; }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .subtitle { font-size: 1.1rem; opacity: 0.9; line-height: 1.5; }
+
+        /* GRID DE TARJETAS */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px;
+            perspective: 1000px; /* Para el efecto 3D */
+        }
+
+        /* ESTRUCTURA DE LA TARJETA */
+        .flip-card {
+            background-color: transparent;
+            height: 300px; /* Altura fija */
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* CARAS DE LA TARJETA */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ESTILO FRONTAL (PREGUNTA/MITO) */
+        .flip-card-front {
+            background-color: var(--card-front);
+            color: var(--text-front);
+        }
+        
+        .icon { font-size: 4rem; margin-bottom: 20px; }
+        .question { font-size: 1.3rem; font-weight: bold; }
+        .hint { margin-top: 15px; font-size: 0.9rem; color: #888; font-style: italic; }
+
+        /* ESTILO TRASERO (RESPUESTA/REALIDAD) */
+        .flip-card-back {
+            background-color: var(--card-back);
+            color: var(--text-back);
+            transform: rotateY(180deg);
+            border: 2px solid var(--accent);
+        }
+
+        .answer-title { color: var(--accent); font-weight: bold; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        .answer-text { font-size: 1.1rem; line-height: 1.6; }
+
+        /* BARRA DE PROGRESO */
+        .progress-container {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .progress-text { margin-bottom: 10px; font-weight: bold; }
+        .progress-bar-bg { width: 100%; height: 10px; background: rgba(255,255,255,0.3); border-radius: 5px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.5s ease; }
+
+        .final-msg { 
+            margin-top: 20px; font-size: 1.5rem; font-weight: bold; color: var(--accent); 
+            opacity: 0; transition: opacity 1s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>✨ El Despertar Narrativo</h1>
+        <p class="subtitle">¿Crees saber qué es una Narrativa Digital? <br>Haz clic en las tarjetas para descubrir la verdad y prepararte para esta asignatura.</p>
+    </header>
+
+    <div class="cards-container">
+
+        <div class="flip-card" onclick="flipCard(this)">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="icon">📖</div>
+                    <div class="question">¿Es solo "contar un cuento" usando una computadora?</div>
+                    <div class="hint">(Toca para descubrir)</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="answer-title">¡Es mucho más!</div>
+                    <div class="answer-text">
+                        Es una técnica que combina la narrativa tradicional con la tecnología (multimedia, hipertexto) para generar <strong>emociones y nuevos significados</strong>. No es solo digitalizar texto.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card" onclick="flipCard(this)">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="icon">🎥</div>
+                    <div class="question">¿Necesito ser cineasta o experto en software?</div>
+                    <div class="hint">(Toca para descubrir)</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="answer-title">Falso</div>
+                    <div class="answer-text">
+                        Gracias a la <strong>Web 2.0 y los smartphones</strong>, la narrativa se ha democratizado. Pasamos de ser consumidores pasivos a <strong>creadores activos</strong> (Prosumidores).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card" onclick="flipCard(this)">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="icon">🧠</div>
+                    <div class="question">¿Esto sirve solo para la clase de Lengua?</div>
+                    <div class="hint">(Toca para descubrir)</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="answer-title">Transversal</div>
+                    <div class="answer-text">
+                        ¡Para nada! Sirve para explicar <strong>Ciencia</strong> (Data Storytelling), Historia, o construir tu propia <strong>Identidad Digital</strong>. Ayuda a organizar y dar sentido al mundo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-text">Progreso de Descubrimiento: <span id="counter">0</span>/3</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="final-msg" id="finalMsg">🚀 ¡Estás listo para comenzar el viaje!</div>
+    </div>
+
+    <script>
+        let flippedCount = 0;
+        const totalCards = 3;
+
+        function flipCard(card) {
+            // Si ya está girada, no hacemos nada (o podríamos dejar que se gire de vuelta)
+            if (card.classList.contains('flipped')) return;
+
+            card.classList.add('flipped');
+            flippedCount++;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            document.getElementById('counter').innerText = flippedCount;
+            const percentage = (flippedCount / totalCards) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+
+            if (flippedCount === totalCards) {
+                document.getElementById('finalMsg').style.opacity = '1';
+                launchConfetti();
+            }
+        }
+
+        // Efecto simple de celebración (Confeti visual con JS básico)
+        function launchConfetti() {
+            const colors = ['#ff9f43', '#feca57', '#ff6b6b', '#48dbfb'];
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'fixed';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = '-10px';
+                conf.style.width = '10px';
+                conf.style.height = '10px';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.transition = 'top 2s ease-in, transform 2s ease';
+                conf.style.zIndex = '9999';
+                document.body.appendChild(conf);
+
+                setTimeout(() => {
+                    conf.style.top = '110vh';
+                    conf.style.transform = `rotate(${Math.random()*360}deg)`;
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>

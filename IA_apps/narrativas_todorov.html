@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Arquitecto de Historias - Estructura Narrativa</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e67e22;
+            --bg: #f3f4f6;
+            --card-bg: #fff;
+            --success: #27ae60;
+            --error: #c0392b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--primary); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        header { text-align: center; margin-bottom: 20px; width: 100%; }
+        h1 { margin: 0; color: var(--primary); font-size: 1.8rem; }
+        .subtitle { color: #7f8c8d; font-style: italic; }
+
+        .controls { margin-bottom: 20px; text-align: center; }
+        select { padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; cursor: pointer; max-width: 100%; }
+
+        /* Área de Juego: Uso Grid para mejor control que Flex */
+        .game-board { 
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Izquierda 1 parte, Derecha 2 partes */
+            gap: 20px;
+            width: 100%; 
+            max-width: 1100px;
+            align-items: start;
+        }
+
+        /* Contenedor de Tarjetas (Origen) */
+        .source-container {
+            background: #e0e0e0; 
+            padding: 15px; 
+            border-radius: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            min-height: 200px;
+        }
+        .source-title { text-align: center; font-weight: bold; color: #555; margin-bottom: 5px; }
+
+        /* Estructura (Destino) */
+        .structure-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        /* Slots de Todorov */
+        .slot {
+            background: white; 
+            border: 2px dashed #bdc3c7; 
+            border-radius: 8px; 
+            padding: 10px 15px 15px 15px; /* Padding extra abajo para la carta */
+            min-height: 100px; 
+            display: flex; 
+            flex-direction: column; /* Elementos uno debajo del otro */
+            transition: all 0.3s;
+        }
+        
+        .slot.drag-over { background: #ecf0f1; border-color: var(--accent); }
+        
+        /* Etiquetas DENTRO de la casilla para evitar solapamientos */
+        .slot-label { 
+            font-weight: bold; 
+            font-size: 1rem; 
+            color: var(--primary); 
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            display: block;
+            width: 100%;
+        }
+        .slot-desc {
+            font-size: 0.8rem; color: #95a5a6; font-weight: normal; margin-left: 5px;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: white; 
+            border-left: 5px solid var(--accent); 
+            padding: 12px; 
+            border-radius: 5px; 
+            cursor: grab; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            font-size: 0.95rem; 
+            user-select: none;
+            width: 100%;
+        }
+        .card:active { cursor: grabbing; transform: scale(0.98); }
+        .card.correct { border-left-color: var(--success); background-color: #e8f8f5; }
+        .card.incorrect { border-left-color: var(--error); background-color: #fdedec; }
+
+        #feedback-area {
+            margin-top: 20px; padding: 15px; border-radius: 5px; background: #dff9fb; border: 1px solid #c7ecee;
+            display: none; max-width: 800px; text-align: center; width: 100%;
+        }
+
+        /* RESPONSIVE: Si la pantalla es pequeña, una columna */
+        @media (max-width: 768px) {
+            .game-board {
+                grid-template-columns: 1fr; /* Una sola columna */
+            }
+            .source-container {
+                order: 1; /* Poner las fichas arriba o abajo según prefieras (aquí abajo) */
+                margin-bottom: 20px;
+            }
+            /* Opcional: si quieres las fichas arriba, pon order: -1 */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏗️ El Arquitecto de Historias</h1>
+        <p class="subtitle">Ordena la narrativa según la estructura de Todorov</p>
+    </header>
+
+    <div class="controls">
+        <label>Selecciona el caso:</label>
+        <select id="storySelector" onchange="loadStory()">
+            <option value="building">📰 Noticia: El Edificio Desalojado</option>
+            <option value="fable">🐺 Cuento: Caperucita Roja</option>
+        </select>
+        <button onclick="resetGame()" style="padding: 10px 20px; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">Reiniciar</button>
+    </div>
+
+    <div class="game-board">
+        <div class="source-container" id="sourceParams" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="source-title">🧩 Arrastra estos fragmentos:</div>
+            </div>
+
+        <div class="structure-container">
+            <div class="slot" id="slot-1" data-phase="1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="slot-label">1. Situación Inicial <span class="slot-desc">(Equilibrio)</span></div>
+            </div>
+            <div class="slot" id="slot-2" data-phase="2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="slot-label">2. Nudo / Complicación <span class="slot-desc">(Ruptura)</span></div>
+            </div>
+            <div class="slot" id="slot-3" data-phase="3" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="slot-label">3. Reacción / Evaluación <span class="slot-desc">(Valoración)</span></div>
+            </div>
+            <div class="slot" id="slot-4" data-phase="4" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="slot-label">4. Desenlace <span class="slot-desc">(Resolución)</span></div>
+            </div>
+            <div class="slot" id="slot-5" data-phase="5" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="slot-label">5. Situación Final <span class="slot-desc">(Nuevo estado)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback-area"></div>
+
+    <script>
+        // DATOS DE LAS HISTORIAS
+        const stories = {
+            building: [
+                { id: "c1", text: "Unos obreros estaban trabajando en un solar colindante al edificio.", phase: 1 }, 
+                { id: "c2", text: "Se produjo un escape de agua y se rompió una tubería que afectó los cimientos.", phase: 2 }, 
+                { id: "c3", text: "(Implícito) El peligro fue evaluado como inminente por las autoridades.", phase: 3 }, 
+                { id: "c4", text: "Los vecinos tuvieron que ser desalojados de emergencia.", phase: 4 }, 
+                { id: "c5", text: "26 vecinos pasaron la noche en hoteles financiados por servicios sociales.", phase: 5 }
+            ],
+            fable: [
+                { id: "f1", text: "Caperucita va a llevar comida a su abuelita cruzando el bosque en calma.", phase: 1 },
+                { id: "f2", text: "El lobo engaña a Caperucita y llega antes a la casa para comerse a la abuela.", phase: 2 },
+                { id: "f3", text: "Caperucita exclama: '¡Qué dientes tan grandes tienes!' al ver al lobo disfrazado.", phase: 3 },
+                { id: "f4", text: "El cazador escucha los gritos, entra en la casa y salva a ambas.", phase: 4 },
+                { id: "f5", text: "Caperucita y la abuela meriendan felices; prometen tener más cuidado.", phase: 5 }
+            ]
+        };
+
+        let currentStory = [];
+
+        function loadStory() {
+            const type = document.getElementById('storySelector').value;
+            currentStory = JSON.parse(JSON.stringify(stories[type])); 
+            currentStory.sort(() => Math.random() - 0.5); // Mezclar
+
+            const container = document.getElementById('sourceParams');
+            container.innerHTML = '<div class="source-title">🧩 Arrastra estos fragmentos:</div>';
+            
+            // Limpiar slots (mantener labels)
+            document.querySelectorAll('.slot').forEach(slot => {
+                const label = slot.querySelector('.slot-label');
+                slot.innerHTML = '';
+                slot.appendChild(label);
+            });
+
+            document.getElementById('feedback-area').style.display = 'none';
+
+            // Crear tarjetas
+            currentStory.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = item.id;
+                card.draggable = true;
+                card.innerText = item.text;
+                card.dataset.phase = item.phase;
+                card.ondragstart = drag;
+                container.appendChild(card);
+            });
+        }
+
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.target.style.opacity = "0.5";
+        }
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const card = document.getElementById(data);
+            if(!card) return; // Seguridad
+            card.style.opacity = "1";
+
+            let target = ev.target;
+            while (!target.classList.contains('slot') && !target.classList.contains('source-container')) {
+                target = target.parentNode;
+                if(!target) return;
+            }
+
+            if (target.classList.contains('slot')) {
+                // Si ya hay carta, no permitir (opcional, aquí permitimos reemplazar o añadir)
+                // Para simplificar, añadimos al final.
+                // Como flex-direction es column, se añadirá debajo del label.
+                
+                const correctPhase = parseInt(target.dataset.phase);
+                const cardPhase = parseInt(card.dataset.phase);
+
+                target.appendChild(card);
+
+                if (correctPhase === cardPhase) {
+                    card.classList.add('correct');
+                    card.classList.remove('incorrect');
+                    checkWin();
+                } else {
+                    card.classList.add('incorrect');
+                    card.classList.remove('correct');
+                }
+            } else {
+                card.classList.remove('correct', 'incorrect');
+                target.appendChild(card);
+            }
+        }
+
+        function checkWin() {
+            const correctCards = document.querySelectorAll('.card.correct').length;
+            if (correctCards === 5) {
+                const fb = document.getElementById('feedback-area');
+                fb.style.display = 'block';
+                fb.innerHTML = `<h3>🎉 ¡Correcto!</h3><p>Has reconstruido la secuencia narrativa perfectamente.<br>Según Todorov, toda narración (noticia o cuento) se mueve del equilibrio al desequilibrio y a un nuevo equilibrio.</p>`;
+                fb.style.color = "#27ae60";
+            }
+        }
+
+        function resetGame() { loadStory(); }
+
+        loadStory();
+    </script>
+</body>
+</html>
