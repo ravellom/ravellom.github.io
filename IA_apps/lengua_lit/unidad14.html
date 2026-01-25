@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad 14 - Lírica Renacentista</title>
+    <style>
+        :root {
+            --primary: #58cc02;
+            --primary-dark: #46a302;
+            --secondary: #1cb0f6;
+            --secondary-dark: #1899d6;
+            --purple: #ce82ff;
+            --orange: #ff9600;
+            --error: #ff4b4b;
+            --background: #f0f4f8;
+            --sidebar-bg: #ffffff;
+            --text: #3c3c3c;
+            --gray: #e5e5e5;
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- BARRA LATERAL (ÍNDICE DEL LIBRO) --- */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 2px solid var(--gray);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray);
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #777;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover { background-color: #f7f7f7; }
+        
+        .nav-item.active {
+            background-color: #e0f4ff;
+            color: var(--secondary-dark);
+            border-color: var(--secondary);
+        }
+
+        .nav-number {
+            background: #eee;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        
+        .nav-item.active .nav-number {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* --- ZONA PRINCIPAL --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header Móvil */
+        .mobile-header {
+            display: none;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+        .menu-toggle { font-size: 1.8rem; background: none; border: none; cursor: pointer; color: var(--text); }
+
+        /* TARJETA DE EJERCICIO */
+        .game-card {
+            width: 100%;
+            max-width: 750px;
+            background: #fff;
+            border-radius: var(--radius);
+            border: 2px solid var(--gray);
+            box-shadow: 0 6px 0 var(--gray);
+            padding: 40px;
+            margin-top: 10px;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .category-badge {
+            align-self: flex-start;
+            background: var(--purple);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: var(--text);
+        }
+
+        .verse-box {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            background: #fff8e1;
+            padding: 25px;
+            border-left: 5px solid var(--orange);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #4a4a4a;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        /* OPCIONES */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .options-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 2px solid var(--gray);
+            border-bottom: 4px solid var(--gray);
+            padding: 18px 20px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: transform 0.1s;
+            color: var(--text);
+            position: relative;
+        }
+
+        .option-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        .option-btn.correct {
+            background-color: #d7ffb8;
+            border-color: var(--primary);
+            border-bottom-color: var(--primary-dark);
+            color: var(--primary-dark);
+        }
+
+        .option-btn.incorrect {
+            background-color: #ffdfe0;
+            border-color: var(--error);
+            border-bottom-color: #d32f2f;
+            color: #d32f2f;
+            opacity: 0.7;
+        }
+
+        /* FEEDBACK EXPANDIDO */
+        .feedback-container {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 6px solid var(--secondary);
+            display: none; /* Oculto por defecto */
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-title {
+            font-weight: 900;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .feedback-text {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-bottom: 4px solid var(--primary-dark);
+            padding: 16px;
+            width: 100%;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+        
+        .next-btn:hover { filter: brightness(1.05); }
+
+        /* BIENVENIDA */
+        .welcome-screen { text-align: center; margin-top: 40px; padding: 20px; }
+        .welcome-screen h2 { color: var(--secondary); font-size: 2rem; }
+        .welcome-screen p { color: #666; font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+            .sidebar.open { transform: translateX(0); box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
+            .mobile-header { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">📖 Unidad 14</div>
+        
+        <div class="nav-item" onclick="loadCategory('p1')">
+            <span class="nav-number">1</span> El Renacimiento
+        </div>
+        <div class="nav-item" onclick="loadCategory('p2')">
+            <span class="nav-number">2</span> El Petrarquismo
+        </div>
+        <div class="nav-item" onclick="loadCategory('p3')">
+            <span class="nav-number">3</span> Garcilaso de la Vega
+        </div>
+        <div class="nav-item" onclick="loadCategory('p4')">
+            <span class="nav-number">4</span> 2ª Mitad Siglo XVI
+        </div>
+        <div class="nav-item" onclick="loadCategory('p5')">
+            <span class="nav-number">5</span> Fernando de Herrera
+        </div>
+        <div class="nav-item" onclick="loadCategory('p6')">
+            <span class="nav-number">6</span> Fray Luis de León
+        </div>
+        <div class="nav-item" onclick="loadCategory('p7')">
+            <span class="nav-number">7</span> San Juan de la Cruz
+        </div>
+        
+        <div style="margin-top: 20px; border-top: 2px solid #eee; padding-top: 20px;">
+            <div class="nav-item" style="border: 2px solid var(--secondary); background: #f0faff;" onclick="loadCategory('mix')">
+                <span class="nav-number" style="background:var(--secondary);">🎲</span> EXAMEN GLOBAL
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="mobile-header">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <span style="font-weight: 800; color: #555;">Lírica Renacentista</span>
+        </div>
+
+        <div id="game-area" class="game-card">
+            <div class="welcome-screen">
+                <h2>¡Vamos a estudiar! 🚀</h2>
+                <p>Selecciona un apartado del índice (izquierda) para practicar punto por punto, o elige "Examen Global" para mezclarlo todo.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- BASE DE DATOS DE EJERCICIOS (Estructura Unidad 14) ---
+        
+        const db = {
+            p1: [ // 1. EL RENACIMIENTO
+                {
+                    q: "¿Qué cambio de mentalidad fundamental define el paso de la Edad Media al Renacimiento?",
+                    options: ["Del Teocentrismo al Antropocentrismo", "Del Feudalismo al Comunismo", "Del Ateísmo a la Religión", "Del Antropocentrismo al Teocentrismo"],
+                    correct: 0,
+                    explanation: "Es la base de todo: En la Edad Media, Dios era el centro (Teocentrismo). En el Renacimiento, se recupera la cultura clásica y el ser humano pasa a ser la medida de todas las cosas (Antropocentrismo), valorando la razón y la belleza terrenal."
+                },
+                {
+                    q: "¿Qué corriente cultural italiana impulsó el Renacimiento buscando recuperar los clásicos grecolatinos?",
+                    options: ["El Humanismo", "El Barroco", "El Mester de Clerecía", "El Romanticismo"],
+                    correct: 0,
+                    explanation: "El Humanismo fue el movimiento intelectual clave. Autores como Petrarca o Erasmo buscaron en los textos de Grecia y Roma un modelo de perfección, equilibrio y sabiduría que imitaban en sus obras."
+                }
+            ],
+            p2: [ // 2. EL PETRARQUISMO
+                {
+                    q: "¿Cómo se describe a la mujer amada en la lírica petrarquista?",
+                    options: ["Como un ser angelical y perfecto (donna angelicata)", "Como una mujer guerrera y fuerte", "Como una mujer cruel y demoníaca", "Como una compañera de trabajo"],
+                    correct: 0,
+                    explanation: "El petrarquismo idealiza a la mujer. Se describe con el canon de belleza clásico: cabello rubio (oro), piel blanca (azucena/nieve), ojos claros y mejillas sonrosadas (rosas). Es un ser casi divino pero inalcanzable, lo que provoca dolor en el poeta."
+                },
+                {
+                    q: "¿Qué papel juega la 'Naturaleza' en la poesía renacentista?",
+                    options: ["Es un espejo del estado de ánimo del poeta", "Es un lugar peligroso y oscuro", "No tiene importancia, solo importa la ciudad", "Es solo para cultivar alimentos"],
+                    correct: 0,
+                    explanation: "La naturaleza se presenta como el 'Locus Amoenus' (lugar agradable): prados verdes, arroyos cristalinos y pajarillos. Representa la armonía y perfección divina, y a menudo escucha o refleja las quejas del poeta enamorado."
+                }
+            ],
+            p3: [ // 3. GARCILASO DE LA VEGA
+                {
+                    text: "En tanto que de rosa y azucena<br>se muestra la color en vuestro gesto...",
+                    q: "En el Soneto XXIII, ¿qué significan la 'rosa' y la 'azucena'?",
+                    options: ["Pasión/Juventud y Pureza/Honestidad", "Sangre y Muerte", "Verano e Invierno", "La ciudad y el campo"],
+                    correct: 0,
+                    explanation: "Garcilaso usa metáforas de color: la azucena (blanca) es la pureza y honestidad de la dama; la rosa (roja) es su belleza pasional y juventud. El poema advierte que el tiempo marchitará ambas ('coged de vuestra alegre primavera el dulce fruto')."
+                },
+                {
+                    q: "En la Égloga I, ¿de qué se lamentan los pastores Salicio y Nemoroso?",
+                    options: ["Salicio del desdén de Galatea y Nemoroso de la muerte de Elisa", "De que han perdido sus ovejas", "De la pobreza en el campo", "De que quieren irse a la guerra"],
+                    correct: 0,
+                    explanation: "Es clave distinguir los dos dolores: Salicio sufre porque su amada lo rechaza (desdén/celos), mientras que Nemoroso llora un dolor más definitivo: la muerte de su amada Elisa. Refleja la biografía amorosa del propio Garcilaso."
+                },
+                {
+                    text: "¡Oh hado secutivo en mis dolores,<br>cómo sentí tus leyes rigurosas!...",
+                    q: "Este fragmento pertenece al Soneto XXV. ¿Qué tema trata?",
+                    options: ["El dolor por la muerte de la amada", "La alegría de vivir", "La guerra de Troya", "La alabanza al Rey"],
+                    correct: 0,
+                    explanation: "El Soneto XXV ('¡Oh hado secutivo...!') es uno de los más tristes. Garcilaso habla tras la muerte de Isabel Freyre (su musa). Se queja contra el destino ('hado') que ha destruido su felicidad."
+                }
+            ],
+            p4: [ // 4. LA POESÍA EN LA SEGUNDA MITAD DEL XVI
+                {
+                    q: "¿Qué evento histórico marcó el cambio de tono en la literatura de la segunda mitad del siglo XVI?",
+                    options: ["El Concilio de Trento (Contrarreforma)", "El descubrimiento de América", "La invasión francesa", "La Revolución Industrial"],
+                    correct: 0,
+                    explanation: "A mediados de siglo, la Iglesia reacciona contra el protestantismo. España se cierra y se vuelve más religiosa (reinado de Felipe II). La literatura pasa de ser puramente amorosa (Garcilaso) a tratar temas morales y religiosos (Fray Luis y San Juan)."
+                },
+                {
+                    q: "¿Qué diferencia hay entre la Ascética y la Mística?",
+                    options: ["La Ascética es el esfuerzo para purificarse; la Mística es la unión con Dios", "Son exactamente lo mismo", "La Ascética es para monjes y la Mística para soldados", "La Mística es poesía de guerra"],
+                    correct: 0,
+                    explanation: "Es fundamental: La Ascética (Fray Luis) trata del esfuerzo del hombre por huir de lo terrenal y perfeccionarse. La Mística (San Juan) va un paso más allá: describe la experiencia inefable de la unión directa del alma con Dios (éxtasis)."
+                }
+            ],
+            p5: [ // 5. FERNANDO DE HERRERA
+                {
+                    q: "¿A qué escuela poética pertenece Fernando de Herrera?",
+                    options: ["Escuela Sevillana", "Escuela Salmantina", "Generación del 27", "Mester de Clerecía"],
+                    correct: 0,
+                    explanation: "Herrera lideró la Escuela Sevillana. A diferencia de la sobriedad castellana (Fray Luis), los sevillanos preferían un estilo más brillante, colorista, con muchos adjetivos y referencias cultas, anticipando el Barroco."
+                },
+                {
+                    q: "Fernando de Herrera es famoso por comentar la obra de un autor anterior. ¿De quién?",
+                    options: ["Garcilaso de la Vega", "Dante", "Homero", "Cervantes"],
+                    correct: 0,
+                    explanation: "Escribió las 'Anotaciones a la poesía de Garcilaso'. Fue vital porque analizó sus versos como si fuera un clásico latino, consolidando a Garcilaso como el modelo a seguir."
+                }
+            ],
+            p6: [ // 6. FRAY LUIS DE LEÓN
+                {
+                    text: "Vivir quiero conmigo,<br>gozar quiero del bien que debo al cielo,<br>a solas, sin testigo,<br>libre de amor, de celo,<br>de odio, de esperanzas, de recelo.",
+                    q: "¿Qué tópico o tema predomina en la 'Oda a la vida retirada'?",
+                    options: ["Beatus Ille (Dichoso aquel)", "Carpe Diem", "Amor cortés", "Novela de caballerías"],
+                    correct: 0,
+                    explanation: "Fray Luis actualiza el 'Beatus Ille' de Horacio. Elogia la vida sencilla y solitaria del campo, lejos de las ambiciones, envidias y el ruido de la ciudad ('mundanal ruido'), para poder dedicarse al estudio y a Dios."
+                },
+                {
+                    q: "¿Qué estrofa, introducida por Garcilaso, se convierte en la favorita de Fray Luis?",
+                    options: ["La Lira", "El Romance", "El Soneto", "La Octava Real"],
+                    correct: 0,
+                    explanation: "La Lira (7a, 11B, 7a, 7b, 11B). Fray Luis la perfeccionó porque su ritmo corto y suave era perfecto para expresar serenidad y reflexión filosófica."
+                }
+            ],
+            p7: [ // 7. SAN JUAN DE LA CRUZ
+                {
+                    q: "¿Cuáles son las tres grandes obras místicas de San Juan?",
+                    options: ["Cántico espiritual, Noche oscura, Llama de amor viva", "La Celestina, El Quijote, La Galatea", "Coplas a la muerte de su padre, El Buscón, Rimas", "Génesis, Éxodo y Salmos"],
+                    correct: 0,
+                    explanation: "Son tres poemas breves pero intensos. En ellos narra alegóricamente (mediante símbolos amorosos) la búsqueda y unión del Alma (la Amada) con Dios (el Amado)."
+                },
+                {
+                    q: "San Juan usa símbolos como 'la casa sosegada' o 'salir sin ser notada'. ¿A qué fase de la mística corresponden?",
+                    options: ["Vía Purgativa", "Vía Unitiva", "Vía Iluminativa", "Vía Láctea"],
+                    correct: 0,
+                    explanation: "Corresponden al inicio, la Vía Purgativa. El alma debe silenciar sus pasiones (la casa sosegada) y salir de su 'yo' egoísta (en la noche) para poder empezar el camino hacia Dios."
+                },
+                {
+                    text: "¡Oh llama de amor viva<br>que tiernamente hieres<br>de mi alma en el más profundo centro!",
+                    q: "¿Qué representa la 'llama' y la 'herida' en este contexto?",
+                    options: ["El amor divino que quema pero no duele", "Un incendio real", "El dolor de una enfermedad", "El fuego del infierno"],
+                    correct: 0,
+                    explanation: "Es la paradoja mística. La llama es el Espíritu Santo o el amor de Dios. La 'herida' no es dolorosa, sino placentera ('tiernamente hieres'), porque rompe la barrera entre el alma y Dios (Vía Unitiva)."
+                }
+            ]
+        };
+
+        // --- LÓGICA DE LA APLICACIÓN ---
+        
+        let currentPool = [];
+        let currentQuestion = null;
+        let isAnswering = true;
+        const gameArea = document.getElementById('game-area');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleSidebar() { sidebar.classList.toggle('open'); }
+
+        // Cargar Categoría
+        function loadCategory(catKey) {
+            // UI Update
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            // Buscar el elemento clickeado (truco para identificar el botón correcto)
+            const clickedBtn = [...document.querySelectorAll('.nav-item')].find(el => el.onclick.toString().includes(catKey));
+            if(clickedBtn) clickedBtn.classList.add('active');
+
+            // Lógica de datos
+            if (catKey === 'mix') {
+                currentPool = Object.values(db).flat();
+            } else {
+                currentPool = db[catKey];
+            }
+            
+            sidebar.classList.remove('open'); // Cerrar en móvil
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentPool.length === 0) return;
+            
+            // Seleccionar pregunta aleatoria
+            const randIndex = Math.floor(Math.random() * currentPool.length);
+            currentQuestion = currentPool[randIndex];
+            isAnswering = true;
+
+            // Renderizar
+            const isPoetry = currentQuestion.text ? true : false;
+            
+            gameArea.innerHTML = `
+                <div class="category-badge">Pregunta de Examen</div>
+                
+                ${isPoetry ? `<div class="verse-box">${currentQuestion.text}</div>` : ''}
+                
+                <div class="question-text">${currentQuestion.q}</div>
+                
+                <div class="options-grid">
+                    ${currentQuestion.options.map((opt, i) => `
+                        <button class="option-btn" onclick="check(${i}, this)">${opt}</button>
+                    `).join('')}
+                </div>
+
+                <div class="feedback-container" id="fb-area">
+                    <span class="feedback-title" id="fb-title"></span>
+                    <div class="feedback-text" id="fb-text"></div>
+                    <button class="next-btn" onclick="showQuestion()">Siguiente Ejercicio ➜</button>
+                </div>
+            `;
+        }
+
+        function check(selectedIndex, btn) {
+            if (!isAnswering) return;
+            isAnswering = false;
+
+            const fbArea = document.getElementById('fb-area');
+            const fbTitle = document.getElementById('fb-title');
+            const fbText = document.getElementById('fb-text');
+            const allBtns = document.querySelectorAll('.option-btn');
+
+            if (selectedIndex === currentQuestion.correct) {
+                btn.classList.add('correct');
+                fbTitle.innerHTML = "¡CORRECTO! 🎉";
+                fbTitle.style.color = "var(--primary-dark)";
+            } else {
+                btn.classList.add('incorrect');
+                allBtns[currentQuestion.correct].classList.add('correct');
+                fbTitle.innerHTML = "Respuesta Incorrecta 😔";
+                fbTitle.style.color = "var(--error)";
+            }
+
+            fbText.innerHTML = currentQuestion.explanation;
+            fbArea.style.display = 'block';
+        }
+
+    </script>
+</body>
+</html>
