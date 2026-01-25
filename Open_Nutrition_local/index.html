@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulso Libre - Nutrición Avanzada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { blue: '#3b82f6', dark: '#0f172a', bg: '#f8fafc' } } } }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm sticky top-0 z-20">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="activity" class="text-brand-blue"></i>
+                <h1 class="text-xl font-black text-brand-blue tracking-tighter italic hidden sm:block">/// pulso libre</h1>
+            </div>
+            
+            <div id="controls" class="flex gap-2 hidden">
+                <div class="flex items-center bg-slate-100 rounded-lg px-2">
+                    <button id="prevDayBtn" class="p-1 hover:text-brand-blue"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                    <input type="date" id="datePicker" class="bg-transparent border-none text-sm font-bold w-28 text-center focus:outline-none text-slate-600">
+                    <button id="nextDayBtn" class="p-1 hover:text-brand-blue"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                </div>
+
+                <button onclick="document.getElementById('fileInput').click()" class="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition" title="Cargar/Guardar">
+                    <i data-lucide="save" class="w-5 h-5 text-slate-600"></i>
+                </button>
+            </div>
+            <input type="file" id="fileInput" class="hidden" accept=".json">
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 grid gap-6">
+        
+        <div id="view-onboarding" class="text-center py-20 max-w-md mx-auto">
+            <h2 class="text-3xl font-bold mb-4">Tu Centro de Nutrición</h2>
+            <p class="text-slate-500 mb-8">Gestión profesional, local y privada.</p>
+            <div class="space-y-3">
+                <button onclick="document.getElementById('fileInput').click()" class="w-full py-3 border-2 border-slate-200 rounded-xl font-bold hover:bg-white transition">Cargar Fichero .JSON</button>
+                <button id="btnNewProfile" class="w-full py-3 bg-brand-blue text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition">Crear Nuevo Perfil</button>
+            </div>
+        </div>
+
+        <div id="nav-tabs" class="hidden flex justify-center gap-4 border-b border-slate-200 pb-1">
+            <button class="tab-btn active text-brand-blue border-b-2 border-brand-blue font-bold px-4 py-2" data-target="dashboard">Diario</button>
+            <button class="tab-btn text-slate-400 font-medium px-4 py-2 hover:text-slate-600" data-target="analytics">Análisis & Historial</button>
+        </div>
+
+        <div id="view-dashboard" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm text-center relative">
+                    <div class="relative w-48 h-48 mx-auto">
+                        <canvas id="caloriesChart"></canvas>
+                        <div class="absolute inset-0 flex flex-col justify-center items-center pointer-events-none">
+                            <span id="lblRemaining" class="text-4xl font-black text-slate-800">-</span>
+                            <span class="text-xs uppercase font-bold text-slate-400">Restantes</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="macroBars" class="bg-white p-6 rounded-3xl shadow-sm space-y-4"></div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-blue-50">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-brand-blue"></i> Registrar Comida
+                    </h3>
+                    
+                    <div class="flex gap-2 mb-4 overflow-x-auto pb-2 no-scrollbar" id="mealTypeSelector">
+                        </div>
+
+                    <div class="bg-slate-50 p-3 rounded-xl mb-3 border focus-within:border-brand-blue transition">
+                        <textarea id="aiInput" rows="1" class="w-full bg-transparent text-sm focus:outline-none resize-none" placeholder="IA Paste: '400kcal, 20p, 10g...'"></textarea>
+                    </div>
+
+                    <form id="foodForm" class="grid grid-cols-5 gap-2 items-end">
+                        <div class="col-span-5 md:col-span-2">
+                            <input type="text" id="inpName" placeholder="Nombre del plato" class="w-full p-2 bg-slate-100 rounded-lg font-semibold text-sm" required>
+                        </div>
+                        <input type="number" id="inpCal" placeholder="Kcal" class="p-2 bg-slate-100 rounded-lg text-center text-sm font-bold" required>
+                        <input type="number" id="inpProt" placeholder="P" class="p-2 bg-slate-100 rounded-lg text-center text-sm">
+                        <button type="submit" class="bg-brand-blue text-white p-2 rounded-lg hover:bg-blue-700 transition shadow-md">
+                            <i data-lucide="check" class="w-5 h-5 mx-auto"></i>
+                        </button>
+                    </form>
+                    <div class="flex gap-2 mt-2 px-1">
+                        <input type="number" id="inpFat" placeholder="Grasas" class="w-1/3 p-1 bg-transparent text-xs text-center border-b border-slate-200">
+                        <input type="number" id="inpCarb" placeholder="Carbos" class="w-1/3 p-1 bg-transparent text-xs text-center border-b border-slate-200">
+                    </div>
+                </div>
+
+                <div id="dayList" class="space-y-3 pb-10"></div>
+            </div>
+        </div>
+
+        <div id="view-analytics" class="hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-3xl shadow-sm">
+                    <h3 class="font-bold mb-4">Tendencia Calórica (7 días)</h3>
+                    <canvas id="historyChart"></canvas>
+                </div>
+                <div class="bg-white p-5 rounded-3xl shadow-sm">
+                    <h3 class="font-bold mb-4">Distribución de Macronutrientes</h3>
+                    <canvas id="macroDistributionChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-3xl shadow-sm">
+                <h3 class="font-bold mb-4">Historial Completo</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="border-b">
+                            <tr><th class="p-2">Fecha</th><th class="p-2">Calorías</th><th class="p-2">Proteína</th><th class="p-2">Estado</th></tr>
+                        </thead>
+                        <tbody id="historyTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

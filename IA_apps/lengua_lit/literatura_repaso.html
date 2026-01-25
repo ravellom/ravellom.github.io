@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenador Lírica Renacentista</title>
+    <style>
+        :root {
+            --primary: #58cc02; /* Verde Duolingo */
+            --primary-dark: #46a302;
+            --secondary: #1cb0f6; /* Azul */
+            --secondary-dark: #1899d6;
+            --error: #ff4b4b; /* Rojo */
+            --background: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #3c3c3c;
+            --gray: #e5e5e5;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        /* Selector de Modo */
+        .mode-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .mode-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--gray);
+            border-bottom: 4px solid var(--gray);
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .mode-btn.active {
+            border-color: var(--secondary);
+            border-bottom-color: var(--secondary-dark);
+            background-color: #ddf4ff;
+            color: var(--secondary-dark);
+        }
+
+        .mode-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        /* Tarjeta de Pregunta */
+        .game-container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--gray);
+            box-shadow: 0 4px 0 var(--gray);
+            text-align: center;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .verse-box {
+            font-style: italic;
+            color: #555;
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            margin-bottom: 20px;
+            text-align: left;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+        }
+
+        /* Opciones */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--gray);
+            border-bottom: 4px solid var(--gray);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background-color: #f7f7f7;
+        }
+
+        .option-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        /* Estados de respuesta */
+        .option-btn.correct {
+            background-color: #d7ffb8;
+            border-color: var(--primary);
+            border-bottom-color: var(--primary-dark);
+            color: var(--primary-dark);
+        }
+
+        .option-btn.incorrect {
+            background-color: #ffdfe0;
+            border-color: var(--error);
+            border-bottom-color: #d32f2f;
+            color: #d32f2f;
+        }
+
+        /* Feedback Footer */
+        .feedback-area {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--gray);
+            display: none; /* Oculto por defecto */
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .feedback-explanation {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-bottom: 4px solid var(--primary-dark);
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .next-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        /* Racha */
+        .streak-counter {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #ffc107;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 800;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📚 Lírica Renacentista (1º Bach)</h1>
+    </header>
+
+    <div class="mode-selector">
+        <button class="mode-btn active" onclick="setMode('teoria')">🧠 Teoría (Libro)</button>
+        <button class="mode-btn" onclick="setMode('practica')">✍️ Práctica (Poemas)</button>
+    </div>
+
+    <div class="game-container">
+        <div class="streak-counter">🔥 Racha: <span id="streak">0</span></div>
+        
+        <div id="quiz-content">
+            </div>
+
+        <div class="feedback-area" id="feedback">
+            <div class="feedback-msg" id="msg-title"></div>
+            <div class="feedback-explanation" id="msg-text"></div>
+            <button class="next-btn" onclick="nextQuestion()">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE PREGUNTAS ---
+        
+        // 1. Preguntas de Teoría Literal (Basadas en las imágenes + Garcilaso)
+        const theoryQuestions = [
+            {
+                q: "¿Qué autor representa la 'poesía mística' en su máxima expresión?",
+                options: ["Fray Luis de León", "San Juan de la Cruz", "Garcilaso de la Vega", "Fernando de Herrera"],
+                correct: 1,
+                explanation: "San Juan de la Cruz es la cima de la mística española, tratando la unión del alma con Dios."
+            },
+            {
+                q: "¿Qué estrofa introdujo Garcilaso y popularizó Fray Luis de León en sus odas?",
+                options: ["El Soneto", "La Lira", "El Romance", "La Octava Real"],
+                correct: 1,
+                explanation: "La Lira (7a, 11B, 7a, 7b, 11B) es clave en la lírica renacentista, usada magistralmente en 'Oda a la vida retirada'."
+            },
+            {
+                q: "En la simbología de San Juan, ¿qué representan 'las fieras'?",
+                options: ["Los pecados capitales", "Las amenazas del mundo", "El deseo carnal", "La Inquisición"],
+                correct: 1,
+                explanation: "Según la teoría del libro, las fieras simbolizan las amenazas y obstáculos del mundo."
+            },
+            {
+                q: "¿Cuál de estas obras pertenece a Alonso de Ercilla?",
+                options: ["La Araucana", "Noche oscura del alma", "Anotaciones a Garcilaso", "Cántico espiritual"],
+                correct: 0,
+                explanation: "La Araucana es el gran poema épico culto sobre la conquista de América (guerra de Arauco)."
+            },
+            {
+                q: "¿Qué tópico latino utiliza Fray Luis para elogiar la vida sencilla lejos de la ciudad?",
+                options: ["Carpe Diem", "Beatus Ille", "Descriptio Puellae", "Locus Amoenus"],
+                correct: 1,
+                explanation: "'Beatus Ille' significa 'Dichoso aquel' y alaba la vida retirada frente al ajetreo cortesano."
+            },
+            {
+                q: "¿Cuál es el tema central de la poesía de Garcilaso de la Vega?",
+                options: ["La religión", "El amor petrarquista y la naturaleza", "La guerra de Flandes", "La crítica social"],
+                correct: 1,
+                explanation: "Garcilaso introdujo el petrarquismo: el amor idealizado, la mujer inalcanzable y la naturaleza armónica."
+            },
+            {
+                q: "¿Qué obra de San Juan describe la huida del alma (la Esposa) para buscar al Amado?",
+                options: ["Llama de amor viva", "Cántico espiritual", "Noche oscura del alma", "Subida al Monte Carmelo"],
+                correct: 2,
+                explanation: "En 'Noche oscura', el yo femenino escapa de casa para reunirse con su amado (Dios)."
+            },
+            {
+                q: "¿Qué autor realizó las 'Anotaciones' a la obra de Garcilaso, convirtiéndolo en un clásico?",
+                options: ["Fray Luis de León", "Fernando de Herrera", "San Juan de la Cruz", "Cervantes"],
+                correct: 1,
+                explanation: "Fernando de Herrera, de la escuela sevillana, estudió y anotó minuciosamente la obra de Garcilaso."
+            },
+            {
+                q: "¿Qué significa el tópico 'Aurea Mediocritas' presente en Fray Luis?",
+                options: ["La edad de oro", "La dorada medianía (equilibrio)", "El oro lo compra todo", "La mediocridad humana"],
+                correct: 1,
+                explanation: "Defiende la moderación, conformarse con lo necesario y evitar los extremos de la riqueza o la miseria."
+            }
+        ];
+
+        // 2. Preguntas de Práctica (Fragmentos de Poemas)
+        const practiceQuestions = [
+            {
+                type: "text",
+                text: "¡Qué descansada vida<br>la del que huye del mundanal rüido,<br>y sigue la escondida<br>senda, por donde han ido<br>los pocos sabios que en el mundo han sido!",
+                q: "¿A qué autor y obra pertenecen estos versos?",
+                options: ["San Juan (Cántico)", "Garcilaso (Égloga I)", "Fray Luis (Oda a la vida retirada)", "Ercilla (La Araucana)"],
+                correct: 2,
+                explanation: "Es el inicio más famoso de Fray Luis de León. Refleja el tópico Beatus Ille."
+            },
+            {
+                type: "text",
+                text: "En tanto que de rosa y azucena<br>se muestra la color en vuestro gesto,<br>y que vuestro mirar ardiente, honesto,<br>enciende al corazón y lo refrena...",
+                q: "¿Qué tópico renacentista predomina en este soneto de Garcilaso?",
+                options: ["Beatus Ille", "Carpe Diem", "Ubi Sunt", "Memento Mori"],
+                correct: 1,
+                explanation: "Es el Soneto XXIII. Invita a aprovechar la juventud (Carpe Diem) antes de que llegue la vejez ('el tiempo airado')."
+            },
+            {
+                type: "text",
+                text: "¡Oh bosques y espesuras<br>plantadas por la mano del Amado!<br>¡Oh prado de verduras<br>de flores esmaltado!<br>Decid si por vosotros ha pasado.",
+                q: "¿Quién es el autor de esta estrofa?",
+                options: ["Garcilaso de la Vega", "Fray Luis de León", "San Juan de la Cruz", "Fernando de Herrera"],
+                correct: 2,
+                explanation: "Es el 'Cántico Espiritual' de San Juan. La Esposa pregunta a la naturaleza (criaturas) por su Amado (Dios)."
+            },
+            {
+                type: "text",
+                text: "El aire el huerto orea<br>y ofrece mil olores al sentido;<br>los árboles menea<br>con un manso rüido<br>que del oro y del cetro pone olvido.",
+                q: "¿Qué simboliza el 'huerto' en este poema de Fray Luis?",
+                options: ["Un lugar agrícola", "El Locus Amoenus (lugar ideal)", "El Paraíso perdido", "La Corte real"],
+                correct: 1,
+                explanation: "El huerto es el 'Locus Amoenus', un entorno natural perfecto que invita a la paz y la contemplación."
+            },
+            {
+                type: "text",
+                text: "Salid sin duelo,<br>lágrimas, corriendo.",
+                q: "Este estribillo aparece en las Églogas de Garcilaso. ¿Qué género es una Égloga?",
+                options: ["Poesía pastoril", "Poesía épica de guerra", "Poesía religiosa", "Sátira burlesca"],
+                correct: 0,
+                explanation: "Las Églogas son diálogos poéticos protagonizados por pastores idealizados (como Salicio y Nemoroso)."
+            },
+            {
+                type: "text",
+                text: "Quedéme y olvidéme,<br>el rostro recliné sobre el Amado,<br>cesó todo y dejéme,<br>dejando mi cuidado<br>entre las azucenas olvidado.",
+                q: "¿A qué fase de la mística corresponde este momento?",
+                options: ["Vía Purgativa", "Vía Iluminativa", "Vía Unitiva", "Vía Ascética"],
+                correct: 2,
+                explanation: "Es la 'Vía Unitiva' (unión total con Dios). El alma se abandona y olvida todo lo terrenal al unirse al Creador."
+            }
+        ];
+
+        // --- LÓGICA DEL JUEGO ---
+        
+        let currentMode = 'teoria';
+        let streak = 0;
+        let currentQuestion = null;
+        let isAnswering = true;
+
+        const quizContent = document.getElementById('quiz-content');
+        const feedbackArea = document.getElementById('feedback');
+        const msgTitle = document.getElementById('msg-title');
+        const msgText = document.getElementById('msg-text');
+        const streakSpan = document.getElementById('streak');
+        const modeBtns = document.querySelectorAll('.mode-btn');
+
+        function setMode(mode) {
+            currentMode = mode;
+            // Actualizar botones visualmente
+            modeBtns.forEach(btn => btn.classList.remove('active'));
+            if(mode === 'teoria') modeBtns[0].classList.add('active');
+            else modeBtns[1].classList.add('active');
+            
+            // Reiniciar flujo
+            nextQuestion();
+        }
+
+        function getRandomQuestion() {
+            const source = currentMode === 'teoria' ? theoryQuestions : practiceQuestions;
+            const randomIndex = Math.floor(Math.random() * source.length);
+            return source[randomIndex];
+        }
+
+        function renderQuestion() {
+            currentQuestion = getRandomQuestion();
+            isAnswering = true;
+            feedbackArea.style.display = 'none';
+
+            let html = '';
+
+            // Si es práctica y tiene texto poético
+            if (currentQuestion.text) {
+                html += `<div class="verse-box">${currentQuestion.text}</div>`;
+            }
+
+            html += `<div class="question-text">${currentQuestion.q}</div>`;
+            html += `<div class="options-grid">`;
+            
+            // Mezclar opciones para que no siempre estén en el mismo orden (Visualmente, aunque lógica se mantiene)
+            // Nota: Para simplificar, aquí mantendremos el índice lógico pero renderizaremos botones
+            
+            currentQuestion.options.forEach((opt, index) => {
+                html += `<button class="option-btn" onclick="checkAnswer(${index}, this)">${opt}</button>`;
+            });
+            
+            html += `</div>`;
+
+            quizContent.innerHTML = html;
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (!isAnswering) return; // Evitar doble click
+            isAnswering = false;
+
+            const buttons = document.querySelectorAll('.option-btn');
+            const correctIndex = currentQuestion.correct;
+
+            if (selectedIndex === correctIndex) {
+                // Acierto
+                btnElement.classList.add('correct');
+                msgTitle.textContent = "¡Correcto! 🎉";
+                msgTitle.style.color = "var(--primary-dark)";
+                streak++;
+            } else {
+                // Fallo
+                btnElement.classList.add('incorrect');
+                buttons[correctIndex].classList.add('correct'); // Mostrar la correcta
+                msgTitle.textContent = "Incorrecto 😔";
+                msgTitle.style.color = "#d32f2f";
+                streak = 0;
+            }
+
+            streakSpan.textContent = streak;
+            msgText.textContent = currentQuestion.explanation;
+            feedbackArea.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            renderQuestion();
+        }
+
+        // Iniciar al cargar
+        renderQuestion();
+
+    </script>
+</body>
+</html>
