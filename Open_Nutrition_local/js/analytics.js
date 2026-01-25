@@ -1,53 +1,119 @@
-// js/analytics.js
+// js/analytics.js (v4.0 - Gráficos Semáforo)
+
 const Analytics = {
+    weightChart: null,
     historyChart: null,
+
+    init: () => {},
 
     render: () => {
         if (!Store.data) return;
-        
-        // Agrupar logs por fecha
-        const logsByDate = {};
-        Store.data.logs.forEach(l => {
-            if(!logsByDate[l.date]) logsByDate[l.date] = {k:0, p:0, f:0, c:0};
-            logsByDate[l.date].k += l.k;
-            logsByDate[l.date].p += l.p;
-            logsByDate[l.date].f += l.f;
-            logsByDate[l.date].c += l.c;
-        });
+        if(document.getElementById('weightChart')) Analytics.renderWeightChart();
+        if(document.getElementById('historyChart')) Analytics.renderHistoryChart();
+    },
 
-        // Obtener últimos 7 días
-        const dates = Object.keys(logsByDate).sort().slice(-7);
-        const dataKcal = dates.map(d => logsByDate[d].k);
-        const target = Utils.calculateTargets(Store.data.profile).k;
-
-        // Render Gráfico Lineal
-        const ctx = document.getElementById('historyChart').getContext('2d');
-        if(Analytics.historyChart) Analytics.historyChart.destroy();
+    renderWeightChart: () => {
+        const ctx = document.getElementById('weightChart');
+        if(!ctx) return;
         
-        Analytics.historyChart = new Chart(ctx, {
+        const weights = Store.data.weightLogs || [];
+        
+        if(Analytics.weightChart) Analytics.weightChart.destroy();
+        Analytics.weightChart = new Chart(ctx.getContext('2d'), {
             type: 'line',
             data: {
-                labels: dates.map(d => d.slice(5)), // MM-DD
-                datasets: [
-                    { label: 'Calorías', data: dataKcal, borderColor: '#3b82f6', tension: 0.4 },
-                    { label: 'Meta', data: dates.map(()=>target), borderColor: '#cbd5e1', borderDash: [5,5], pointRadius: 0 }
-                ]
+                labels: weights.map(w => w.date.slice(5)), 
+                datasets: [{ 
+                    label: 'Peso (kg)', 
+                    data: weights.map(w => w.weight), 
+                    borderColor: '#2563eb', 
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
             },
-            options: { scales: { y: { beginAtZero: true } } }
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    },
+
+    renderHistoryChart: () => {
+        const ctx = document.getElementById('historyChart');
+        if(!ctx) return;
+        
+        // 1. Obtener datos
+        const history = {};
+        Store.data.logs.forEach(l => {
+            history[l.date] = (history[l.date] || 0) + l.k;
+        });
+        
+        // 2. Calcular Meta Diaria para comparar
+        const target = Utils.calculateTargets(Store.data.profile).k;
+        
+        // 3. Preparar últimos 7 días
+        const labels = Object.keys(history).sort().slice(-7);
+        const data = labels.map(d => history[d]);
+
+        // 4. LÓGICA DE COLORES (Semáforo)
+        const bgColors = data.map(val => {
+            // Si te pasas un 5% de la meta, rojo. Si no, verde.
+            return val > (target * 1.05) ? '#ef4444' : '#22c55e';
         });
 
-        // Render Tabla
-        const tableBody = document.getElementById('historyTableBody');
-        tableBody.innerHTML = Object.keys(logsByDate).sort().reverse().map(d => {
-            const day = logsByDate[d];
-            const diff = day.k - target;
-            const status = diff > 100 ? '<span class="text-red-500">+Superávit</span>' : diff < -100 ? '<span class="text-blue-500">-Déficit</span>' : '<span class="text-green-500">Perfecto</span>';
-            return `<tr class="border-b border-slate-50 last:border-0">
-                <td class="p-2 font-bold text-slate-700">${d}</td>
-                <td class="p-2">${day.k} kcal</td>
-                <td class="p-2">${day.p} g</td>
-                <td class="p-2 text-xs font-bold">${status}</td>
-            </tr>`;
-        }).join('');
+        if(Analytics.historyChart) Analytics.historyChart.destroy();
+        Analytics.historyChart = new Chart(ctx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels.map(d => d.slice(5)),
+                datasets: [{ 
+                    label: 'Kcal', 
+                    data: data, 
+                    backgroundColor: bgColors, 
+                    borderRadius: 5 
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false } // Ocultar leyenda para más limpieza
+                },
+                scales: {
+                    y: {
+                        grid: { borderDash: [5, 5] },
+                        suggestedMax: target * 1.2
+                    }
+                }
+            }
+        });
+    },
+
+    logWeight: () => {
+        const w = prompt("Introduce tu peso actual (kg):", Store.data.profile.weight);
+        if(w && !isNaN(w)) {
+            Store.addWeight(Number(w));
+            Analytics.render();
+            alert("Peso registrado");
+        }
+    },
+
+    exportCSV: () => {
+        const logs = Store.data.logs;
+        if(!logs.length) { alert("No hay datos para exportar."); return; }
+        
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Fecha,Hora,Tipo,Comida,Kcal,Proteina,Grasa,Carbos\n";
+        
+        logs.forEach(l => {
+            const time = l.timestamp ? new Date(l.timestamp).toLocaleTimeString() : "00:00";
+            csvContent += `${l.date},${time},${l.type},"${l.name}",${l.k},${l.p},${l.f},${l.c}\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `open_nutrition_export_${Store.currentDate}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 };

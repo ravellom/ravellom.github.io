@@ -1,85 +1,153 @@
-// js/main.js
+// js/main.js (Versión Diagnóstico v3.3)
+
 const Main = {
     init: () => {
-        lucide.createIcons();
-        Dashboard.init();
+        console.log("🚀 Iniciando Open Nutrition...");
         
-        // Elementos UI globales
-        const datePicker = document.getElementById('datePicker');
-        
-        // Sincronizar fecha inicial
-        datePicker.value = Store.currentDate;
+        try {
+            // 1. CHEQUEO DE DEPENDENCIAS (Diagnóstico)
+            if (typeof Utils === 'undefined') throw new Error("Error: El archivo 'utils.js' no se ha cargado.");
+            if (typeof Store === 'undefined') throw new Error("Error: El archivo 'store.js' no se ha cargado.");
+            if (typeof Dashboard === 'undefined') throw new Error("Error: El archivo 'dashboard.js' tiene un error de sintaxis.");
+            
+            // 2. INICIALIZAR LIBRERÍAS
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            
+            // 3. INICIALIZAR MÓDULOS
+            Dashboard.init();
+            if (typeof Analytics !== 'undefined') Analytics.init();
 
-        // Eventos Carga Archivo
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                if(Store.load(ev.target.result)) {
+            // 4. INTENTO DE CARGA DE DATOS (Con protección)
+            try {
+                if (Store.init()) {
+                    console.log("Datos cargados del navegador.");
                     Main.loadApp();
                 }
-            };
-            reader.readAsText(e.target.files[0]);
-        });
-
-        // Crear Perfil Demo
-        document.getElementById('btnNewProfile').addEventListener('click', () => {
-            const p = prompt("Peso (kg), Altura (cm), Edad. Ej: 75,175,30");
-            if(p) {
-                const [w, h, a] = p.split(',');
-                Store.data = Store.initData();
-                Store.data.profile = { weight: Number(w), height: Number(h), age: Number(a), gender: 'male', activity: 'mod', goal: 'lose' };
-                Main.loadApp();
+            } catch (errData) {
+                console.error("Datos corruptos, reiniciando...", errData);
+                localStorage.clear(); // Limpieza de emergencia
             }
-        });
 
-        // Navegación Fechas
-        datePicker.addEventListener('change', (e) => Main.changeDate(e.target.value));
-        document.getElementById('prevDayBtn').addEventListener('click', () => Main.shiftDate(-1));
-        document.getElementById('nextDayBtn').addEventListener('click', () => Main.shiftDate(1));
+            // 5. CONECTAR BOTONES (Listeners)
+            const el = (id) => {
+                const element = document.getElementById(id);
+                if (!element) console.warn(`Elemento HTML no encontrado: ${id}`);
+                return element;
+            };
 
-        // Navegación Tabs
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-brand-blue', 'border-b-2', 'border-brand-blue'));
-                e.target.classList.add('active', 'text-brand-blue', 'border-b-2', 'border-brand-blue');
-                
-                const target = e.target.dataset.target;
-                document.getElementById('view-dashboard').classList.add('hidden');
-                document.getElementById('view-analytics').classList.add('hidden');
-                document.getElementById(`view-${target}`).classList.remove('hidden');
-                document.getElementById(`view-${target}`).classList.add('fade-in');
-
-                if(target === 'analytics') Analytics.render();
+            // Archivos
+            if(el('fileInput')) el('fileInput').addEventListener('change', Main.handleFile);
+            if(el('btnSaveData')) el('btnSaveData').addEventListener('click', () => Store.save());
+            
+            // Botón Empezar (Nuevo Perfil)
+            if(el('btnNewProfile')) el('btnNewProfile').addEventListener('click', () => {
+                const p = prompt("Por favor ingresa: Peso(kg), Altura(cm), Edad.\nEjemplo: 75,175,30");
+                if(p) {
+                    try {
+                        const [w, h, a] = p.split(',');
+                        if(!w || !h || !a) throw new Error("Faltan datos");
+                        
+                        Store.data = Store.initData();
+                        Store.data.profile = { 
+                            weight: Number(w), 
+                            height: Number(h), 
+                            age: Number(a), 
+                            gender: 'male', 
+                            activity: 'mod', 
+                            goal: 'lose' 
+                        };
+                        Store.persist();
+                        Main.loadApp();
+                    } catch (e) {
+                        alert("Datos inválidos. Inténtalo de nuevo.");
+                    }
+                }
             });
-        });
+
+            // Navegación Fechas
+            const picker = el('datePicker');
+            if(picker) {
+                picker.value = Store.currentDate;
+                picker.addEventListener('change', (e) => Main.changeDate(e.target.value));
+            }
+            if(el('prevDayBtn')) el('prevDayBtn').addEventListener('click', () => Main.shiftDate(-1));
+            if(el('nextDayBtn')) el('nextDayBtn').addEventListener('click', () => Main.shiftDate(1));
+
+            // Tabs
+            if(el('tab-dashboard')) el('tab-dashboard').addEventListener('click', () => Main.switchTab('dashboard'));
+            if(el('tab-analytics')) el('tab-analytics').addEventListener('click', () => Main.switchTab('analytics'));
+
+        } catch (errorCritical) {
+            alert("🛑 ERROR CRÍTICO:\n" + errorCritical.message + "\n\nRevisa la consola (F12) para más detalles.");
+            console.error(errorCritical);
+        }
+    },
+
+    handleFile: (e) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => { if(Store.load(ev.target.result)) Main.loadApp(); else alert("Archivo dañado o incompatible."); };
+        reader.readAsText(e.target.files[0]);
     },
 
     loadApp: () => {
-        document.getElementById('view-onboarding').classList.add('hidden');
-        document.getElementById('controls').classList.remove('hidden');
-        document.getElementById('nav-tabs').classList.remove('hidden');
-        document.getElementById('view-dashboard').classList.remove('hidden');
-        Dashboard.render();
+        // Ocultar Onboarding
+        const onboarding = document.getElementById('view-onboarding');
+        if(onboarding) onboarding.classList.add('hidden');
+        
+        // Mostrar Controles
+        const controls = document.getElementById('controls');
+        if(controls) controls.classList.remove('hidden');
+        
+        // Mostrar Tabs
+        const tabs = document.getElementById('nav-tabs');
+        if(tabs) tabs.classList.remove('hidden');
+        
+        // Ir al Dashboard
+        Main.switchTab('dashboard');
+        
+        // Asegurar fecha
+        const picker = document.getElementById('datePicker');
+        if(picker) picker.value = Store.currentDate;
     },
 
-    changeDate: (newDate) => {
-        Store.currentDate = newDate;
-        document.getElementById('datePicker').value = newDate;
-        Dashboard.render(); // Refrescar datos para el nuevo día
-    },
+    switchTab: (tab) => {
+        const d = document.getElementById('view-dashboard');
+        const a = document.getElementById('view-analytics');
+        const btD = document.getElementById('tab-dashboard');
+        const btA = document.getElementById('tab-analytics');
 
-    shiftDate: (days) => {
-        const d = new Date(Store.currentDate);
-        d.setDate(d.getDate() + days);
-        Main.changeDate(Utils.formatDate(d));
-    },
+        if (!d || !a) return;
 
-    deleteItem: (id) => {
-        if(confirm('¿Borrar registro?')) {
-            Store.deleteLog(id);
+        if(tab === 'dashboard') {
+            d.classList.remove('hidden'); 
+            d.classList.add('fade-in');
+            a.classList.add('hidden');
+            
+            if(btD) { btD.classList.add('border-blue-100', 'text-brand-blue'); btD.classList.remove('text-slate-400'); }
+            if(btA) { btA.classList.remove('border-blue-100', 'text-brand-blue'); btA.classList.add('text-slate-400'); }
+            
             Dashboard.render();
+        } else {
+            d.classList.add('hidden');
+            a.classList.remove('hidden');
+            a.classList.add('fade-in');
+
+            if(btA) { btA.classList.add('border-blue-100', 'text-brand-blue'); btA.classList.remove('text-slate-400'); }
+            if(btD) { btD.classList.remove('border-blue-100', 'text-brand-blue'); btD.classList.add('text-slate-400'); }
+            
+            if(typeof Analytics !== 'undefined') Analytics.render();
         }
-    }
+    },
+
+    changeDate: (d) => { Store.currentDate = d; document.getElementById('datePicker').value = d; Dashboard.render(); },
+    
+    shiftDate: (d) => { 
+        const date = new Date(Store.currentDate); 
+        date.setDate(date.getDate() + d); 
+        Main.changeDate(Utils.formatDate(date)); 
+    },
+    
+    deleteItem: (id) => { if(confirm('¿Borrar comida?')) { Store.deleteLog(id); Dashboard.render(); } }
 };
 
 document.addEventListener('DOMContentLoaded', Main.init);

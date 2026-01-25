@@ -1,126 +1,314 @@
-// js/dashboard.js
+// js/dashboard.js (v4.1 - Lógica Visual Invertida)
+
 const Dashboard = {
     chartInstance: null,
-    selectedType: 'Desayuno',
+    
+    // Prompt IA
+    aiPromptText: `Actúa como nutricionista. Analiza la imagen.
+Responde SOLO con esta lista de texto plano:
+
+Nombre: [Nombre corto del plato]
+Kcal: [Calorias totales]
+Prot: [Gramos proteina]
+Grasas: [Gramos grasa]
+Carbos: [Gramos carbos]`,
+
+    // SUGERENCIAS DB
+    suggestionsDB: {
+        Desayuno: ["Avena con plátano y nueces", "Tostada integral con aguacate y huevo", "Yogur griego con frutos rojos", "Tortilla de espinacas"],
+        Comida: ["Pechuga de pollo con quinoa", "Lentejas estofadas con verduras", "Salmón al horno con patata", "Ensalada de garbanzos y atún"],
+        Merienda: ["Manzana con crema de cacahuete", "Un puñado de almendras", "Batido de proteína", "Zanahorias con hummus"],
+        Cena: ["Filete de pescado blanco y ensalada", "Crema de calabacín y huevo duro", "Revuelto de setas", "Ensalada César con pollo"]
+    },
 
     init: () => {
-        // Inicializar selector de comidas
-        Dashboard.renderMealSelector();
+        const form = document.getElementById('foodForm');
+        if (form) form.addEventListener('submit', (e) => { e.preventDefault(); Dashboard.addFood(); });
+
+        const btnProcess = document.getElementById('btnProcessAI');
+        if (btnProcess) btnProcess.addEventListener('click', Dashboard.processAI);
+    },
+
+    updateWater: (change) => {
+        const current = Store.getWater();
+        const newVal = Math.max(0, current + change);
+        Store.setWater(newVal);
+        const el = document.getElementById('waterCount');
+        if(el) el.innerText = newVal;
+        Dashboard.updateRecommendations();
+    },
+
+    toggleSuggestions: () => {
+        const box = document.getElementById('suggestionsBox');
+        const list = document.getElementById('suggestionsList');
+        const type = document.getElementById('mealTypeSelect').value;
         
-        // Listener formulario
-        document.getElementById('foodForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            Dashboard.addFood();
-        });
-
-        // Listener IA Input
-        document.getElementById('aiInput').addEventListener('input', (e) => {
-            const vals = Utils.parseAI(e.target.value);
-            if(vals.k) document.getElementById('inpCal').value = vals.k;
-            if(vals.p) document.getElementById('inpProt').value = vals.p;
-            if(vals.f) document.getElementById('inpFat').value = vals.f;
-            if(vals.c) document.getElementById('inpCarb').value = vals.c;
-        });
+        if (box.classList.contains('hidden')) {
+            box.classList.remove('hidden');
+            const items = Dashboard.suggestionsDB[type] || Dashboard.suggestionsDB['Desayuno'];
+            list.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+        } else {
+            box.classList.add('hidden');
+        }
     },
 
-    renderMealSelector: () => {
-        const types = ['Desayuno', 'Comida', 'Merienda', 'Cena'];
-        const container = document.getElementById('mealTypeSelector');
-        container.innerHTML = types.map(t => `
-            <button onclick="Dashboard.setType('${t}')" 
-                class="meal-btn px-4 py-1 rounded-full border border-slate-200 text-sm font-bold text-slate-500 hover:bg-slate-50 transition whitespace-nowrap ${t === Dashboard.selectedType ? 'selected' : ''}">
-                ${t}
-            </button>
-        `).join('');
+    updateRecommendations: (logs, targets) => {
+        const box = document.getElementById('smartRecommendation');
+        const txt = document.getElementById('recommendationText');
+        if(!box || !txt) return;
+
+        const water = Store.getWater();
+        const currentLogs = logs || Store.getDayLogs();
+        const currentTargets = targets || Utils.calculateTargets(Store.data.profile);
+        
+        const totalP = currentLogs.reduce((a,b) => a+(Number(b.p)||0), 0);
+        const totalKcal = currentLogs.reduce((a,b) => a+(Number(b.k)||0), 0);
+        
+        box.classList.remove('hidden');
+        
+        if (totalKcal > currentTargets.k) {
+            txt.innerText = "Has superado tu meta. Intenta cenar ligero hoy.";
+        } else if (totalP < (currentTargets.p * 0.5) && totalKcal > (currentTargets.k * 0.6)) {
+            txt.innerText = "Proteína baja. Añade huevos o legumbres pronto.";
+        } else if (water < 4) {
+            txt.innerText = "¡Hidrátate! Bebe un vaso de agua ahora.";
+        } else if (totalKcal < (currentTargets.k * 0.2)) {
+            txt.innerText = "¡Buenos días! Carga energía con un buen desayuno.";
+        } else {
+            txt.innerText = "Vas genial. Mantén el ritmo.";
+        }
     },
 
-    setType: (type) => {
-        Dashboard.selectedType = type;
-        Dashboard.renderMealSelector();
+    processAI: () => {
+        const text = document.getElementById('aiInput').value;
+        if (!text.trim()) { alert("Pega primero el texto."); return; }
+        const data = Utils.parseAI(text);
+        
+        let filled = 0;
+        if(data.name) { Dashboard.fillField('inpName', data.name); filled++; }
+        if(data.k)    { Dashboard.fillField('inpCal', data.k); filled++; }
+        if(data.p)    { Dashboard.fillField('inpProt', data.p); filled++; }
+        if(data.f)    { Dashboard.fillField('inpFat', data.f); filled++; }
+        if(data.c)    { Dashboard.fillField('inpCarb', data.c); filled++; }
+
+        if (filled > 0) {
+            const btn = document.getElementById('btnProcessAI');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="check" class="w-4 h-4 inline"></i>`;
+            btn.classList.replace('bg-indigo-600', 'bg-green-600');
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.classList.replace('bg-green-600', 'bg-indigo-600');
+                lucide.createIcons();
+            }, 1000);
+        } else {
+            alert("No detecté datos. Revisa el formato.");
+        }
+    },
+
+    fillField: (id, val) => {
+        const el = document.getElementById(id);
+        if (el) { el.value = val; el.classList.add('bg-green-100'); setTimeout(()=>el.classList.remove('bg-green-100'), 500); }
+    },
+
+    copyPrompt: () => {
+        if (navigator.clipboard) navigator.clipboard.writeText(Dashboard.aiPromptText).then(()=>alert("Copiado"));
+        else prompt("Copia:", Dashboard.aiPromptText);
     },
 
     addFood: () => {
-        // Lógica de Merienda Incremental
-        let finalType = Dashboard.selectedType;
-        if (finalType === 'Merienda') {
-            const snacksToday = Store.getDayLogs().filter(l => l.type.startsWith('Merienda')).length;
-            finalType = `Merienda ${snacksToday + 1}`;
+        const name = document.getElementById('inpName').value.trim();
+        const cal = Number(document.getElementById('inpCal').value);
+
+        if (!name || isNaN(cal)) { alert("Falta Nombre o Kcal"); return; }
+
+        const select = document.getElementById('mealTypeSelect');
+        let type = select ? select.value : 'Desayuno';
+        
+        if (type !== 'Merienda') {
+            const exists = Store.getDayLogs().some(l => l.type === type);
+            if(exists && !confirm(`Ya existe "${type}". ¿Añadir otro plato?`)) return;
+        }
+        
+        if (type === 'Merienda') {
+            const count = Store.getDayLogs().filter(l => l.type.startsWith('Merienda')).length;
+            if (count > 0) type = `Merienda ${count + 1}`;
         }
 
-        const log = {
-            type: finalType,
-            name: document.getElementById('inpName').value,
-            k: Number(document.getElementById('inpCal').value),
-            p: Number(document.getElementById('inpProt').value) || 0,
-            f: Number(document.getElementById('inpFat').value) || 0,
-            c: Number(document.getElementById('inpCarb').value) || 0
-        };
+        const getVal = (id) => Number(document.getElementById(id)?.value) || 0;
 
-        Store.addLog(log);
+        Store.addLog({
+            type, name, k: cal,
+            p: getVal('inpProt'), f: getVal('inpFat'), c: getVal('inpCarb')
+        });
+
         document.getElementById('foodForm').reset();
         document.getElementById('aiInput').value = '';
-        Dashboard.render(); // Re-renderizar todo
+        document.getElementById('suggestionsBox').classList.add('hidden');
+        Dashboard.render();
     },
 
-    render: () => {
-        const logs = Store.getDayLogs();
+    render: (logs) => {
+        const dataLogs = logs || Store.getDayLogs();
         const targets = Utils.calculateTargets(Store.data.profile);
         
-        // Sumatorios
-        const totals = logs.reduce((a, b) => ({ k: a.k+b.k, p: a.p+b.p, f: a.f+b.f, c: a.c+b.c }), {k:0, p:0, f:0, c:0});
-        const remaining = Math.max(0, targets.k - totals.k);
+        const totalKcal = dataLogs.reduce((sum, item) => sum + (Number(item.k)||0), 0);
+        const remaining = targets.k - totalKcal;
 
-        // 1. Gráfico Circular
-        Dashboard.updateChart(totals.k, remaining);
-        document.getElementById('lblRemaining').textContent = remaining;
+        // 1. Actualizar Gráfico (Azul llena lo consumido)
+        Dashboard.updateChart(totalKcal, targets.k);
 
-        // 2. Barras Macros
-        document.getElementById('macroBars').innerHTML = `
-            ${Dashboard.macroBar('Proteína', totals.p, targets.p, 'bg-purple-500')}
-            ${Dashboard.macroBar('Grasas', totals.f, targets.f, 'bg-orange-400')}
-            ${Dashboard.macroBar('Carbos', totals.c, targets.c, 'bg-emerald-400')}
-        `;
+        // 2. Actualizar Textos (CAMBIO AQUÍ)
+        const lbl = document.getElementById('lblRemaining');
+        const subLbl = document.getElementById('lblCaption');
+        
+        if (lbl) {
+            // Número Grande = CONSUMIDAS
+            lbl.innerText = totalKcal;
+            
+            // Texto Pequeño = RESTANTES o EXCESO
+            if (remaining < 0) {
+                // Exceso
+                lbl.classList.replace('text-slate-800', 'text-red-500');
+                if(subLbl) { 
+                    subLbl.innerText = `Exceso: ${Math.abs(remaining)}`; 
+                    subLbl.classList.add('text-red-400'); 
+                    subLbl.classList.remove('text-slate-400');
+                }
+            } else {
+                // Normal
+                lbl.classList.replace('text-red-500', 'text-slate-800');
+                if(subLbl) { 
+                    subLbl.innerText = `Faltan: ${remaining}`; 
+                    subLbl.classList.remove('text-red-400'); 
+                    subLbl.classList.add('text-slate-400');
+                }
+            }
+        }
 
-        // 3. Lista Agrupada por Comida (Orden: Desayuno, Comida, Meriendas, Cena)
-        const order = ['Desayuno', 'Comida', 'Merienda', 'Cena'];
-        // Orden custom para incluir meriendas dinámicas
-        const sortedLogs = logs.sort((a,b) => {
-            const getIdx = (t) => {
-                if(t.startsWith('Merienda')) return 2; // Poner todas las meriendas en medio
-                return order.indexOf(t);
-            };
-            return getIdx(a.type) - getIdx(b.type);
-        });
+        // Render Macros
+        const sumM = (k) => dataLogs.reduce((a,b)=>a+(Number(b[k])||0),0);
+        const bars = document.getElementById('macroBars');
+        if(bars) {
+            bars.innerHTML = `
+                ${Dashboard.macroBar('Proteínas', sumM('p'), targets.p, 'bg-purple-500')}
+                ${Dashboard.macroBar('Grasas', sumM('f'), targets.f, 'bg-orange-400')}
+                ${Dashboard.macroBar('Carbohidratos', sumM('c'), targets.c, 'bg-emerald-400')}
+            `;
+        }
 
-        document.getElementById('dayList').innerHTML = sortedLogs.map(l => `
-            <div class="bg-white p-3 rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
-                <div>
-                    <span class="text-[10px] font-bold uppercase text-brand-blue bg-blue-50 px-2 py-0.5 rounded">${l.type}</span>
-                    <p class="font-bold text-slate-700 leading-tight mt-1">${l.name}</p>
-                    <p class="text-[10px] text-slate-400 mt-0.5">P:${l.p} G:${l.f} C:${l.c}</p>
-                </div>
-                <div class="text-right">
-                    <span class="font-bold block">${l.k}</span>
-                    <button onclick="Main.deleteItem('${l.id}')" class="text-red-300 hover:text-red-500 text-xs"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                </div>
-            </div>
-        `).join('') || '<p class="text-center text-slate-300 text-sm py-4">Sin registros hoy</p>';
+        const wCount = document.getElementById('waterCount');
+        if(wCount) wCount.innerText = Store.getWater();
+        Dashboard.updateFastingTimer();
+        Dashboard.updateRecommendations(dataLogs, targets);
+        Dashboard.renderList(dataLogs);
     },
 
-    macroBar: (label, val, max, color) => `
-        <div>
-            <div class="flex justify-between text-xs font-bold text-slate-500 mb-1"><span>${label}</span><span>${val}/${max}g</span></div>
-            <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full ${color}" style="width:${Math.min(100, (val/max)*100)}%"></div></div>
-        </div>
-    `,
+    updateFastingTimer: () => {
+        const el = document.getElementById('fastingTimer');
+        if(!el) return;
+        const last = Store.getLastMealTime();
+        if (!last) { el.innerText = "--:--"; return; }
+        const diff = Date.now() - last;
+        const hrs = Math.floor(diff/3600000);
+        const mins = Math.floor((diff%3600000)/60000);
+        el.innerText = `${hrs}h ${mins}m`;
+    },
 
-    updateChart: (used, left) => {
-        const ctx = document.getElementById('caloriesChart').getContext('2d');
-        if(Dashboard.chartInstance) Dashboard.chartInstance.destroy();
-        Dashboard.chartInstance = new Chart(ctx, {
-            type: 'doughnut',
-            data: { labels: ['Uso', 'Restante'], datasets: [{ data: [used, left], backgroundColor: ['#3b82f6', '#f1f5f9'], borderWidth: 0 }] },
-            options: { cutout: '85%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+    renderList: (logs) => {
+        const container = document.getElementById('dayList');
+        if(!container) return;
+        if(!logs.length) { container.innerHTML = '<p class="text-center text-slate-300 py-4 text-sm">Sin comidas hoy</p>'; return; }
+
+        const order = ['Desayuno', 'Comida', 'Merienda', 'Cena'];
+        const sorted = [...logs].sort((a,b) => {
+            let ia = order.indexOf(a.type.split(' ')[0]);
+            let ib = order.indexOf(b.type.split(' ')[0]);
+            if(ia<0) ia=2; if(ib<0) ib=2;
+            return ia - ib;
         });
-    }
+
+        container.innerHTML = sorted.map(l => `
+            <div class="bg-white p-3 mb-2 rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
+                <div class="overflow-hidden">
+                    <span class="text-[10px] uppercase font-bold text-brand-blue bg-blue-50 px-2 py-0.5 rounded">${l.type}</span>
+                    <p class="font-bold text-slate-700 text-sm mt-1 truncate">${l.name}</p>
+                    <p class="text-[10px] text-slate-400">P:${l.p} G:${l.f} C:${l.c}</p>
+                </div>
+                <div class="flex items-center gap-2 pl-2">
+                    <span class="font-bold text-slate-800 text-sm whitespace-nowrap">${l.k} kcal</span>
+                    <button onclick="Main.deleteItem('${l.id}')" class="text-slate-300 hover:text-red-500 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        `).join('');
+        lucide.createIcons();
+    },
+
+    macroBar: (l, v, m, c) => `<div class="w-full"><div class="flex justify-between text-xs font-bold mb-1"><span class="text-slate-500">${l}</span><span class="text-slate-700">${Math.round(v)}/${m}g</span></div><div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full ${c}" style="width:${Math.min(100,(v/m)*100)}%"></div></div></div>`,
+
+    updateChart: (used, target) => {
+        const ctx = document.getElementById('caloriesChart');
+        if(!ctx) return;
+        
+        let color = '#2563eb'; 
+        let dataGraph = [];
+
+        if (used > target) {
+            // EXCESO
+            color = '#ef4444'; 
+            dataGraph = [100, 0]; 
+        } else {
+            // NORMAL (Llenando la barra)
+            dataGraph = [used, target - used];
+        }
+
+        if(Dashboard.chartInstance) Dashboard.chartInstance.destroy();
+        Dashboard.chartInstance = new Chart(ctx.getContext('2d'), {
+            type: 'doughnut',
+            data: { 
+                labels: ['Consumido', 'Faltan'], 
+                datasets: [{ 
+                    data: dataGraph, 
+                    backgroundColor: [color, '#f1f5f9'], 
+                    borderWidth: 0 
+                }] 
+            },
+            options: { 
+                cutout: '88%', 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { legend: false, tooltip: false },
+                animation: { animateScale: true }
+            }
+        });
+    },
+
+    updateWeightUI: () => {
+        const input = document.getElementById('quickWeightInput');
+        if(input) {
+            // Cargar el último peso conocido para no tener que escribirlo
+            input.value = Store.getLastWeight();
+        }
+    },
+
+    saveQuickWeight: () => {
+        const input = document.getElementById('quickWeightInput');
+        const val = parseFloat(input.value);
+        
+        if(val && val > 0) {
+            Store.addWeight(val);
+            
+            // Feedback Visual (Flash verde)
+            const btn = input.nextElementSibling; // El botón de check
+            const originalHTML = btn.innerHTML;
+            
+            btn.classList.replace('bg-brand-blue', 'bg-green-500');
+            setTimeout(() => {
+                btn.classList.replace('bg-green-500', 'bg-brand-blue');
+            }, 1000);
+            
+            // Actualizar gráficos si están visibles
+            if(typeof Analytics !== 'undefined') Analytics.render();
+        }
+    },
 };
