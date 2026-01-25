@@ -21,18 +21,24 @@
                 <h1 class="text-lg font-bold hidden sm:block">Open Nutrition</h1>
             </div>
             
-            <div id="controls" class="flex items-center gap-3 hidden">
+<div id="controls" class="flex items-center gap-3 hidden">
                 <div class="flex items-center gap-1 bg-green-50 px-2 py-1 rounded-full border border-green-100" title="Autoguardado Activo">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     <span class="text-[10px] font-bold text-green-700 uppercase">Auto</span>
                 </div>
+
                 <div class="flex items-center bg-slate-100 rounded-lg px-1 border border-slate-200">
                     <button id="prevDayBtn" class="p-1 hover:text-brand-blue"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
                     <input type="date" id="datePicker" class="bg-transparent border-none text-xs font-bold w-24 text-center focus:outline-none text-slate-600">
                     <button id="nextDayBtn" class="p-1 hover:text-brand-blue"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
                 </div>
+
                 <button onclick="document.getElementById('fileInput').click()" class="text-slate-500 hover:text-brand-blue" title="Cargar JSON"><i data-lucide="upload-cloud" class="w-5 h-5"></i></button>
-                <button id="btnSaveData" class="text-brand-blue hover:text-blue-700" title="Guardar"><i data-lucide="save" class="w-6 h-6"></i></button>
+                <button id="btnSaveData" class="text-brand-blue hover:text-blue-700" title="Descargar Copia"><i data-lucide="save" class="w-6 h-6"></i></button>
+                
+                <button id="btnLogout" class="text-red-400 hover:text-red-600 ml-2" title="Cerrar Sesión / Salir">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </button>
             </div>
             <input type="file" id="fileInput" class="hidden" accept=".json">
         </div>
@@ -176,10 +182,10 @@
         </div>
 
     </main>
-    <script src="js/utils.js"></script>
-    <script src="js/store.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/analytics.js"></script>
-    <script src="js/main.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/store.js"></script>
+    <script src="./js/dashboard.js"></script>
+    <script src="./js/analytics.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>

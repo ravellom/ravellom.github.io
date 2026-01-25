@@ -1,45 +1,43 @@
-// js/main.js (Versión Diagnóstico v3.3)
+// js/main.js (v4.2 - Logout + Better Error Handling)
 
 const Main = {
     init: () => {
         console.log("🚀 Iniciando Open Nutrition...");
         
         try {
-            // 1. CHEQUEO DE DEPENDENCIAS (Diagnóstico)
-            if (typeof Utils === 'undefined') throw new Error("Error: El archivo 'utils.js' no se ha cargado.");
-            if (typeof Store === 'undefined') throw new Error("Error: El archivo 'store.js' no se ha cargado.");
-            if (typeof Dashboard === 'undefined') throw new Error("Error: El archivo 'dashboard.js' tiene un error de sintaxis.");
-            
-            // 2. INICIALIZAR LIBRERÍAS
+            // DIAGNÓSTICO PARA GITHUB PAGES
+            // Si alguno de estos falla, saldrá una alerta visible
+            if (typeof Utils === 'undefined') throw new Error("Fallo al cargar utils.js. Revisa mayúsculas/minúsculas.");
+            if (typeof Store === 'undefined') throw new Error("Fallo al cargar store.js. Revisa mayúsculas/minúsculas.");
+            if (typeof Dashboard === 'undefined') throw new Error("Fallo al cargar dashboard.js. Revisa mayúsculas/minúsculas.");
+
+            // Inicializar Librerías
             if (typeof lucide !== 'undefined') lucide.createIcons();
             
-            // 3. INICIALIZAR MÓDULOS
             Dashboard.init();
             if (typeof Analytics !== 'undefined') Analytics.init();
 
-            // 4. INTENTO DE CARGA DE DATOS (Con protección)
+            // Cargar datos
             try {
                 if (Store.init()) {
-                    console.log("Datos cargados del navegador.");
                     Main.loadApp();
                 }
-            } catch (errData) {
-                console.error("Datos corruptos, reiniciando...", errData);
-                localStorage.clear(); // Limpieza de emergencia
+            } catch (err) {
+                console.error("Error de datos", err);
+                localStorage.clear();
             }
 
-            // 5. CONECTAR BOTONES (Listeners)
-            const el = (id) => {
-                const element = document.getElementById(id);
-                if (!element) console.warn(`Elemento HTML no encontrado: ${id}`);
-                return element;
-            };
+            // LISTENERS
+            const el = (id) => document.getElementById(id);
 
             // Archivos
             if(el('fileInput')) el('fileInput').addEventListener('change', Main.handleFile);
             if(el('btnSaveData')) el('btnSaveData').addEventListener('click', () => Store.save());
             
-            // Botón Empezar (Nuevo Perfil)
+            // NUEVO: Listener Logout
+            if(el('btnLogout')) el('btnLogout').addEventListener('click', Main.logout);
+
+            // Perfil Nuevo
             if(el('btnNewProfile')) el('btnNewProfile').addEventListener('click', () => {
                 const p = prompt("Por favor ingresa: Peso(kg), Altura(cm), Edad.\nEjemplo: 75,175,30");
                 if(p) {
@@ -58,13 +56,11 @@ const Main = {
                         };
                         Store.persist();
                         Main.loadApp();
-                    } catch (e) {
-                        alert("Datos inválidos. Inténtalo de nuevo.");
-                    }
+                    } catch (e) { alert("Datos inválidos."); }
                 }
             });
 
-            // Navegación Fechas
+            // Navegación
             const picker = el('datePicker');
             if(picker) {
                 picker.value = Store.currentDate;
@@ -77,35 +73,43 @@ const Main = {
             if(el('tab-dashboard')) el('tab-dashboard').addEventListener('click', () => Main.switchTab('dashboard'));
             if(el('tab-analytics')) el('tab-analytics').addEventListener('click', () => Main.switchTab('analytics'));
 
-        } catch (errorCritical) {
-            alert("🛑 ERROR CRÍTICO:\n" + errorCritical.message + "\n\nRevisa la consola (F12) para más detalles.");
-            console.error(errorCritical);
+        } catch (error) {
+            // ESTO HARÁ QUE EL ERROR SEA VISIBLE EN EL MÓVIL/WEB
+            alert("⚠️ ERROR DE CARGA:\n" + error.message);
+            console.error(error);
+        }
+    },
+
+    // NUEVA FUNCIÓN LOGOUT
+    logout: () => {
+        if(confirm("¿Cerrar sesión?\n\nAsegúrate de haber descargado una copia de tus datos (Botón Guardar) si quieres conservarlos. Se borrará la sesión actual del navegador.")) {
+            // 1. Borrar Autoguardado
+            localStorage.removeItem('open_nutrition_data');
+            // 2. Limpiar memoria
+            Store.data = null;
+            // 3. Recargar página (Reset total)
+            location.reload();
         }
     },
 
     handleFile: (e) => {
         const reader = new FileReader();
-        reader.onload = (ev) => { if(Store.load(ev.target.result)) Main.loadApp(); else alert("Archivo dañado o incompatible."); };
+        reader.onload = (ev) => { if(Store.load(ev.target.result)) Main.loadApp(); else alert("Archivo inválido."); };
         reader.readAsText(e.target.files[0]);
     },
 
     loadApp: () => {
-        // Ocultar Onboarding
         const onboarding = document.getElementById('view-onboarding');
         if(onboarding) onboarding.classList.add('hidden');
         
-        // Mostrar Controles
         const controls = document.getElementById('controls');
         if(controls) controls.classList.remove('hidden');
         
-        // Mostrar Tabs
         const tabs = document.getElementById('nav-tabs');
         if(tabs) tabs.classList.remove('hidden');
         
-        // Ir al Dashboard
         Main.switchTab('dashboard');
         
-        // Asegurar fecha
         const picker = document.getElementById('datePicker');
         if(picker) picker.value = Store.currentDate;
     },
@@ -119,22 +123,16 @@ const Main = {
         if (!d || !a) return;
 
         if(tab === 'dashboard') {
-            d.classList.remove('hidden'); 
-            d.classList.add('fade-in');
+            d.classList.remove('hidden'); d.classList.add('fade-in');
             a.classList.add('hidden');
-            
             if(btD) { btD.classList.add('border-blue-100', 'text-brand-blue'); btD.classList.remove('text-slate-400'); }
             if(btA) { btA.classList.remove('border-blue-100', 'text-brand-blue'); btA.classList.add('text-slate-400'); }
-            
             Dashboard.render();
         } else {
             d.classList.add('hidden');
-            a.classList.remove('hidden');
-            a.classList.add('fade-in');
-
+            a.classList.remove('hidden'); a.classList.add('fade-in');
             if(btA) { btA.classList.add('border-blue-100', 'text-brand-blue'); btA.classList.remove('text-slate-400'); }
             if(btD) { btD.classList.remove('border-blue-100', 'text-brand-blue'); btD.classList.add('text-slate-400'); }
-            
             if(typeof Analytics !== 'undefined') Analytics.render();
         }
     },
@@ -147,7 +145,7 @@ const Main = {
         Main.changeDate(Utils.formatDate(date)); 
     },
     
-    deleteItem: (id) => { if(confirm('¿Borrar comida?')) { Store.deleteLog(id); Dashboard.render(); } }
+    deleteItem: (id) => { if(confirm('¿Eliminar?')) { Store.deleteLog(id); Dashboard.render(); } }
 };
 
 document.addEventListener('DOMContentLoaded', Main.init);
