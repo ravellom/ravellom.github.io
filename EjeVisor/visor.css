@@ -1,0 +1,469 @@
+/* =========================================
+   1. VARIABLES Y TEMAS
+   ========================================= */
+:root {
+    /* TEMA POR DEFECTO: GAMER (PLAYFUL) */
+    --bg-app: #e0f2fe;        /* Azul muy claro */
+    --bg-card: #ffffff;
+    --primary: #0ea5e9;       /* Azul cielo vibrante */
+    --primary-dark: #0284c7;
+    --accent: #8b5cf6;        /* Violeta */
+    --text-main: #334155;     /* Gris oscuro */
+    --text-light: #64748b;
+    --success: #22c55e;       /* Verde */
+    --error: #ef4444;         /* Rojo */
+    --radius: 20px;
+    --font: 'Nunito', sans-serif;
+    --shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.3);
+    --border-width: 2px;
+}
+
+/* TEMA: ZEN (CLEAN) */
+[data-theme="theme-clean"] {
+    --bg-app: #f8fafc;
+    --bg-card: #ffffff;
+    --primary: #475569;       /* Gris pizarra */
+    --primary-dark: #1e293b;
+    --accent: #94a3b8;
+    --text-main: #1e293b;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-width: 1px;
+}
+
+/* TEMA: OSCURO (DARK) */
+[data-theme="theme-dark"] {
+    --bg-app: #0f172a;        /* Azul noche profundo */
+    --bg-card: #1e293b;       /* Azul grisáceo oscuro */
+    --primary: #38bdf8;       /* Cian neón */
+    --primary-dark: #0ea5e9;
+    --accent: #c084fc;
+    --text-main: #f1f5f9;     /* Blanco humo */
+    --text-light: #94a3b8;
+    --radius: 16px;
+    --shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+    --border-width: 2px;
+}
+
+/* =========================================
+   2. RESET Y LAYOUT BASE
+   ========================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 650px; /* Un poco más ancho para matching */
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* PANTALLAS (SPA) */
+.screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+    z-index: 10;
+}
+
+/* TARJETAS DE CRISTAL */
+.card-glass {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    border: var(--border-width) solid rgba(0,0,0,0.05);
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    margin: auto; /* Centrado vertical */
+}
+
+/* =========================================
+   3. COMPONENTES UI (HUD, Upload, Botones)
+   ========================================= */
+
+/* SELECTOR DE TEMA */
+.theme-switcher { position: fixed; top: 15px; right: 15px; z-index: 200; }
+select {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    background: var(--bg-card);
+    color: var(--text-main);
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ZONA DE CARGA (UPLOAD) */
+.upload-area {
+    border: 3px dashed var(--primary);
+    padding: 40px;
+    border-radius: var(--radius);
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.upload-area:hover {
+    background: rgba(14, 165, 233, 0.05);
+    transform: scale(1.02);
+}
+
+/* HUD (Barra Superior) */
+.hud { padding-bottom: 20px; }
+
+.progress-track {
+    background: rgba(0,0,0,0.1);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    background: var(--success);
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.xp { color: #eab308; display: flex; align-items: center; gap: 5px; }
+.streak { color: #f97316; display: flex; align-items: center; gap: 5px; }
+
+/* BOTONES PRINCIPALES */
+.bottom-bar { margin-top: auto; padding-top: 20px; }
+
+.btn-main {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 16px;
+    background: var(--primary);
+    color: white;
+    font-weight: 800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--primary-dark);
+    transition: transform 0.1s;
+}
+
+.btn-main:active { transform: translateY(6px); box-shadow: none; }
+.btn-main:disabled {
+    background: #cbd5e1;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: translateY(2px);
+}
+
+.btn-action {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+.btn-action:hover { background: var(--primary); color: white; }
+
+/* =========================================
+   4. ESTILOS DE TIPOLOGÍAS DE EJERCICIO
+   ========================================= */
+
+.exercise-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 120px; /* Espacio para el modal/botón */
+}
+
+.question-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    color: var(--text-main);
+}
+
+/* TIPO 1 & 2: MULTIPLE CHOICE / TRUE FALSE */
+.options-grid { display: grid; gap: 15px; }
+
+.option-btn {
+    background: var(--bg-card);
+    border: 2px solid #e2e8f0;
+    padding: 18px;
+    border-radius: 16px;
+    text-align: left;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    color: var(--text-main);
+    font-weight: 600;
+    position: relative;
+}
+
+.option-btn:hover { border-color: var(--primary); }
+.option-btn.selected {
+    border-color: var(--primary);
+    background: rgba(14, 165, 233, 0.1);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* TIPO 3: FILL GAPS (HUECOS) */
+.cloze-text {
+    font-size: 1.3rem;
+    line-height: 2.2;
+}
+
+.cloze-input {
+    border: none;
+    border-bottom: 3px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-weight: 800;
+    text-align: center;
+    width: 120px;
+    font-size: 1.2rem;
+    padding: 0 5px;
+    font-family: inherit;
+}
+.cloze-input:focus { outline: none; border-color: var(--accent); }
+
+/* TIPO 4: ORDERING (ORDENAR) */
+.sortable-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sortable-item {
+    background: var(--bg-card);
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: grab;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.sortable-item:active { cursor: grabbing; border-color: var(--primary); background: #f0f9ff; }
+.sortable-item i { color: var(--text-light); font-size: 1.5rem; }
+
+/* TIPO 5: MATCHING (RELACIONAR) */
+.matching-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.static-list, .draggable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.static-item {
+    background: rgba(0,0,0,0.03);
+    border: 2px solid rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.draggable-item {
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    color: var(--text-main);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    text-align: center;
+}
+.draggable-item:active { cursor: grabbing; background: #e0f2fe; }
+
+.arrows-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    align-items: center;
+}
+
+/* TIPO 6: GROUPING (CLASIFICACIÓN) */
+.grouping-area {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.items-pool {
+    background: rgba(0,0,0,0.05);
+    padding: 15px;
+    border-radius: 16px;
+    min-height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border: 2px dashed #cbd5e1;
+    align-content: center;
+}
+
+.buckets-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.bucket {
+    background: var(--bg-card);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bucket-header {
+    background: var(--primary);
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+.bucket-dropzone {
+    padding: 10px;
+    min-height: 140px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255,255,255,0.5);
+}
+
+.group-item {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: grab;
+    border: 1px solid #e2e8f0;
+    color: #333;
+}
+.group-item:active { cursor: grabbing; transform: scale(1.05); }
+
+/* =========================================
+   5. FEEDBACK Y MODALES
+   ========================================= */
+
+.feedback-modal {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 30px 30px 0 0;
+    padding: 30px;
+    box-shadow: 0 -10px 50px rgba(0,0,0,0.25);
+    text-align: center;
+    z-index: 100;
+    transform: translateY(110%);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    color: #333; /* Forzar color oscuro en modal siempre */
+}
+
+.feedback-modal.show { transform: translateY(0); }
+
+.feedback-modal.correct { border-top: 8px solid var(--success); }
+.feedback-modal.incorrect { border-top: 8px solid var(--error); }
+
+.feedback-content i { font-size: 3rem; margin-bottom: 10px; display: block; }
+
+#feedback-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; }
+#feedback-text { font-size: 1rem; color: #475569; margin-bottom: 20px; line-height: 1.5; }
+
+.btn-next {
+    background: var(--text-main);
+    color: var(--bg-app);
+    border: none;
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s;
+}
+.btn-next:hover { transform: translateX(5px); }
+
+/* UTILIDADES */
+.hidden { display: none !important; }

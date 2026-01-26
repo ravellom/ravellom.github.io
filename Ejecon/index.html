@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor REAI-DUA | Validador</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="brand">
+            <i class="ph ph-cube-transparent" style="font-size: 1.5rem;"></i>
+            <div>
+                <h1>Constructor REAI <span class="badge">BETA</span></h1>
+            </div>
+        </div>
+        <div class="actions">
+            <button id="btn-export" class="btn btn-primary" disabled>
+                <i class="ph ph-download-simple"></i> Exportar JSON
+            </button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <aside class="sidebar">
+            <div class="panel">
+                <h3><i class="ph ph-magic-wand"></i> Asistente IA</h3>
+                <button id="btn-show-prompt" class="btn btn-prompt-action">
+                    <i class="ph ph-chat-circle-text"></i> Obtener Prompt Maestro
+                </button>
+
+                <div class="divider"></div>
+
+                <h3><i class="ph ph-file-code"></i> Entrada de Datos</h3>
+                
+                <input type="file" id="file-upload" accept=".json" style="display: none;">
+                <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-style:dashed;">
+                    <i class="ph ph-upload-simple"></i> Subir Archivo .JSON
+                </button>
+
+                <p class="helper-text">O pega el código aquí:</p>
+                <textarea id="json-input" placeholder='Pegar código JSON aquí...'></textarea>
+                
+                <div class="button-group">
+                    <button id="btn-load" class="btn btn-secondary">
+                        <i class="ph ph-arrow-counter-clockwise"></i> Procesar Texto
+                    </button>
+                    <button id="btn-merge" class="btn btn-outline" title="Añadir ejercicios sin borrar los actuales">
+                        <i class="ph ph-plus-circle"></i> Fusionar
+                    </button>
+                </div>
+                <div id="status-msg" class="status-msg"></div>
+            </div>
+
+            <div class="panel metadata-panel hidden" id="meta-panel">
+                <h3>Resumen del Recurso</h3>
+                <div class="meta-item">
+                    <label>Título:</label>
+                    <input type="text" id="meta-title" class="input-field" placeholder="Ej. El Ciclo del Agua">
+                </div>
+                <div class="meta-item">
+                    <label>Tema:</label>
+                    <input type="text" id="meta-topic" class="input-field">
+                </div>
+                <div class="stat-box">
+                    <span>Total Ejercicios:</span> <strong id="count-total" style="font-size:1.2rem;">0</strong>
+                </div>
+            </div>
+        </aside>
+
+        <section class="canvas">
+            <div id="welcome-screen" class="empty-state">
+                <div class="empty-icon-bg">
+                    <i class="ph ph-robot"></i>
+                </div>
+                <h2>Constructor de Ejercicios</h2>
+                <p>Sube un archivo .JSON existente o usa "Obtener Prompt" para crear uno nuevo con IA.</p>
+            </div>
+
+            <div id="exercise-list" class="exercise-grid hidden">
+                </div>
+        </section>
+    </main>
+
+    <div id="prompt-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Prompt Estructurado (Schema REAI-DUA)</h3>
+                <button id="btn-close-modal" class="close-icon"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Copia este texto manualmente (Ctrl + C) y pégalo en tu IA:</p>
+                <div class="code-block-wrapper">
+                    <textarea id="prompt-text" readonly></textarea>
+                    <button id="btn-copy-prompt" class="btn-copy"><i class="ph ph-text-aa"></i> Seleccionar Todo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Interactivo REAI | Gamified</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    
+    <style>
+        /* --- ESTILOS CSS INCRUSTADOS --- */
+        :root {
+            --bg-app: #e0f2fe;
+            --bg-card: #ffffff;
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --accent: #8b5cf6;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --success: #22c55e;
+            --error: #ef4444;
+            --radius: 20px;
+            --font: 'Nunito', sans-serif;
+            --shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.25);
+            --border-width: 2px;
+        }
+
+        /* Tema: CLEAN */
+        [data-theme="theme-clean"] {
+            --bg-app: #f8fafc;
+            --bg-card: #ffffff;
+            --primary: #334155;
+            --primary-dark: #0f172a;
+            --accent: #64748b;
+            --text-main: #1e293b;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --border-width: 1px;
+        }
+
+        /* Tema: DARK */
+        [data-theme="theme-dark"] {
+            --bg-app: #0f172a;
+            --bg-card: #1e293b;
+            --primary: #38bdf8;
+            --primary-dark: #0ea5e9;
+            --accent: #c084fc;
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --radius: 12px;
+            --shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+            --border-width: 2px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body { font-family: var(--font); background-color: var(--bg-app); color: var(--text-main); height: 100vh; overflow: hidden; transition: background 0.5s ease; }
+
+        /* Layout */
+        #app-container {
+            width: 100%; max-width: 600px; margin: 0 auto; height: 100%;
+            position: relative; display: flex; flex-direction: column;
+        }
+
+        .screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; padding: 20px;
+            opacity: 0; transition: opacity 0.4s ease; z-index: 1;
+        }
+        .screen.active { display: flex; opacity: 1; z-index: 10; }
+
+        .card-glass {
+            background: var(--bg-card); padding: 40px; border-radius: var(--radius);
+            box-shadow: var(--shadow); text-align: center; margin: auto;
+            border: var(--border-width) solid rgba(0,0,0,0.05);
+        }
+
+        /* UI Components */
+        .theme-switcher { position: fixed; top: 10px; right: 10px; z-index: 100; }
+        select { padding: 8px; border-radius: 8px; border: none; background: var(--bg-card); box-shadow: var(--shadow); cursor: pointer; }
+
+        .upload-area {
+            border: 3px dashed var(--primary); border-radius: var(--radius);
+            padding: 40px; margin-top: 20px; cursor: pointer; color: var(--text-light); transition: all 0.3s;
+        }
+        .upload-area:hover { background: rgba(14, 165, 233, 0.1); transform: scale(1.02); }
+
+        .hud { padding: 10px 0; margin-bottom: 20px; }
+        .progress-container { background: rgba(0,0,0,0.1); height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: width 0.5s ease; }
+        .stats { display: flex; justify-content: space-between; }
+        .stat-badge { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 5px; }
+        .xp { color: #eab308; }
+        .streak { color: #f97316; }
+
+        .btn-main {
+            width: 100%; padding: 15px; border: none; border-radius: var(--radius);
+            background: var(--primary); color: white; font-size: 1.2rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 4px 0 var(--primary-dark); transition: all 0.1s;
+        }
+        .btn-main:active { transform: translateY(4px); box-shadow: none; }
+        .btn-main:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+        
+        .btn-action {
+            padding: 10px 20px; background: var(--bg-app); border: 2px solid var(--primary);
+            border-radius: var(--radius); color: var(--primary); font-weight: 700; cursor: pointer; margin-top: 15px;
+        }
+
+        /* Ejercicios */
+        .exercise-card { flex: 1; overflow-y: auto; padding-bottom: 80px; }
+        .question-text { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; color: var(--text-main); line-height: 1.4; }
+
+        .options-grid { display: grid; gap: 15px; }
+        .option-btn {
+            background: var(--bg-card); border: var(--border-width) solid #cbd5e1; padding: 20px;
+            border-radius: var(--radius); text-align: left; font-size: 1.1rem; cursor: pointer;
+            transition: all 0.2s; position: relative; width: 100%;
+        }
+        .option-btn:hover { border-color: var(--primary); background: #f0f9ff; }
+        .option-btn.selected { border-color: var(--primary); background: #e0f2fe; box-shadow: 0 0 0 2px var(--primary); }
+
+        .sortable-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .sortable-item {
+            background: var(--bg-card); padding: 15px; border-radius: var(--radius);
+            border: var(--border-width) solid #cbd5e1; cursor: grab; display: flex; align-items: center; gap: 10px;
+        }
+        .sortable-item:active { cursor: grabbing; background: #f0f9ff; }
+        .drag-handle { color: var(--text-light); }
+
+        .cloze-text { font-size: 1.2rem; line-height: 2; }
+        .cloze-input {
+            border: none; border-bottom: 2px solid var(--primary); background: transparent;
+            color: var(--primary); font-weight: bold; text-align: center; width: 120px; font-size: 1.1rem;
+        }
+        .cloze-input:focus { outline: none; border-bottom-color: var(--accent); }
+
+        /* Feedback */
+        .feedback-modal {
+            position: absolute; bottom: 0; left: 0; width: 100%; 
+            background: white; border-top-left-radius: 25px; border-top-right-radius: 25px;
+            padding: 30px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            transform: translateY(110%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 50; text-align: center;
+        }
+        .feedback-modal.show { transform: translateY(0); }
+        .feedback-modal.correct { border-top: 5px solid var(--success); }
+        .feedback-modal.incorrect { border-top: 5px solid var(--error); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="theme-switcher">
+        <select id="theme-select">
+            <option value="theme-playful">🎨 Modo Gamer</option>
+            <option value="theme-clean">🧘 Modo Zen</option>
+            <option value="theme-dark">🌙 Modo Oscuro</option>
+        </select>
+    </div>
+
+    <main id="app-container">
+        
+        <section id="screen-upload" class="screen active">
+            <div class="card-glass">
+                <h1>Visor REAI</h1>
+                <p>Carga tu archivo <strong>.json</strong> generado</p>
+                <div class="upload-area" id="drop-zone">
+                    <i class="ph ph-file-cloud" style="font-size: 3rem;"></i>
+                    <p>Clic para subir archivo</p>
+                    <input type="file" id="file-input" accept=".json" hidden>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-game" class="screen">
+            <header class="hud">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat-badge xp">
+                        <i class="ph ph-star-fill"></i> <span id="score-display">0</span> XP
+                    </div>
+                    <div class="stat-badge streak">
+                        <i class="ph ph-fire-fill"></i> <span id="streak-display">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="exercise-card" id="exercise-container">
+                </div>
+            
+            <div id="feedback-overlay" class="feedback-modal hidden">
+                <div class="feedback-content">
+                    <i id="feedback-icon" class="ph"></i>
+                    <h2 id="feedback-title"></h2>
+                    <p id="feedback-text"></p>
+                    <button id="btn-next" class="btn-action">Continuar <i class="ph ph-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div style="margin-top:auto; padding-top:20px;">
+                <button id="btn-check" class="btn-main" disabled>Comprobar</button>
+            </div>
+        </section>
+
+        <section id="screen-results" class="screen">
+            <div class="card-glass">
+                <i class="ph ph-trophy-fill" style="color: gold; font-size: 4rem;"></i>
+                <h2>¡Completado!</h2>
+                <h1 id="final-xp" style="font-size:3rem; color:var(--primary);">0 XP</h1>
+                <p>¡Has dominado este tema!</p>
+                <button onclick="location.reload()" class="btn-action">Reiniciar</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* --- LÓGICA JAVASCRIPT INCRUSTADA --- */
+        let state = {
+            exercises: [],
+            currentIndex: 0,
+            score: 0,
+            streak: 0,
+            currentAnswer: null
+        };
+
+        const screens = {
+            upload: document.getElementById('screen-upload'),
+            game: document.getElementById('screen-game'),
+            results: document.getElementById('screen-results')
+        };
+        const ui = {
+            exerciseContainer: document.getElementById('exercise-container'),
+            progressBar: document.getElementById('progress-bar'),
+            score: document.getElementById('score-display'),
+            streak: document.getElementById('streak-display'),
+            btnCheck: document.getElementById('btn-check'),
+            feedbackOverlay: document.getElementById('feedback-overlay'),
+            feedbackTitle: document.getElementById('feedback-title'),
+            feedbackText: document.getElementById('feedback-text'),
+            feedbackIcon: document.getElementById('feedback-icon'),
+            btnNext: document.getElementById('btn-next'),
+            themeSelect: document.getElementById('theme-select')
+        };
+
+        // Event Listeners
+        document.getElementById('drop-zone').addEventListener('click', () => document.getElementById('file-input').click());
+        document.getElementById('file-input').addEventListener('change', handleFileUpload);
+        ui.btnCheck.addEventListener('click', checkAnswer);
+        ui.btnNext.addEventListener('click', nextExercise);
+        ui.themeSelect.addEventListener('change', (e) => {
+            document.body.setAttribute('data-theme', e.target.value);
+        });
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const json = JSON.parse(event.target.result);
+                    startGame(json.exercises);
+                } catch (err) {
+                    alert("Error JSON: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function startGame(exercises) {
+            state.exercises = exercises;
+            state.currentIndex = 0;
+            state.score = 0;
+            state.streak = 0;
+            updateHUD();
+            switchScreen('game');
+            renderExercise();
+        }
+
+        function renderExercise() {
+            const ex = state.exercises[state.currentIndex];
+            state.currentAnswer = null;
+            ui.btnCheck.disabled = true;
+            ui.btnCheck.style.opacity = "0.5";
+            ui.feedbackOverlay.classList.remove('show', 'correct', 'incorrect');
+
+            let html = `<div class="question-text">${ex.content.prompt_text}</div>`;
+            if(ex.content.media?.url) {
+                html += `<img src="${ex.content.media.url}" style="max-width:100%; border-radius:10px; margin-bottom:15px;">`;
+            }
+
+            if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
+                html += `<div class="options-grid">
+                    ${ex.interaction.options.map(opt => `
+                        <button class="option-btn" onclick="selectOption('${opt.id}', this)">${opt.text}</button>
+                    `).join('')}
+                </div>`;
+            } else if (ex.type === 'ordering') {
+                const shuffled = [...ex.interaction.sequence].sort(() => Math.random() - 0.5);
+                html += `<ul id="sortable-list" class="sortable-list">
+                    ${shuffled.map(item => `
+                        <li class="sortable-item" data-id="${item.order}">
+                            <i class="ph ph-dots-six-vertical drag-handle"></i> ${item.text}
+                        </li>
+                    `).join('')}
+                </ul>`;
+            } else if (ex.type === 'fill_gaps') {
+                const parts = ex.interaction.template.split(/(\[.*?\])/);
+                html += `<div class="cloze-text">
+                    ${parts.map(part => {
+                        if (part.startsWith('[') && part.endsWith(']')) {
+                            const ans = part.slice(1, -1);
+                            return `<input type="text" class="cloze-input" data-ans="${ans}" oninput="enableCheck()">`;
+                        }
+                        return part;
+                    }).join('')}
+                </div>`;
+            }
+
+            ui.exerciseContainer.innerHTML = html;
+
+            if (ex.type === 'ordering') {
+                new Sortable(document.getElementById('sortable-list'), { animation: 150, onEnd: enableCheck });
+                enableCheck(); // Habilitar ordering siempre
+            }
+        }
+
+        window.selectOption = (id, btn) => {
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            state.currentAnswer = id;
+            enableCheck();
+        };
+
+        function enableCheck() {
+            ui.btnCheck.disabled = false;
+            ui.btnCheck.style.opacity = "1";
+        }
+
+        function checkAnswer() {
+            const ex = state.exercises[state.currentIndex];
+            let isCorrect = false;
+            let msg = "";
+
+            if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
+                const opt = ex.interaction.options.find(o => o.id === state.currentAnswer);
+                isCorrect = opt.is_correct;
+                msg = opt.feedback || (isCorrect ? "Correcto" : "Incorrecto");
+            } else if (ex.type === 'ordering') {
+                const items = document.querySelectorAll('.sortable-item');
+                let currentOrder = Array.from(items).map(i => parseInt(i.dataset.id));
+                isCorrect = currentOrder.every((val, i, arr) => !i || (val >= arr[i - 1]));
+                msg = isCorrect ? "Orden Correcto" : "Orden Incorrecto";
+            } else if (ex.type === 'fill_gaps') {
+                const inputs = document.querySelectorAll('.cloze-input');
+                isCorrect = Array.from(inputs).every(inp => inp.value.trim().toLowerCase() === inp.dataset.ans.toLowerCase());
+                msg = isCorrect ? "Bien escrito" : "Revisa la ortografía";
+            }
+
+            if (isCorrect) {
+                state.score += 100 + (state.streak * 10);
+                state.streak++;
+                try { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } catch(e){}
+                ui.feedbackOverlay.classList.add('correct');
+                ui.feedbackTitle.innerText = "¡Excelente!";
+                ui.feedbackIcon.className = "ph ph-check-circle";
+                ui.feedbackIcon.style.color = "var(--success)";
+            } else {
+                state.streak = 0;
+                ui.feedbackOverlay.classList.add('incorrect');
+                ui.feedbackTitle.innerText = "Casi...";
+                ui.feedbackIcon.className = "ph ph-warning-circle";
+                ui.feedbackIcon.style.color = "var(--error)";
+            }
+            ui.feedbackText.innerHTML = msg + `<br><small>${ex.scaffolding?.explanation || ''}</small>`;
+            ui.feedbackOverlay.classList.add('show');
+            updateHUD();
+        }
+
+        function nextExercise() {
+            state.currentIndex++;
+            if (state.currentIndex < state.exercises.length) {
+                renderExercise();
+            } else {
+                switchScreen('results');
+                document.getElementById('final-xp').innerText = state.score + " XP";
+            }
+        }
+
+        function updateHUD() {
+            ui.score.innerText = state.score;
+            ui.streak.innerText = state.streak;
+            const progress = ((state.currentIndex) / state.exercises.length) * 100;
+            ui.progressBar.style.width = `${progress}%`;
+        }
+
+        function switchScreen(name) {
+            Object.values(screens).forEach(s => s.classList.remove('active'));
+            screens[name].classList.add('active');
+        }
+    </script>
+</body>
+</html>
