@@ -1,0 +1,68 @@
+/* IA Apps - Estilos específicos */
+/* El estilo base viene de recuedu.css */
+
+/* --- NAVEGACIÓN POR PESTAÑAS --- */
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 32px 0;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-family: var(--font-main);
+}
+
+.tab-btn:hover { 
+    color: var(--primary); 
+    background: rgba(59, 130, 246, 0.05); 
+    border-radius: 8px 8px 0 0; 
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+/* Paneles de Pestañas */
+.tab-panel {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-panel.active {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 32px;
+    align-items: start;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajustes específicos a los card-icons */
+.card-icon {
+    font-size: 2rem;
+}
+
+footer {
+    text-align: center; 
+    padding: 60px 20px; 
+    color: var(--text-muted); 
+    font-size: 0.9rem;
+    background-color: white; 
+    border-top: 1px solid var(--border); 
+    margin-top: 80px;
+}

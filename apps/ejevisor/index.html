@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="visor.css">
 </head>
 <body>
@@ -54,29 +55,46 @@
                     <div class="stat-badge">
                         <i class="ph ph-list-numbers"></i> <span id="question-display">Pregunta 1/1</span>
                     </div>
+                    <button id="btn-reset" class="btn-reset-header" type="button" title="Cargar nuevo archivo">
+                        <i class="ph ph-arrow-clockwise"></i> <span class="reset-text">Nuevo archivo</span>
+                    </button>
                 </div>
             </header>
 
             <div id="exercise-area" class="exercise-container">
                 </div>
 
+            <div id="hint-display" class="hint-box">
+                <i class="ph ph-lightbulb-fill"></i>
+                <span></span>
+            </div>
+
+            <button id="btn-check" class="btn-main" disabled>Comprobar Respuesta</button>
+
             <div class="bottom-bar">
                 <div class="nav-row">
                     <button id="btn-prev" class="btn-action" type="button"><i class="ph ph-arrow-left"></i> Anterior</button>
-                    <button id="btn-repeat" class="btn-ghost" type="button" disabled><i class="ph ph-arrow-counter-clockwise"></i> Reiniciar ejercicio</button>
-                    <button id="btn-reset" class="btn-action" type="button"><i class="ph ph-arrow-bend-down-left"></i> Cargar nuevos</button>
+                    <button id="btn-hint" class="btn-hint" type="button" disabled><i class="ph ph-lightbulb"></i> Ver Pista</button>
+                    <button id="btn-next-nav" class="btn-action" type="button"><i class="ph ph-arrow-right"></i> Siguiente</button>
                 </div>
-                <button id="btn-check" class="btn-main" disabled>Comprobar Respuesta</button>
             </div>
 
             <div id="feedback-overlay" class="feedback-modal hidden">
                 <div class="feedback-content">
+                    <button id="btn-close-modal" class="btn-close-modal" title="Cerrar">
+                        <i class="ph ph-x"></i>
+                    </button>
                     <i id="feedback-icon" class="ph"></i>
                     <h2 id="feedback-title">Resultado</h2>
                     <p id="feedback-text">Explicación...</p>
-                    <button id="btn-next" class="btn-next">
-                        Siguiente Ejercicio <i class="ph ph-arrow-right"></i>
-                    </button>
+                    <div class="feedback-actions">
+                        <button id="btn-retry" class="btn-retry">
+                            <i class="ph ph-arrow-counter-clockwise"></i> Reintentar
+                        </button>
+                        <button id="btn-next" class="btn-next">
+                            Siguiente <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>

@@ -1,0 +1,69 @@
+{
+  "resource_metadata": {
+    "title": "Prueba del Visor Interactivo",
+    "topic": "Conocimientos Generales"
+  },
+  "exercises": [
+    {
+      "id": "ex_1738012345_0",
+      "type": "multiple_choice",
+      "content": {
+        "prompt_text": "¿Cuál es la capital de Francia?"
+      },
+      "interaction": {
+        "options": [
+          { "id": "o1", "text": "Londres", "is_correct": false },
+          { "id": "o2", "text": "París", "is_correct": true },
+          { "id": "o3", "text": "Madrid", "is_correct": false },
+          { "id": "o4", "text": "Berlín", "is_correct": false }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Es conocida como la Ciudad de la Luz",
+        "explanation": "París ha sido la capital de Francia desde 987 d.C.",
+        "learn_more": "París es también el centro económico y cultural más importante de Francia."
+      },
+      "status": "approved"
+    },
+    {
+      "id": "ex_1738012345_1",
+      "type": "true_false",
+      "content": {
+        "prompt_text": "El Sol es una estrella."
+      },
+      "interaction": {
+        "options": [
+          { "id": "o1", "text": "Verdadero", "is_correct": true },
+          { "id": "o2", "text": "Falso", "is_correct": false }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en qué tipo de objeto celeste emite luz propia",
+        "explanation": "El Sol es una estrella de tipo espectral G2V, ubicada en el centro de nuestro sistema solar.",
+        "learn_more": "Las estrellas son esferas de plasma que generan energía mediante fusión nuclear en su núcleo."
+      },
+      "status": "approved"
+    },
+    {
+      "id": "ex_1738012345_2",
+      "type": "multiple_choice",
+      "content": {
+        "prompt_text": "¿Qué elemento químico tiene el símbolo 'Au'?"
+      },
+      "interaction": {
+        "options": [
+          { "id": "o1", "text": "Plata", "is_correct": false },
+          { "id": "o2", "text": "Oro", "is_correct": true },
+          { "id": "o3", "text": "Aluminio", "is_correct": false },
+          { "id": "o4", "text": "Hierro", "is_correct": false }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Es un metal precioso muy valioso",
+        "explanation": "El símbolo Au proviene del latín 'Aurum', que significa oro brillante.",
+        "learn_more": "El oro es el elemento químico número 79 de la tabla periódica."
+      },
+      "status": "approved"
+    }
+  ]
+}

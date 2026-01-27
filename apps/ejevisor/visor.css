@@ -1,46 +1,42 @@
 /* =========================================
-   1. VARIABLES Y TEMAS
+   VISOR REAI - Estilos específicos de gamificación
+   Base visual de recuedu.css
    ========================================= */
+
+/* Variables adicionales para temas */
 :root {
-    /* TEMA POR DEFECTO: GAMER (PLAYFUL) */
-    --bg-app: #e0f2fe;        /* Azul muy claro */
-    --bg-card: #ffffff;
-    --primary: #0ea5e9;       /* Azul cielo vibrante */
-    --primary-dark: #0284c7;
-    --accent: #8b5cf6;        /* Violeta */
-    --text-main: #334155;     /* Gris oscuro */
-    --text-light: #64748b;
-    --success: #22c55e;       /* Verde */
-    --error: #ef4444;         /* Rojo */
-    --radius: 20px;
-    --font: 'Nunito', sans-serif;
-    --shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.3);
+    /* TEMA POR DEFECTO: GAMER (PLAYFUL) - basado en recuedu */
+    --bg-app-game: #e0f2fe;        
+    --accent: #8b5cf6;        
+    --success: #22c55e;       
+    --error: #ef4444;         
+    --radius-game: 20px;
+    --font-game: 'Nunito', sans-serif;
+    --shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.3);
     --border-width: 2px;
 }
 
 /* TEMA: ZEN (CLEAN) */
 [data-theme="theme-clean"] {
-    --bg-app: #f8fafc;
-    --bg-card: #ffffff;
-    --primary: #475569;       /* Gris pizarra */
+    --bg-app-game: #f8fafc;
+    --primary: #475569;       
     --primary-dark: #1e293b;
     --accent: #94a3b8;
-    --text-main: #1e293b;
-    --radius: 12px;
+    --radius-game: 12px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --border-width: 1px;
 }
 
 /* TEMA: OSCURO (DARK) */
 [data-theme="theme-dark"] {
-    --bg-app: #0f172a;        /* Azul noche profundo */
-    --bg-card: #1e293b;       /* Azul grisáceo oscuro */
-    --primary: #38bdf8;       /* Cian neón */
+    --bg-app-game: #0f172a;        
+    --bg-card: #1e293b;       
+    --primary: #38bdf8;       
     --primary-dark: #0ea5e9;
     --accent: #c084fc;
-    --text-main: #f1f5f9;     /* Blanco humo */
-    --text-light: #94a3b8;
-    --radius: 16px;
+    --text-main: #f1f5f9;     
+    --text-muted: #94a3b8;
+    --radius-game: 16px;
     --shadow: 0 0 20px rgba(56, 189, 248, 0.15);
     --border-width: 2px;
 }
@@ -48,11 +44,11 @@
 /* =========================================
    2. RESET Y LAYOUT BASE
    ========================================= */
-* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+* { box-sizing: border-box; user-select: none; }
 
 body {
-    font-family: var(--font);
-    background-color: var(--bg-app);
+    font-family: var(--font-game);
+    background-color: var(--bg-app-game);
     color: var(--text-main);
     height: 100vh;
     overflow: hidden;
@@ -230,6 +226,89 @@ select {
     transition: all 0.2s;
 }
 .btn-action:hover { background: var(--primary); color: white; }
+
+.btn-hint {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #d97706;
+}
+.btn-hint:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+.btn-hint:active { transform: translateY(2px); box-shadow: 0 2px 0 #d97706; }
+.btn-hint:disabled {
+    background: #cbd5e1;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.btn-reset-header {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--border);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.btn-reset-header i {
+    font-size: 1.2rem;
+}
+.btn-reset-header:hover { 
+    background: var(--primary); 
+    color: white; 
+    border-color: var(--primary);
+}
+
+/* Ocultar texto en móviles */
+@media (max-width: 768px) {
+    .btn-reset-header .reset-text {
+        display: none;
+    }
+    .btn-reset-header {
+        padding: 8px 12px;
+    }
+}
+
+/* HINT BOX - Caja de pista visible */
+.hint-box {
+    display: none;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 3px solid #fbbf24;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 15px 0;
+    font-size: 1rem;
+    color: #92400e;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+    align-items: center;
+    gap: 12px;
+}
+.hint-box.show {
+    display: flex;
+}
+.hint-box i {
+    font-size: 1.8rem;
+    color: #f59e0b;
+    flex-shrink: 0;
+}
+.hint-box span {
+    flex: 1;
+}
 
 /* =========================================
    4. ESTILOS DE TIPOLOGÍAS DE EJERCICIO
@@ -531,6 +610,28 @@ select {
 .feedback-modal.correct { border-top: 8px solid var(--success); }
 .feedback-modal.incorrect { border-top: 8px solid var(--error); }
 
+.btn-close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: var(--text-main);
+}
+.btn-close-modal:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
 .feedback-content i { font-size: 3rem; margin-bottom: 10px; display: block; }
 
 #feedback-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; }
@@ -541,9 +642,36 @@ select {
 .fb-more summary { cursor: pointer; font-weight: 700; margin-top: 8px; }
 .fb-more div { margin-top: 4px; color: #334155; }
 
+.feedback-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-retry {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+.btn-retry:hover { 
+    background: var(--primary); 
+    color: white; 
+    transform: scale(1.05);
+}
+
 .btn-next {
     background: var(--text-main);
-    color: var(--bg-app);
+    color: white;
     border: none;
     padding: 14px 30px;
     border-radius: 12px;
@@ -553,7 +681,7 @@ select {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: transform 0.2s;
+    transition: all 0.2s;
 }
 .btn-next:hover { transform: translateX(5px); }
 

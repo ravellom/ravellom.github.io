@@ -1,0 +1,181 @@
+/* recuedu.css - V2: Diseño Moderno & Tech */
+
+:root {
+    /* Paleta Principal */
+    --primary: #3B82F6;       /* Azul más vibrante (Blue 500 de Tailwind) */
+    --primary-dark: #1D4ED8;  /* Azul oscuro para hover */
+    --secondary: #10B981;     /* Verde esmeralda vibrante */
+    
+    /* Fondos y Textos */
+    --bg-body: #F1F5F9;       /* Gris muy claro de fondo */
+    --bg-card: #FFFFFF;       /* Blanco puro para tarjetas */
+    --text-main: #0F172A;     /* Casi negro (Slate 900) para contraste máximo */
+    --text-muted: #475569;    /* Gris medio para párrafos */
+    --border: #E2E8F0;        /* Borde sutil */
+
+    /* NUEVO: Gradientes Modernos */
+    /* Un gradiente radial que simula un "brillo" tecnológico en la oscuridad */
+    --hero-gradient: radial-gradient(circle at top right, #1e40af, #0f172a);
+    
+    /* Tipografía */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Reset Básico */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+
+/* Layout Utilities */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px; /* Un poco más de padding lateral */
+}
+
+.section { padding: 80px 0; } /* Más aire entre secciones */
+
+/* Tipografía Mejorada */
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; }
+h1 { 
+    font-size: 3.5rem; /* Mucho más grande */
+    margin-bottom: 1.5rem; 
+}
+h2 { font-size: 2rem; margin-bottom: 3rem; }
+p { margin-bottom: 1rem; color: var(--text-muted); font-size: 1.05rem; }
+
+/* Componentes: Botones Modernos */
+.btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600; cursor: pointer; border: none;
+    font-size: 1rem; transition: all 0.2s ease;
+}
+
+.btn-primary { 
+    background-color: var(--primary); color: white; 
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2); /* Sombra sutil */
+}
+.btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3); }
+
+/* Botón outline adaptado para fondo oscuro (Hero) */
+.btn-outline-light { 
+    border: 2px solid rgba(255,255,255,0.3); 
+    background: transparent; color: white; 
+}
+.btn-outline-light:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+/* Botón outline normal (para las cards) */
+.btn-outline-dark { 
+    border: 2px solid var(--border); background: transparent; color: var(--text-main); 
+}
+.btn-outline-dark:hover { border-color: var(--text-main); background: var(--text-main); color: white; }
+
+
+.btn-sm { padding: 8px 16px; font-size: 0.9rem; }
+
+/* Componentes: Navbar Transparente */
+.navbar {
+    background: rgba(255,255,255,0.9); /* Ligeramente transparente */
+    backdrop-filter: blur(10px); /* Efecto cristal moderno */
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky; top: 0; z-index: 100;
+}
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.3rem; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+.logo i { color: var(--primary); }
+.nav-links { display: flex; gap: 24px; font-weight: 600; font-size: 0.95rem; }
+.nav-links a:hover { color: var(--primary); }
+
+/* MODIFICADO: Hero Section Moderna */
+.hero { 
+    text-align: center; 
+    padding: 100px 0 120px; /* Más alto */
+    background: var(--hero-gradient); /* Usamos el nuevo gradiente */
+    color: white; /* Texto blanco */
+}
+.hero h1 { color: white; }
+.hero p { color: rgba(255,255,255,0.8); font-size: 1.25rem; }
+
+.hero-tag { 
+    background: rgba(255,255,255,0.1); /* Fondo semitransparente */
+    color: #93C5FD; /* Azul claro */
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 16px; border-radius: 30px; 
+    font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    display: inline-block; margin-bottom: 24px;
+}
+
+/* Componentes: Grid y Tarjetas Mejoradas */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Un poco más anchas */
+    gap: 32px; /* Más espacio entre tarjetas */
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px; /* Bordes más redondeados */
+    padding: 32px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animación más suave */
+    display: flex; flex-direction: column; height: 100%;
+    position: relative; overflow: hidden; /* Para la barra superior de color */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Barra de color superior en las cards al hacer hover */
+.card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: var(--primary); opacity: 0; transition: 0.3s;
+}
+.card:hover::before { opacity: 1; }
+
+.card:hover {
+    transform: translateY(-8px); /* Se levanta más */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: transparent;
+}
+
+.card-icon {
+    width: 56px; height: 56px;
+    background: #EFF6FF; color: var(--primary); /* Fondo azul muy claro */
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 20px;
+}
+
+.card-title { font-size: 1.35rem; margin-bottom: 12px; }
+.card-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+/* Badges refinados */
+.badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 700;text-transform: uppercase; letter-spacing: 0.05em;}
+.badge-pro { background: #ECFDF5; color: var(--secondary); }
+.badge-exp { background: #FFFBEB; color: #D97706; }
+
+/* Styles específicos para la card de Incubadora */
+.card-incubator:hover::before { background: var(--secondary) !important; }
+.card-incubator .card-icon { background: #ECFDF5; color: var(--secondary); }
+
+/* Footer */
+footer { background: white; padding: 60px 0; margin-top: 80px; text-align: center; color: var(--text-muted); }
+.social-links { display: flex; justify-content: center; gap: 24px; margin-top: 24px; font-size: 1.6rem; }
+.social-links a:hover { color: var(--primary); }
+
+/* Móvil */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .hero { padding: 60px 0 80px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .card { padding: 24px; }
+}

@@ -1,5 +1,138 @@
-# ravellom.github.io<br>
-Página de enlaces a sitios de Raidell Avello en Github<br><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecuEdu Labs | Raidell Avello</title>
+    <meta name="description" content="Herramientas digitales educativas y experimentación web.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/recuedu.css">
+</head>
+<body>
 
-- Proyecto Biblio Click: <a href="https://ravellom.github.io/biblioclick/">https://ravellom.github.io/biblioclick/</a><br>
-- Análisis de datos de RED: <a href="https://ravellom.github.io/RED/RED.html">https://ravellom.github.io/RED/RED.html</a><br>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-flask-vial"></i> RecuEdu Labs
+            </a>
+            <div class="nav-links">
+                <a href="https://github.com/ravellom" target="_blank">Github</a>
+                <a href="https://youtube.com/@RaidellAvello" target="_blank">Youtube</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <span class="hero-tag"><i class="fa-solid fa-code"></i> Docencia + Desarrollo Web</span>
+            <h1>Herramientas digitales<br>abiertas y educativas.</h1>
+            <p style="max-width: 650px; margin: 0 auto 36px;">
+                Un espacio de experimentación donde desarrollo aplicaciones web para resolver problemas reales del aula, la investigación y la productividad personal.
+            </p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <a href="#apps" class="btn btn-primary">
+                    <i class="fa-solid fa-arrow-down"></i> Ver Aplicaciones
+                </a>
+                <a href="https://github.com/ravellom" target="_blank" class="btn btn-outline-light">
+                    <i class="fa-brands fa-github"></i> Ver Código
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="apps">
+
+        <section class="section">
+            <h2><i class="fa-solid fa-rocket" style="color: var(--primary);"></i> Aplicaciones Principales</h2>
+            <div class="grid-3">
+                
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <h3 class="card-title">Ejecon</h3>
+                    <p class="card-desc">Generador de ejercicios educativos interactivos. Crea cuestionarios, y actividades exportables a HTML/JSON para usar sin conexión.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-pro">Estable v1.0</span>
+                        <a href="apps/ejecon/" class="btn btn-sm btn-outline-dark">Abrir App</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                    <h3 class="card-title">Open Nutrition</h3>
+                    <p class="card-desc">Seguimiento nutricional privado ("Local-First"). Tus datos de salud se guardan en tu dispositivo, nunca en la nube.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp">Beta PWA</span>
+                        <a href="apps/open-nutrition/" class="btn btn-sm btn-outline-dark">Probar App</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                    <h3 class="card-title">BiblioClick</h3>
+                    <p class="card-desc">Utilidad de productividad para estudiantes. Genera referencias bibliográficas rápidas con el formato correcto.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-pro">Utilidad</span>
+                        <a href="apps/biblioclick/" class="btn btn-sm btn-outline-dark">Abrir App</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><i class="fa-solid fa-flask" style="color: var(--secondary);"></i> Laboratorio Docente</h2>
+            <p>Proyectos experimentales, prototipos de clase y utilidades complementarias.</p>
+            
+            <div class="grid-3">
+                
+                <article class="card card-incubator">
+                    <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="card-title">Incubadora (IA Apps)</h3>
+                    <p class="card-desc">Semillero de micro-herramientas para mis clases. Incluye <strong>Mapas Interactivos</strong>, Narrativas Digitales y juegos serios.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp" style="background:#ECFDF5; color: var(--secondary);">Experimental</span>
+                        <a href="apps/ia-apps/" class="btn btn-sm btn-primary" style="background-color: var(--secondary);">Explorar Lab</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3 class="card-title">Ejevisor</h3>
+                    <p class="card-desc">Visualizador ligero para proyectar en el aula los ejercicios creados previamente con Ejecon.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-pro">Visor</span>
+                        <a href="apps/ejevisor/" class="btn btn-sm btn-outline-dark">Abrir</a>
+                    </div>
+                </article>
+
+                 <article class="card" style="background-color: transparent; border: 2px dashed var(--border); justify-content: center; align-items: center; text-align: center; box-shadow: none;">
+                    <div style="font-size: 2.5rem; color: var(--border); margin-bottom: 15px;">
+                        <i class="fa-brands fa-github"></i>
+                    </div>
+                    <h3 class="card-title">Explora el código</h3>
+                    <div class="card-footer" style="border: none; width: 100%; justify-content: center; padding-top: 0;">
+                        <a href="https://github.com/ravellom" target="_blank" class="btn btn-sm btn-outline-dark">Ir al Repositorio</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p style="font-size: 1.1rem; color: var(--text-main);"><strong>RecuEdu Labs</strong></p>
+            <p>Desarrollado por Raidell Avello © 2026</p>
+            <div class="social-links">
+                <a href="https://github.com/ravellom"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/raidell-avello-mart%C3%ADnez-4b248831/"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://youtube.com/@RaidellAvello"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

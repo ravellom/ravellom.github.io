@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raidell Avello - Herramientas Educativas con IA</title>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <span>Herramientas Digitales</span>
+            </div>
+            <span class="badge badge-pro">✨ AI Powered</span>
+        </div>
+    </nav>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1 style="font-size: 2.5rem;">Recursos Educativos con IA</h1>
+            <p>Herramientas digitales diseñadas para potenciar el aprendizaje</p>
+        </div>
+    </section>
+
+    <div class="container section">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openTab(event, 'general')">🌐 General</button>
+            <button class="tab-btn" onclick="openTab(event, 'informacion')">🗂️ Información</button>
+            <button class="tab-btn" onclick="openTab(event, 'erasmus')">📚 Proyectos Erasmus</button>
+            <button class="tab-btn" onclick="openTab(event, 'narativas')">🧩 Narrativas Digitales</button>
+        </div>
+        <div id="general" class="tab-panel active">
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>🎨</span>
+                </div>
+                <h3 class="card-title">Mapa de Europa</h3>
+                <p>Mapa interactivo con colores aleatorios al seleccionar países.</p>
+                <a href="mapa.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>🌍</span>
+                </div>
+                <h3 class="card-title">Mapa Interactivo 2</h3>
+                <p>Mapa avanzado con traducciones (ES/EN) y selección única.</p>
+                <a href="mapa2.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+        <div id="informacion" class="tab-panel">
+            <article class="card">
+                <div class="card-icon" style="background: #ECFDF5; color: #10B981;">
+                    <span>📚</span>
+                </div>
+                <h3 class="card-title">Biblio Click</h3>
+                <p>Gestor bibliográfico simple diseñado para educación primaria.</p>
+                <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+        <div id="erasmus" class="tab-panel">
+            <article class="card">
+                <div class="card-icon" style="background: #F5F3FF; color: #8B5CF6;">
+                    <span>🧩</span>
+                </div>
+                <h3 class="card-title">7 Funciones Digitales</h3>
+                <p>Micro-experiencias del enfoque funcional Digital First.</p>
+                <a href="funciones.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #ECFDF5; color: #10B981;">
+                    <span>🛡️</span>
+                </div>
+                <h3 class="card-title">Wiki-Guardian</h3>
+                <p>Juego para evaluar la Función Representativa de la información.</p>
+                <a href="juego_el_editor.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FEE2E2; color: #EF4444;">
+                    <span>🧠</span>
+                </div>
+                <h3 class="card-title">Función Imaginativa</h3>
+                <p>Organizador de conceptos para evaluación docente.</p>
+                <a href="creatividad.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">
+                    <span>🚀</span>
+                </div>
+                <h3 class="card-title">Juego Crononautas</h3>
+                <p>El Portal de los Tiempos. Creatividad y Privacidad.</p>
+                <a href="juego_creativo.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+        <div id="narativas" class="tab-panel">
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>📝</span>
+                </div>
+                <h3 class="card-title">Cine-Analista Básico</h3>
+                <p>Ficha básica para el análisis de narrativas. Incluye guía de observación y estructura.</p>
+                <a href="narrativas_video_analisis.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>📝</span>
+                </div>
+                <h3 class="card-title">Cine-Analista - 7 componentes de las ND</h3>
+                <p>Ficha para el análisis de narrativas basada en los 7 componentes de las narrativas digitales.</p>
+                <a href="narrativas_video_analisis2.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">
+                    <span>✨</span>
+                </div>
+                <h3 class="card-title">El Despertar Narrativo</h3>
+                <p>Actividad de motivación inicial. Descubre mitos y realidades sobre qué es realmente una Narrativa Digital.</p>
+                <a href="narrativas_motivacion_inicial.html" target="_blank" class="btn btn-outline-dark">Comenzar</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #F5F3FF; color: #8B5CF6;">
+                    <span>🏗️</span>
+                </div>
+                <h3 class="card-title">Arquitecto de Historias</h3>
+                <p>Practica la estructura narrativa de Todorov. Ordena el "caos" en noticias y cuentos clásicos.</p>
+                <a href="narrativas_todorov.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">
+                    <span>🎬</span>
+                </div>
+                <h3 class="card-title">Director de Escena</h3>
+                <p>Convierte texto en imagen. Elige el plano y ángulo de cámara correcto para cada escena del guion.</p>
+                <a href="narrativa_director.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Raidell Avello - Desarrollado con ❤️ e IA</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
