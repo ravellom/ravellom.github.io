@@ -5,7 +5,9 @@ let state = {
     currentIndex: 0,
     score: 0,
     streak: 0,
-    currentAnswer: null
+    currentAnswer: null,
+    hasAnswered: false,
+    graded: {}
 };
 
 const ui = {
@@ -20,27 +22,48 @@ const ui = {
     streak: document.getElementById('streak-display'),
     btnCheck: document.getElementById('btn-check'),
     btnNext: document.getElementById('btn-next'),
+    btnPrev: document.getElementById('btn-prev'),
+    btnRepeat: document.getElementById('btn-repeat'),
+    btnReset: document.getElementById('btn-reset'),
     modal: document.getElementById('feedback-overlay'),
     feedbackTitle: document.getElementById('feedback-title'),
     feedbackText: document.getElementById('feedback-text'),
     feedbackIcon: document.getElementById('feedback-icon'),
-    themeSelect: document.getElementById('theme-select')
+    themeSelect: document.getElementById('theme-select'),
+    dropZone: document.getElementById('drop-zone')
 };
 
 // Listeners
 document.getElementById('drop-zone').addEventListener('click', () => document.getElementById('file-input').click());
 document.getElementById('file-input').addEventListener('change', loadFile);
+['dragover', 'dragenter'].forEach(evt => ui.dropZone.addEventListener(evt, (e) => { e.preventDefault(); ui.dropZone.classList.add('dragging'); }));
+['dragleave', 'drop'].forEach(evt => ui.dropZone.addEventListener(evt, (e) => { e.preventDefault(); ui.dropZone.classList.remove('dragging'); }));
+ui.dropZone.addEventListener('drop', (e) => {
+    const file = e.dataTransfer.files?.[0];
+    if (file) processFile(file);
+});
 ui.btnCheck.addEventListener('click', checkAnswer);
 ui.btnNext.addEventListener('click', nextExercise);
+ui.btnPrev.addEventListener('click', prevExercise);
+ui.btnRepeat.addEventListener('click', repeatExercise);
+ui.btnReset.addEventListener('click', goToUpload);
 ui.themeSelect.addEventListener('change', (e) => document.body.setAttribute('data-theme', e.target.value));
 
 function loadFile(e) {
     const file = e.target.files[0];
     if (!file) return;
+    processFile(file);
+}
+
+function processFile(file) {
     const reader = new FileReader();
     reader.onload = (ev) => {
         try {
             const data = JSON.parse(ev.target.result);
+            if (!data.exercises || !Array.isArray(data.exercises) || data.exercises.length === 0) {
+                alert('El archivo no contiene ejercicios válidos');
+                return;
+            }
             initGame(data.exercises);
         } catch (err) { alert('Error JSON: ' + err.message); }
     };
@@ -48,10 +71,11 @@ function loadFile(e) {
 }
 
 function initGame(exercises) {
-    state.exercises = exercises;
+    state.exercises = Array.isArray(exercises) ? exercises : [];
     state.currentIndex = 0;
     state.score = 0;
     state.streak = 0;
+    state.graded = {};
     updateHUD();
     showScreen('game');
     renderCurrentExercise();
@@ -60,6 +84,10 @@ function initGame(exercises) {
 function renderCurrentExercise() {
     resetUI();
     const ex = state.exercises[state.currentIndex];
+    if (!ex) {
+        ui.container.innerHTML = '<p style="text-align:center; color:#999;">No hay ejercicio para mostrar.</p>';
+        return;
+    }
     
     // Header Pregunta
     let html = `<div class="question-text">${ex.content.prompt_text}</div>`;
@@ -148,6 +176,82 @@ function renderCurrentExercise() {
         </div>`;
     }
 
+    // 7. SHORT ANSWER
+    else if (ex.type === 'short_answer') {
+        const maxLen = ex.interaction.max_length || 200;
+        html += `
+            <div class="short-answer">
+                <input id="short-answer-input" type="text" maxlength="${maxLen}" placeholder="Escribe tu respuesta" />
+                ${ex.interaction.expected_answers?.length ? `<p class="helper">Respuestas esperadas (referencia): ${ex.interaction.expected_answers.join(', ')}</p>` : ''}
+            </div>
+        `;
+    }
+
+    // 8. ESSAY
+    else if (ex.type === 'essay') {
+        const minW = ex.interaction.min_words || 50;
+        const maxW = ex.interaction.max_words || 250;
+        html += `
+            <div class="essay">
+                <p class="helper">Extensión sugerida: ${minW}-${maxW} palabras</p>
+                <textarea id="essay-input" placeholder="Desarrolla tu respuesta" rows="6"></textarea>
+                <div class="essay-footer"><span id="essay-counter">0 palabras</span></div>
+                ${ex.interaction.rubric && Object.keys(ex.interaction.rubric).length ? `<details class="rubric"><summary>Ver rúbrica</summary><pre>${JSON.stringify(ex.interaction.rubric, null, 2)}</pre></details>` : ''}
+            </div>
+        `;
+    }
+
+    // 9. HOTSPOT
+    else if (ex.type === 'hotspot') {
+        html += '<div class="hotspot-container">';
+        if (ex.interaction.image_url) {
+            html += `<div class="hotspot-image" style="background-image:url('${ex.interaction.image_url}')">`;
+            (ex.interaction.zones || []).forEach((zone, idx) => {
+                const top = zone.y || 0;
+                const left = zone.x || 0;
+                const width = zone.width || 20;
+                const height = zone.height || 20;
+                html += `<button class="hotspot-zone" data-zone-id="${idx}" style="top:${top}%; left:${left}%; width:${width}%; height:${height}%;"></button>`;
+            });
+            html += '</div>';
+            html += `<p class="helper">Pulsa sobre la zona correcta (${ex.interaction.zones?.length || 0} zonas)</p>`;
+        } else {
+            html += '<p class="helper">No hay imagen configurada</p>';
+        }
+        html += '</div>';
+    }
+
+    // 10. SLIDER
+    else if (ex.type === 'slider') {
+        const min = ex.interaction.min ?? 0;
+        const max = ex.interaction.max ?? 100;
+        const target = ex.interaction.correct_value ?? 50;
+        html += `
+            <div class="slider-wrap">
+                <input id="slider-input" type="range" min="${min}" max="${max}" value="${target}">
+                <div class="slider-meta">
+                    <span>${min}</span>
+                    <span id="slider-value">${target}</span>
+                    <span>${max}</span>
+                </div>
+                <p class="helper">Objetivo: ${target} (tolerancia ±${ex.interaction.tolerance ?? 5})</p>
+            </div>
+        `;
+    }
+
+    // 11. DRAWING
+    else if (ex.type === 'drawing') {
+        const w = ex.interaction.canvas_width || 800;
+        const h = ex.interaction.canvas_height || 400;
+        html += `
+            <div class="drawing-wrap">
+                <div class="drawing-canvas" style="width:100%; max-width:${w}px; height:${h}px;">Zona de dibujo (mock)</div>
+                <p class="helper">Evaluación: ${ex.interaction.evaluation_type || 'manual'}</p>
+                <button id="drawing-done" class="btn-action" type="button">Marcar como listo</button>
+            </div>
+        `;
+    }
+
     ui.container.innerHTML = html;
 
     // --- INICIALIZAR LIBRERÍAS (Post-Render) ---
@@ -171,6 +275,73 @@ function renderCurrentExercise() {
         });
         // Deshabilitado al inicio hasta que muevan algo
     }
+
+    // 7. SHORT ANSWER
+    else if (ex.type === 'short_answer') {
+        const input = document.getElementById('short-answer-input');
+        if (input) {
+            input.addEventListener('input', () => {
+                state.currentAnswer = input.value;
+                enableCheck();
+            });
+        }
+    }
+
+    // 8. ESSAY
+    else if (ex.type === 'essay') {
+        const textarea = document.getElementById('essay-input');
+        const counter = document.getElementById('essay-counter');
+        if (textarea) {
+            textarea.addEventListener('input', () => {
+                const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+                if (counter) counter.textContent = `${words} palabras`;
+                state.currentAnswer = textarea.value;
+                enableCheck();
+            });
+        }
+    }
+
+    // 9. HOTSPOT
+    else if (ex.type === 'hotspot') {
+        document.querySelectorAll('.hotspot-zone').forEach(zone => {
+            zone.addEventListener('click', () => {
+                document.querySelectorAll('.hotspot-zone').forEach(z => z.classList.remove('selected'));
+                zone.classList.add('selected');
+                state.currentAnswer = zone.dataset.zoneId;
+                enableCheck();
+            });
+        });
+    }
+
+    // 10. SLIDER
+    else if (ex.type === 'slider') {
+        const slider = document.getElementById('slider-input');
+        const valueLabel = document.getElementById('slider-value');
+        if (slider) {
+            const updateValue = () => {
+                valueLabel.textContent = slider.value;
+                state.currentAnswer = Number(slider.value);
+                enableCheck();
+            };
+            slider.addEventListener('input', updateValue);
+            updateValue();
+        }
+    }
+
+    // 11. DRAWING (mock)
+    else if (ex.type === 'drawing') {
+        const btn = document.getElementById('drawing-done');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                state.currentAnswer = 'done';
+                enableCheck();
+            });
+        }
+    }
+
+    // Actualizar navegación
+    ui.btnPrev.disabled = state.currentIndex === 0;
+    ui.btnRepeat.disabled = true; // solo habilitar tras comprobar
 }
 
 // LOGICA ESPECIFICA PARA HABILITAR BOTON EN GROUPING
@@ -191,6 +362,7 @@ function resetUI() {
     ui.btnCheck.disabled = true;
     ui.btnCheck.style.opacity = "0.5";
     state.currentAnswer = null;
+    state.hasAnswered = false;
 }
 
 window.selectOption = (id, btn) => {
@@ -206,9 +378,11 @@ function enableCheck() {
 }
 
 function checkAnswer() {
+    if (state.hasAnswered) return; // evita doble puntuación
     const ex = state.exercises[state.currentIndex];
     let isCorrect = false;
     let msg = "";
+    const alreadyGraded = state.graded[ex.id] === true;
 
     // LÓGICA DE VALIDACIÓN
 
@@ -263,10 +437,59 @@ function checkAnswer() {
         }
     }
 
-    showFeedback(isCorrect, msg, ex.scaffolding?.explanation);
+    // SHORT ANSWER
+    else if (ex.type === 'short_answer') {
+        const answer = (state.currentAnswer || '').trim();
+        const expected = (ex.interaction.expected_answers || []).map(a => a.trim());
+        const caseSensitive = ex.interaction.case_sensitive === true;
+        const normalized = caseSensitive ? answer : answer.toLowerCase();
+        isCorrect = expected.some(a => (caseSensitive ? a : a.toLowerCase()) === normalized);
+        msg = isCorrect ? "Respuesta correcta" : "Revisa tu respuesta";
+    }
+
+    // ESSAY (solo valida rango de palabras)
+    else if (ex.type === 'essay') {
+        const text = (state.currentAnswer || '').trim();
+        const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+        const min = ex.interaction.min_words || 50;
+        const max = ex.interaction.max_words || 250;
+        isCorrect = words >= min && words <= max;
+        msg = isCorrect ? "Extensión adecuada" : `Usa entre ${min}-${max} palabras`;
+    }
+
+    // HOTSPOT
+    else if (ex.type === 'hotspot') {
+        const zones = ex.interaction.zones || [];
+        const selectedId = Number(state.currentAnswer);
+        const selectedZone = zones[selectedId];
+        isCorrect = !!selectedZone && selectedZone.is_correct === true;
+        msg = isCorrect ? "Zona correcta" : "Selecciona la zona correcta";
+    }
+
+    // SLIDER
+    else if (ex.type === 'slider') {
+        const value = Number(state.currentAnswer);
+        const target = ex.interaction.correct_value ?? 50;
+        const tol = ex.interaction.tolerance ?? 5;
+        isCorrect = Math.abs(value - target) <= tol;
+        msg = isCorrect ? "Dentro del rango" : "Ajusta un poco más";
+    }
+
+    // DRAWING (auto marcado como correcto; evaluación manual)
+    else if (ex.type === 'drawing') {
+        isCorrect = true;
+        msg = "Enviado para revisión";
+    }
+
+    state.hasAnswered = true;
+    ui.btnCheck.disabled = true;
+    ui.btnCheck.style.opacity = "0.5";
+    showFeedback(isCorrect, msg, ex.scaffolding, alreadyGraded, ex.id);
+    // Habilitar reinicio del ejercicio tras corregir
+    ui.btnRepeat.disabled = false;
 }
 
-function showFeedback(isCorrect, msg, explanation) {
+function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId) {
     ui.modal.classList.remove('hidden');
     setTimeout(() => {
         ui.modal.classList.add('show');
@@ -276,15 +499,38 @@ function showFeedback(isCorrect, msg, explanation) {
     ui.feedbackTitle.innerText = isCorrect ? "¡Excelente!" : "Vaya...";
     ui.feedbackIcon.className = isCorrect ? "ph ph-check-circle" : "ph ph-warning-circle";
     ui.feedbackIcon.style.color = isCorrect ? "var(--success)" : "var(--error)";
-    ui.feedbackText.innerHTML = `${msg}<br><small style="color:#666; margin-top:5px; display:block;">${explanation || ''}</small>`;
+    const hint = scaffolding?.hint_1;
+    const expl = scaffolding?.explanation;
+    const more = scaffolding?.learn_more;
+    let extras = '';
+    if (!isCorrect && hint) extras += `<div class="fb-hint">💡 ${hint}</div>`;
+    if (expl) extras += `<div class="fb-expl">${expl}</div>`;
+    if (more) extras += `<details class="fb-more"><summary>Aprender más</summary><div>${more}</div></details>`;
+    ui.feedbackText.innerHTML = `${msg}${extras ? `<div class="feedback-extra">${extras}</div>` : ''}`;
 
-    if (isCorrect) {
-        state.score += 100 + (state.streak * 20);
-        state.streak++;
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
-    } else {
-        state.streak = 0;
+    if (!alreadyGraded) {
+        if (isCorrect) {
+            state.score += 100 + (state.streak * 20);
+            state.streak++;
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
+        } else {
+            state.streak = 0;
+        }
+        if (exId) state.graded[exId] = true;
     }
+    updateHUD();
+}
+
+function prevExercise() {
+    if (state.currentIndex > 0) {
+        state.currentIndex--;
+        renderCurrentExercise();
+        updateHUD();
+    }
+}
+
+function repeatExercise() {
+    renderCurrentExercise();
     updateHUD();
 }
 
@@ -292,6 +538,7 @@ function nextExercise() {
     state.currentIndex++;
     if (state.currentIndex < state.exercises.length) {
         renderCurrentExercise();
+        updateHUD();
     } else {
         showScreen('results');
         document.getElementById('final-xp').innerText = state.score;
@@ -302,8 +549,27 @@ function nextExercise() {
 function updateHUD() {
     ui.score.innerText = state.score;
     ui.streak.innerText = state.streak;
-    const pct = ((state.currentIndex) / state.exercises.length) * 100;
+    const total = state.exercises.length || 1;
+    const pct = ((state.currentIndex + 1) / total) * 100;
     ui.progressBar.style.width = `${pct}%`;
+    document.getElementById('question-display').innerText = `Pregunta ${Math.min(state.currentIndex + 1, total)}/${total}`;
+}
+
+function goToUpload() {
+    // Reiniciar todo y volver al inicio
+    state.exercises = [];
+    state.currentIndex = 0;
+    state.score = 0;
+    state.streak = 0;
+    state.currentAnswer = null;
+    state.hasAnswered = false;
+    state.graded = {};
+    ui.modal.classList.add('hidden');
+    ui.modal.classList.remove('show', 'correct', 'incorrect');
+    ui.progressBar.style.width = '0%';
+    ui.score.innerText = '0';
+    ui.streak.innerText = '0';
+    showScreen('upload');
 }
 
 function showScreen(name) {

@@ -86,9 +86,18 @@ textarea#json-input:focus { outline: none; border-color: var(--primary); backgro
 /* TARJETA EJERCICIO */
 .ex-card {
     background: white; border-radius: 12px; box-shadow: var(--shadow-md); border: 1px solid var(--border);
-    overflow: hidden; transition: transform 0.2s;
+    overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
 }
 .ex-card:hover { border-color: #cbd5e1; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 .ex-header {
     background: #f8fafc; padding: 12px 20px; border-bottom: 1px solid var(--border);
@@ -169,3 +178,12 @@ textarea#prompt-text::selection { background: #6366f1; color: white; }
 .status-success { color: var(--success); }
 .status-warning { color: var(--warning); }
 .status-info { color: #2563eb; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .workspace { grid-template-columns: 1fr; }
+    .sidebar { padding: 16px; }
+    .canvas { padding: 20px; }
+    .app-header { padding: 0 16px; }
+    .modal-content { width: 95%; max-width: none; }
+}

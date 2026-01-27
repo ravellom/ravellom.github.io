@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constructor REAI-DUA | Validador</title>
+    <title>Generador de Ejercicios Educativos</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -14,12 +14,24 @@
         <div class="brand">
             <i class="ph ph-cube-transparent" style="font-size: 1.5rem;"></i>
             <div>
-                <h1>Constructor REAI <span class="badge">BETA</span></h1>
+                <h1>Generador de Ejercicios <span class="badge">v1.0</span></h1>
             </div>
         </div>
         <div class="actions">
-            <button id="btn-export" class="btn btn-primary" disabled>
+            <button id="btn-undo" class="btn btn-secondary" disabled title="Deshacer">
+                <i class="ph ph-arrow-counter-clockwise"></i> Deshacer
+            </button>
+            <button id="btn-redo" class="btn btn-secondary" disabled title="Rehacer">
+                <i class="ph ph-arrow-clockwise"></i> Rehacer
+            </button>
+            <button id="btn-save-project" class="btn btn-secondary" aria-label="Guardar proyecto">
+                <i class="ph ph-floppy-disk"></i> Guardar Proyecto
+            </button>
+            <button id="btn-export" class="btn btn-primary" disabled aria-label="Exportar JSON">
                 <i class="ph ph-download-simple"></i> Exportar JSON
+            </button>
+            <button id="btn-export-html" class="btn btn-primary" disabled aria-label="Exportar HTML">
+                <i class="ph ph-file-html"></i> Exportar HTML
             </button>
         </div>
     </header>
@@ -28,16 +40,32 @@
         <aside class="sidebar">
             <div class="panel">
                 <h3><i class="ph ph-magic-wand"></i> Asistente IA</h3>
-                <button id="btn-show-prompt" class="btn btn-prompt-action">
+                <button id="btn-show-prompt" class="btn btn-prompt-action" aria-label="Obtener prompt maestro">
                     <i class="ph ph-chat-circle-text"></i> Obtener Prompt Maestro
                 </button>
 
                 <div class="divider"></div>
 
-                <h3><i class="ph ph-file-code"></i> Entrada de Datos</h3>
+                <h3><i class="ph ph-magnifying-glass"></i> Buscar y Filtrar</h3>
+                <input type="text" id="search-input" class="input-field" placeholder="Buscar por enunciado...">
+                <select id="filter-type" class="input-field">
+                    <option value="">Todos los tipos</option>
+                    <option value="multiple_choice">Elección múltiple</option>
+                    <option value="true_false">Verdadero/Falso</option>
+                    <option value="fill_gaps">Rellenar huecos</option>
+                    <option value="ordering">Ordenar</option>
+                    <option value="matching">Relacionar</option>
+                    <option value="grouping">Clasificar</option>
+                </select>
+                <select id="project-select" class="input-field" aria-label="Seleccionar proyecto guardado">
+                    <option value="">Seleccionar proyecto...</option>
+                </select>
+                <button id="btn-load-project" class="btn btn-outline" style="width:100%; margin-top:10px;" aria-label="Cargar proyecto seleccionado">
+                    <i class="ph ph-arrow-counter-clockwise"></i> Cargar Proyecto
+                </button>
                 
                 <input type="file" id="file-upload" accept=".json" style="display: none;">
-                <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-style:dashed;">
+                <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-style:dashed;" aria-label="Subir archivo JSON">
                     <i class="ph ph-upload-simple"></i> Subir Archivo .JSON
                 </button>
 
@@ -45,24 +73,24 @@
                 <textarea id="json-input" placeholder='Pegar código JSON aquí...'></textarea>
                 
                 <div class="button-group">
-                    <button id="btn-load" class="btn btn-secondary">
+                    <button id="btn-load" class="btn btn-secondary" aria-label="Procesar texto">
                         <i class="ph ph-arrow-counter-clockwise"></i> Procesar Texto
                     </button>
-                    <button id="btn-merge" class="btn btn-outline" title="Añadir ejercicios sin borrar los actuales">
+                    <button id="btn-merge" class="btn btn-outline" title="Añadir ejercicios sin borrar los actuales" aria-label="Fusionar ejercicios">
                         <i class="ph ph-plus-circle"></i> Fusionar
                     </button>
                 </div>
-                <div id="status-msg" class="status-msg"></div>
+                <div id="status-msg" class="status-msg" aria-live="polite"></div>
             </div>
 
             <div class="panel metadata-panel hidden" id="meta-panel">
                 <h3>Resumen del Recurso</h3>
                 <div class="meta-item">
-                    <label>Título:</label>
+                    <label for="meta-title">Título:</label>
                     <input type="text" id="meta-title" class="input-field" placeholder="Ej. El Ciclo del Agua">
                 </div>
                 <div class="meta-item">
-                    <label>Tema:</label>
+                    <label for="meta-topic">Tema:</label>
                     <input type="text" id="meta-topic" class="input-field">
                 </div>
                 <div class="stat-box">
@@ -85,17 +113,29 @@
         </section>
     </main>
 
-    <div id="prompt-modal" class="modal-overlay hidden" style="display: none;">
+    <div id="preview-modal" class="modal-overlay hidden" style="display: none;" role="dialog" aria-labelledby="preview-title" aria-describedby="preview-body">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Prompt Estructurado (Schema REAI-DUA)</h3>
-                <button id="btn-close-modal" class="close-icon"><i class="ph ph-x"></i></button>
+                <h3 id="preview-title">Vista Previa del Ejercicio</h3>
+                <button id="btn-close-preview" class="close-icon" aria-label="Cerrar vista previa"><i class="ph ph-x"></i></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="preview-body">
+                <div id="preview-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="prompt-modal" class="modal-overlay hidden" style="display: none;" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-body">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Prompt para Generar Ejercicios con IA</h3>
+                <button id="btn-close-modal" class="close-icon" aria-label="Cerrar modal"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
                 <p>Copia este texto manualmente (Ctrl + C) y pégalo en tu IA:</p>
                 <div class="code-block-wrapper">
                     <textarea id="prompt-text" readonly></textarea>
-                    <button id="btn-copy-prompt" class="btn-copy"><i class="ph ph-text-aa"></i> Seleccionar Todo</button>
+                    <button id="btn-copy-prompt" class="btn-copy" aria-label="Seleccionar todo el texto"><i class="ph ph-text-aa"></i> Seleccionar Todo</button>
                 </div>
             </div>
         </div>
