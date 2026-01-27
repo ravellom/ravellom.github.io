@@ -1,5 +1,7 @@
 /* * APP.JS - Constructor REAI-DUA (Versión Final Reparada) * */
 
+console.log('App JS loaded');
+
 // 1. PROMPT MAESTRO AVANZADO
 const MASTER_PROMPT = `Actúa como un Diseñador Instruccional experto.
 Tu tarea es generar un JSON con ejercicios interactivos variados.
@@ -54,6 +56,7 @@ TAREA: Genera 4 ejercicios de DIFERENTES TIPOS sobre:
 
 // 2. ESTADO GLOBAL Y REFERENCIAS
 let currentData = { resource_metadata: { title: "", topic: "" }, exercises: [] };
+let isModalOpen = false;
 
 const elements = {
     // Entradas
@@ -90,6 +93,7 @@ const elements = {
 };
 
 // 3. EVENT LISTENERS
+console.log('Setting up event listeners');
 elements.btnLoad.addEventListener('click', () => handleJsonAction('load'));
 elements.btnMerge.addEventListener('click', () => handleJsonAction('merge'));
 elements.btnExport.addEventListener('click', () => window.exportJson());
@@ -100,14 +104,89 @@ elements.fileUpload.addEventListener('change', handleFileUpload);
 
 // Listeners de UI
 elements.inputs.title.addEventListener('input', (e) => currentData.resource_metadata.title = e.target.value);
-elements.btnShowPrompt.addEventListener('click', openPromptModal);
+elements.btnShowPrompt.addEventListener('click', (e) => {
+    console.log('Button clicked');
+    e.preventDefault();
+    openPromptModal();
+});
 elements.modal.close.addEventListener('click', closePromptModal);
 elements.modal.overlay.addEventListener('click', (e) => { if(e.target === elements.modal.overlay) closePromptModal(); });
 elements.modal.copy.addEventListener('click', selectAllText);
 
-// 4. LÓGICA DE DATOS
+console.log('Modal initially hidden:', elements.modal.overlay.classList.contains('hidden'));
 
-// Función para manejar la subida del archivo (RESTAURADA)
+// Función para validar esquema básico REAI-DUA (más permisiva, crea defaults)
+function validateJsonSchema(data) {
+    if (!data || typeof data !== 'object') throw new Error('El JSON debe ser un objeto válido.');
+    if (!data.resource_metadata || typeof data.resource_metadata !== 'object') {
+        data.resource_metadata = { title: '', topic: '' };
+    }
+    if (!Array.isArray(data.exercises)) {
+        data.exercises = []; // Crear array vacío si falta
+    }
+    
+    data.exercises.forEach((ex, index) => {
+        if (!ex.id) ex.id = `ex_${Date.now()}_${index}`;
+        if (!ex.type || !['multiple_choice', 'true_false', 'fill_gaps', 'ordering', 'matching', 'grouping'].includes(ex.type)) {
+            ex.type = 'multiple_choice'; // Default
+        }
+        if (!ex.content || typeof ex.content !== 'object') ex.content = { prompt_text: 'Enunciado faltante' };
+        if (!ex.content.prompt_text) ex.content.prompt_text = 'Enunciado faltante';
+        
+        if (!ex.interaction || typeof ex.interaction !== 'object') {
+            // Crear interacción por defecto según tipo
+            switch (ex.type) {
+                case 'multiple_choice':
+                case 'true_false':
+                    ex.interaction = { options: [{ id: 'o1', text: 'Opción 1', is_correct: false }] };
+                    break;
+                case 'fill_gaps':
+                    ex.interaction = { template: '[palabra]', distractors: [] };
+                    break;
+                case 'ordering':
+                    ex.interaction = { sequence: [{ order: 1, text: 'Paso 1' }] };
+                    break;
+                case 'matching':
+                    ex.interaction = { pairs: [{ left: 'Concepto', right: 'Definición' }] };
+                    break;
+                case 'grouping':
+                    ex.interaction = { categories: ['Grupo 1'], items: [{ text: 'Elemento', category: 'Grupo 1' }] };
+                    break;
+            }
+        }
+        
+        // Validaciones específicas (menos estrictas)
+        if ((ex.type === 'multiple_choice' || ex.type === 'true_false') && !Array.isArray(ex.interaction.options)) {
+            ex.interaction.options = [{ id: 'o1', text: 'Opción 1', is_correct: false }];
+        }
+        if (ex.type === 'fill_gaps') {
+            if (!ex.interaction.template) ex.interaction.template = '[palabra]';
+            if (!Array.isArray(ex.interaction.distractors)) ex.interaction.distractors = [];
+        }
+        if (ex.type === 'ordering' && !Array.isArray(ex.interaction.sequence)) {
+            ex.interaction.sequence = [{ order: 1, text: 'Paso 1' }];
+        }
+        if (ex.type === 'matching' && !Array.isArray(ex.interaction.pairs)) {
+            ex.interaction.pairs = [{ left: 'Concepto', right: 'Definición' }];
+        }
+        if (ex.type === 'grouping') {
+            if (!Array.isArray(ex.interaction.categories)) ex.interaction.categories = ['Grupo 1'];
+            if (!Array.isArray(ex.interaction.items)) ex.interaction.items = [{ text: 'Elemento', category: 'Grupo 1' }];
+        }
+        
+        if (!ex.scaffolding || typeof ex.scaffolding !== 'object') ex.scaffolding = { hint_1: '', explanation: '' };
+        if (!ex.scaffolding.hint_1) ex.scaffolding.hint_1 = '';
+        if (!ex.scaffolding.explanation) ex.scaffolding.explanation = '';
+    });
+    return data;
+}
+
+// Función para sanitizar texto editable (prevenir XSS básico)
+function sanitizeText(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML; // Solo texto plano
+}
 function handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -126,6 +205,7 @@ function handleFileUpload(event) {
 }
 
 function handleJsonAction(action) {
+    console.log('Handling JSON action:', action);
     const rawText = elements.jsonInput.value.trim();
     if (!rawText) return showStatus('Entrada vacía. Pega un JSON o sube un archivo.', 'error');
     
@@ -133,27 +213,32 @@ function handleJsonAction(action) {
 
     try {
         const newData = JSON.parse(cleanText);
-        if (!newData.exercises) throw new Error('Falta array "exercises"');
-
+        const validatedData = validateJsonSchema(newData); // Validar y crear defaults
+        
         if (action === 'load') {
-            currentData = newData;
-            if(!currentData.resource_metadata) currentData.resource_metadata = {};
+            currentData = validatedData;
         } else {
-            mergeExercises(newData.exercises);
+            mergeExercises(validatedData.exercises);
         }
         renderApp();
         showStatus('Procesado correctamente', 'success');
     } catch (e) {
-        showStatus('Error JSON: ' + e.message, 'error');
+        console.error('Error in handleJsonAction:', e);
+        showStatus('Error: ' + e.message, 'error');
     }
 }
 
 function mergeExercises(newEx) {
-    newEx.forEach(ex => {
-        ex.id = `ex_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
-        ex.status = 'review';
-        currentData.exercises.push(ex);
-    });
+    try {
+        const validatedEx = validateJsonSchema({ exercises: newEx }).exercises; // Validar solo exercises
+        validatedEx.forEach(ex => {
+            ex.id = `ex_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+            ex.status = 'review';
+            currentData.exercises.push(ex);
+        });
+    } catch (e) {
+        showStatus('Error al fusionar: ' + e.message, 'error');
+    }
 }
 
 // 5. RENDERIZADO INTELIGENTE
@@ -298,26 +383,35 @@ function getInteractionHTML(ex) {
 
 // 6. FUNCIONES GLOBALES Y UTILIDADES
 function openPromptModal() {
+    console.log('Opening prompt modal');
+    if (isModalOpen) return;
+    isModalOpen = true;
     elements.modal.text.value = MASTER_PROMPT;
     elements.modal.overlay.classList.remove('hidden');
     setTimeout(() => elements.modal.text.select(), 100);
 }
-function closePromptModal() { elements.modal.overlay.classList.add('hidden'); }
+function closePromptModal() { 
+    console.log('Closing prompt modal');
+    isModalOpen = false;
+    elements.modal.overlay.classList.add('hidden'); 
+}
 function selectAllText() { elements.modal.text.select(); }
 
 function showStatus(msg, type) {
     elements.statusMsg.innerText = msg;
-    elements.statusMsg.style.color = type === 'error' ? 'red' : 'green';
-    setTimeout(() => elements.statusMsg.innerText = '', 3000);
+    elements.statusMsg.className = 'status-msg'; // Reset
+    elements.statusMsg.classList.add(`status-${type}`);
+    setTimeout(() => elements.statusMsg.innerText = '', 5000);
 }
 
 // Funciones expuestas a Window para HTML dinámico
 window.updateData = (id, field, val) => {
+    const sanitizedVal = sanitizeText(val); // Sanitizar
     const ex = currentData.exercises.find(e => e.id === id);
-    if(ex && field==='prompt') ex.content.prompt_text = val;
+    if(ex && field==='prompt') ex.content.prompt_text = sanitizedVal;
+    if(ex && field==='hint') { if(!ex.scaffolding) ex.scaffolding={}; ex.scaffolding.hint_1 = sanitizedVal; }
+    if(ex && field==='explanation') { if(!ex.scaffolding) ex.scaffolding={}; ex.scaffolding.explanation = sanitizedVal; }
     // Nota: Para editar la interacción compleja se requiere lógica UI más avanzada
-    if(ex && field==='hint') { if(!ex.scaffolding) ex.scaffolding={}; ex.scaffolding.hint_1 = val; }
-    if(ex && field==='explanation') { if(!ex.scaffolding) ex.scaffolding={}; ex.scaffolding.explanation = val; }
 };
 window.toggleStatus = (id) => {
     const ex = currentData.exercises.find(e => e.id === id);
