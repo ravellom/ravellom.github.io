@@ -54,13 +54,32 @@ textarea#json-input:focus { outline: none; border-color: var(--primary); backgro
 }
 
 /* BOTONES - Ajustados para usar recuedu */
-.button-group { display: flex; gap: 10px; }
+.button-group { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 8px; 
+}
 
-.btn-secondary { background: var(--text-main); color: white; flex: 1; }
+.button-group .btn {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.button-group .btn i {
+    font-size: 1rem;
+}
+
+/* El botón de procesar texto ocupa toda la fila superior */
+#btn-load {
+    grid-column: 1 / -1;
+}
+
+.btn-secondary { background: var(--text-main); color: white; }
 .btn-secondary:hover { background: #0F172A; }
 
 .btn-outline { 
-    background: transparent; border: 2px solid var(--border); color: var(--text-main); flex: 1; 
+    background: transparent; border: 2px solid var(--border); color: var(--text-main); 
 }
 .btn-outline:hover { background: #f1f5f9; border-color: var(--text-main); }
 

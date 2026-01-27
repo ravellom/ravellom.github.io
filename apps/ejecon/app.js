@@ -340,6 +340,19 @@ function attachEventListeners() {
     elements.btnRedo.addEventListener('click', redo);
     elements.btnExportHtml.addEventListener('click', exportAsHTML);
 
+    // Botón limpiar JSON
+    const btnClearJson = document.getElementById('btn-clear-json');
+    if (btnClearJson) {
+        btnClearJson.addEventListener('click', () => {
+            if (elements.jsonInput.value.trim() && !confirm('¿Seguro que quieres limpiar el texto?')) {
+                return;
+            }
+            elements.jsonInput.value = '';
+            elements.jsonInput.focus();
+            showStatus('Texto limpiado', 'success');
+        });
+    }
+
     // Listeners de subida de archivos
     elements.btnUploadTrigger.addEventListener('click', () => elements.fileUpload.click());
     elements.fileUpload.addEventListener('change', handleFileUpload);
@@ -778,6 +791,92 @@ function getInteractionHTML(ex) {
                     &rarr; <strong>${item.category}</strong>
                 </div>
             `).join('') : ''}
+        `;
+    }
+
+    // CASO 7: SHORT ANSWER (RESPUESTA CORTA)
+    if (ex.type === 'short_answer') {
+        return `
+            <div style="background:white; padding:10px; border-radius:5px;">
+                <div style="margin-bottom:8px;">
+                    <strong>Respuestas esperadas:</strong> 
+                    <em>${data.expected_answers ? data.expected_answers.join(', ') : 'Ninguna'}</em>
+                </div>
+                <div style="font-size:0.9rem; color:#666;">
+                    Max. caracteres: ${data.max_length || 200} | 
+                    Sensible a mayúsculas: ${data.case_sensitive ? 'Sí' : 'No'}
+                </div>
+            </div>
+        `;
+    }
+
+    // CASO 8: ESSAY (ENSAYO/REDACCIÓN)
+    if (ex.type === 'essay') {
+        return `
+            <div style="background:white; padding:10px; border-radius:5px;">
+                <div style="margin-bottom:8px;">
+                    <strong>Extensión:</strong> ${data.min_words || 50} - ${data.max_words || 250} palabras
+                </div>
+                ${data.rubric && Object.keys(data.rubric).length > 0 ? 
+                    `<div style="margin-top:8px; font-size:0.9rem;">
+                        <strong>Rúbrica:</strong> <pre style="background:#f8f9fa; padding:8px; border-radius:4px; overflow-x:auto;">${JSON.stringify(data.rubric, null, 2)}</pre>
+                    </div>` : 
+                    '<div style="color:#999; font-size:0.9rem;">Sin rúbrica</div>'}
+            </div>
+        `;
+    }
+
+    // CASO 9: HOTSPOT (ZONAS CLICABLES)
+    if (ex.type === 'hotspot') {
+        return `
+            <div style="background:white; padding:10px; border-radius:5px;">
+                <div style="margin-bottom:8px;">
+                    <strong>Imagen:</strong> 
+                    ${data.image_url ? 
+                        `<img src="${data.image_url}" alt="Hotspot" style="max-width:100%; max-height:150px; border-radius:5px; margin-top:5px;">` : 
+                        '<span style="color:#999;">No configurada</span>'}
+                </div>
+                <div style="font-size:0.9rem; color:#666;">
+                    Zonas definidas: ${data.zones ? data.zones.length : 0}
+                </div>
+            </div>
+        `;
+    }
+
+    // CASO 10: SLIDER (ESCALA NUMÉRICA)
+    if (ex.type === 'slider') {
+        return `
+            <div style="background:white; padding:10px; border-radius:5px;">
+                <div style="margin-bottom:8px;">
+                    <strong>Rango:</strong> ${data.min ?? 0} - ${data.max ?? 100}
+                </div>
+                <div style="font-size:0.9rem; color:#666;">
+                    Valor correcto: <strong>${data.correct_value ?? 50}</strong> 
+                    (tolerancia: ±${data.tolerance ?? 5})
+                </div>
+                <input type="range" min="${data.min ?? 0}" max="${data.max ?? 100}" 
+                       value="${data.correct_value ?? 50}" disabled 
+                       style="width:100%; margin-top:8px;">
+            </div>
+        `;
+    }
+
+    // CASO 11: DRAWING (DIBUJO/ANOTACIÓN)
+    if (ex.type === 'drawing') {
+        return `
+            <div style="background:white; padding:10px; border-radius:5px;">
+                <div style="margin-bottom:8px;">
+                    <strong>Canvas:</strong> ${data.canvas_width || 800}px × ${data.canvas_height || 600}px
+                </div>
+                <div style="font-size:0.9rem; color:#666;">
+                    Evaluación: <strong>${data.evaluation_type || 'manual'}</strong>
+                </div>
+                <div style="width:100%; height:100px; background:#f8f9fa; border:2px dashed #ddd; 
+                            border-radius:5px; display:flex; align-items:center; justify-content:center; 
+                            margin-top:8px; color:#999;">
+                    Zona de dibujo (vista previa)
+                </div>
+            </div>
         `;
     }
 
