@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiblioClick</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
   <link rel="stylesheet" href="../../assets/css/recuedu.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -29,11 +30,11 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" style="padding: 20px 0; min-height: auto;">
     <div class="container">
-      <span class="hero-tag">📚 Herramienta Educativa</span>
-      <h1>Crea referencias bibliográficas fácilmente</h1>
-      <p>Genera citas en formato APA de manera rápida y organizada</p>
+      <span class="hero-tag">📚 Para Estudiantes</span>
+      <h1 style="font-size: 1.8rem; margin: 12px 0;">Gestor de Citas Simplificado</h1>
+      <p style="margin: 8px 0; font-size: 1rem;">Tu primera herramienta para organizar bibliografía en trabajos escolares. Genera referencias en formato APA de manera fácil y rápida.</p>
     </div>
   </section>
 
@@ -55,41 +56,16 @@
 
       <label for="docType">Tipo de documento:</label>
       <select id="docType" onchange="updateFormFields()">
-        <option value="Libro">Libro</option>
-        <option value="Artículo">Artículo de revista</option>
-        <option value="Página web">Página web</option>
-        <option value="Otro">Otro</option>
+        <!-- Las opciones se cargarán dinámicamente desde el JSON -->
       </select>
 
-      <label for="year">Año:</label>
-      <input type="number" id="year" placeholder="Ej: 2024" />
-
-      <!-- Campos para Libro -->
-      <div id="bookFields" style="display: none;">
-        <label for="publisher">Editorial:</label>
-        <input type="text" id="publisher" placeholder="Editorial" />
-        
-        <label for="edition">Edición:</label>
-        <input type="text" id="edition" placeholder="Ej: 2ª edición" />
+      <!-- Campos dinámicos según tipo de documento -->
+      <div id="dynamicFields">
+        <!-- Los campos se generarán automáticamente -->
       </div>
 
-      <!-- Campos para Artículo -->
-      <div id="articleFields" style="display: none;">
-        <label for="journal">Revista/Journal:</label>
-        <input type="text" id="journal" placeholder="Nombre de la revista" />
-        
-        <label for="volume">Volumen:</label>
-        <input type="text" id="volume" placeholder="Ej: 15" />
-        
-        <label for="issue">Número/Edición:</label>
-        <input type="text" id="issue" placeholder="Ej: 3" />
-        
-        <label for="pages">Páginas:</label>
-        <input type="text" id="pages" placeholder="Ej: 234-256" />
-      </div>
-
-      <label for="url">URL (opcional):</label>
-      <input type="url" id="url" placeholder="https://ejemplo.com" />
+      <label for="urlOrDoi">DOI (preferido) o URL:</label>
+      <input type="text" id="urlOrDoi" placeholder="https://doi.org/10.xxxx o https://ejemplo.com" />
     </div>
     <br />
     <button class="btn btn-primary" onclick="addReference()">Guardar referencia</button>

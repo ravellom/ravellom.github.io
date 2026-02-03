@@ -1,0 +1,338 @@
+{
+  "Libro": {
+    "emoji": "📖",
+    "label": "Libro",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "publisher",
+        "label": "Editorial",
+        "type": "text",
+        "placeholder": "Ej: Planeta, Anaya, etc.",
+        "required": false
+      },
+      {
+        "id": "edition",
+        "label": "Edición (si no es la 1ª)",
+        "type": "text",
+        "placeholder": "Ej: 2, 3, 4...",
+        "required": false
+      },
+      {
+        "id": "city",
+        "label": "Ciudad (opcional)",
+        "type": "text",
+        "placeholder": "Ej: Madrid, Barcelona, etc.",
+        "required": false
+      }
+    ]
+  },
+  "Artículo": {
+    "emoji": "📰",
+    "label": "Artículo de revista",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "journal",
+        "label": "Nombre de la revista",
+        "type": "text",
+        "placeholder": "Ej: Nature, Science, etc.",
+        "required": false
+      },
+      {
+        "id": "volume",
+        "label": "Volumen",
+        "type": "text",
+        "placeholder": "Ej: 15",
+        "required": false
+      },
+      {
+        "id": "issue",
+        "label": "Número (opcional)",
+        "type": "text",
+        "placeholder": "Ej: 3",
+        "required": false
+      },
+      {
+        "id": "pages",
+        "label": "Páginas",
+        "type": "text",
+        "placeholder": "Ej: 234-256",
+        "required": false
+      }
+    ]
+  },
+  "Página web": {
+    "emoji": "🌐",
+    "label": "Página web",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "dateWeb",
+        "label": "Fecha exacta (si disponible)",
+        "type": "date",
+        "required": false
+      },
+      {
+        "id": "website",
+        "label": "Nombre del sitio web",
+        "type": "text",
+        "placeholder": "Ej: Wikipedia, BBC News, etc.",
+        "required": false
+      },
+      {
+        "id": "organization",
+        "label": "Organización/Autor corporativo",
+        "type": "text",
+        "placeholder": "Ej: Organización Mundial de la Salud",
+        "required": false
+      },
+      {
+        "id": "accessDate",
+        "label": "Fecha de acceso (opcional)",
+        "type": "date",
+        "required": false
+      }
+    ]
+  },
+  "Video": {
+    "emoji": "🎥",
+    "label": "Video (YouTube, etc.)",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "dateVideo",
+        "label": "Fecha exacta (opcional)",
+        "type": "date",
+        "required": false
+      },
+      {
+        "id": "channel",
+        "label": "Canal/Creador",
+        "type": "text",
+        "placeholder": "Nombre del canal de YouTube, Vimeo, etc.",
+        "required": false
+      },
+      {
+        "id": "platform",
+        "label": "Plataforma",
+        "type": "select",
+        "options": [
+          { "value": "YouTube", "label": "YouTube" },
+          { "value": "Vimeo", "label": "Vimeo" },
+          { "value": "TED", "label": "TED" },
+          { "value": "Otro", "label": "Otro" }
+        ],
+        "required": false
+      }
+    ]
+  },
+  "Periódico": {
+    "emoji": "📰",
+    "label": "Artículo de periódico",
+    "fields": [
+      {
+        "id": "dateNewspaper",
+        "label": "Fecha de publicación",
+        "type": "date",
+        "required": false
+      },
+      {
+        "id": "newspaper",
+        "label": "Nombre del periódico",
+        "type": "text",
+        "placeholder": "Ej: El País, ABC, La Vanguardia, etc.",
+        "required": false
+      },
+      {
+        "id": "section",
+        "label": "Sección (opcional)",
+        "type": "text",
+        "placeholder": "Ej: Cultura, Deportes, etc.",
+        "required": false
+      },
+      {
+        "id": "pageNumber",
+        "label": "Página (opcional)",
+        "type": "text",
+        "placeholder": "Ej: p. 12",
+        "required": false
+      }
+    ]
+  },
+  "Enciclopedia": {
+    "emoji": "📚",
+    "label": "Enciclopedia/Diccionario",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "entryTitle",
+        "label": "Título de la entrada/artículo",
+        "type": "text",
+        "placeholder": "Ej: Fotosíntesis",
+        "required": false
+      },
+      {
+        "id": "encyclopedia",
+        "label": "Nombre de la enciclopedia",
+        "type": "text",
+        "placeholder": "Ej: Enciclopedia Británica",
+        "required": false
+      },
+      {
+        "id": "encyclopediaEditor",
+        "label": "Editor/Compilador (opcional)",
+        "type": "text",
+        "placeholder": "Nombre del editor",
+        "required": false
+      },
+      {
+        "id": "volumeEncyclopedia",
+        "label": "Volumen (opcional)",
+        "type": "text",
+        "placeholder": "Ej: Vol. 5",
+        "required": false
+      }
+    ]
+  },
+  "Entrevista": {
+    "emoji": "🎤",
+    "label": "Entrevista",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de la entrevista",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "dateInterview",
+        "label": "Fecha exacta (opcional)",
+        "type": "date",
+        "required": false
+      },
+      {
+        "id": "interviewer",
+        "label": "Entrevistador",
+        "type": "text",
+        "placeholder": "Nombre y apellido",
+        "required": false
+      },
+      {
+        "id": "medium",
+        "label": "Medio/Programa",
+        "type": "text",
+        "placeholder": "Ej: Radio Nacional, CNN, etc.",
+        "required": false
+      },
+      {
+        "id": "interviewType",
+        "label": "Tipo",
+        "type": "select",
+        "options": [
+          { "value": "personal", "label": "Entrevista personal" },
+          { "value": "radio", "label": "Radio" },
+          { "value": "tv", "label": "Televisión" },
+          { "value": "podcast", "label": "Podcast" }
+        ],
+        "required": false
+      }
+    ]
+  },
+  "Documental": {
+    "emoji": "🎬",
+    "label": "Documental/Película",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "director",
+        "label": "Director(es)",
+        "type": "text",
+        "placeholder": "Nombre y apellido del director",
+        "required": false
+      },
+      {
+        "id": "producer",
+        "label": "Productor (opcional)",
+        "type": "text",
+        "placeholder": "Nombre del productor",
+        "required": false
+      },
+      {
+        "id": "studio",
+        "label": "Productora/Estudio",
+        "type": "text",
+        "placeholder": "Ej: Netflix, HBO, National Geographic, etc.",
+        "required": false
+      },
+      {
+        "id": "filmType",
+        "label": "Tipo",
+        "type": "select",
+        "options": [
+          { "value": "documental", "label": "Documental" },
+          { "value": "pelicula", "label": "Película" },
+          { "value": "serie", "label": "Episodio de serie" }
+        ],
+        "required": false
+      }
+    ]
+  },
+  "Otro": {
+    "emoji": "📄",
+    "label": "Otro",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "otherInfo",
+        "label": "Información adicional",
+        "type": "text",
+        "placeholder": "Cualquier información relevante",
+        "required": false
+      }
+    ]
+  }
+}
