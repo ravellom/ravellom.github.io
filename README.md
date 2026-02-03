@@ -30,6 +30,15 @@ Visualización avanzada de datos de escalas Likert. Genera gráficos divergentes
 
 **Demo:** [https://ravellom.github.io/apps/likert-charts/](https://ravellom.github.io/apps/likert-charts/)
 
+### 🌍 [Mapas Interactivos](apps/interactive-maps/)
+Herramienta educativa para aprender geografía mundial. Identifica países y territorios en mapas interactivos de diferentes regiones.
+- 🗺️ 5 regiones: Europa, Centroamérica, Sudamérica, África y Asia
+- 📝 Sistema de seguimiento ordenado
+- 🌐 Nombres bilingües (Español/Inglés)
+- 🎯 Interfaz educativa intuitiva
+
+**Demo:** [https://ravellom.github.io/apps/interactive-maps/](https://ravellom.github.io/apps/interactive-maps/)
+
 ---
 
 ## 🧪 Proyectos Experimentales

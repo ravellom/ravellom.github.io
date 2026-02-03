@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapas Interactivos - RecuEdu Labs</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+
+    <style>
+        /* --- ESTRUCTURA GENERAL --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- CABECERA PRINCIPAL --- */
+        header.app-header {
+            background: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header-content h1 { 
+            margin: 0; 
+            font-size: 1.4rem; 
+            color: #333; 
+        }
+        
+        .header-content p { 
+            margin: 2px 0 0; 
+            font-size: 0.85rem; 
+            color: #666; 
+        }
+
+        /* Controles de Configuración */
+        .config-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .config-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .config-group label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .config-group select {
+            padding: 6px 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: white;
+        }
+
+        .config-group input[type="color"] {
+            width: 40px;
+            height: 35px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .config-group input[type="range"] {
+            width: 120px;
+        }
+
+        /* Selector de Región */
+        .region-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .region-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .region-btn:hover {
+            background-color: #e0e0e0;
+            border-color: #999;
+        }
+
+        .region-btn.active {
+            background-color: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+
+        #reset-btn {
+            background-color: #ff6961;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        #reset-btn:hover { background-color: #e0554d; }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* MAPA */
+        #map {
+            flex: 3;
+            height: 100%;
+            background-color: #ffffff;
+            outline: none;
+        }
+
+        /* BARRA LATERAL (LISTA) */
+        .sidebar {
+            flex: 1;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+            z-index: 999;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #333;
+            border-bottom: 2px solid #ff6961;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        #country-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #country-list li {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .order-number {
+            background-color: #ff6961;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .english-name {
+            color: #888;
+            font-style: italic;
+            margin-left: 5px;
+            font-size: 0.9em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* Estilos para tooltips de países */
+        .country-tooltip {
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            border: none !important;
+            border-radius: 6px !important;
+            padding: 8px 12px !important;
+            color: white !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        }
+        
+        .country-tooltip::before {
+            border-top-color: rgba(0, 0, 0, 0.85) !important;
+        }
+
+        /* --- RESPONSIVIDAD --- */
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; overflow-y: auto; }
+            body { overflow: auto; height: auto; }
+            #map { height: 50vh; min-height: 300px; }
+            .sidebar { border-left: none; border-top: 1px solid #ddd; height: auto; min-height: 300px; }
+            .region-selector { gap: 8px; }
+            .region-btn { padding: 8px 12px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- RecuEdu Labs Navbar -->
+    <nav class="navbar" style="background: #1a1a1a; padding: 8px 0; border-bottom: 1px solid #333;">
+        <div class="container nav-content">
+            <a href="../../index.html" class="logo" style="color: white; text-decoration: none;">
+                <i class="fa-solid fa-flask-vial" style="margin-right: 8px;"></i> RecuEdu Labs
+            </a>
+        </div>
+    </nav>
+
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-content">
+                <h1><i class="fa-solid fa-earth-americas"></i> Mapas Interactivos</h1>
+                <p>Selecciona los países/territorios en orden.</p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="config-controls">
+                    <div class="config-group">
+                        <label><i class="fa-solid fa-palette"></i> Paleta:</label>
+                        <select id="color-palette">
+                            <option value="single">Color Único</option>
+                            <option value="rainbow">Arcoíris</option>
+                            <option value="pastel">Pastel</option>
+                            <option value="ocean">Oceánico</option>
+                        </select>
+                    </div>
+                    <div class="config-group" id="single-color-picker" style="display: flex;">
+                        <input type="color" id="base-color" value="#ff6961" title="Color base">
+                    </div>
+                    <div class="config-group">
+                        <label><i class="fa-solid fa-map"></i> No seleccionado:</label>
+                        <input type="color" id="unselected-color" value="#e0e0e0" title="Color países no seleccionados">
+                    </div>
+                    <div class="config-group">
+                        <label><i class="fa-solid fa-adjust"></i> Opacidad:</label>
+                        <input type="range" id="unselected-opacity" min="0" max="100" value="100" title="Opacidad países no seleccionados">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="export-png-btn" style="background-color: #3B82F6; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;" title="Exportar mapa como PNG">
+                        <i class="fa-solid fa-image"></i> PNG
+                    </button>
+                    <button id="export-svg-btn" style="background-color: #10B981; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;" title="Exportar mapa como SVG">
+                        <i class="fa-solid fa-file-code"></i> SVG
+                    </button>
+                    <button id="reset-btn"><i class="fa-solid fa-rotate-right"></i> Reiniciar</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="region-selector">
+            <button class="region-btn active" data-region="europa">🇪🇺 Europa</button>
+            <button class="region-btn" data-region="centroamerica">🌎 Centroamérica y Caribe</button>
+            <button class="region-btn" data-region="sudamerica">🌎 Sudamérica</button>
+            <button class="region-btn" data-region="africa">🌍 África</button>
+            <button class="region-btn" data-region="asia">🌏 Asia</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div id="map"></div>
+        
+        <aside class="sidebar">
+            <h2><span id="region-title">Europa</span> (<span id="count">0</span>)</h2>
+            <ul id="country-list">
+                <li style="color: #999; list-style: none;">Haz clic en el mapa para empezar</li>
+            </ul>
+        </aside>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // --- CONFIGURACIÓN DE REGIONES ---
+        const regions = {
+            europa: {
+                title: "Europa",
+                center: [53.0, 10.0],
+                zoom: 4,
+                url: 'https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson',
+                translations: {
+                    "Albania": "Albania", "Andorra": "Andorra", "Austria": "Austria",
+                    "Belarus": "Bielorrusia", "Belgium": "Bélgica", 
+                    "Bosnia and Herzegovina": "Bosnia y Herzegovina", "Bulgaria": "Bulgaria",
+                    "Croatia": "Croacia", "Cyprus": "Chipre", "Czech Republic": "República Checa",
+                    "Denmark": "Dinamarca", "Estonia": "Estonia", "Finland": "Finlandia",
+                    "France": "Francia", "Germany": "Alemania", "Greece": "Grecia",
+                    "Hungary": "Hungría", "Iceland": "Islandia", "Ireland": "Irlanda",
+                    "Italy": "Italia", "Kosovo": "Kosovo", "Latvia": "Letonia",
+                    "Liechtenstein": "Liechtenstein", "Lithuania": "Lituania",
+                    "Luxembourg": "Luxemburgo", "Malta": "Malta", "Moldova": "Moldavia",
+                    "Monaco": "Mónaco", "Montenegro": "Montenegro", "Netherlands": "Países Bajos",
+                    "North Macedonia": "Macedonia del Norte", "Norway": "Noruega",
+                    "Poland": "Polonia", "Portugal": "Portugal", "Romania": "Rumanía",
+                    "Russia": "Rusia", "San Marino": "San Marino", "Serbia": "Serbia",
+                    "Slovakia": "Eslovaquia", "Slovenia": "Eslovenia", "Spain": "España",
+                    "Sweden": "Suecia", "Switzerland": "Suiza", "Ukraine": "Ucrania",
+                    "United Kingdom": "Reino Unido", "Vatican City": "Ciudad del Vaticano"
+                }
+            },
+            centroamerica: {
+                title: "Centroamérica y Caribe",
+                center: [18.0, -75.0],
+                zoom: 4,
+                url: 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson',
+                filter: ['Belize', 'Costa Rica', 'El Salvador', 'Guatemala', 'Honduras', 'Nicaragua', 'Panama', 'Mexico', 'Cuba', 'Jamaica', 'Haiti', 'Dominican Republic', 'Bahamas', 'Trinidad and Tobago', 'Barbados', 'Saint Lucia', 'Grenada', 'Saint Vincent and the Grenadines', 'Antigua and Barbuda', 'Dominica', 'Saint Kitts and Nevis'],
+                translations: {
+                    "Belize": "Belice",
+                    "Costa Rica": "Costa Rica",
+                    "El Salvador": "El Salvador",
+                    "Guatemala": "Guatemala",
+                    "Honduras": "Honduras",
+                    "Nicaragua": "Nicaragua",
+                    "Panama": "Panamá",
+                    "Mexico": "México",
+                    "Cuba": "Cuba",
+                    "Jamaica": "Jamaica",
+                    "Haiti": "Haití",
+                    "Dominican Republic": "República Dominicana",
+                    "Bahamas": "Bahamas",
+                    "Trinidad and Tobago": "Trinidad y Tobago",
+                    "Barbados": "Barbados",
+                    "Saint Lucia": "Santa Lucía",
+                    "Grenada": "Granada",
+                    "Saint Vincent and the Grenadines": "San Vicente y las Granadinas",
+                    "Antigua and Barbuda": "Antigua y Barbuda",
+                    "Dominica": "Dominica",
+                    "Saint Kitts and Nevis": "San Cristóbal y Nieves"
+                }
+            },
+            sudamerica: {
+                title: "Sudamérica",
+                center: [-15.0, -60.0],
+                zoom: 3,
+                url: 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson',
+                filter: ['Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 'Peru', 'Suriname', 'Uruguay', 'Venezuela'],
+                translations: {
+                    "Argentina": "Argentina",
+                    "Bolivia": "Bolivia",
+                    "Brazil": "Brasil",
+                    "Chile": "Chile",
+                    "Colombia": "Colombia",
+                    "Ecuador": "Ecuador",
+                    "Guyana": "Guyana",
+                    "Paraguay": "Paraguay",
+                    "Peru": "Perú",
+                    "Suriname": "Surinam",
+                    "Uruguay": "Uruguay",
+                    "Venezuela": "Venezuela"
+                }
+            },
+            africa: {
+                title: "África",
+                center: [5.0, 20.0],
+                zoom: 3,
+                url: 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson',
+                filter: ['Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Central African Republic', 'Chad', 'Comoros', 'Congo', 'Democratic Republic of the Congo', "Côte d'Ivoire", 'Djibouti', 'Egypt', 'Equatorial Guinea', 'Eritrea', 'Ethiopia', 'Gabon', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Kenya', 'Lesotho', 'Liberia', 'Libya', 'Madagascar', 'Malawi', 'Mali', 'Mauritania', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Niger', 'Nigeria', 'Rwanda', 'São Tomé and Príncipe', 'Senegal', 'Seychelles', 'Sierra Leone', 'Somalia', 'South Africa', 'South Sudan', 'Sudan', 'Swaziland', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'],
+                translations: {
+                    "Algeria": "Argelia", "Angola": "Angola", "Benin": "Benín", "Botswana": "Botsuana",
+                    "Burkina Faso": "Burkina Faso", "Burundi": "Burundi", "Cameroon": "Camerún",
+                    "Cape Verde": "Cabo Verde", "Central African Republic": "República Centroafricana",
+                    "Chad": "Chad", "Comoros": "Comoras", "Congo": "Congo",
+                    "Democratic Republic of the Congo": "República Democrática del Congo",
+                    "Côte d'Ivoire": "Costa de Marfil", "Djibouti": "Yibuti", "Egypt": "Egipto",
+                    "Equatorial Guinea": "Guinea Ecuatorial", "Eritrea": "Eritrea", "Ethiopia": "Etiopía",
+                    "Gabon": "Gabón", "Gambia": "Gambia", "Ghana": "Ghana", "Guinea": "Guinea",
+                    "Guinea-Bissau": "Guinea-Bisáu", "Kenya": "Kenia", "Lesotho": "Lesoto",
+                    "Liberia": "Liberia", "Libya": "Libia", "Madagascar": "Madagascar",
+                    "Malawi": "Malaui", "Mali": "Malí", "Mauritania": "Mauritania",
+                    "Mauritius": "Mauricio", "Morocco": "Marruecos", "Mozambique": "Mozambique",
+                    "Namibia": "Namibia", "Niger": "Níger", "Nigeria": "Nigeria", "Rwanda": "Ruanda",
+                    "São Tomé and Príncipe": "Santo Tomé y Príncipe", "Senegal": "Senegal",
+                    "Seychelles": "Seychelles", "Sierra Leone": "Sierra Leona", "Somalia": "Somalia",
+                    "South Africa": "Sudáfrica", "South Sudan": "Sudán del Sur", "Sudan": "Sudán",
+                    "Swaziland": "Suazilandia", "Tanzania": "Tanzania", "Togo": "Togo",
+                    "Tunisia": "Túnez", "Uganda": "Uganda", "Zambia": "Zambia", "Zimbabwe": "Zimbabue"
+                }
+            },
+            asia: {
+                title: "Asia",
+                center: [34.0, 100.0],
+                zoom: 3,
+                url: 'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson',
+                filter: ['Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China', 'Georgia', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Philippines', 'Qatar', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'Timor-Leste', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'],
+                translations: {
+                    "Afghanistan": "Afganistán", "Armenia": "Armenia", "Azerbaijan": "Azerbaiyán",
+                    "Bahrain": "Baréin", "Bangladesh": "Bangladés", "Bhutan": "Bután",
+                    "Brunei": "Brunéi", "Cambodia": "Camboya", "China": "China",
+                    "Georgia": "Georgia", "India": "India", "Indonesia": "Indonesia",
+                    "Iran": "Irán", "Iraq": "Irak", "Israel": "Israel", "Japan": "Japón",
+                    "Jordan": "Jordania", "Kazakhstan": "Kazajistán", "Kuwait": "Kuwait",
+                    "Kyrgyzstan": "Kirguistán", "Laos": "Laos", "Lebanon": "Líbano",
+                    "Malaysia": "Malasia", "Maldives": "Maldivas", "Mongolia": "Mongolia",
+                    "Myanmar": "Birmania", "Nepal": "Nepal", "North Korea": "Corea del Norte",
+                    "Oman": "Omán", "Pakistan": "Pakistán", "Palestine": "Palestina",
+                    "Philippines": "Filipinas", "Qatar": "Catar", "Saudi Arabia": "Arabia Saudita",
+                    "Singapore": "Singapur", "South Korea": "Corea del Sur", "Sri Lanka": "Sri Lanka",
+                    "Syria": "Siria", "Taiwan": "Taiwán", "Tajikistan": "Tayikistán",
+                    "Thailand": "Tailandia", "Timor-Leste": "Timor Oriental", "Turkey": "Turquía",
+                    "Turkmenistan": "Turkmenistán", "United Arab Emirates": "Emiratos Árabes Unidos",
+                    "Uzbekistan": "Uzbekistán", "Vietnam": "Vietnam", "Yemen": "Yemen"
+                }
+            }
+        };
+
+        // --- ESTADO GLOBAL ---
+        let currentRegion = 'europa';
+        let map;
+        let geojson;
+        let selectedCountriesList = [];
+        let selectedCountriesSet = new Set();
+        let currentPalette = 'single';
+        let baseColor = '#ff6961';
+        let unselectedColor = '#e0e0e0';
+        let unselectedOpacity = 1.0;
+
+        const SELECTED_COLOR = '#ff6961';
+        const INITIAL_COLOR = '#e0e0e0';
+
+        // --- PALETAS DE COLORES ---
+        const colorPalettes = {
+            rainbow: ['#FF6B6B', '#FFA06B', '#FFD56B', '#B4E76B', '#6BC9FF', '#A06BFF', '#FF6BC9'],
+            pastel: ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4', '#FFDFD3'],
+            ocean: ['#1a535c', '#4ecdc4', '#95e1d3', '#f7fff7', '#81C3D7', '#5A9BD4', '#2E6F95']
+        };
+
+        // --- FUNCIONES DE COLOR ---
+        function getColorForIndex(index) {
+            if (currentPalette === 'single') {
+                return baseColor;
+            }
+            
+            const palette = colorPalettes[currentPalette];
+            return palette[index % palette.length];
+        }
+
+        // --- ELEMENTOS UI ---
+        const listElement = document.getElementById('country-list');
+        const countElement = document.getElementById('count');
+        const regionTitle = document.getElementById('region-title');
+        const colorPaletteSelect = document.getElementById('color-palette');
+        const baseColorPicker = document.getElementById('base-color');
+        const unselectedColorPicker = document.getElementById('unselected-color');
+        const unselectedOpacitySlider = document.getElementById('unselected-opacity');
+        const singleColorPicker = document.getElementById('single-color-picker');
+
+        // --- INICIALIZAR MAPA ---
+        function initMap() {
+            if (map) {
+                map.remove();
+            }
+
+            map = L.map('map', {
+                center: regions[currentRegion].center,
+                zoom: regions[currentRegion].zoom,
+                zoomControl: true,
+                attributionControl: false,
+                minZoom: 2,
+                maxZoom: 8
+            });
+
+            loadRegion(currentRegion);
+        }
+
+        // --- ACTUALIZAR UI ---
+        function updateListUI() {
+            listElement.innerHTML = '';
+            countElement.textContent = selectedCountriesList.length;
+
+            if (selectedCountriesList.length === 0) {
+                listElement.innerHTML = '<li style="color: #999;">Haz clic en el mapa para empezar</li>';
+                return;
+            }
+
+            selectedCountriesList.forEach((country, index) => {
+                const li = document.createElement('li');
+                const color = getColorForIndex(index);
+                li.innerHTML = `
+                    <span class="order-number" style="background-color: ${color};">${index + 1}</span>
+                    <span>
+                        ${country.es} 
+                        <span class="english-name">(${country.en})</span>
+                    </span>
+                `;
+                listElement.appendChild(li);
+            });
+            
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.scrollTop = sidebar.scrollHeight;
+        }
+
+        // --- ESTILOS ---
+        function style(feature) {
+            return {
+                fillColor: unselectedColor, weight: 1, opacity: 1,
+                color: 'black', fillOpacity: unselectedOpacity
+            };
+        }
+
+        function highlightFeature(e) {
+            const layer = e.target;
+            layer.setStyle({ weight: 2, color: '#333' });
+            layer.bringToFront();
+        }
+
+        function resetHighlight(e) {
+            const layer = e.target;
+            if (layer.feature.properties.assignedColor) {
+                layer.setStyle({
+                    weight: 1, color: 'black',
+                    fillColor: layer.feature.properties.assignedColor
+                });
+            } else {
+                geojson.resetStyle(layer);
+            }
+        }
+
+        // --- CLICK EN PAÍS ---
+        function onCountryClick(e) {
+            const layer = e.target;
+            const englishName = layer.feature.properties.NAME || layer.feature.properties.ADMIN || layer.feature.properties.name || "Unknown";
+
+            if (selectedCountriesSet.has(englishName)) return;
+
+            const translations = regions[currentRegion].translations;
+            const spanishName = translations[englishName] || englishName;
+
+            // Obtener color según paleta
+            const color = getColorForIndex(selectedCountriesList.length);
+
+            layer.feature.properties.assignedColor = color;
+            layer.setStyle({ fillColor: color, fillOpacity: 1 });
+
+            selectedCountriesSet.add(englishName);
+            selectedCountriesList.push({ es: spanishName, en: englishName });
+            
+            updateListUI();
+        }
+
+        function onEachFeature(feature, layer) {
+            const englishName = feature.properties.NAME || feature.properties.ADMIN || feature.properties.name || "Unknown";
+            const translations = regions[currentRegion].translations;
+            const spanishName = translations[englishName] || englishName;
+            
+            // Agregar tooltip con el nombre del país
+            layer.bindTooltip(`<strong>${spanishName}</strong><br><small>${englishName}</small>`, {
+                permanent: false,
+                direction: 'top',
+                className: 'country-tooltip'
+            });
+            
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: onCountryClick
+            });
+        }
+
+        // --- CARGAR REGIÓN ---
+        function loadRegion(regionKey) {
+            const region = regions[regionKey];
+            regionTitle.textContent = region.title;
+
+            listElement.innerHTML = '<li class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Cargando mapa...</li>';
+
+            fetch(region.url)
+                .then(response => response.json())
+                .then(data => {
+                    if (geojson) {
+                        map.removeLayer(geojson);
+                    }
+
+                    // Filtrar si es necesario
+                    if (region.filter) {
+                        data.features = data.features.filter(f => {
+                            const name = f.properties.NAME || f.properties.ADMIN || f.properties.name;
+                            return region.filter.includes(name);
+                        });
+                    }
+
+                    geojson = L.geoJson(data, {
+                        style: style,
+                        onEachFeature: onEachFeature
+                    }).addTo(map);
+
+                    map.fitBounds(geojson.getBounds());
+                    updateListUI();
+                })
+                .catch(error => {
+                    console.error("Error cargando mapa:", error);
+                    listElement.innerHTML = '<li style="color: #ff6961;">Error al cargar el mapa. Intenta de nuevo.</li>';
+                });
+        }
+
+        // --- CAMBIAR REGIÓN ---
+        document.querySelectorAll('.region-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const region = btn.dataset.region;
+                if (region === currentRegion) return;
+
+                // Actualizar botones activos
+                document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Resetear estado
+                currentRegion = region;
+                selectedCountriesSet.clear();
+                selectedCountriesList = [];
+
+                // Cargar nueva región
+                loadRegion(region);
+                map.setView(regions[region].center, regions[region].zoom);
+            });
+        });
+
+        // --- RESETEAR ---
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            if (!geojson) return;
+
+            geojson.eachLayer((layer) => {
+                if (layer.feature && layer.feature.properties) {
+                    delete layer.feature.properties.assignedColor;
+                }
+                geojson.resetStyle(layer);
+            });
+
+            selectedCountriesSet.clear();
+            selectedCountriesList = [];
+            updateListUI();
+        });
+
+        // --- EVENTOS DE CONFIGURACIÓN ---
+        colorPaletteSelect.addEventListener('change', (e) => {
+            currentPalette = e.target.value;
+            
+            // Mostrar/ocultar selector de color único
+            if (currentPalette === 'single') {
+                singleColorPicker.style.display = 'flex';
+            } else {
+                singleColorPicker.style.display = 'none';
+            }
+            
+            // Recolorear países ya seleccionados
+            if (geojson && selectedCountriesList.length > 0) {
+                let index = 0;
+                geojson.eachLayer((layer) => {
+                    if (layer.feature && layer.feature.properties.assignedColor) {
+                        const newColor = getColorForIndex(index);
+                        layer.feature.properties.assignedColor = newColor;
+                        layer.setStyle({ fillColor: newColor, fillOpacity: 1 });
+                        index++;
+                    }
+                });
+                updateListUI();
+            }
+        });
+
+        baseColorPicker.addEventListener('input', (e) => {
+            baseColor = e.target.value;
+            
+            // Recolorear si estamos en modo single
+            if (currentPalette === 'single' && geojson) {
+                geojson.eachLayer((layer) => {
+                    if (layer.feature && layer.feature.properties.assignedColor) {
+                        layer.feature.properties.assignedColor = baseColor;
+                        layer.setStyle({ fillColor: baseColor, fillOpacity: 1 });
+                    }
+                });
+                updateListUI();
+            }
+        });
+
+        unselectedOpacitySlider.addEventListener('input', (e) => {
+            unselectedOpacity = e.target.value / 100;
+            
+            // Actualizar opacidad de países no seleccionados
+            if (geojson) {
+                geojson.eachLayer((layer) => {
+                    if (layer.feature && !layer.feature.properties.assignedColor) {
+                        layer.setStyle({ fillOpacity: unselectedOpacity });
+                    }
+                });
+            }
+        });
+
+        unselectedColorPicker.addEventListener('input', (e) => {
+            unselectedColor = e.target.value;
+            
+            // Recolorear países no seleccionados
+            if (geojson) {
+                geojson.eachLayer((layer) => {
+                    if (layer.feature && !layer.feature.properties.assignedColor) {
+                        layer.setStyle({ fillColor: unselectedColor, fillOpacity: unselectedOpacity });
+                    }
+                });
+            }
+        });
+
+        // --- EXPORTACIÓN ---
+        document.getElementById('export-png-btn').addEventListener('click', async () => {
+            try {
+                // Ocultar tooltips temporalmente
+                const tooltips = document.querySelectorAll('.leaflet-tooltip');
+                tooltips.forEach(t => t.style.display = 'none');
+
+                // Cargar html2canvas desde CDN si no está disponible
+                if (typeof html2canvas === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    document.head.appendChild(script);
+                    await new Promise(resolve => script.onload = resolve);
+                }
+
+                const mapElement = document.getElementById('map');
+                
+                // Capturar con opciones mejoradas
+                const canvas = await html2canvas(mapElement, {
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    scale: 2, // Mayor calidad
+                    logging: false,
+                    windowWidth: mapElement.scrollWidth,
+                    windowHeight: mapElement.scrollHeight
+                });
+
+                // Recortar espacio blanco
+                const ctx = canvas.getContext('2d');
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                
+                let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+                const threshold = 250; // Umbral para considerar "blanco"
+                
+                // Encontrar límites del contenido
+                for (let y = 0; y < canvas.height; y++) {
+                    for (let x = 0; x < canvas.width; x++) {
+                        const i = (y * canvas.width + x) * 4;
+                        const r = pixels[i], g = pixels[i + 1], b = pixels[i + 2];
+                        
+                        // Si el pixel no es casi blanco
+                        if (r < threshold || g < threshold || b < threshold) {
+                            if (x < minX) minX = x;
+                            if (x > maxX) maxX = x;
+                            if (y < minY) minY = y;
+                            if (y > maxY) maxY = y;
+                        }
+                    }
+                }
+                
+                // Agregar margen
+                const margin = 40;
+                minX = Math.max(0, minX - margin);
+                minY = Math.max(0, minY - margin);
+                maxX = Math.min(canvas.width, maxX + margin);
+                maxY = Math.min(canvas.height, maxY + margin);
+                
+                // Crear canvas recortado
+                const croppedWidth = maxX - minX;
+                const croppedHeight = maxY - minY;
+                const croppedCanvas = document.createElement('canvas');
+                croppedCanvas.width = croppedWidth;
+                croppedCanvas.height = croppedHeight;
+                const croppedCtx = croppedCanvas.getContext('2d');
+                
+                croppedCtx.drawImage(canvas, minX, minY, croppedWidth, croppedHeight, 0, 0, croppedWidth, croppedHeight);
+
+                // Descargar imagen recortada
+                const link = document.createElement('a');
+                const regionName = regions[currentRegion].title.replace(/\s+/g, '_');
+                link.download = `mapa_${regionName}_${Date.now()}.png`;
+                link.href = croppedCanvas.toDataURL('image/png');
+                link.click();
+
+                // Restaurar tooltips
+                tooltips.forEach(t => t.style.display = '');
+            } catch (error) {
+                console.error('Error exportando PNG:', error);
+                alert('Error al exportar PNG. Intenta de nuevo.');
+                // Restaurar tooltips en caso de error
+                const tooltips = document.querySelectorAll('.leaflet-tooltip');
+                tooltips.forEach(t => t.style.display = '');
+            }
+        });
+
+        document.getElementById('export-svg-btn').addEventListener('click', () => {
+            try {
+                const svgElement = document.querySelector('#map svg');
+                if (!svgElement) {
+                    alert('No se pudo encontrar el mapa SVG. Espera a que cargue completamente.');
+                    return;
+                }
+
+                // Clonar el SVG para modificarlo sin afectar el original
+                const clonedSvg = svgElement.cloneNode(true);
+                const bbox = svgElement.getBBox();
+                
+                // Configurar viewBox y dimensiones
+                clonedSvg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+                clonedSvg.setAttribute('width', bbox.width);
+                clonedSvg.setAttribute('height', bbox.height);
+                clonedSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+                // Serializar SVG
+                const serializer = new XMLSerializer();
+                const svgString = serializer.serializeToString(clonedSvg);
+                const blob = new Blob([svgString], { type: 'image/svg+xml' });
+
+                const link = document.createElement('a');
+                const regionName = regions[currentRegion].title.replace(/\s+/g, '_');
+                link.download = `mapa_${regionName}_${Date.now()}.svg`;
+                link.href = URL.createObjectURL(blob);
+                link.click();
+                URL.revokeObjectURL(link.href);
+            } catch (error) {
+                console.error('Error exportando SVG:', error);
+                alert('Error al exportar SVG. El mapa debe estar completamente cargado.');
+            }
+        });
+
+        // --- INICIAR ---
+        initMap();
+    </script>
+</body>
+</html>
