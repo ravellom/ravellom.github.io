@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Escalas Likert</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Izquierdo - Controles Macro -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 data-i18n="app_title">Visualizador Likert</h1>
+                <select id="language-select" class="language-selector">
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+
+            <!-- Panel 1: Carga de Datos -->
+            <div class="panel">
+                <h2 class="panel-title" data-i18n="data_upload">
+                    📁 Cargar Datos
+                </h2>
+                <div class="panel-content">
+                    <div class="form-group">
+                        <label for="csv-file" data-i18n="upload_csv">Cargar archivo CSV:</label>
+                        <input type="file" id="csv-file" accept=".csv" class="file-input">
+                    </div>
+                    <p class="help-text" data-i18n="csv_format_help">
+                        Formato: Primera columna = ID, resto = ítems con valores numéricos
+                    </p>
+                </div>
+            </div>
+
+            <!-- Panel 2: Configuración de Escala -->
+            <div class="panel">
+                <h2 class="panel-title" data-i18n="scale_config">
+                    📊 Escala Likert
+                </h2>
+                <div class="panel-content">
+                    <div class="form-group">
+                        <label for="preset-scale" data-i18n="preset_scales">Escala predefinida:</label>
+                        <select id="preset-scale" class="select-input">
+                            <option value="">-- Personalizada --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scale-points" data-i18n="scale_points">Puntos de escala:</label>
+                        <input type="number" id="scale-points" min="2" max="10" value="5" class="number-input">
+                    </div>
+
+                    <div id="scale-labels-container"></div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Tipo de Gráfico -->
+            <div class="panel">
+                <h2 class="panel-title" data-i18n="chart_type">
+                    📈 Tipo de Gráfico
+                </h2>
+                <div class="panel-content">
+                    <div class="form-group">
+                        <select id="chart-type" class="select-input reactive-control">
+                            <option value="stacked">Barras Apiladas</option>
+                            <option value="diverging">Divergente</option>
+                            <option value="distribution">Distribución</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sort-by" data-i18n="sort_by">Ordenar por:</label>
+                        <select id="sort-by" class="select-input reactive-control">
+                            <option value="original" data-i18n="sort_original">Original</option>
+                            <option value="mean" data-i18n="sort_mean">Media</option>
+                            <option value="median" data-i18n="sort_median">Mediana</option>
+                            <option value="agreement" data-i18n="sort_agreement">Acuerdo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 4: Filtro de Ítems -->
+            <div class="panel collapsible collapsed">
+                <h2 class="panel-title collapsible-header">
+                    🔍 <span data-i18n="filter_items">Filtrar Ítems</span>
+                    <span class="toggle-icon">▼</span>
+                </h2>
+                <div class="panel-content">
+                    <div id="item-filter-container" class="filter-list"></div>
+                </div>
+            </div>
+
+            <!-- Panel 5: Descargar -->
+            <div class="panel">
+                <div class="panel-content">
+                    <button id="download-btn" class="btn btn-primary" data-i18n="download_chart">
+                        💾 Descargar Gráfico
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Área Principal -->
+        <main class="main-content">
+            <!-- Barra Superior - Detalles Finos -->
+            <div class="top-bar">
+                <div class="top-bar-section">
+                    <h3 data-i18n="appearance">🎨 Apariencia</h3>
+                    <div class="controls-grid">
+                        <div class="form-group-inline">
+                            <label for="color-scheme" data-i18n="color_scheme">Colores:</label>
+                            <select id="color-scheme" class="select-input-sm reactive-control">
+                                <option value="blue_orange">Azul-Naranja</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="value-type" data-i18n="value_type">Valores:</label>
+                            <select id="value-type" class="select-input-sm reactive-control">
+                                <option value="percentage" data-i18n="percentage">Porcentaje</option>
+                                <option value="count" data-i18n="count">Conteo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label>
+                                <input type="checkbox" id="show-values" class="reactive-control" checked>
+                                <span data-i18n="show_values">Mostrar valores</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label>
+                                <input type="checkbox" id="show-legend" class="reactive-control" checked>
+                                <span data-i18n="show_legend">Mostrar leyenda</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-bar-section">
+                    <h3 data-i18n="font_settings">🔤 Fuentes</h3>
+                    <div class="controls-grid">
+                        <div class="form-group-inline">
+                            <label for="font-family" data-i18n="font_family">Familia:</label>
+                            <select id="font-family" class="select-input-sm reactive-control">
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="'Courier New', monospace">Courier</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="font-size-labels" data-i18n="font_size_labels">Etiquetas:</label>
+                            <input type="number" id="font-size-labels" min="8" max="24" value="12" class="number-input-sm reactive-control">
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="font-size-values" data-i18n="font_size_values">Valores:</label>
+                            <input type="number" id="font-size-values" min="8" max="24" value="11" class="number-input-sm reactive-control">
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="font-size-legend" data-i18n="font_size_legend">Leyenda:</label>
+                            <input type="number" id="font-size-legend" min="8" max="24" value="10" class="number-input-sm reactive-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-bar-section">
+                    <h3 data-i18n="dimensions">📐 Dimensiones</h3>
+                    <div class="controls-grid">
+                        <div class="form-group-inline">
+                            <label for="bar-height" data-i18n="bar_height">Alto barra:</label>
+                            <input type="number" id="bar-height" min="20" max="100" value="40" class="number-input-sm reactive-control">
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="bar-spacing" data-i18n="bar_spacing">Espaciado:</label>
+                            <input type="number" id="bar-spacing" min="0" max="50" value="10" class="number-input-sm reactive-control">
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="decimal-places" data-i18n="decimal_places">Decimales:</label>
+                            <input type="number" id="decimal-places" min="0" max="3" value="1" class="number-input-sm reactive-control">
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="watermark" data-i18n="watermark">Marca:</label>
+                            <input type="text" id="watermark" class="text-input-sm reactive-control" placeholder="Marca de agua">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área del Gráfico -->
+            <div class="chart-area">
+                <div class="chart-placeholder">
+                    <div class="placeholder-content">
+                        <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="3" width="7" height="18" rx="1"/>
+                            <rect x="14" y="8" width="7" height="13" rx="1"/>
+                        </svg>
+                        <p data-i18n="no_data">Carga un archivo CSV para visualizar los datos</p>
+                    </div>
+                </div>
+                <canvas id="chart-canvas" class="hidden"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="app-modular.js"></script>
+</body>
+</html>

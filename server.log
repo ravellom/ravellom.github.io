@@ -1,0 +1,648 @@
+::1 - - [02/Feb/2026 17:22:45] code 404, message File not found
+::1 - - [02/Feb/2026 17:22:45] "GET /likert_charts/index.html HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 17:22:45] code 404, message File not found
+::1 - - [02/Feb/2026 17:22:45] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 17:22:56] "GET / HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:22:56] "GET /assets/css/recuedu.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:23:10] "GET /apps/ejecon/ HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:10] "GET /apps/ejecon/style.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:10] "GET /apps/ejecon/app.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:20] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:20] "GET /apps/likert_charts/style.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:20] "GET /apps/likert_charts/app.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:20] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:23:20] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:25:30] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:25:30] "GET /apps/likert_charts/style.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:25:31] "GET /apps/likert_charts/app.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:25:31] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:25:31] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:46:41] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:46:41] "GET /apps/likert_charts/style.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:46:41] "GET /apps/likert_charts/app.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:46:41] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:46:41] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:48:51] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:48:51] "GET /apps/likert_charts/app.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:48:51] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:48:51] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:48:55] "GET /apps/likert_charts/i18n/en.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 17:59:42] "GET /apps/likert_charts/style.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 17:59:42] code 404, message File not found
+::1 - - [02/Feb/2026 17:59:42] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:00:42] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:00:42] "GET /apps/likert_charts/app.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:00:42] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:00:42] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:02:06] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:06] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:02:06] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:31] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:32] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:32] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:33] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:34] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:35] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:35] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:36] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:36] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:02:36] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:06:35] code 404, message File not found
+::1 - - [02/Feb/2026 18:06:35] "GET /index-dashboard.html HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:06:35] code 404, message File not found
+::1 - - [02/Feb/2026 18:06:35] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:06:37] code 404, message File not found
+::1 - - [02/Feb/2026 18:06:37] "GET /index-dashboard.html HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:06:38] code 404, message File not found
+::1 - - [02/Feb/2026 18:06:38] "GET /index-dashboard.html HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:06:38] code 404, message File not found
+::1 - - [02/Feb/2026 18:06:38] "GET /index-dashboard.html HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:07:02] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:20:46] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:33:38] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:38] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 18:33:39] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:05] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 20:58:08] "GET /apps/likert_charts/help.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:42:19] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:47:38] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:47:52] code 404, message File not found
+::1 - - [02/Feb/2026 21:47:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:54:05] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:54:19] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:54:20] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:54:52] code 404, message File not found
+::1 - - [02/Feb/2026 21:54:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:55:43] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:55:43] code 404, message File not found
+::1 - - [02/Feb/2026 21:55:43] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:55:43] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:55:43] code 404, message File not found
+::1 - - [02/Feb/2026 21:55:43] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:55:44] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:55:44] code 404, message File not found
+::1 - - [02/Feb/2026 21:55:44] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:55:44] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 21:55:44] code 404, message File not found
+::1 - - [02/Feb/2026 21:55:44] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:57:53] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:53] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:53] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:53] code 404, message File not found
+::1 - - [02/Feb/2026 21:57:53] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:57:53] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:53] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:53] code 404, message File not found
+::1 - - [02/Feb/2026 21:57:53] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:57:55] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:55] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:55] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:55] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:55] code 404, message File not found
+::1 - - [02/Feb/2026 21:57:55] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 21:57:55] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 21:57:55] code 404, message File not found
+::1 - - [02/Feb/2026 21:57:55] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:00:26] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:00:26] code 404, message File not found
+::1 - - [02/Feb/2026 22:00:26] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:00:26] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:00:27] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:00:27] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:00:27] code 404, message File not found
+::1 - - [02/Feb/2026 22:00:27] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] code 404, message File not found
+::1 - - [02/Feb/2026 22:03:36] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] code 404, message File not found
+::1 - - [02/Feb/2026 22:03:36] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:03:36] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:04:21] "GET /apps/likert_charts/i18n/en.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:17:39] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:17:39] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:17:39] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:17:39] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:17:39] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:18:23] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:24:19] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:24:19] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:24:19] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:24:19] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:24:19] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:25:00] code 404, message File not found
+::1 - - [02/Feb/2026 22:25:00] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:25:00] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] code 404, message File not found
+::1 - - [02/Feb/2026 22:27:59] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:27:59] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:28:19] code 404, message File not found
+::1 - - [02/Feb/2026 22:28:19] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] code 404, message File not found
+::1 - - [02/Feb/2026 22:30:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] code 404, message File not found
+::1 - - [02/Feb/2026 22:30:45] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:30:45] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] code 404, message File not found
+::1 - - [02/Feb/2026 22:33:55] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] code 404, message File not found
+::1 - - [02/Feb/2026 22:33:55] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:55] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:33:57] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:57] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:57] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:57] code 404, message File not found
+::1 - - [02/Feb/2026 22:33:57] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:33:57] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:57] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:33:57] code 404, message File not found
+::1 - - [02/Feb/2026 22:33:57] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] code 404, message File not found
+::1 - - [02/Feb/2026 22:36:19] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] code 404, message File not found
+::1 - - [02/Feb/2026 22:36:19] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:36:19] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] code 404, message File not found
+::1 - - [02/Feb/2026 22:38:54] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:38:54] code 404, message File not found
+::1 - - [02/Feb/2026 22:38:54] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:38:54] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:42:33] code 404, message File not found
+::1 - - [02/Feb/2026 22:42:33] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:42:33] code 404, message File not found
+::1 - - [02/Feb/2026 22:42:33] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:42:33] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] code 404, message File not found
+::1 - - [02/Feb/2026 22:44:29] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:44:29] code 404, message File not found
+::1 - - [02/Feb/2026 22:44:29] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:44:29] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:46:40] code 404, message File not found
+::1 - - [02/Feb/2026 22:46:40] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:46:40] code 404, message File not found
+::1 - - [02/Feb/2026 22:46:40] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:46:40] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] code 404, message File not found
+::1 - - [02/Feb/2026 22:47:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:47:48] code 404, message File not found
+::1 - - [02/Feb/2026 22:47:48] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:47:48] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] code 404, message File not found
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:49:18] code 404, message File not found
+::1 - - [02/Feb/2026 22:49:18] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:49:18] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:52:16] code 404, message File not found
+::1 - - [02/Feb/2026 22:52:16] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:52:16] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:52:25] code 404, message File not found
+::1 - - [02/Feb/2026 22:52:25] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:53:44] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:53:45] code 404, message File not found
+::1 - - [02/Feb/2026 22:53:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:53:45] code 404, message File not found
+::1 - - [02/Feb/2026 22:53:45] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:53:45] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] code 404, message File not found
+::1 - - [02/Feb/2026 22:55:05] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:55:05] code 404, message File not found
+::1 - - [02/Feb/2026 22:55:05] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:55:05] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:06] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:06] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:56:06] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:06] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:06] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:56:07] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:07] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:07] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:07] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:07] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:07] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:07] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:07] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:07] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:17] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:17] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:17] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:17] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:17] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:17] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:17] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:17] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:17] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:18] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:18] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:18] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:18] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:18] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:56:18] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:18] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:56:18] code 404, message File not found
+::1 - - [02/Feb/2026 22:56:18] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:57:22] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:57:22] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:57:22] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:57:22] code 404, message File not found
+::1 - - [02/Feb/2026 22:57:22] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:57:22] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:57:22] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:57:23] code 404, message File not found
+::1 - - [02/Feb/2026 22:57:23] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:57:23] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] code 404, message File not found
+::1 - - [02/Feb/2026 22:58:38] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 22:58:38] code 404, message File not found
+::1 - - [02/Feb/2026 22:58:38] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:58:38] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] code 404, message File not found
+::1 - - [02/Feb/2026 22:59:57] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 22:59:57] code 404, message File not found
+::1 - - [02/Feb/2026 22:59:57] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 22:59:57] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] code 404, message File not found
+::1 - - [02/Feb/2026 23:01:21] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:01:21] code 404, message File not found
+::1 - - [02/Feb/2026 23:01:21] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:01:21] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:03:43] code 404, message File not found
+::1 - - [02/Feb/2026 23:03:43] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:03:43] code 404, message File not found
+::1 - - [02/Feb/2026 23:03:43] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:03:43] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] code 404, message File not found
+::1 - - [02/Feb/2026 23:06:04] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:06:04] code 404, message File not found
+::1 - - [02/Feb/2026 23:06:04] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:06:04] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] code 404, message File not found
+::1 - - [02/Feb/2026 23:07:28] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:07:28] code 404, message File not found
+::1 - - [02/Feb/2026 23:07:28] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:07:28] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] code 404, message File not found
+::1 - - [02/Feb/2026 23:08:40] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:08:40] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:08:52] code 404, message File not found
+::1 - - [02/Feb/2026 23:08:52] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:11:29] code 404, message File not found
+::1 - - [02/Feb/2026 23:11:29] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:11:29] code 404, message File not found
+::1 - - [02/Feb/2026 23:11:29] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:11:29] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:12:36] code 404, message File not found
+::1 - - [02/Feb/2026 23:12:36] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:12:36] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:14:39] code 404, message File not found
+::1 - - [02/Feb/2026 23:14:39] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:14:39] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:15:47] code 404, message File not found
+::1 - - [02/Feb/2026 23:15:47] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:15:47] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:15:59] code 404, message File not found
+::1 - - [02/Feb/2026 23:15:59] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:17:31] code 404, message File not found
+::1 - - [02/Feb/2026 23:17:31] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:17:31] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:17:31] code 404, message File not found
+::1 - - [02/Feb/2026 23:17:31] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:19:20] code 404, message File not found
+::1 - - [02/Feb/2026 23:19:20] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:19:20] code 404, message File not found
+::1 - - [02/Feb/2026 23:19:20] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:19:20] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] code 404, message File not found
+::1 - - [02/Feb/2026 23:20:23] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:20:23] code 404, message File not found
+::1 - - [02/Feb/2026 23:20:23] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:20:23] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] code 404, message File not found
+::1 - - [02/Feb/2026 23:22:12] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:22:12] code 404, message File not found
+::1 - - [02/Feb/2026 23:22:12] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:22:12] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] code 404, message File not found
+::1 - - [02/Feb/2026 23:24:54] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:24:54] code 404, message File not found
+::1 - - [02/Feb/2026 23:24:54] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:24:54] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:26:29] code 404, message File not found
+::1 - - [02/Feb/2026 23:26:29] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [02/Feb/2026 23:26:29] code 404, message File not found
+::1 - - [02/Feb/2026 23:26:29] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [02/Feb/2026 23:26:29] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:38:05] "GET /apps/likert_charts/help.html HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:49] code 404, message File not found
+::1 - - [03/Feb/2026 08:54:49] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 404 -
+::1 - - [03/Feb/2026 08:54:50] code 404, message File not found
+::1 - - [03/Feb/2026 08:54:50] "GET /apps/likert_charts/index-dashboard.html HTTP/1.1" 404 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/config.json HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:54:55] "GET /apps/likert_charts/i18n/es.json HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:55:24] "GET /apps/likert_charts/help.html HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 08:57:16] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:57:16] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:57:16] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:57:16] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 08:57:16] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:02:54] "GET /apps/likert_charts/help.html HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:09:15] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:09:15] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:09:15] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:09:15] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:09:15] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:15:11] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:15:11] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:15:11] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:15:11] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:15:11] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:21:50] "GET /apps/likert_charts/help.html HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:31:19] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:31:19] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:31:19] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:31:19] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:31:19] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:33:16] "GET /apps/likert_charts/help.html HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:37:42] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:37:42] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:37:42] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:37:42] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:37:42] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:47:01] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:47:01] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:47:01] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:47:01] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 09:47:01] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:49:11] "GET /apps/likert_charts/ HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:49:11] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 09:49:11] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 10:06:28] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:28] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:29] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:29] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:29] "GET /apps/likert_charts/charts/DistributionChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 10:06:29] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/ HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/style-dashboard.css HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/app-dashboard.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/core/ChartRegistry.js HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/config.json HTTP/1.1" 200 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/charts/StackedChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 10:06:32] code 404, message File not found
+::1 - - [03/Feb/2026 10:06:32] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/charts/DivergingChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 10:06:32] "GET /apps/likert_charts/charts/SplitChart.js HTTP/1.1" 304 -
+::1 - - [03/Feb/2026 10:11:51] "GET /apps/likert_charts/i18n/en.json HTTP/1.1" 304 -

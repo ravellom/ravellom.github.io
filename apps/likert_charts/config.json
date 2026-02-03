@@ -1,0 +1,248 @@
+{
+  "chartTypes": [
+    {
+      "id": "stacked",
+      "module": "charts/StackedChart.js",
+      "enabled": true
+    },
+    {
+      "id": "diverging",
+      "module": "charts/DivergingChart.js",
+      "enabled": true
+    },
+    {
+      "id": "distribution",
+      "module": "charts/DistributionChart.js",
+      "enabled": true
+    },
+    {
+      "id": "split",
+      "module": "charts/SplitChart.js",
+      "enabled": true
+    }
+  ],
+  "presetScales": {
+    "agreement_5": {
+      "name": "Agreement 5-point",
+      "nameES": "Acuerdo 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ],
+        "es": [
+          "Muy en desacuerdo",
+          "En desacuerdo",
+          "Neutral",
+          "De acuerdo",
+          "Muy de acuerdo"
+        ]
+      }
+    },
+    "agreement_7": {
+      "name": "Agreement 7-point",
+      "nameES": "Acuerdo 7 puntos",
+      "points": 7,
+      "labels": {
+        "en": [
+          "Strongly Disagree",
+          "Disagree",
+          "Somewhat Disagree",
+          "Neutral",
+          "Somewhat Agree",
+          "Agree",
+          "Strongly Agree"
+        ],
+        "es": [
+          "Muy en desacuerdo",
+          "En desacuerdo",
+          "Algo en desacuerdo",
+          "Neutral",
+          "Algo de acuerdo",
+          "De acuerdo",
+          "Muy de acuerdo"
+        ]
+      }
+    },
+    "frequency_5": {
+      "name": "Frequency 5-point",
+      "nameES": "Frecuencia 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Never",
+          "Rarely",
+          "Sometimes",
+          "Often",
+          "Always"
+        ],
+        "es": [
+          "Nunca",
+          "Raramente",
+          "A veces",
+          "A menudo",
+          "Siempre"
+        ]
+      }
+    },
+    "satisfaction_5": {
+      "name": "Satisfaction 5-point",
+      "nameES": "Satisfacción 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Very Dissatisfied",
+          "Dissatisfied",
+          "Neutral",
+          "Satisfied",
+          "Very Satisfied"
+        ],
+        "es": [
+          "Muy insatisfecho",
+          "Insatisfecho",
+          "Neutral",
+          "Satisfecho",
+          "Muy satisfecho"
+        ]
+      }
+    },
+    "importance_5": {
+      "name": "Importance 5-point",
+      "nameES": "Importancia 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Not Important",
+          "Slightly Important",
+          "Moderately Important",
+          "Important",
+          "Very Important"
+        ],
+        "es": [
+          "No importante",
+          "Poco importante",
+          "Moderadamente importante",
+          "Importante",
+          "Muy importante"
+        ]
+      }
+    },
+    "quality_5": {
+      "name": "Quality 5-point",
+      "nameES": "Calidad 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Very Poor",
+          "Poor",
+          "Fair",
+          "Good",
+          "Excellent"
+        ],
+        "es": [
+          "Muy mala",
+          "Mala",
+          "Regular",
+          "Buena",
+          "Excelente"
+        ]
+      }
+    },
+    "likelihood_5": {
+      "name": "Likelihood 5-point",
+      "nameES": "Probabilidad 5 puntos",
+      "points": 5,
+      "labels": {
+        "en": [
+          "Very Unlikely",
+          "Unlikely",
+          "Neutral",
+          "Likely",
+          "Very Likely"
+        ],
+        "es": [
+          "Muy improbable",
+          "Improbable",
+          "Neutral",
+          "Probable",
+          "Muy probable"
+        ]
+      }
+    }
+  },
+  "colorSchemes": {
+    "blue_orange": {
+      "name": "Blue-Orange (Diverging)",
+      "nameES": "Azul-Naranja (Divergente)",
+      "colors": ["#d73027", "#f46d43", "#fdae61", "#fee090", "#e0f3f8", "#abd9e9", "#74add1", "#4575b4"]
+    },
+    "red_green": {
+      "name": "Red-Green (Diverging)",
+      "nameES": "Rojo-Verde (Divergente)",
+      "colors": ["#d7191c", "#fdae61", "#ffffbf", "#a6d96a", "#1a9641"]
+    },
+    "purple_yellow": {
+      "name": "Purple-Yellow (Diverging)",
+      "nameES": "Púrpura-Amarillo (Divergente)",
+      "colors": ["#7b3294", "#c2a5cf", "#f7f7f7", "#a6dba0", "#008837"]
+    },
+    "spectral": {
+      "name": "Spectral (Diverging)",
+      "nameES": "Espectral (Divergente)",
+      "colors": ["#d53e4f", "#fc8d59", "#fee08b", "#e6f598", "#99d594", "#3288bd"]
+    },
+    "viridis": {
+      "name": "Viridis (Sequential)",
+      "nameES": "Viridis (Secuencial)",
+      "colors": ["#440154", "#31688e", "#35b779", "#fde724"]
+    },
+    "warm": {
+      "name": "Warm (Sequential)",
+      "nameES": "Cálido (Secuencial)",
+      "colors": ["#fff5eb", "#fee6ce", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"]
+    },
+    "cool": {
+      "name": "Cool (Sequential)",
+      "nameES": "Frío (Secuencial)",
+      "colors": ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#084594"]
+    },
+    "earth": {
+      "name": "Earth Tones",
+      "nameES": "Tonos Tierra",
+      "colors": ["#8c510a", "#bf812d", "#dfc27d", "#f6e8c3", "#c7eae5", "#80cdc1", "#35978f", "#01665e"]
+    }
+  },
+  "defaultSettings": {
+    "chartType": "stacked",
+    "valueType": "percentage",
+    "sortBy": "original",
+    "colorScheme": "blue_orange",
+    "fontFamily": "Arial, sans-serif",
+    "fontSizeLabels": 12,
+    "fontSizeValues": 11,
+    "fontSizeLegend": 10,
+    "barHeight": 40,
+    "barSpacing": 10,
+    "showValues": true,
+    "showLegend": true,
+    "legendPosition": "right",
+    "decimalPlaces": 1,
+    "watermark": "",
+    "backgroundColor": "#ffffff",
+    "transparentBackground": false,
+    "showGrid": false,
+    "gridColor": "#e2e8f0",
+    "gridLineWidth": 1,
+    "gridDashed": true,
+    "gridVertical": true,
+    "gridHorizontal": false,
+    "showBarBorders": false,
+    "barBorderColor": "#ffffff",
+    "barBorderWidth": 1,
+    "labelMaxLines": 2
+  }
+}

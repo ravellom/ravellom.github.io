@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda - Visualizador de Escalas Likert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            position: relative;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .alert-title {
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .success {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+
+        .success .alert-title {
+            color: #065f46;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Ayuda - Visualizador Likert</h1>
+            <p>Guía completa para usar la aplicación</p>
+        </div>
+
+        <div class="content">
+            <!-- Formato de Datos -->
+            <div class="section">
+                <h2>📋 Formato de Datos Requerido</h2>
+                
+                <p>La aplicación espera un archivo <strong>CSV en formato ancho</strong> con la siguiente estructura:</p>
+
+                <div class="example-box">
+                    <h3>Estructura:</h3>
+                    <ul>
+                        <li><strong>Primera columna:</strong> ID del encuestado (cualquier identificador único)</li>
+                        <li><strong>Columnas siguientes:</strong> Cada columna representa un ítem/pregunta</li>
+                        <li><strong>Valores:</strong> Números de 1 a N (según tu escala Likert)</li>
+                    </ul>
+                </div>
+
+                <h3>Ejemplo de CSV correcto:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Servicio al cliente</th>
+                            <th>Calidad del producto</th>
+                            <th>Precio justo</th>
+                            <th>Recomendaría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Resp_001</td>
+                            <td>5</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>Resp_002</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>4</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Resp_003</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Resp_004</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>5</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert">
+                    <div class="alert-title">⚠️ Importante:</div>
+                    <ul>
+                        <li>Los valores deben ser <strong>números enteros</strong> (1, 2, 3, 4, 5...)</li>
+                        <li>No usar texto como "De acuerdo", "Neutral", etc.</li>
+                        <li>La escala debe ser consistente (ej: todos los valores entre 1-5)</li>
+                        <li>Cada fila representa las respuestas de un encuestado</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prompt para IA -->
+            <div class="section">
+                <h2>🤖 Transformar Datos con IA Generativa</h2>
+                
+                <p>Si tus datos están en otro formato, usa este prompt con ChatGPT, Claude, o cualquier IA generativa para convertirlos automáticamente:</p>
+
+                <div class="code-block" id="prompt-block">
+<button class="copy-btn" onclick="copyPrompt()">📋 Copiar Prompt</button>Actúa como un experto en análisis de datos y transformación de datasets.
+
+Necesito que transformes los datos que te proporcionaré al siguiente formato CSV:
+
+
+**FORMATO REQUERIDO:**
+
+- Primera columna: ID único para cada encuestado (puedes generarlo como Resp_001, Resp_002, etc.)
+
+- Columnas siguientes: Cada columna es un ítem/pregunta de la encuesta
+
+- Valores: SOLO NÚMEROS del 1 al N (donde N es el máximo de la escala Likert)
+
+
+**REGLAS ESTRICTAS:**
+
+1. Convertir todas las respuestas textuales a números
+
+2. Si la escala original es de 5 puntos: 1=Muy en desacuerdo, 2=En desacuerdo, 3=Neutral, 4=De acuerdo, 5=Muy de acuerdo
+
+3. Si la escala original es de 7 puntos: usar la misma lógica con más granularidad
+
+4. Mantener la correspondencia: respuestas negativas → números bajos, respuestas positivas → números altos
+
+5. NO incluir filas de totales, promedios o resúmenes
+
+6. NO incluir columnas de metadata (fecha, hora, email) a menos que sea el ID
+
+7. Los encabezados deben ser descriptivos pero concisos
+
+8. **IMPORTANTE: TODOS los nombres de columnas DEBEN estar encerrados entre comillas dobles** ("Nombre de la columna")
+
+
+**EJEMPLO DE TRANSFORMACIÓN:**
+
+ANTES (formato incorrecto):
+| Nombre | Email | ¿Satisfecho con el servicio? | ¿Recomendaría? |
+|--------|-------|----------------------------|----------------|
+| Juan   | j@    | Muy satisfecho             | Sí             |
+| María  | m@    | Neutral                    | No             |
+
+DESPUÉS (formato correcto):
+"ID","Satisfacción con servicio","Recomendaría"
+"Resp_001",5,5
+"Resp_002",3,1
+
+
+**INSTRUCCIONES:**
+
+1. Analiza los datos que te proporcionaré
+
+2. Identifica las columnas que contienen respuestas Likert
+
+3. Convierte las respuestas a números según la escala
+
+4. Genera el CSV en el formato correcto (con comillas en los nombres de columnas)
+
+5. Proporciona el resultado listo para copiar y pegar
+
+
+**IMPORTANTE:** 
+
+- Si hay respuestas NA, vacías o inválidas, usa el valor del punto medio de la escala
+
+- Si no estás seguro de la escala, asume 5 puntos (1-5)
+
+- Preserva el orden original de las filas
+
+- RECUERDA: Todos los encabezados de columna entre comillas dobles
+
+---
+
+Aquí están mis datos para transformar:
+
+[PEGA TUS DATOS AQUÍ]</div>
+
+                <div class="success" style="margin-top: 1rem;">
+                    <div class="alert-title">✅ Cómo usar el prompt:</div>
+                    <ol>
+                        <li>Haz clic en "📋 Copiar Prompt"</li>
+                        <li>Ve a ChatGPT, Claude, o tu IA preferida</li>
+                        <li>Pega el prompt completo</li>
+                        <li>Reemplaza [PEGA TUS DATOS AQUÍ] con tus datos reales</li>
+                        <li>La IA te devolverá el CSV en el formato correcto</li>
+                        <li>Copia el resultado y guárdalo como archivo .csv</li>
+                        <li>Carga el archivo en la aplicación</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Casos de Uso Comunes -->
+            <div class="section">
+                <h2>💡 Casos de Uso Comunes</h2>
+
+                <h3>Caso 1: Datos de Google Forms</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Descarga las respuestas como CSV desde Google Forms
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Usa el prompt de IA para transformar las respuestas textuales a números
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Elimina columnas innecesarias (timestamp, email, etc.)
+                </div>
+
+                <h3>Caso 2: Datos de SurveyMonkey o Typeform</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Exporta las respuestas en formato CSV
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Proporciona los datos al prompt de IA
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    La IA identificará automáticamente las preguntas Likert y las convertirá
+                </div>
+
+                <h3>Caso 3: Datos en Excel</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Copia los datos de Excel (Ctrl+C)
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Pega en el prompt de IA junto con las instrucciones
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Guarda el resultado como .csv
+                </div>
+            </div>
+
+            <!-- Escalas Soportadas -->
+            <div class="section">
+                <h2>📏 Escalas Soportadas</h2>
+
+                <p>La aplicación incluye escalas predefinidas para facilitar la configuración:</p>
+
+                <h3>Escala de Acuerdo (5 puntos)</h3>
+                <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Etiqueta</th>
+                    </tr>
+                    <tr><td>1</td><td>Muy en desacuerdo</td></tr>
+                    <tr><td>2</td><td>En desacuerdo</td></tr>
+                    <tr><td>3</td><td>Neutral</td></tr>
+                    <tr><td>4</td><td>De acuerdo</td></tr>
+                    <tr><td>5</td><td>Muy de acuerdo</td></tr>
+                </table>
+
+                <h3>Escala de Frecuencia (5 puntos)</h3>
+                <table>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Etiqueta</th>
+                    </tr>
+                    <tr><td>1</td><td>Nunca</td></tr>
+                    <tr><td>2</td><td>Raramente</td></tr>
+                    <tr><td>3</td><td>A veces</td></tr>
+                    <tr><td>4</td><td>A menudo</td></tr>
+                    <tr><td>5</td><td>Siempre</td></tr>
+                </table>
+
+                <p><strong>También soporta:</strong> Satisfacción, Importancia, Calidad, Probabilidad, y escalas personalizadas de 3 a 7 puntos.</p>
+            </div>
+
+            <!-- Tips y Trucos -->
+            <div class="section">
+                <h2>💡 Tips y Trucos</h2>
+
+                <div class="example-box">
+                    <h3>Para mejores resultados:</h3>
+                    <ul>
+                        <li>✅ Usa <span class="highlight">nombres descriptivos</span> para las columnas (preguntas)</li>
+                        <li>✅ Mantén los nombres de columnas <span class="highlight">cortos pero claros</span> (máx. 60 caracteres)</li>
+                        <li>✅ Asegúrate de que <span class="highlight">todos los valores sean numéricos</span></li>
+                        <li>✅ Revisa que no haya <span class="highlight">filas vacías</span> al final del archivo</li>
+                        <li>✅ Usa <span class="highlight">UTF-8</span> como codificación para caracteres especiales</li>
+                        <li>❌ Evita usar comas en los nombres de columnas</li>
+                        <li>❌ No incluyas símbolos especiales (@, #, $) en los nombres</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Volver a la App -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="index-dashboard.html" class="btn-primary">← Volver a la Aplicación</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt() {
+            const promptText = document.getElementById('prompt-block').textContent.replace('📋 Copiar Prompt', '').trim();
+            
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ ¡Copiado!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('Error al copiar. Por favor, selecciona y copia manualmente el texto.');
+            });
+        }
+    </script>
+</body>
+</html>

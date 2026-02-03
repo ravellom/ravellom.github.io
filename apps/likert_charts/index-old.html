@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Likert Chart Visualizer - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <h1 data-i18n="app_title">Likert Chart Visualizer</h1>
+        <div class="header-controls">
+            <div class="language-switcher">
+                <label for="language-select" data-i18n="language">Idioma:</label>
+                <select id="language-select">
+                    <option value="es" selected>Español</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <button id="download-template" class="btn-secondary" data-i18n="download_template">Download Template</button>
+        </div>
+    </header>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Left Sidebar - Controls -->
+        <aside class="sidebar">
+            <!-- Data Upload Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3 data-i18n="data_upload">Data Upload</h3>
+                </div>
+                <div class="panel-content">
+                    <input type="file" id="file-input" accept=".csv">
+                    <div id="upload-status" class="status-message"></div>
+                </div>
+            </div>
+
+            <!-- Scale Configuration Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="scale-config">
+                    <h3 data-i18n="scale_configuration">Scale Configuration</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content" id="scale-config">
+                    <label data-i18n="preset_scales">Preset Scales:</label>
+                    <select id="preset-scale" class="reactive-control">
+                        <option value="">-- Select Preset --</option>
+                    </select>
+                    
+                    <label data-i18n="or_custom">Or Custom:</label>
+                    <div class="custom-scale-input">
+                        <label data-i18n="num_points">Number of Points:</label>
+                        <input type="number" id="custom-points" class="reactive-control" min="2" max="10" value="5">
+                    </div>
+                    
+                    <div id="scale-labels" class="scale-labels"></div>
+                    <div id="scale-validation" class="validation-status"></div>
+                </div>
+            </div>
+
+            <!-- Chart Type Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="chart-type-config">
+                    <h3 data-i18n="chart_type">Chart Type</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content" id="chart-type-config">
+                    <select id="chart-type" class="reactive-control">
+                        <option value="stacked" data-i18n="chart_stacked">Stacked Bar Chart</option>
+                        <option value="diverging" data-i18n="chart_diverging">Diverging Bar Chart</option>
+                        <option value="distribution" data-i18n="chart_distribution">Overall Distribution</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Data Settings Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="data-settings">
+                    <h3 data-i18n="data_settings">Data Settings</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content collapsed" id="data-settings">
+                    <div class="setting-group">
+                        <label data-i18n="value_display">Value Display:</label>
+                        <label>
+                            <input type="radio" name="value-type" value="percentage" class="reactive-control" checked>
+                            <span data-i18n="percentage">Percentage</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="value-type" value="count" class="reactive-control">
+                            <span data-i18n="count">Count</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="sorting">Sorting:</label>
+                        <select id="sort-by" class="reactive-control">
+                            <option value="original" data-i18n="sort_original">Original Order</option>
+                            <option value="mean" data-i18n="sort_mean">Sort by Mean</option>
+                            <option value="median" data-i18n="sort_median">Sort by Median</option>
+                            <option value="agreement" data-i18n="sort_agreement">Sort by Agreement</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Settings Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="visual-settings">
+                    <h3 data-i18n="visual_settings">Visual Settings</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content collapsed" id="visual-settings">
+                    <div class="setting-group">
+                        <label data-i18n="color_scheme">Color Scheme:</label>
+                        <select id="color-scheme" class="reactive-control">
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="font_family">Font:</label>
+                        <select id="font-family" class="reactive-control">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Georgia, serif">Georgia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="font_size_labels">Tamaño Etiquetas:</label>
+                        <input type="number" id="font-size-labels" class="reactive-control" min="8" max="20" value="12">
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="font_size_values">Tamaño Valores:</label>
+                        <input type="number" id="font-size-values" class="reactive-control" min="8" max="20" value="11">
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="font_size_legend">Tamaño Leyenda:</label>
+                        <input type="number" id="font-size-legend" class="reactive-control" min="8" max="16" value="10">
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="bar_height">Bar Height:</label>
+                        <input type="number" id="bar-height" class="reactive-control" min="20" max="80" value="40">
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label data-i18n="bar_spacing">Bar Spacing:</label>
+                        <input type="number" id="bar-spacing" class="reactive-control" min="5" max="50" value="10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display Options Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="display-options">
+                    <h3 data-i18n="display_options">Display Options</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content collapsed" id="display-options">
+                    <label>
+                        <input type="checkbox" id="show-values" class="reactive-control" checked>
+                        <span data-i18n="show_values">Show Values</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="show-legend" class="reactive-control" checked>
+                        <span data-i18n="show_legend">Show Legend</span>
+                    </label>
+                    <div class="setting-group">
+                        <label data-i18n="decimal_places">Decimal Places:</label>
+                        <input type="number" id="decimal-places" class="reactive-control" min="0" max="3" value="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Filter Panel -->
+            <div class="panel">
+                <div class="panel-header" data-toggle="item-filter">
+                    <h3 data-i18n="item_filter">Item Filter</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="panel-content collapsed" id="item-filter">
+                    <div id="item-checkboxes" class="item-checkboxes">
+                        <p data-i18n="no_data_loaded">No data loaded</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3 data-i18n="export">Export</h3>
+                </div>
+                <div class="panel-content">
+                    <div class="setting-group">
+                        <label data-i18n="watermark">Watermark:</label>
+                        <input type="text" id="watermark" class="reactive-control" placeholder="Optional">
+                    </div>
+                    <div class="export-buttons">
+                        <button id="btn-export-png" class="btn-primary" data-i18n="export_png">Export PNG</button>
+                        <button id="btn-export-svg" class="btn-secondary" data-i18n="export_svg">Export SVG</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area - Chart -->
+        <main class="main-area">
+            <div id="chart-container" class="chart-container">
+                <div class="chart-placeholder">
+                    <p data-i18n="upload_data_to_start">Upload CSV data to start visualizing</p>
+                </div>
+                <canvas id="chart-canvas"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 data-i18n="error">Error</h3>
+            <p id="error-message"></p>
+            <button id="btn-close-error" class="btn-primary" data-i18n="close">Close</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
