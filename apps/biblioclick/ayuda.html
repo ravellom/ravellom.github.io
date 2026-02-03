@@ -4,66 +4,238 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ayuda - BiblioClick</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #fefefe;
       color: #333;
       margin: 2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
       line-height: 1.6;
     }
     h1 {
       color: #1e3799;
       text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 2rem;
     }
     h2 {
       color: #2c3e50;
       margin-top: 2rem;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      color: #34495e;
+      margin-top: 1.5rem;
     }
     code {
       background-color: #ecf0f1;
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
+      font-family: 'Courier New', monospace;
     }
     .example {
       background-color: #f1f8ff;
       border-left: 4px solid #3498db;
       padding: 1rem;
       margin-top: 1rem;
+      font-family: 'Times New Roman', serif;
+    }
+    .tip {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .warning {
+      background-color: #f8d7da;
+      border-left: 4px solid #dc3545;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    ul {
+      margin-left: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 <body>
-  <h1>Ayuda de BiblioClick</h1>
+  <h1>📚 Ayuda de BiblioClick</h1>
+  <p class="subtitle">Gestor de Citas Simplificado para Estudiantes</p>
 
-  <p><strong>BiblioClick</strong> es una herramienta para ayudarte a crear tus propias referencias bibliográficas cuando haces trabajos escolares. A continuación te explicamos cómo usarla paso a paso.</p>
+  <p><strong>BiblioClick</strong> es tu primera herramienta para organizar bibliografía en trabajos escolares. Te ayuda a crear referencias en formato APA 7 de manera fácil y rápida. Perfecta para estudiantes que se inician en la organización de fuentes bibliográficas.</p>
 
-  <h2>1. Añadir autores</h2>
-  <p>Introduce el <strong>nombre</strong> y el <strong>apellido</strong> de los autores del documento que estás citando. Puedes añadir hasta 6 autores pulsando el botón <code>+ Añadir autor</code>.</p>
+  <h2>📝 Cómo usar BiblioClick</h2>
 
-  <h2>2. Rellenar los campos</h2>
+  <h3>1. Añadir autores</h3>
+  <p>Introduce el <strong>nombre</strong> y el <strong>apellido</strong> de los autores del documento:</p>
   <ul>
-    <li><strong>Título:</strong> Escribe el nombre del documento, libro o página.</li>
-    <li><strong>Tipo de documento:</strong> Selecciona si es un libro, una página web, un artículo o algo diferente.</li>
-    <li><strong>Año:</strong> Año de publicación del documento.</li>
-    <li><strong>URL (opcional):</strong> Si usaste internet, copia la dirección web aquí.</li>
+    <li>Puedes escribir el nombre completo (ej: "Juan María") o solo iniciales (ej: "J M")</li>
+    <li>BiblioClick convertirá automáticamente los nombres a iniciales según APA 7</li>
+    <li>Puedes añadir hasta 6 autores usando el botón <code>+ Añadir autor</code></li>
+    <li>Si hay más de 2 autores, se usará "&" antes del último</li>
   </ul>
 
-  <h2>3. Guardar la referencia</h2>
-  <p>Pulsa el botón <code>Guardar referencia</code> y tu cita aparecerá en la lista de abajo.</p>
-
-  <h2>4. Gestionar tus referencias</h2>
-  <ul>
-    <li>Usa <code>📋 Copiar todas</code> para pegar las referencias en tu trabajo.</li>
-    <li>Pulsa <code>❌ Limpiar todas</code> para borrar la lista completa.</li>
-    <li>Cada referencia tiene un botón <code>🗑️</code> para eliminarla y otro <code>✏️</code> (pronto disponible) para editarla.</li>
-  </ul>
-
-  <h2>5. Ejemplo de referencia</h2>
-  <div class="example">
-    Pérez, Ana; González, Marta. 2023. Los animales del bosque. Libro. https://editorialejemplo.com/animales
+  <div class="tip">
+    💡 <strong>Tip:</strong> Si el documento no tiene autor, puedes dejarlo vacío y comenzar directamente con el título.
   </div>
 
-  <p>¡Listo! Ahora ya puedes crear tus referencias como un/a experto/a 😃</p>
+  <h3>2. Completar información básica</h3>
+  <ul>
+    <li><strong>Título:</strong> Nombre del documento, libro, artículo, video, etc.</li>
+    <li><strong>Tipo de documento:</strong> Selecciona de las opciones disponibles</li>
+    <li><strong>DOI (preferido) o URL:</strong> Si el documento tiene DOI, úsalo; si no, usa la URL</li>
+  </ul>
+
+  <h3>3. Tipos de documentos disponibles</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Campos específicos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>📖 Libro</td>
+        <td>Año, Editorial, Edición, Ciudad</td>
+      </tr>
+      <tr>
+        <td>📰 Artículo de revista</td>
+        <td>Año, Revista, Volumen, Número, Páginas</td>
+      </tr>
+      <tr>
+        <td>🌐 Página web</td>
+        <td>Año, Fecha exacta, Sitio web, Organización, Fecha de acceso</td>
+      </tr>
+      <tr>
+        <td>🎥 Video (YouTube, etc.)</td>
+        <td>Año, Fecha, Canal/Creador, Plataforma</td>
+      </tr>
+      <tr>
+        <td>📰 Artículo de periódico</td>
+        <td>Fecha de publicación, Periódico, Sección, Página</td>
+      </tr>
+      <tr>
+        <td>📚 Enciclopedia</td>
+        <td>Año, Entrada, Nombre enciclopedia, Editor, Volumen</td>
+      </tr>
+      <tr>
+        <td>🎤 Entrevista</td>
+        <td>Año, Fecha, Entrevistador, Medio, Tipo</td>
+      </tr>
+      <tr>
+        <td>🎬 Documental/Película</td>
+        <td>Año, Director, Productor, Productora, Tipo</td>
+      </tr>
+      <tr>
+        <td>📄 Otro</td>
+        <td>Año, Información adicional</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>4. Guardar y gestionar referencias</h3>
+  <ul>
+    <li>Pulsa <code>Guardar referencia</code> para añadirla a tu lista</li>
+    <li><code>✏️</code> - Editar una referencia existente</li>
+    <li><code>🗑️</code> - Eliminar una referencia individual</li>
+    <li><code>📋 Copiar todas</code> - Copia con formato para pegar en Word/Google Docs</li>
+    <li><code>❌ Limpiar todas</code> - Borra toda la lista</li>
+  </ul>
+
+  <div class="tip">
+    💡 <strong>Tip:</strong> Tus referencias se guardan automáticamente en tu navegador. No las perderás al cerrar la página.
+  </div>
+
+  <h2>📋 Ejemplos de referencias en formato APA 7</h2>
+
+  <h3>Libro</h3>
+  <div class="example">
+    García, J. M. (2020). <em>Introducción a la pedagogía</em> (3ª ed.). Anaya.
+  </div>
+
+  <h3>Artículo de revista</h3>
+  <div class="example">
+    Smith, J., & Jones, A. B. (2019). Educational research methods. <em>Journal of Education</em>, <em>15</em>(3), 234-256. https://doi.org/10.1000/xyz123
+  </div>
+
+  <h3>Página web</h3>
+  <div class="example">
+    Organización Mundial de la Salud. (2021, 15 de marzo). Salud mental en adolescentes. <em>OMS</em>. https://www.who.int/salud-mental
+  </div>
+
+  <h3>Video de YouTube</h3>
+  <div class="example">
+    López, M. (2022, 10 de enero). <em>Cómo hacer un trabajo escolar</em> [Video]. YouTube. https://youtube.com/watch?v=ejemplo
+  </div>
+
+  <h3>Artículo de periódico</h3>
+  <div class="example">
+    Pérez, A. (2023, 5 de junio). La importancia de la educación. <em>El País</em>. https://elpais.com/articulo
+  </div>
+
+  <h2>⚠️ Aspectos importantes del formato APA 7</h2>
+
+  <ul>
+    <li><strong>Iniciales:</strong> Los nombres se convierten a iniciales (Juan María → J. M.)</li>
+    <li><strong>Símbolo &:</strong> Se usa "&" antes del último autor, no "y"</li>
+    <li><strong>Cursiva:</strong> Los títulos de libros, revistas y sitios web van en cursiva</li>
+    <li><strong>DOI preferido:</strong> Usa DOI cuando esté disponible en lugar de URL</li>
+    <li><strong>Puntuación:</strong> Cada sección termina con punto</li>
+    <li><strong>Sangría francesa:</strong> La segunda línea debe tener sangría (hazlo en tu editor)</li>
+  </ul>
+
+  <div class="warning">
+    ⚠️ <strong>Importante:</strong> BiblioClick es una herramienta de ayuda. Siempre revisa que tus referencias estén completas y correctas antes de entregarlas.
+  </div>
+
+  <h2>🔧 Personalización avanzada</h2>
+  <p>Si necesitas agregar o modificar tipos de documentos, puedes editar el archivo <code>document-schema.json</code> en la carpeta de la aplicación. Este archivo define todos los campos para cada tipo de documento.</p>
+
+  <h2>❓ Preguntas frecuentes</h2>
+
+  <h3>¿Mis referencias se guardan?</h3>
+  <p>Sí, se guardan automáticamente en tu navegador. Si borras los datos del navegador, las perderás.</p>
+
+  <h3>¿Puedo copiar las referencias con formato?</h3>
+  <p>Sí, al usar <code>📋 Copiar todas</code>, las referencias se copian con cursiva y formato. Pégatlas directamente en Word o Google Docs.</p>
+
+  <h3>¿Qué hago si el documento no tiene autor?</h3>
+  <p>Deja los campos de autor vacíos. La referencia comenzará con el título.</p>
+
+  <h3>¿Cómo cito un documento con muchos autores?</h3>
+  <p>BiblioClick maneja automáticamente listas de autores según APA 7. Si hay más de 20, mostrará los primeros 19 y el último.</p>
+
+  <hr style="margin-top: 3rem; margin-bottom: 1rem;">
+  <p style="text-align: center; color: #666;">¡Ahora ya puedes crear tus referencias como un/a experto/a! 🎓</p>
 </body>
 </html>
