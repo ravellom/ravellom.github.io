@@ -46,29 +46,10 @@
     <main class="container" id="apps">
 
         <section class="section">
-            <h2><i class="fa-solid fa-rocket" style="color: var(--primary);"></i> Aplicaciones Principales</h2>
+            <h2><i class="fa-solid fa-check-circle" style="color: var(--primary);"></i> Aplicaciones Funcionales</h2>
+            <p>Herramientas listas para usar en producción, estables y completamente probadas.</p>
             <div class="grid-3">
                 
-                <article class="card">
-                    <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
-                    <h3 class="card-title">Ejecon</h3>
-                    <p class="card-desc">Generador de ejercicios educativos interactivos. Crea cuestionarios, y actividades exportables a HTML/JSON para usar sin conexión.</p>
-                    <div class="card-footer">
-                        <span class="badge badge-pro">Estable v1.0</span>
-                        <a href="apps/ejecon/" class="btn btn-sm btn-outline-dark">Abrir App</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-icon"><i class="fa-solid fa-apple-whole"></i></div>
-                    <h3 class="card-title">Open Nutrition</h3>
-                    <p class="card-desc">Seguimiento nutricional privado ("Local-First"). Tus datos de salud se guardan en tu dispositivo, nunca en la nube.</p>
-                    <div class="card-footer">
-                        <span class="badge badge-exp">Beta PWA</span>
-                        <a href="apps/open-nutrition/" class="btn btn-sm btn-outline-dark">Probar App</a>
-                    </div>
-                </article>
-
                 <article class="card">
                     <div class="card-icon"><i class="fa-solid fa-book-bookmark"></i></div>
                     <h3 class="card-title">BiblioClick</h3>
@@ -76,34 +57,6 @@
                     <div class="card-footer">
                         <span class="badge badge-pro">Utilidad</span>
                         <a href="apps/biblioclick/" class="btn btn-sm btn-outline-dark">Abrir App</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2><i class="fa-solid fa-flask" style="color: var(--secondary);"></i> Laboratorio Docente</h2>
-            <p>Proyectos experimentales, prototipos de clase y utilidades complementarias.</p>
-            
-            <div class="grid-3">
-                
-                <article class="card card-incubator">
-                    <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
-                    <h3 class="card-title">Incubadora (IA Apps)</h3>
-                    <p class="card-desc">Semillero de micro-herramientas para mis clases. Incluye <strong>Mapas Interactivos</strong>, Narrativas Digitales y juegos serios.</p>
-                    <div class="card-footer">
-                        <span class="badge badge-exp" style="background:#ECFDF5; color: var(--secondary);">Experimental</span>
-                        <a href="apps/ia-apps/" class="btn btn-sm btn-primary" style="background-color: var(--secondary);">Explorar Lab</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
-                    <h3 class="card-title">Ejevisor</h3>
-                    <p class="card-desc">Visualizador ligero para proyectar en el aula los ejercicios creados previamente con Ejecon.</p>
-                    <div class="card-footer">
-                        <span class="badge badge-pro">Visor</span>
-                        <a href="apps/ejevisor/" class="btn btn-sm btn-outline-dark">Abrir</a>
                     </div>
                 </article>
 
@@ -117,16 +70,119 @@
                     </div>
                 </article>
 
-                 <article class="card" style="background-color: transparent; border: 2px dashed var(--border); justify-content: center; align-items: center; text-align: center; box-shadow: none;">
-                    <div style="font-size: 2.5rem; color: var(--border); margin-bottom: 15px;">
-                        <i class="fa-brands fa-github"></i>
-                    </div>
-                    <h3 class="card-title">Explora el código</h3>
-                    <div class="card-footer" style="border: none; width: 100%; justify-content: center; padding-top: 0;">
-                        <a href="https://github.com/ravellom" target="_blank" class="btn btn-sm btn-outline-dark">Ir al Repositorio</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><i class="fa-solid fa-flask" style="color: var(--secondary);"></i> Proyectos Experimentales</h2>
+            <p>Prototipos en desarrollo activo. Pueden tener funciones incompletas o cambios frecuentes.</p>
+            
+            <div class="grid-3">
+                
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <h3 class="card-title">Ejecon</h3>
+                    <p class="card-desc">Generador de ejercicios educativos interactivos. Crea cuestionarios y actividades exportables a HTML/JSON para usar sin conexión.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp">En Desarrollo</span>
+                        <a href="apps/ejecon/" class="btn btn-sm btn-outline-dark">Abrir App</a>
                     </div>
                 </article>
 
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3 class="card-title">Ejevisor</h3>
+                    <p class="card-desc">Visualizador ligero para proyectar en el aula los ejercicios creados previamente con Ejecon.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp">Visor Beta</span>
+                        <a href="apps/ejevisor/" class="btn btn-sm btn-outline-dark">Abrir</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                    <h3 class="card-title">Open Nutrition</h3>
+                    <p class="card-desc">Seguimiento nutricional privado ("Local-First"). Tus datos de salud se guardan en tu dispositivo, nunca en la nube.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp">Beta PWA</span>
+                        <a href="apps/open-nutrition/" class="btn btn-sm btn-outline-dark">Probar App</a>
+                    </div>
+                </article>
+
+                <article class="card card-incubator">
+                    <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="card-title">Incubadora (IA Apps)</h3>
+                    <p class="card-desc">Semillero de micro-herramientas para mis clases. Incluye <strong>Mapas Interactivos</strong>, Narrativas Digitales y juegos serios.</p>
+                    <div class="card-footer">
+                        <span class="badge badge-exp" style="background:#ECFDF5; color: var(--secondary);">Experimental</span>
+                        <a href="apps/ia-apps/" class="btn btn-sm btn-primary" style="background-color: var(--secondary);">Explorar Lab</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="section" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 60px 40px; border-radius: 16px; color: white; text-align: center;">
+            <h2 style="color: white; margin-bottom: 20px;">
+                <i class="fa-solid fa-graduation-cap"></i> Formación y Asesoría
+            </h2>
+            <p style="font-size: 1.15rem; max-width: 750px; margin: 0 auto 35px; opacity: 0.95;">
+                Aprende a usar estas herramientas o desarrolla las tuyas propias con IA. Cursos prácticos, talleres especializados y asesorías directas personalizadas.
+            </p>
+            
+            <div class="grid-3" style="margin-top: 40px;">
+                
+                <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 12px; padding: 28px; text-align: left; border: 1px solid rgba(255,255,255,0.3);">
+                    <div style="font-size: 2.2rem; margin-bottom: 15px;">
+                        <i class="fa-solid fa-tools"></i>
+                    </div>
+                    <h3 style="color: white; font-size: 1.25rem; margin-bottom: 12px;">Uso de Herramientas</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.95; line-height: 1.6;">
+                        Domina Ejecon, Likert Charts y otras apps para potenciar tu trabajo docente e investigador.
+                    </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 12px; padding: 28px; text-align: left; border: 1px solid rgba(255,255,255,0.3);">
+                    <div style="font-size: 2.2rem; margin-bottom: 15px;">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h3 style="color: white; font-size: 1.25rem; margin-bottom: 12px;">Desarrollo con IA</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.95; line-height: 1.6;">
+                        Crea tus propias herramientas educativas usando IA generativa, sin necesidad de ser programador experto.
+                    </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 12px; padding: 28px; text-align: left; border: 1px solid rgba(255,255,255,0.3);">
+                    <div style="font-size: 2.2rem; margin-bottom: 15px;">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 style="color: white; font-size: 1.25rem; margin-bottom: 12px;">Asesoría Directa</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.95; line-height: 1.6;">
+                        Sesiones personalizadas para resolver tus necesidades específicas en desarrollo digital educativo.
+                    </p>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 35px;">
+                <a href="https://youtube.com/@RaidellAvello" target="_blank" class="btn btn-outline-light" style="background: white; color: #f5576c; font-weight: 600;">
+                    <i class="fa-brands fa-youtube"></i> Ver Tutoriales Gratuitos
+                </a>
+                <a href="mailto:ravellom.docencia@gmail.com" class="btn btn-outline-light" style="margin-left: 12px;">
+                    <i class="fa-solid fa-envelope"></i> Solicitar Información
+                </a>
+            </div>
+        </section>
+
+        <section class="section" style="text-align: center; padding-top: 30px;">
+            <div style="display: inline-block; background-color: transparent; border: 2px dashed var(--border); border-radius: 12px; padding: 40px 60px;">
+                <div style="font-size: 2.5rem; color: var(--border); margin-bottom: 15px;">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+                <h3 style="color: var(--text-main); margin-bottom: 20px;">Explora el código</h3>
+                <a href="https://github.com/ravellom" target="_blank" class="btn btn-sm btn-outline-dark">
+                    <i class="fa-brands fa-github"></i> Ir al Repositorio
+                </a>
             </div>
         </section>
 
