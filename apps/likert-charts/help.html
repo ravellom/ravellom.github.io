@@ -304,81 +304,44 @@
                 <p>Si tus datos están en otro formato, usa este prompt con ChatGPT, Claude, o cualquier IA generativa para convertirlos automáticamente:</p>
 
                 <div class="code-block" id="prompt-block">
-<button class="copy-btn" onclick="copyPrompt()">📋 Copiar Prompt</button>Actúa como un experto en análisis de datos y transformación de datasets.
+<button class="copy-btn" onclick="copyPrompt()">📋 Copiar Prompt</button>
 
-Necesito que transformes los datos que te proporcionaré al siguiente formato CSV:
+Actúa como un experto en análisis de datos y transformación de datasets.
 
+**OBJETIVO:**
+Transformar el dataset proporcionado en un archivo CSV técnico estrictamente formateado para su importación en aplicaciones de análisis.
 
-**FORMATO REQUERIDO:**
+**REGLAS DE FORMATO CSV (CRÍTICAS):**
+1. **Encabezados:** DEBEN estar encerrados entre comillas dobles, SIN paréntesis. Deben comenzar siempre por el número del ítem (si existe en el original). Ejemplo: "1.1 Texto original de la pregunta".
+2. **Sin Traducción:** Mantén el idioma original de los encabezados tal como aparecen en los datos de entrada.
+3. **Valores:** Los valores numéricos DEBEN estar SIN comillas. Ejemplo: 1,5,3,4.
+4. **ID:** La primera columna será "ID" (con comillas) y los valores serán numéricos correlativos 1,2,3... (sin comillas).
+5. **Integridad:** NO omitas ninguna fila. Preserva el orden original de los datos.
 
-- Primera columna: ID único para cada encuestado (puedes generarlo como Resp_001, Resp_002, etc.)
+**PROTOCOLO DE INFERENCIA DE ESCALA:**
+- **Paso 1:** Antes de generar el CSV, analiza los datos e infiere el rango de la escala Likert (ej: 1-5, 1-7, etc.).
+- **Paso 2:** Propón al usuario el mapeo detectado (ej: 1=Muy en desacuerdo ... 5=Totalmente de acuerdo) y detente.
+- **Paso 3:** NO generes el archivo hasta que el usuario confirme la escala.
 
-- Columnas siguientes: Cada columna es un ítem/pregunta de la encuesta
+**TRATAMIENTO DE NULOS / VACÍOS:**
+Antes de procesar los datos, pregunta al usuario qué prefiere hacer con las celdas vacías:
+- Opción A: Usar el valor del punto medio de la escala (ej: 3 en una escala de 5).
+- Opción B: Dejar el espacio en blanco en el CSV para completarlo manualmente.
 
-- Valores: SOLO NÚMEROS del 1 al N (donde N es el máximo de la escala Likert)
+**REGLAS DE LIMPIEZA:**
+- Elimina columnas de metadata (Timestamp, Email, Nombres de personas). Solo ID e ítems Likert.
+- NO incluyas filas de promedios, totales ni comentarios de texto al final del archivo.
 
-
-**REGLAS ESTRICTAS:**
-
-1. Convertir todas las respuestas textuales a números
-
-2. Si la escala original es de 5 puntos: 1=Muy en desacuerdo, 2=En desacuerdo, 3=Neutral, 4=De acuerdo, 5=Muy de acuerdo
-
-3. Si la escala original es de 7 puntos: usar la misma lógica con más granularidad
-
-4. Mantener la correspondencia: respuestas negativas → números bajos, respuestas positivas → números altos
-
-5. NO incluir filas de totales, promedios o resúmenes
-
-6. NO incluir columnas de metadata (fecha, hora, email) a menos que sea el ID
-
-7. Los encabezados deben ser descriptivos pero concisos
-
-8. **IMPORTANTE: TODOS los nombres de columnas DEBEN estar encerrados entre comillas dobles** ("Nombre de la columna")
-
-
-**EJEMPLO DE TRANSFORMACIÓN:**
-
-ANTES (formato incorrecto):
-| Nombre | Email | ¿Satisfecho con el servicio? | ¿Recomendaría? |
-|--------|-------|----------------------------|----------------|
-| Juan   | j@    | Muy satisfecho             | Sí             |
-| María  | m@    | Neutral                    | No             |
-
-DESPUÉS (formato correcto):
-"ID","Satisfacción con servicio","Recomendaría"
-"Resp_001",5,5
-"Resp_002",3,1
-
-
-**INSTRUCCIONES:**
-
-1. Analiza los datos que te proporcionaré
-
-2. Identifica las columnas que contienen respuestas Likert
-
-3. Convierte las respuestas a números según la escala
-
-4. Genera el CSV en el formato correcto (con comillas en los nombres de columnas)
-
-5. Proporciona el resultado listo para copiar y pegar
-
-
-**IMPORTANTE:** 
-
-- Si hay respuestas NA, vacías o inválidas, usa el valor del punto medio de la escala
-
-- Si no estás seguro de la escala, asume 5 puntos (1-5)
-
-- Preserva el orden original de las filas
-
-- RECUERDA: Todos los encabezados de columna entre comillas dobles
+**INSTRUCCIONES DE RESPUESTA:**
+1. Confirma que has recibido los datos.
+2. Indica qué escala has inferido y pide confirmación.
+3. Pregunta por la gestión de nulos (Opción A o B).
+4. Espera mi respuesta antes de mostrar el bloque de código del CSV final.
+5. Incluye en la respuesta un fichero CSV descargable con el bloque de código del CSV final
 
 ---
-
-Aquí están mis datos para transformar:
-
-[PEGA TUS DATOS AQUÍ]</div>
+**DATOS A TRANSFORMAR:**
+[PEGA AQUÍ TUS DATOS]</div>
 
                 <div class="success" style="margin-top: 1rem;">
                     <div class="alert-title">✅ Cómo usar el prompt:</div>

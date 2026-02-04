@@ -1,6 +1,155 @@
 // Configuración global
 let currentWordData = [];
 let currentLayout = null;
+let currentLanguage = 'es';
+
+// Traducciones
+const translations = {
+    es: {
+        title: 'Nube de Palabras',
+        textSection: 'Texto',
+        textPlaceholder: 'Escribe o pega tu texto aquí...',
+        wordsDetected: 'Palabras detectadas',
+        loadFile: 'Cargar archivo',
+        excludeWords: 'Palabras a excluir',
+        excludePlaceholder: 'Ej: de, la, el, en, y (separadas por comas)',
+        addGroups: 'Agregar grupos de palabras',
+        btnArticles: 'Artículos',
+        btnPrepositions: 'Preposiciones',
+        btnConjunctions: 'Conjunciones',
+        btnPronouns: 'Pronombres',
+        btnCommon: 'Comunes',
+        btnAll: 'Todas',
+        btnClear: 'Limpiar',
+        caseSensitive: 'Distinguir mayúsculas/minúsculas',
+        removeNumbers: 'Eliminar números',
+        visualConfig: 'Configuración visual',
+        maxWords: 'Palabras máximas',
+        fontSize: 'Tamaño de fuente',
+        minMax: 'mín-máx',
+        minimum: 'Mínimo',
+        maximum: 'Máximo',
+        colorScheme: 'Esquema de color',
+        colorDefault: 'Multicolor (Defecto)',
+        colorBlue: 'Azules',
+        colorRed: 'Rojos',
+        colorGreen: 'Verdes',
+        colorPurple: 'Púrpuras',
+        colorOrange: 'Naranjas',
+        colorWarm: 'Cálidos',
+        colorCool: 'Fríos',
+        colorGrayscale: 'Escala de grises',
+        colorCustom: 'Personalizado',
+        customColors: 'Colores personalizados',
+        commaSeparated: 'separados por comas',
+        shape: 'Forma',
+        shapeCircle: 'Circular',
+        shapeRectangle: 'Rectangular',
+        shapeEllipse: 'Elipse',
+        fontFamily: 'Fuente tipográfica',
+        fontImpact: 'Impact (Clásica)',
+        rotation: 'Rotación',
+        rotationNone: 'Sin rotación',
+        rotationSlight: 'Leve (-15° a 15°)',
+        rotationMedium: 'Moderada (-45° a 45°)',
+        rotationVaried: 'Variada (-90° a 90°)',
+        rotationPerpendicular: 'Solo perpendicular (0° o 90°)',
+        btnGenerate: 'Generar Nube',
+        btnDownloadPNG: 'Descargar PNG',
+        btnDownloadSVG: 'Descargar SVG',
+        btnReset: 'Limpiar todo',
+        statistics: 'Estadísticas',
+        emptyTitle: '¡Crea tu nube de palabras!',
+        emptyDescription: 'Escribe o carga texto y haz clic en "Generar Nube"',
+        // Notificaciones
+        fileLoaded: 'Archivo cargado correctamente',
+        fileError: 'Error al cargar el archivo',
+        enterText: 'Por favor, ingresa algún texto',
+        noValidWords: 'No se encontraron palabras válidas',
+        cloudGenerated: '¡Nube de palabras generada!',
+        wordsAdded: 'palabras del grupo',
+        wordsCleared: 'Palabras a excluir limpiadas',
+        downloadedImage: 'Imagen descargada',
+        downloadedSVG: 'SVG descargado',
+        generateFirst: 'Primero genera una nube de palabras',
+        confirmClear: '¿Estás seguro de que quieres limpiar todo?',
+        allCleared: 'Todo limpiado',
+        confirmClearWords: '¿Limpiar todas las palabras a excluir?',
+        frequency: 'Frecuencia'
+    },
+    en: {
+        title: 'Word Cloud',
+        textSection: 'Text',
+        textPlaceholder: 'Type or paste your text here...',
+        wordsDetected: 'Words detected',
+        loadFile: 'Load file',
+        excludeWords: 'Exclude words',
+        excludePlaceholder: 'E.g: the, and, of, to, a (comma separated)',
+        addGroups: 'Add word groups',
+        btnArticles: 'Articles',
+        btnPrepositions: 'Prepositions',
+        btnConjunctions: 'Conjunctions',
+        btnPronouns: 'Pronouns',
+        btnCommon: 'Common',
+        btnAll: 'All',
+        btnClear: 'Clear',
+        caseSensitive: 'Case sensitive',
+        removeNumbers: 'Remove numbers',
+        visualConfig: 'Visual configuration',
+        maxWords: 'Maximum words',
+        fontSize: 'Font size',
+        minMax: 'min-max',
+        minimum: 'Minimum',
+        maximum: 'Maximum',
+        colorScheme: 'Color scheme',
+        colorDefault: 'Multicolor (Default)',
+        colorBlue: 'Blues',
+        colorRed: 'Reds',
+        colorGreen: 'Greens',
+        colorPurple: 'Purples',
+        colorOrange: 'Oranges',
+        colorWarm: 'Warm',
+        colorCool: 'Cool',
+        colorGrayscale: 'Grayscale',
+        colorCustom: 'Custom',
+        customColors: 'Custom colors',
+        commaSeparated: 'comma separated',
+        shape: 'Shape',
+        shapeCircle: 'Circular',
+        shapeRectangle: 'Rectangular',
+        shapeEllipse: 'Ellipse',
+        fontFamily: 'Font family',
+        fontImpact: 'Impact (Classic)',
+        rotation: 'Rotation',
+        rotationNone: 'No rotation',
+        rotationSlight: 'Slight (-15° to 15°)',
+        rotationMedium: 'Medium (-45° to 45°)',
+        rotationVaried: 'Varied (-90° to 90°)',
+        rotationPerpendicular: 'Perpendicular only (0° or 90°)',
+        btnGenerate: 'Generate Cloud',
+        btnDownloadPNG: 'Download PNG',
+        btnDownloadSVG: 'Download SVG',
+        btnReset: 'Clear all',
+        statistics: 'Statistics',
+        emptyTitle: 'Create your word cloud!',
+        emptyDescription: 'Type or load text and click "Generate Cloud"',
+        // Notifications
+        fileLoaded: 'File loaded successfully',
+        fileError: 'Error loading file',
+        enterText: 'Please enter some text',
+        noValidWords: 'No valid words found',
+        cloudGenerated: 'Word cloud generated!',
+        wordsAdded: 'words from group',
+        wordsCleared: 'Excluded words cleared',
+        downloadedImage: 'Image downloaded',
+        downloadedSVG: 'SVG downloaded',
+        generateFirst: 'Generate a word cloud first',
+        confirmClear: 'Are you sure you want to clear everything?',
+        allCleared: 'All cleared',
+        confirmClearWords: 'Clear all excluded words?',
+        frequency: 'Frequency'
+    }
+};
 
 // Esquemas de color predefinidos
 const colorSchemes = {
@@ -15,8 +164,44 @@ const colorSchemes = {
     grayscale: ['#2c3e50', '#34495e', '#7f8c8d', '#95a5a6', '#bdc3c7', '#505a62', '#85929e', '#aab7b8']
 };
 
-// Palabras comunes en español (stopwords)
-const defaultStopWords = ['de', 'la', 'el', 'en', 'y', 'a', 'o', 'un', 'una', 'los', 'las', 'del', 'al', 'por', 'para', 'con', 'sin', 'sobre', 'entre', 'hasta', 'desde', 'durante', 'mediante'];
+// Grupos de palabras a excluir en español
+const stopWordGroups = {
+    es: {
+        // Artículos
+        articles: ['el', 'la', 'lo', 'los', 'las', 'un', 'una', 'unos', 'unas'],
+        
+        // Preposiciones
+        prepositions: ['a', 'ante', 'bajo', 'cabe', 'con', 'contra', 'de', 'desde', 'durante', 'en', 'entre', 'hacia', 'hasta', 'mediante', 'para', 'por', 'según', 'sin', 'so', 'sobre', 'tras', 'versus', 'vía', 'del', 'al'],
+        
+        // Conjunciones
+        conjunctions: ['y', 'e', 'ni', 'que', 'o', 'u', 'pero', 'mas', 'aunque', 'sino', 'siquiera', 'porque', 'pues', 'si', 'como', 'cuando', 'donde', 'mientras'],
+        
+        // Pronombres
+        pronouns: ['yo', 'tu', 'tú', 'el', 'él', 'ella', 'nosotros', 'nosotras', 'vosotros', 'vosotras', 'ellos', 'ellas', 'usted', 'ustedes', 'me', 'te', 'se', 'nos', 'os', 'le', 'les', 'lo', 'la', 'los', 'las', 'mi', 'mis', 'tu', 'tus', 'su', 'sus', 'nuestro', 'nuestra', 'nuestros', 'nuestras', 'vuestro', 'vuestra', 'vuestros', 'vuestras', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'aquellos', 'aquellas', 'quien', 'quienes', 'cual', 'cuales', 'cuanto', 'cuanta', 'cuantos', 'cuantas', 'que', 'qué'],
+        
+        // Palabras comunes
+        common: ['ser', 'estar', 'haber', 'hacer', 'tener', 'decir', 'ir', 'ver', 'dar', 'saber', 'querer', 'poder', 'poner', 'parecer', 'dejar', 'seguir', 'encontrar', 'llamar', 'venir', 'pensar', 'salir', 'volver', 'tomar', 'conocer', 'vivir', 'sentir', 'tratar', 'mirar', 'contar', 'empezar', 'esperar', 'buscar', 'existir', 'entrar', 'trabajar', 'escribir', 'perder', 'producir', 'ocurrir', 'entender', 'pedir', 'recibir', 'recordar', 'terminar', 'permitir', 'aparecer', 'conseguir', 'comenzar', 'servir', 'sacar', 'necesitar', 'mantener', 'resultar', 'leer', 'caer', 'cambiar', 'presentar', 'crear', 'abrir', 'considerar', 'oír', 'acabar', 'suponer', 'comprender', 'lograr', 'explicar', 'reconocer', 'estudiar', 'intentar', 'usar', 'demostrar', 'fue', 'ha', 'han', 'sido', 'es', 'son', 'era', 'eran', 'eres', 'soy', 'somos', 'son', 'está', 'están', 'estoy', 'estamos', 'hay', 'había', 'he', 'has', 'hemos', 'habían', 'tenía', 'tenían', 'tiene', 'tienen', 'tengo', 'tenemos', 'hice', 'hizo', 'hicieron', 'hace', 'hacen', 'hago', 'hacemos', 'dijo', 'dice', 'dicen', 'digo', 'decimos', 'muy', 'mucho', 'muchos', 'mucha', 'muchas', 'poco', 'pocos', 'poca', 'pocas', 'todo', 'toda', 'todos', 'todas', 'otro', 'otra', 'otros', 'otras', 'mismo', 'misma', 'mismos', 'mismas', 'tal', 'tales', 'tanto', 'tanta', 'tantos', 'tantas', 'algún', 'alguno', 'alguna', 'algunos', 'algunas', 'ningún', 'ninguno', 'ninguna', 'ningunos', 'ningunas', 'cada', 'varios', 'varias', 'cualquier', 'cualquiera', 'cualesquiera', 'demás', 'mismo', 'propio', 'cierto', 'cierta', 'ciertos', 'ciertas', 'más', 'menos', 'bien', 'mal', 'mejor', 'peor', 'sí', 'si', 'no', 'nunca', 'siempre', 'también', 'tampoco', 'ya', 'aún', 'aun', 'todavía', 'solo', 'sólo', 'solamente', 'apenas', 'quizá', 'quizas', 'quizás', 'acaso', 'tal vez', 'talvez']
+    },
+    en: {
+        // Articles
+        articles: ['the', 'a', 'an'],
+        
+        // Prepositions
+        prepositions: ['about', 'above', 'across', 'after', 'against', 'along', 'among', 'around', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond', 'by', 'down', 'during', 'except', 'for', 'from', 'in', 'inside', 'into', 'like', 'near', 'of', 'off', 'on', 'onto', 'out', 'outside', 'over', 'past', 'since', 'through', 'throughout', 'to', 'toward', 'under', 'underneath', 'until', 'up', 'upon', 'with', 'within', 'without'],
+        
+        // Conjunctions
+        conjunctions: ['and', 'but', 'or', 'nor', 'for', 'yet', 'so', 'although', 'because', 'since', 'unless', 'while', 'where', 'whereas', 'whether', 'if', 'that', 'than', 'when', 'as', 'though'],
+        
+        // Pronouns
+        pronouns: ['i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'her', 'its', 'our', 'their', 'mine', 'yours', 'hers', 'ours', 'theirs', 'this', 'that', 'these', 'those', 'who', 'whom', 'whose', 'which', 'what', 'myself', 'yourself', 'himself', 'herself', 'itself', 'ourselves', 'yourselves', 'themselves'],
+        
+        // Common words
+        common: ['be', 'is', 'am', 'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'will', 'would', 'shall', 'should', 'may', 'might', 'must', 'can', 'could', 'get', 'got', 'getting', 'make', 'made', 'making', 'go', 'goes', 'going', 'went', 'gone', 'take', 'took', 'taken', 'taking', 'come', 'came', 'coming', 'see', 'saw', 'seen', 'seeing', 'know', 'knew', 'known', 'knowing', 'think', 'thought', 'thinking', 'look', 'looked', 'looking', 'want', 'wanted', 'wanting', 'give', 'gave', 'given', 'giving', 'use', 'used', 'using', 'find', 'found', 'finding', 'tell', 'told', 'telling', 'ask', 'asked', 'asking', 'work', 'worked', 'working', 'seem', 'seemed', 'seeming', 'feel', 'felt', 'feeling', 'try', 'tried', 'trying', 'leave', 'left', 'leaving', 'call', 'called', 'calling', 'very', 'all', 'just', 'not', 'now', 'only', 'also', 'well', 'then', 'first', 'many', 'more', 'most', 'other', 'some', 'such', 'no', 'any', 'each', 'every', 'both', 'few', 'much', 'own', 'same', 'so', 'too', 'very', 'one', 'two', 'three', 'said', 'still', 'way', 'even', 'new', 'old', 'good', 'great', 'right', 'little', 'big', 'different', 'small', 'large', 'next', 'early', 'young', 'important', 'public', 'bad', 'same', 'able']
+    }
+};
+
+// Palabras comunes en español (stopwords) - lista por defecto
+const defaultStopWords = [];
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeApp() {
     // Event listeners
+    document.getElementById('languageSelector').addEventListener('change', changeLanguage);
     document.getElementById('textInput').addEventListener('input', updateWordCount);
     document.getElementById('fileInput').addEventListener('change', handleFileUpload);
     document.getElementById('generateBtn').addEventListener('click', generateWordCloud);
@@ -34,8 +220,108 @@ function initializeApp() {
     document.getElementById('maxWords').addEventListener('input', updateMaxWordsValue);
     document.getElementById('colorScheme').addEventListener('change', handleColorSchemeChange);
     
+    // Cargar idioma guardado o detectar del navegador
+    const savedLang = localStorage.getItem('wordcloud_language');
+    const browserLang = navigator.language.startsWith('es') ? 'es' : 'en';
+    currentLanguage = savedLang || browserLang;
+    document.getElementById('languageSelector').value = currentLanguage;
+    
+    // Aplicar traducciones iniciales
+    updateLanguage();
+    
+    // Inicializar con lista básica
+    initializeStopWords();
+    
     // Cargar datos guardados si existen
     loadSavedData();
+}
+
+// Inicializar palabras a excluir con una lista básica
+function initializeStopWords() {
+    const groups = stopWordGroups[currentLanguage];
+    const basicWords = [
+        ...groups.articles,
+        ...groups.prepositions.slice(0, 10),
+        ...groups.conjunctions.slice(0, 5)
+    ];
+    document.getElementById('stopWords').value = basicWords.join(', ');
+}
+
+// Cambiar idioma
+function changeLanguage() {
+    currentLanguage = document.getElementById('languageSelector').value;
+    localStorage.setItem('wordcloud_language', currentLanguage);
+    updateLanguage();
+    initializeStopWords();
+}
+
+// Actualizar todos los textos de la interfaz
+function updateLanguage() {
+    const t = translations[currentLanguage];
+    
+    // Actualizar elementos con data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (t[key]) {
+            element.textContent = t[key];
+        }
+    });
+    
+    // Actualizar placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (t[key]) {
+            element.placeholder = t[key];
+        }
+    });
+    
+    // Actualizar opciones de select
+    document.querySelectorAll('[data-i18n-option]').forEach(option => {
+        const key = option.getAttribute('data-i18n-option');
+        if (t[key]) {
+            option.textContent = t[key];
+        }
+    });
+}
+
+// Obtener traducción
+function t(key) {
+    return translations[currentLanguage][key] || key;
+}
+
+// Agregar grupo de palabras
+function addWordGroup(groupName) {
+    const stopWordsTextarea = document.getElementById('stopWords');
+    let currentWords = stopWordsTextarea.value
+        .split(',')
+        .map(w => w.trim())
+        .filter(w => w.length > 0);
+    
+    let newWords = [];
+    const groups = stopWordGroups[currentLanguage];
+    
+    if (groupName === 'all') {
+        // Agregar todos los grupos
+        Object.values(groups).forEach(group => {
+            newWords.push(...group);
+        });
+    } else if (groups[groupName]) {
+        newWords = groups[groupName];
+    }
+    
+    // Combinar y eliminar duplicados
+    const combined = [...new Set([...currentWords, ...newWords])];
+    stopWordsTextarea.value = combined.join(', ');
+    
+    showNotification(`${t('wordsAdded')}: ${newWords.length}`, 'success');
+}
+
+// Limpiar palabras a excluir
+function clearStopWords() {
+    if (confirm(t('confirmClearWords'))) {
+        document.getElementById('stopWords').value = '';
+        showNotification(t('wordsCleared'), 'info');
+    }
 }
 
 // Actualizar contador de palabras
@@ -68,10 +354,10 @@ function handleFileUpload(event) {
         const text = e.target.result;
         document.getElementById('textInput').value = text;
         updateWordCount();
-        showNotification('Archivo cargado correctamente', 'success');
+        showNotification(t('fileLoaded'), 'success');
     };
     reader.onerror = () => {
-        showNotification('Error al cargar el archivo', 'error');
+        showNotification(t('fileError'), 'error');
     };
     reader.readAsText(file);
 }
@@ -179,7 +465,7 @@ function generateWordCloud() {
     const text = document.getElementById('textInput').value;
     
     if (!text.trim()) {
-        showNotification('Por favor, ingresa algún texto', 'warning');
+        showNotification(t('enterText'), 'warning');
         return;
     }
     
@@ -187,7 +473,7 @@ function generateWordCloud() {
     const words = extractWords(text);
     
     if (words.length === 0) {
-        showNotification('No se encontraron palabras válidas', 'warning');
+        showNotification(t('noValidWords'), 'warning');
         return;
     }
     
@@ -206,6 +492,7 @@ function generateWordCloud() {
     const maxFont = parseInt(document.getElementById('maxFont').value);
     const colors = getColors();
     const rotationFn = getRotation();
+    const fontFamily = document.getElementById('fontFamily').value;
     
     // Limpiar canvas anterior
     d3.select('#cloudCanvas').selectAll('*').remove();
@@ -236,7 +523,7 @@ function generateWordCloud() {
         })))
         .padding(5)
         .rotate(rotationFn)
-        .font('Impact, Arial, sans-serif')
+        .font(fontFamily)
         .fontSize(d => d.size)
         .spiral(getSpiral())
         .on('end', draw);
@@ -260,7 +547,7 @@ function generateWordCloud() {
             .append('text')
             .attr('class', 'word-cloud-text')
             .style('font-size', d => `${d.size}px`)
-            .style('font-family', 'Impact, Arial, sans-serif')
+            .style('font-family', fontFamily)
             .style('fill', (d, i) => colors[i % colors.length])
             .style('font-weight', 'bold')
             .attr('text-anchor', 'middle')
@@ -281,7 +568,7 @@ function generateWordCloud() {
         
         // Guardar datos
         saveData();
-        showNotification('¡Nube de palabras generada!', 'success');
+        showNotification(t('cloudGenerated'), 'success');
     }
 }
 
@@ -310,7 +597,7 @@ function showTooltip(event, d) {
     tooltip.style.fontSize = '14px';
     tooltip.style.pointerEvents = 'none';
     tooltip.style.zIndex = '9999';
-    tooltip.innerHTML = `<strong>${d.text}</strong><br>Frecuencia: ${d.count}`;
+    tooltip.innerHTML = `<strong>${d.text}</strong><br>${t('frequency')}: ${d.count}`;
     tooltip.style.left = `${event.pageX + 10}px`;
     tooltip.style.top = `${event.pageY + 10}px`;
     document.body.appendChild(tooltip);
@@ -349,7 +636,7 @@ function downloadPNG() {
     const svg = document.querySelector('#cloudCanvas svg');
     
     if (!svg) {
-        showNotification('Primero genera una nube de palabras', 'warning');
+        showNotification(t('generateFirst'), 'warning');
         return;
     }
     
@@ -373,7 +660,7 @@ function downloadPNG() {
             a.download = `nube-palabras-${Date.now()}.png`;
             a.click();
             URL.revokeObjectURL(url);
-            showNotification('Imagen descargada', 'success');
+            showNotification(t('downloadedImage'), 'success');
         });
     };
     
@@ -385,7 +672,7 @@ function downloadSVG() {
     const svg = document.querySelector('#cloudCanvas svg');
     
     if (!svg) {
-        showNotification('Primero genera una nube de palabras', 'warning');
+        showNotification(t('generateFirst'), 'warning');
         return;
     }
     
@@ -397,12 +684,12 @@ function downloadSVG() {
     a.download = `nube-palabras-${Date.now()}.svg`;
     a.click();
     URL.revokeObjectURL(url);
-    showNotification('SVG descargado', 'success');
+    showNotification(t('downloadedSVG'), 'success');
 }
 
 // Reiniciar todo
 function resetAll() {
-    if (!confirm('¿Estás seguro de que quieres limpiar todo?')) return;
+    if (!confirm(t('confirmClear'))) return;
     
     document.getElementById('textInput').value = '';
     document.getElementById('fileInput').value = '';
@@ -413,7 +700,7 @@ function resetAll() {
     currentWordData = [];
     
     localStorage.removeItem('wordcloud_data');
-    showNotification('Todo limpiado', 'info');
+    showNotification(t('allCleared'), 'info');
 }
 
 // Guardar datos en localStorage

@@ -14,53 +14,60 @@
             <!-- Panel lateral de opciones -->
             <div class="col-md-4 col-lg-3 sidebar">
                 <div class="sidebar-content">
+                    <div class="language-selector mb-3">
+                        <select id="languageSelector" class="form-select form-select-sm">
+                            <option value="es">🇪🇸 Español</option>
+                            <option value="en">🇬🇧 English</option>
+                        </select>
+                    </div>
+                    
                     <h1 class="app-title">
-                        <i class="fas fa-cloud"></i> Nube de Palabras
+                        <i class="fas fa-cloud"></i> <span data-i18n="title">Nube de Palabras</span>
                     </h1>
                     
                     <!-- Área de texto -->
                     <div class="section">
-                        <h3><i class="fas fa-keyboard"></i> Texto</h3>
-                        <textarea id="textInput" class="form-control" rows="8" placeholder="Escribe o pega tu texto aquí..."></textarea>
+                        <h3><i class="fas fa-keyboard"></i> <span data-i18n="textSection">Texto</span></h3>
+                        <textarea id="textInput" class="form-control" rows="8" data-i18n-placeholder="textPlaceholder"></textarea>
                         <div class="mt-2">
-                            <small class="text-muted">Palabras detectadas: <span id="wordCount">0</span></small>
+                            <small class="text-muted"><span data-i18n="wordsDetected">Palabras detectadas</span>: <span id="wordCount">0</span></small>
                         </div>
                     </div>
 
                     <!-- Cargar archivo -->
                     <div class="section">
-                        <h3><i class="fas fa-file-upload"></i> Cargar archivo</h3>
+                        <h3><i class="fas fa-file-upload"></i> <span data-i18n="loadFile">Cargar archivo</span></h3>
                         <input type="file" id="fileInput" class="form-control" accept=".txt,.csv">
                     </div>
 
                     <!-- Palabras a excluir -->
                     <div class="section">
-                        <h3><i class="fas fa-ban"></i> Palabras a excluir</h3>
-                        <textarea id="stopWords" class="form-control" rows="3" placeholder="Ej: de, la, el, en, y (separadas por comas)"></textarea>
+                        <h3><i class="fas fa-ban"></i> <span data-i18n="excludeWords">Palabras a excluir</span></h3>
+                        <textarea id="stopWords" class="form-control" rows="3" data-i18n-placeholder="excludePlaceholder"></textarea>
                         
                         <div class="mt-2 mb-2">
-                            <label class="form-label" style="font-size: 0.9rem;">Agregar grupos de palabras:</label>
+                            <label class="form-label" style="font-size: 0.9rem;"><span data-i18n="addGroups">Agregar grupos de palabras</span>:</label>
                             <div class="d-flex flex-wrap gap-2">
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('articles')">
-                                    <i class="fas fa-plus-circle"></i> Artículos
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="btnArticles">Artículos</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('prepositions')">
-                                    <i class="fas fa-plus-circle"></i> Preposiciones
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="btnPrepositions">Preposiciones</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('conjunctions')">
-                                    <i class="fas fa-plus-circle"></i> Conjunciones
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="btnConjunctions">Conjunciones</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('pronouns')">
-                                    <i class="fas fa-plus-circle"></i> Pronombres
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="btnPronouns">Pronombres</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('common')">
-                                    <i class="fas fa-plus-circle"></i> Comunes
+                                    <i class="fas fa-plus-circle"></i> <span data-i18n="btnCommon">Comunes</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('all')">
-                                    <i class="fas fa-check-double"></i> Todas
+                                    <i class="fas fa-check-double"></i> <span data-i18n="btnAll">Todas</span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearStopWords()">
-                                    <i class="fas fa-trash"></i> Limpiar
+                                    <i class="fas fa-trash"></i> <span data-i18n="btnClear">Limpiar</span>
                                 </button>
                             </div>
                         </div>
@@ -68,66 +75,66 @@
                         <div class="form-check mt-2">
                             <input class="form-check-input" type="checkbox" id="caseSensitive">
                             <label class="form-check-label" for="caseSensitive">
-                                Distinguir mayúsculas/minúsculas
+                                <span data-i18n="caseSensitive">Distinguir mayúsculas/minúsculas</span>
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="removeNumbers">
                             <label class="form-check-label" for="removeNumbers">
-                                Eliminar números
+                                <span data-i18n="removeNumbers">Eliminar números</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Configuración visual -->
                     <div class="section">
-                        <h3><i class="fas fa-palette"></i> Configuración visual</h3>
+                        <h3><i class="fas fa-palette"></i> <span data-i18n="visualConfig">Configuración visual</span></h3>
                         
-                        <label class="form-label">Palabras máximas:</label>
+                        <label class="form-label"><span data-i18n="maxWords">Palabras máximas</span>:</label>
                         <input type="range" class="form-range" id="maxWords" min="10" max="200" value="50">
                         <div class="text-center"><small id="maxWordsValue">50</small></div>
 
-                        <label class="form-label mt-3">Tamaño de fuente (mín-máx):</label>
+                        <label class="form-label mt-3"><span data-i18n="fontSize">Tamaño de fuente</span> (<span data-i18n="minMax">mín-máx</span>):</label>
                         <div class="row">
                             <div class="col-6">
                                 <input type="number" class="form-control form-control-sm" id="minFont" value="10" min="5" max="50">
-                                <small class="text-muted">Mínimo</small>
+                                <small class="text-muted" data-i18n="minimum">Mínimo</small>
                             </div>
                             <div class="col-6">
                                 <input type="number" class="form-control form-control-sm" id="maxFont" value="80" min="20" max="200">
-                                <small class="text-muted">Máximo</small>
+                                <small class="text-muted" data-i18n="maximum">Máximo</small>
                             </div>
                         </div>
 
-                        <label class="form-label mt-3">Esquema de color:</label>
+                        <label class="form-label mt-3"><span data-i18n="colorScheme">Esquema de color</span>:</label>
                         <select class="form-select" id="colorScheme">
-                            <option value="default">Multicolor (Defecto)</option>
-                            <option value="blue">Azules</option>
-                            <option value="red">Rojos</option>
-                            <option value="green">Verdes</option>
-                            <option value="purple">Púrpuras</option>
-                            <option value="orange">Naranjas</option>
-                            <option value="warm">Cálidos</option>
-                            <option value="cool">Fríos</option>
-                            <option value="grayscale">Escala de grises</option>
-                            <option value="custom">Personalizado</option>
+                            <option value="default" data-i18n-option="colorDefault">Multicolor (Defecto)</option>
+                            <option value="blue" data-i18n-option="colorBlue">Azules</option>
+                            <option value="red" data-i18n-option="colorRed">Rojos</option>
+                            <option value="green" data-i18n-option="colorGreen">Verdes</option>
+                            <option value="purple" data-i18n-option="colorPurple">Púrpuras</option>
+                            <option value="orange" data-i18n-option="colorOrange">Naranjas</option>
+                            <option value="warm" data-i18n-option="colorWarm">Cálidos</option>
+                            <option value="cool" data-i18n-option="colorCool">Fríos</option>
+                            <option value="grayscale" data-i18n-option="colorGrayscale">Escala de grises</option>
+                            <option value="custom" data-i18n-option="colorCustom">Personalizado</option>
                         </select>
 
                         <div id="customColorsSection" class="mt-2" style="display: none;">
-                            <label class="form-label">Colores personalizados (separados por comas):</label>
+                            <label class="form-label"><span data-i18n="customColors">Colores personalizados</span> (<span data-i18n="commaSeparated">separados por comas</span>):</label>
                             <input type="text" class="form-control" id="customColors" placeholder="#3498db, #e74c3c, #2ecc71">
                         </div>
 
-                        <label class="form-label mt-3">Forma:</label>
+                        <label class="form-label mt-3"><span data-i18n="shape">Forma</span>:</label>
                         <select class="form-select" id="cloudShape">
-                            <option value="circle">Circular</option>
-                            <option value="rectangle">Rectangular</option>
-                            <option value="ellipse">Elipse</option>
+                            <option value="circle" data-i18n-option="shapeCircle">Circular</option>
+                            <option value="rectangle" data-i18n-option="shapeRectangle">Rectangular</option>
+                            <option value="ellipse" data-i18n-option="shapeEllipse">Elipse</option>
                         </select>
 
-                        <label class="form-label mt-3">Fuente tipográfica:</label>
+                        <label class="form-label mt-3"><span data-i18n="fontFamily">Fuente tipográfica</span>:</label>
                         <select class="form-select" id="fontFamily">
-                            <option value="Impact">Impact (Clásica)</option>
+                            <option value="Impact" data-i18n-option="fontImpact">Impact (Clásica)</option>
                             <option value="Arial">Arial</option>
                             <option value="Helvetica">Helvetica</option>
                             <option value="Times New Roman">Times New Roman</option>
@@ -143,35 +150,35 @@
                             <option value="Lucida Console">Lucida Console</option>
                         </select>
 
-                        <label class="form-label mt-3">Rotación:</label>
+                        <label class="form-label mt-3"><span data-i18n="rotation">Rotación</span>:</label>
                         <select class="form-select" id="rotation">
-                            <option value="none">Sin rotación</option>
-                            <option value="slight">Leve (-15° a 15°)</option>
-                            <option value="medium">Moderada (-45° a 45°)</option>
-                            <option value="varied">Variada (-90° a 90°)</option>
-                            <option value="perpendicular">Solo perpendicular (0° o 90°)</option>
+                            <option value="none" data-i18n-option="rotationNone">Sin rotación</option>
+                            <option value="slight" data-i18n-option="rotationSlight">Leve (-15° a 15°)</option>
+                            <option value="medium" data-i18n-option="rotationMedium">Moderada (-45° a 45°)</option>
+                            <option value="varied" data-i18n-option="rotationVaried">Variada (-90° a 90°)</option>
+                            <option value="perpendicular" data-i18n-option="rotationPerpendicular">Solo perpendicular (0° o 90°)</option>
                         </select>
                     </div>
 
                     <!-- Botones de acción -->
                     <div class="section">
                         <button id="generateBtn" class="btn btn-primary w-100 mb-2">
-                            <i class="fas fa-magic"></i> Generar Nube
+                            <i class="fas fa-magic"></i> <span data-i18n="btnGenerate">Generar Nube</span>
                         </button>
                         <button id="downloadBtn" class="btn btn-success w-100 mb-2">
-                            <i class="fas fa-download"></i> Descargar PNG
+                            <i class="fas fa-download"></i> <span data-i18n="btnDownloadPNG">Descargar PNG</span>
                         </button>
                         <button id="downloadSVG" class="btn btn-info w-100 mb-2">
-                            <i class="fas fa-download"></i> Descargar SVG
+                            <i class="fas fa-download"></i> <span data-i18n="btnDownloadSVG">Descargar SVG</span>
                         </button>
                         <button id="resetBtn" class="btn btn-secondary w-100">
-                            <i class="fas fa-redo"></i> Limpiar todo
+                            <i class="fas fa-redo"></i> <span data-i18n="btnReset">Limpiar todo</span>
                         </button>
                     </div>
 
                     <!-- Estadísticas -->
                     <div class="section">
-                        <h3><i class="fas fa-chart-bar"></i> Estadísticas</h3>
+                        <h3><i class="fas fa-chart-bar"></i> <span data-i18n="statistics">Estadísticas</span></h3>
                         <div id="stats" class="stats-container"></div>
                     </div>
                 </div>
@@ -183,8 +190,8 @@
                     <div id="cloudCanvas"></div>
                     <div id="emptyState" class="empty-state">
                         <i class="fas fa-cloud fa-5x mb-4"></i>
-                        <h2>¡Crea tu nube de palabras!</h2>
-                        <p>Escribe o carga texto y haz clic en "Generar Nube"</p>
+                        <h2 data-i18n="emptyTitle">¡Crea tu nube de palabras!</h2>
+                        <p data-i18n="emptyDescription">Escribe o carga texto y haz clic en "Generar Nube"</p>
                     </div>
                 </div>
             </div>
