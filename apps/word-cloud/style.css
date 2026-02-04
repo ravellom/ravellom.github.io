@@ -1,0 +1,348 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #16a085;
+    --light-bg: #ecf0f1;
+    --dark-text: #2c3e50;
+    --border-color: #bdc3c7;
+    --sidebar-bg: #34495e;
+    --sidebar-text: #ecf0f1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--dark-text);
+}
+
+.container-fluid {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.row {
+    height: 100%;
+    margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-content {
+    padding: 2rem 1.5rem;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+.app-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--sidebar-text);
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.app-title i {
+    color: #3498db;
+}
+
+.section {
+    background: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.section h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--sidebar-text);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section h3 i {
+    color: #3498db;
+}
+
+/* Form controls */
+.form-control,
+.form-select {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--dark-text);
+    border-radius: 5px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.form-control::placeholder {
+    color: #95a5a6;
+}
+
+.text-muted {
+    color: #bdc3c7 !important;
+}
+
+.form-check-label {
+    color: var(--sidebar-text);
+    font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 5px;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #868f96 0%, #596164 100%);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(134, 143, 150, 0.4);
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+/* Main content */
+.main-content {
+    background: white;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+#cloudCanvas {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cloudCanvas svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Empty state */
+.empty-state {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #95a5a6;
+}
+
+.empty-state i {
+    color: #bdc3c7;
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    color: #7f8c8d;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #95a5a6;
+    font-size: 1.1rem;
+}
+
+/* Statistics */
+.stats-container {
+    background: rgba(255,255,255,0.05);
+    padding: 1rem;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--sidebar-text);
+    font-size: 0.9rem;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-word {
+    font-weight: 600;
+}
+
+.stat-count {
+    background: rgba(52, 152, 219, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Range slider */
+.form-range {
+    accent-color: #3498db;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        height: auto;
+        max-height: 50vh;
+    }
+    
+    .main-content {
+        height: 50vh;
+    }
+    
+    .app-title {
+        font-size: 1.4rem;
+    }
+    
+    .section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Loading animation */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.loading.spin {
+    animation: spin 2s linear infinite;
+}
+
+/* Word cloud styles */
+.word-cloud-text {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.word-cloud-text:hover {
+    filter: brightness(1.3);
+    transform: scale(1.1);
+}
+
+/* Custom scrollbar for stats */
+.stats-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.stats-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.stats-container::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+.stats-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}

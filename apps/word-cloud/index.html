@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nube de Palabras - Generador de Word Clouds</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Panel lateral de opciones -->
+            <div class="col-md-4 col-lg-3 sidebar">
+                <div class="sidebar-content">
+                    <h1 class="app-title">
+                        <i class="fas fa-cloud"></i> Nube de Palabras
+                    </h1>
+                    
+                    <!-- Área de texto -->
+                    <div class="section">
+                        <h3><i class="fas fa-keyboard"></i> Texto</h3>
+                        <textarea id="textInput" class="form-control" rows="8" placeholder="Escribe o pega tu texto aquí..."></textarea>
+                        <div class="mt-2">
+                            <small class="text-muted">Palabras detectadas: <span id="wordCount">0</span></small>
+                        </div>
+                    </div>
+
+                    <!-- Cargar archivo -->
+                    <div class="section">
+                        <h3><i class="fas fa-file-upload"></i> Cargar archivo</h3>
+                        <input type="file" id="fileInput" class="form-control" accept=".txt,.csv">
+                    </div>
+
+                    <!-- Palabras a excluir -->
+                    <div class="section">
+                        <h3><i class="fas fa-ban"></i> Palabras a excluir</h3>
+                        <textarea id="stopWords" class="form-control" rows="3" placeholder="Ej: de, la, el, en, y (separadas por comas)"></textarea>
+                        
+                        <div class="mt-2 mb-2">
+                            <label class="form-label" style="font-size: 0.9rem;">Agregar grupos de palabras:</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('articles')">
+                                    <i class="fas fa-plus-circle"></i> Artículos
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('prepositions')">
+                                    <i class="fas fa-plus-circle"></i> Preposiciones
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('conjunctions')">
+                                    <i class="fas fa-plus-circle"></i> Conjunciones
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('pronouns')">
+                                    <i class="fas fa-plus-circle"></i> Pronombres
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('common')">
+                                    <i class="fas fa-plus-circle"></i> Comunes
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" onclick="addWordGroup('all')">
+                                    <i class="fas fa-check-double"></i> Todas
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearStopWords()">
+                                    <i class="fas fa-trash"></i> Limpiar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="caseSensitive">
+                            <label class="form-check-label" for="caseSensitive">
+                                Distinguir mayúsculas/minúsculas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="removeNumbers">
+                            <label class="form-check-label" for="removeNumbers">
+                                Eliminar números
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Configuración visual -->
+                    <div class="section">
+                        <h3><i class="fas fa-palette"></i> Configuración visual</h3>
+                        
+                        <label class="form-label">Palabras máximas:</label>
+                        <input type="range" class="form-range" id="maxWords" min="10" max="200" value="50">
+                        <div class="text-center"><small id="maxWordsValue">50</small></div>
+
+                        <label class="form-label mt-3">Tamaño de fuente (mín-máx):</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="minFont" value="10" min="5" max="50">
+                                <small class="text-muted">Mínimo</small>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="maxFont" value="80" min="20" max="200">
+                                <small class="text-muted">Máximo</small>
+                            </div>
+                        </div>
+
+                        <label class="form-label mt-3">Esquema de color:</label>
+                        <select class="form-select" id="colorScheme">
+                            <option value="default">Multicolor (Defecto)</option>
+                            <option value="blue">Azules</option>
+                            <option value="red">Rojos</option>
+                            <option value="green">Verdes</option>
+                            <option value="purple">Púrpuras</option>
+                            <option value="orange">Naranjas</option>
+                            <option value="warm">Cálidos</option>
+                            <option value="cool">Fríos</option>
+                            <option value="grayscale">Escala de grises</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+
+                        <div id="customColorsSection" class="mt-2" style="display: none;">
+                            <label class="form-label">Colores personalizados (separados por comas):</label>
+                            <input type="text" class="form-control" id="customColors" placeholder="#3498db, #e74c3c, #2ecc71">
+                        </div>
+
+                        <label class="form-label mt-3">Forma:</label>
+                        <select class="form-select" id="cloudShape">
+                            <option value="circle">Circular</option>
+                            <option value="rectangle">Rectangular</option>
+                            <option value="ellipse">Elipse</option>
+                        </select>
+
+                        <label class="form-label mt-3">Fuente tipográfica:</label>
+                        <select class="form-select" id="fontFamily">
+                            <option value="Impact">Impact (Clásica)</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Comic Sans MS">Comic Sans MS</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Palatino">Palatino</option>
+                            <option value="Garamond">Garamond</option>
+                            <option value="Bookman">Bookman</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Lucida Console">Lucida Console</option>
+                        </select>
+
+                        <label class="form-label mt-3">Rotación:</label>
+                        <select class="form-select" id="rotation">
+                            <option value="none">Sin rotación</option>
+                            <option value="slight">Leve (-15° a 15°)</option>
+                            <option value="medium">Moderada (-45° a 45°)</option>
+                            <option value="varied">Variada (-90° a 90°)</option>
+                            <option value="perpendicular">Solo perpendicular (0° o 90°)</option>
+                        </select>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="section">
+                        <button id="generateBtn" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-magic"></i> Generar Nube
+                        </button>
+                        <button id="downloadBtn" class="btn btn-success w-100 mb-2">
+                            <i class="fas fa-download"></i> Descargar PNG
+                        </button>
+                        <button id="downloadSVG" class="btn btn-info w-100 mb-2">
+                            <i class="fas fa-download"></i> Descargar SVG
+                        </button>
+                        <button id="resetBtn" class="btn btn-secondary w-100">
+                            <i class="fas fa-redo"></i> Limpiar todo
+                        </button>
+                    </div>
+
+                    <!-- Estadísticas -->
+                    <div class="section">
+                        <h3><i class="fas fa-chart-bar"></i> Estadísticas</h3>
+                        <div id="stats" class="stats-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de visualización -->
+            <div class="col-md-8 col-lg-9 main-content">
+                <div class="canvas-container">
+                    <div id="cloudCanvas"></div>
+                    <div id="emptyState" class="empty-state">
+                        <i class="fas fa-cloud fa-5x mb-4"></i>
+                        <h2>¡Crea tu nube de palabras!</h2>
+                        <p>Escribe o carga texto y haz clic en "Generar Nube"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1.2.7/build/d3.layout.cloud.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
