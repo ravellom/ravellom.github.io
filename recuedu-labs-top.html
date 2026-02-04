@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecuEdu Labs - Pruebas de Cinta Superior</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .demo-section {
+            margin-bottom: 60px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .demo-label {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .demo-label h2 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .demo-label p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .demo-content {
+            padding: 40px 20px;
+            min-height: 200px;
+            background: #fafafa;
+        }
+
+        /* Opción 1: Cinta minimalista con fondo semi-transparente */
+        .topbar-v1 {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .topbar-v1 .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-v1 .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .topbar-v1 .brand:hover {
+            opacity: 0.7;
+        }
+
+        .topbar-v1 .brand i {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .topbar-v1 .links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .topbar-v1 .links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .topbar-v1 .links a:hover {
+            color: #667eea;
+        }
+
+        /* Opción 2: Cinta con gradiente sutil */
+        .topbar-v2 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px 0;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .topbar-v2 .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-v2 .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .topbar-v2 .brand:hover {
+            opacity: 0.85;
+        }
+
+        .topbar-v2 .brand i {
+            font-size: 1rem;
+        }
+
+        .topbar-v2 .links {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .topbar-v2 .links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+
+        .topbar-v2 .links a:hover {
+            color: white;
+        }
+
+        /* Opción 3: Cinta ultra-minimalista (solo borde inferior) */
+        .topbar-v3 {
+            background: white;
+            border-bottom: 2px solid #667eea;
+            padding: 12px 0;
+        }
+
+        .topbar-v3 .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-v3 .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .topbar-v3 .brand:hover {
+            color: #667eea;
+        }
+
+        .topbar-v3 .brand i {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .topbar-v3 .links {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .topbar-v3 .links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .topbar-v3 .links a:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+
+        /* Opción 4: Cinta oscura elegante */
+        .topbar-v4 {
+            background: #1a1a1a;
+            padding: 10px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .topbar-v4 .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-v4 .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .topbar-v4 .brand:hover {
+            opacity: 0.8;
+        }
+
+        .topbar-v4 .brand i {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .topbar-v4 .links {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .topbar-v4 .links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .topbar-v4 .links a:hover {
+            color: white;
+        }
+
+        /* Opción 5: Cinta con ícono destacado */
+        .topbar-v5 {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 6px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .topbar-v5 .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-v5 .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: opacity 0.2s;
+        }
+
+        .topbar-v5 .brand:hover {
+            opacity: 0.7;
+        }
+
+        .topbar-v5 .brand-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .topbar-v5 .brand-text {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .topbar-v5 .links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .topbar-v5 .links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+
+        .topbar-v5 .links a:hover {
+            color: #667eea;
+        }
+
+        .topbar-v5 .links a i {
+            margin-right: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .topbar-v1 .links,
+            .topbar-v2 .links,
+            .topbar-v3 .links,
+            .topbar-v4 .links,
+            .topbar-v5 .links {
+                gap: 10px;
+            }
+
+            .topbar-v1 .links a,
+            .topbar-v2 .links a,
+            .topbar-v3 .links a,
+            .topbar-v4 .links a,
+            .topbar-v5 .links a {
+                font-size: 0.75rem;
+            }
+
+            .topbar-v1 .brand,
+            .topbar-v2 .brand,
+            .topbar-v3 .brand,
+            .topbar-v4 .brand,
+            .topbar-v5 .brand-text {
+                font-size: 0.8rem;
+            }
+
+            .links a span {
+                display: none;
+            }
+        }
+
+        .content-sample {
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-sample h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .content-sample p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="max-width: 1400px; margin: 0 auto; margin-bottom: 40px;">
+        <h1 style="font-size: 2.5rem; color: #333; margin-bottom: 12px;">
+            <i class="fa-solid fa-palette"></i> RecuEdu Labs - Cintas Superiores
+        </h1>
+        <p style="color: #666; font-size: 1.1rem;">
+            Diferentes opciones de cintas superiores minimalistas y modernas para tus proyectos.
+        </p>
+    </div>
+
+    <!-- Opción 1 -->
+    <div class="demo-section">
+        <div class="demo-label">
+            <h2>Opción 1: Minimalista Semi-Transparente</h2>
+            <p>Fondo blanco con efecto blur, ideal para overlays. Discreto y elegante.</p>
+        </div>
+        <div style="background: white;">
+            <div class="topbar-v1">
+                <div class="container">
+                    <a href="/" class="brand">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>RecuEdu Labs</span>
+                    </a>
+                    <div class="links">
+                        <a href="/"><i class="fa-solid fa-home"></i> <span>Inicio</span></a>
+                        <a href="/apps/"><i class="fa-solid fa-grid-2"></i> <span>Apps</span></a>
+                        <a href="https://github.com/ravellom" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sample">
+                <h1>Contenido de la Aplicación</h1>
+                <p>Esta cinta es muy discreta y se adapta bien a cualquier diseño. El efecto de transparencia y blur le da un toque moderno.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opción 2 -->
+    <div class="demo-section">
+        <div class="demo-label">
+            <h2>Opción 2: Gradiente Sutil</h2>
+            <p>Gradiente morado/azul suave. Añade color sin ser invasivo.</p>
+        </div>
+        <div style="background: white;">
+            <div class="topbar-v2">
+                <div class="container">
+                    <a href="/" class="brand">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>RecuEdu Labs</span>
+                    </a>
+                    <div class="links">
+                        <a href="/"><i class="fa-solid fa-home"></i> <span>Inicio</span></a>
+                        <a href="/apps/"><i class="fa-solid fa-grid-2"></i> <span>Apps</span></a>
+                        <a href="https://github.com/ravellom" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sample">
+                <h1>Contenido de la Aplicación</h1>
+                <p>El gradiente añade identidad visual mientras mantiene un perfil bajo. Perfecto para unificar todas las apps bajo una marca común.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opción 3 -->
+    <div class="demo-section">
+        <div class="demo-label">
+            <h2>Opción 3: Ultra-Minimalista</h2>
+            <p>Solo una línea de color en la parte inferior. Lo más discreto posible.</p>
+        </div>
+        <div style="background: white;">
+            <div class="topbar-v3">
+                <div class="container">
+                    <a href="/" class="brand">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>RecuEdu Labs</span>
+                    </a>
+                    <div class="links">
+                        <a href="/"><i class="fa-solid fa-home"></i> <span>Inicio</span></a>
+                        <a href="/apps/"><i class="fa-solid fa-grid-2"></i> <span>Apps</span></a>
+                        <a href="https://github.com/ravellom" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sample">
+                <h1>Contenido de la Aplicación</h1>
+                <p>Prácticamente invisible, solo una línea de acento. Ideal si quieres máxima neutralidad sin perder la identidad de marca.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opción 4 -->
+    <div class="demo-section">
+        <div class="demo-label">
+            <h2>Opción 4: Oscura Elegante</h2>
+            <p>Fondo negro sofisticado. Contrasta bien con aplicaciones de fondo claro.</p>
+        </div>
+        <div style="background: white;">
+            <div class="topbar-v4">
+                <div class="container">
+                    <a href="/" class="brand">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>RecuEdu Labs</span>
+                    </a>
+                    <div class="links">
+                        <a href="/"><i class="fa-solid fa-home"></i> <span>Inicio</span></a>
+                        <a href="/apps/"><i class="fa-solid fa-grid-2"></i> <span>Apps</span></a>
+                        <a href="https://github.com/ravellom" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sample">
+                <h1>Contenido de la Aplicación</h1>
+                <p>Una opción más audaz que añade elegancia. El contraste oscuro/claro es muy efectivo visualmente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opción 5 -->
+    <div class="demo-section">
+        <div class="demo-label">
+            <h2>Opción 5: Ícono Destacado</h2>
+            <p>Logo con fondo de gradiente en un pequeño badge. Moderna y distintiva.</p>
+        </div>
+        <div style="background: white;">
+            <div class="topbar-v5">
+                <div class="container">
+                    <a href="/" class="brand">
+                        <div class="brand-icon">
+                            <i class="fa-solid fa-flask-vial"></i>
+                        </div>
+                        <span class="brand-text">RecuEdu Labs</span>
+                    </a>
+                    <div class="links">
+                        <a href="/"><i class="fa-solid fa-home"></i> <span>Inicio</span></a>
+                        <a href="/apps/"><i class="fa-solid fa-grid-2"></i> <span>Apps</span></a>
+                        <a href="https://github.com/ravellom" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-sample">
+                <h1>Contenido de la Aplicación</h1>
+                <p>El ícono en badge le da personalidad sin ocupar mucho espacio. Muy limpia y profesional.</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="max-width: 1400px; margin: 60px auto; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+        <h2 style="color: #333; margin-bottom: 20px;">
+            <i class="fa-solid fa-lightbulb"></i> Recomendaciones
+        </h2>
+        <ul style="color: #666; line-height: 2; list-style-position: inside;">
+            <li><strong>Opción 1 o 3</strong> si buscas máxima discreción</li>
+            <li><strong>Opción 2</strong> si quieres añadir color de marca sin ser invasivo</li>
+            <li><strong>Opción 4</strong> para un look más sofisticado y profesional</li>
+            <li><strong>Opción 5</strong> si quieres destacar el logo de forma sutil</li>
+        </ul>
+        <p style="margin-top: 20px; color: #666;">
+            <strong>Nota:</strong> Todas las opciones son responsivas y se adaptan a pantallas móviles.
+        </p>
+    </div>
+
+</body>
+</html>

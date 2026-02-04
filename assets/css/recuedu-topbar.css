@@ -1,0 +1,88 @@
+/**
+ * RecuEdu Labs - Topbar Universal
+ * Cinta superior con gradiente para todas las aplicaciones
+ * Versión: Opción 2 - Gradiente Sutil
+ */
+
+.recuedu-topbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 0;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+    position: relative;
+    z-index: 1000;
+}
+
+.recuedu-topbar .topbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recuedu-topbar .topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: opacity 0.2s;
+}
+
+.recuedu-topbar .topbar-brand:hover {
+    opacity: 0.85;
+}
+
+.recuedu-topbar .topbar-brand i {
+    font-size: 1rem;
+}
+
+.recuedu-topbar .topbar-links {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.recuedu-topbar .topbar-links a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.recuedu-topbar .topbar-links a:hover {
+    color: white;
+}
+
+.recuedu-topbar .topbar-links a i {
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .recuedu-topbar .topbar-links {
+        gap: 10px;
+    }
+
+    .recuedu-topbar .topbar-links a {
+        font-size: 0.75rem;
+    }
+
+    .recuedu-topbar .topbar-brand {
+        font-size: 0.8rem;
+    }
+
+    .recuedu-topbar .topbar-links a span {
+        display: none;
+    }
+
+    .recuedu-topbar .topbar-links a i {
+        font-size: 1rem;
+    }
+}
