@@ -56,9 +56,6 @@
             <button id="btn-redo" class="btn btn-secondary" disabled title="Rehacer">
                 <i class="ph ph-arrow-clockwise"></i> Rehacer
             </button>
-            <button id="btn-save-project" class="btn btn-secondary" aria-label="Guardar proyecto">
-                <i class="ph ph-floppy-disk"></i> Guardar Proyecto
-            </button>
             <button id="btn-export" class="btn btn-primary" disabled aria-label="Exportar JSON">
                 <i class="ph ph-download-simple"></i> Exportar JSON
             </button>
@@ -88,13 +85,27 @@
                     <option value="ordering">Ordenar</option>
                     <option value="matching">Relacionar</option>
                     <option value="grouping">Clasificar</option>
+                    <option value="short_answer">Respuesta corta</option>
+                    <option value="hotspot">Zonas clicables</option>
+                    <option value="slider">Escala numérica</option>
                 </select>
-                <select id="project-select" class="input-field" aria-label="Seleccionar proyecto guardado">
-                    <option value="">Seleccionar proyecto...</option>
+                
+                <div class="divider"></div>
+                
+                <h3><i class="ph ph-sparkle"></i> Generar con IA (Gemini)</h3>
+                <input type="password" id="gemini-api-key" class="input-field" placeholder="API Key de Gemini" style="font-family: monospace; font-size: 0.85rem;">
+                <select id="gemini-model-select" class="input-field" style="margin-top: 8px;">
+                    <option value="gemini-2.0-flash">Gemini 2.0 Flash (Rápido)</option>
+                    <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+                    <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (Más potente)</option>
                 </select>
-                <button id="btn-load-project" class="btn btn-outline" style="width:100%; margin-top:10px;" aria-label="Cargar proyecto seleccionado">
-                    <i class="ph ph-arrow-counter-clockwise"></i> Cargar Proyecto
+                <textarea id="ai-content-input" class="input-field" placeholder="Pega aquí el contenido sobre el que quieres generar ejercicios (texto, temas, conceptos...)" style="min-height: 100px; margin-top: 8px; resize: vertical;"></textarea>
+                <button id="btn-generate-ai" class="btn btn-primary" style="width:100%; margin-top:8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" aria-label="Generar ejercicios con IA">
+                    <i class="ph ph-magic-wand"></i> Generar Ejercicios con IA
                 </button>
+                <p class="helper-text" style="font-size: 0.75rem; color: #64748b; margin-top: 6px;">
+                    <i class="ph ph-info"></i> Obtén tu API Key gratuita en <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #667eea;">Google AI Studio</a>
+                </p>
                 
                 <input type="file" id="file-upload" accept=".json" style="display: none;">
                 <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-style:dashed;" aria-label="Subir archivo JSON">

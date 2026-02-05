@@ -191,33 +191,7 @@ https://ravellom.github.io/apps/ejecon/schema.json
 }
 ```
 
-### 8️⃣ ESSAY (Ensayo/Redacción)
-**Uso**: Pensamiento crítico, argumentación, análisis profundo
-**Estructura**:
-```json
-{
-  "id": "ex_1738695234_7",
-  "type": "essay",
-  "content": { "prompt_text": "Analiza las causas y consecuencias de la Revolución Industrial" },
-  "interaction": {
-    "min_words": 100,
-    "max_words": 300,
-    "rubric": {
-      "contenido": "Identifica al menos 3 causas y 3 consecuencias",
-      "coherencia": "Estructura lógica con introducción, desarrollo y conclusión",
-      "ortografia": "Máximo 3 errores ortográficos",
-      "fuentes": "Menciona al menos una fuente histórica"
-    }
-  },
-  "scaffolding": {
-    "hint_1": "Considera aspectos tecnológicos, sociales y económicos",
-    "explanation": "La Revolución Industrial (s. XVIII-XIX) transformó sociedades agrarias en industriales mediante máquinas, fábricas y urbanización",
-    "learn_more": "Causas clave: innovaciones tecnológicas (máquina de vapor), capital disponible, recursos naturales (carbón), mano de obra. Consecuencias: urbanización, clase obrera, cambio climático temprano"
-  }
-}
-```
-
-### 9️⃣ HOTSPOT (Zonas Clicables)
+### 8️⃣ HOTSPOT (Zonas Clicables)
 **Uso**: Identificación visual, anatomía, geografía, diagramas
 **Estructura**:
 ```json
@@ -241,7 +215,7 @@ https://ravellom.github.io/apps/ejecon/schema.json
 }
 ```
 
-### 🔟 SLIDER (Escala Numérica)
+### 9️⃣ SLIDER (Escala Numérica)
 **Uso**: Estimaciones, valores aproximados, magnitudes
 **Estructura**:
 ```json
@@ -259,27 +233,6 @@ https://ravellom.github.io/apps/ejecon/schema.json
     "hint_1": "Es más de la mitad del peso corporal",
     "explanation": "El cuerpo humano adulto contiene aproximadamente 60% de agua (55-65% según edad, sexo y composición corporal)",
     "learn_more": "Los bebés tienen ~75% agua, ancianos ~50%. Músculos contienen ~75%, huesos ~31%, tejido adiposo ~10%"
-  }
-}
-```
-
-### 1️⃣1️⃣ DRAWING (Dibujo/Anotación)
-**Uso**: Esquemas, diagramas, mapas conceptuales
-**Estructura**:
-```json
-{
-  "id": "ex_1738695234_10",
-  "type": "drawing",
-  "content": { "prompt_text": "Dibuja un diagrama de las fases del ciclo del agua" },
-  "interaction": {
-    "canvas_width": 800,
-    "canvas_height": 600,
-    "evaluation_type": "manual"
-  },
-  "scaffolding": {
-    "hint_1": "Incluye: evaporación, condensación, precipitación y escorrentía",
-    "explanation": "El ciclo del agua es el movimiento continuo del agua entre océanos, atmósfera y tierra mediante procesos físicos",
-    "learn_more": "Proceso: el sol calienta océanos → evaporación → vapor asciende → enfría → condensación (nubes) → precipitación → ríos/océanos"
   }
 }
 ```
@@ -335,6 +288,6 @@ Antes de generar, verifica:
 
 Genera **8-12 ejercicios** de **tipos DIFERENTES** siguiendo el esquema completo sobre el siguiente contenido:
 
-[PEGAR AQUÍ EL CONTENIDO O TEMA DEL QUE GENERAR EJERCICIOS]
+[PEGAR CONTENIDO AQUÍ]
 
 **IMPORTANTE**: Responde ÚNICAMENTE con el JSON válido, sin texto adicional antes o después.

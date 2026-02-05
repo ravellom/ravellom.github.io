@@ -257,28 +257,6 @@
         "explanation": "Desde 2006, el Sistema Solar oficialmente tiene 8 planetas, después de que Plutón fuera reclasificado como planeta enano por la Unión Astronómica Internacional.",
         "learn_more": "Para ser considerado planeta, un cuerpo debe: 1) orbitar el Sol, 2) tener masa suficiente para forma esférica, y 3) haber 'limpiado' su órbita de otros objetos. Plutón no cumple el criterio 3."
       }
-    },
-    {
-      "id": "ex_1738695234_7",
-      "type": "essay",
-      "content": {
-        "prompt_text": "Explica por qué es importante explorar el Sistema Solar y qué beneficios nos aporta"
-      },
-      "interaction": {
-        "min_words": 80,
-        "max_words": 200,
-        "rubric": {
-          "contenido": "Menciona al menos 3 beneficios o razones",
-          "coherencia": "Estructura lógica con introducción y conclusión",
-          "ejemplos": "Incluye al menos un ejemplo concreto (misión, descubrimiento, etc.)",
-          "redaccion": "Ortografía y gramática correctas"
-        }
-      },
-      "scaffolding": {
-        "hint_1": "Piensa en aspectos científicos, tecnológicos y sobre el futuro de la humanidad",
-        "explanation": "La exploración espacial nos ayuda a: 1) Entender el origen del Sistema Solar y la vida, 2) Desarrollar nuevas tecnologías, 3) Buscar recursos y posibles lugares para habitar, 4) Proteger la Tierra de amenazas espaciales.",
-        "learn_more": "Tecnologías derivadas de la exploración espacial que usamos diariamente: GPS, cámaras de celular, filtros de agua, materiales aislantes, paneles solares, y hasta espuma viscoelástica (memory foam)."
-      }
     }
   ]
 }

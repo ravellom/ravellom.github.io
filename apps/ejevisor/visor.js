@@ -210,21 +210,7 @@ function renderCurrentExercise() {
         `;
     }
 
-    // 8. ESSAY
-    else if (ex.type === 'essay') {
-        const minW = ex.interaction.min_words || 50;
-        const maxW = ex.interaction.max_words || 250;
-        html += `
-            <div class="essay">
-                <p class="helper">Extensión sugerida: ${minW}-${maxW} palabras</p>
-                <textarea id="essay-input" placeholder="Desarrolla tu respuesta" rows="6"></textarea>
-                <div class="essay-footer"><span id="essay-counter">0 palabras</span></div>
-                ${ex.interaction.rubric && Object.keys(ex.interaction.rubric).length ? `<details class="rubric"><summary>Ver rúbrica</summary><pre>${JSON.stringify(ex.interaction.rubric, null, 2)}</pre></details>` : ''}
-            </div>
-        `;
-    }
-
-    // 9. HOTSPOT
+    // 8. HOTSPOT
     else if (ex.type === 'hotspot') {
         html += '<div class="hotspot-container">';
         if (ex.interaction.image_url) {
@@ -249,28 +235,16 @@ function renderCurrentExercise() {
         const min = ex.interaction.min ?? 0;
         const max = ex.interaction.max ?? 100;
         const target = ex.interaction.correct_value ?? 50;
+        const initialValue = Math.floor((min + max) / 2); // Empezar en el medio
         html += `
             <div class="slider-wrap">
-                <input id="slider-input" type="range" min="${min}" max="${max}" value="${target}">
+                <input id="slider-input" type="range" min="${min}" max="${max}" value="${initialValue}" step="1">
                 <div class="slider-meta">
                     <span>${min}</span>
-                    <span id="slider-value">${target}</span>
+                    <span id="slider-value" style="font-weight: 700; font-size: 1.2rem; color: var(--primary);">${initialValue}</span>
                     <span>${max}</span>
                 </div>
                 <p class="helper">Objetivo: ${target} (tolerancia ±${ex.interaction.tolerance ?? 5})</p>
-            </div>
-        `;
-    }
-
-    // 11. DRAWING
-    else if (ex.type === 'drawing') {
-        const w = ex.interaction.canvas_width || 800;
-        const h = ex.interaction.canvas_height || 400;
-        html += `
-            <div class="drawing-wrap">
-                <div class="drawing-canvas" style="width:100%; max-width:${w}px; height:${h}px;">Zona de dibujo (mock)</div>
-                <p class="helper">Evaluación: ${ex.interaction.evaluation_type || 'manual'}</p>
-                <button id="drawing-done" class="btn-action" type="button">Marcar como listo</button>
             </div>
         `;
     }
@@ -319,18 +293,6 @@ function renderCurrentExercise() {
             });
         }
     }
-    else if (ex.type === 'essay') {
-        const textarea = document.getElementById('essay-input');
-        const counter = document.getElementById('essay-counter');
-        if (textarea) {
-            textarea.addEventListener('input', () => {
-                const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
-                if (counter) counter.textContent = `${words} palabras`;
-                state.currentAnswer = textarea.value;
-                if (state.currentAnswer.trim()) enableCheck();
-            });
-        }
-    }
     else if (ex.type === 'hotspot') {
         document.querySelectorAll('.hotspot-zone').forEach(zone => {
             zone.addEventListener('click', () => {
@@ -343,24 +305,19 @@ function renderCurrentExercise() {
     }
     else if (ex.type === 'slider') {
         const slider = document.getElementById('slider-input');
-        if (slider) {
+        const valueDisplay = document.getElementById('slider-value');
+        if (slider && valueDisplay) {
             slider.addEventListener('input', () => {
-                state.currentAnswer = Number(slider.value);
+                const currentValue = slider.value;
+                valueDisplay.textContent = currentValue;
+                state.currentAnswer = Number(currentValue);
                 enableCheck();
             });
         }
     }
-    else if (ex.type === 'drawing') {
-        const btn = document.getElementById('drawing-done');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                state.currentAnswer = 'done';
-                enableCheck();
-            });
-        }
-    }
+    
     // Para tipos múltiples choice que NO sean true_false
-    else if (ex.type === 'multiple_choice') {
+    if (ex.type === 'multiple_choice') {
         const options = document.querySelectorAll('.options-grid .option-btn');
         options.forEach(opt => {
             opt.addEventListener('click', () => {
@@ -552,14 +509,6 @@ function checkAnswer() {
         isCorrect = expected.some(a => (caseSensitive ? a : a.toLowerCase()) === normalized);
         msg = isCorrect ? "Respuesta correcta" : "Revisa tu respuesta";
     }
-    else if (ex.type === 'essay') {
-        const text = (state.currentAnswer || '').trim();
-        const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
-        const min = ex.interaction.min_words || 50;
-        const max = ex.interaction.max_words || 250;
-        isCorrect = words >= min && words <= max;
-        msg = isCorrect ? "Extensión adecuada" : `Usa entre ${min}-${max} palabras`;
-    }
     else if (ex.type === 'hotspot') {
         const zones = ex.interaction.zones || [];
         const selectedId = Number(state.currentAnswer);
@@ -572,11 +521,7 @@ function checkAnswer() {
         const target = ex.interaction.correct_value ?? 50;
         const tol = ex.interaction.tolerance ?? 5;
         isCorrect = Math.abs(value - target) <= tol;
-        msg = isCorrect ? "Dentro del rango" : "Ajusta un poco más";
-    }
-    else if (ex.type === 'drawing') {
-        isCorrect = true;
-        msg = "Enviado para revisión";
+        msg = isCorrect ? `¡Correcto! Valor: ${value}` : `Intenta de nuevo. Valor actual: ${value}, objetivo: ${target} (±${tol})`;
     }
     
     state.hasAnswered = true;

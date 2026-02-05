@@ -1,6 +1,6 @@
 # 🎓 EjeCon - Generador de Ejercicios Educativos
 
-Constructor visual de ejercicios interactivos con soporte para 11 tipos diferentes y principios DUA (Diseño Universal de Aprendizaje).
+Constructor visual de ejercicios interactivos con soporte para 9 tipos diferentes y principios DUA (Diseño Universal de Aprendizaje).
 
 ## � Documentación
 
@@ -24,10 +24,8 @@ Constructor visual de ejercicios interactivos con soporte para 11 tipos diferent
 5. **Matching** - Emparejar conceptos
 6. **Grouping** - Clasificar en categorías
 7. **Short Answer** - Respuesta corta
-8. **Essay** - Ensayo/redacción larga
-9. **Hotspot** - Zonas clicables en imágenes
-10. **Slider** - Escala numérica
-11. **Drawing** - Dibujo/anotación
+8. **Hotspot** - Zonas clicables en imágenes
+9. **Slider** - Escala numérica
 
 ### 🎯 Funcionalidades Principales
 
@@ -111,7 +109,7 @@ El formato JSON sigue este esquema:
 ## 🎨 Principios DUA Implementados
 
 ### Representación Múltiple
-- 11 tipos diferentes de interacción
+- 9 tipos diferentes de interacción
 - Scaffolding obligatorio (pistas, explicaciones, ampliación)
 
 ### Acción y Expresión

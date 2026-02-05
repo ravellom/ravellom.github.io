@@ -1,12 +1,28 @@
 # 📝 Changelog - EjeCon
 
+## [1.1.0] - 2026-02-05
+
+### 🛠️ Cambios Importantes
+- ❌ **ELIMINADOS** tipos `essay` y `drawing` (difíciles de autoevaluar)
+- 🔢 Ahora soporta **9 tipos** de ejercicios en lugar de 11
+- 🐞 **Corregido** bug en slider: ahora muestra el valor en tiempo real
+- 📝 Documentación actualizada eliminando referencias a tipos removidos
+
+### 🔧 Archivos Modificados
+- `app.js`: Eliminadas funciones de essay/drawing
+- `prompt.md`: Eliminados ejemplos de essay/drawing
+- `README.md`, `GUIA_USO.md`, `CHANGELOG.md`: Actualizados a 9 tipos
+- `visor.js`: Eliminados renderizadores, listeners y validadores de essay/drawing
+
+---
+
 ## [1.0.0] - 2026-02-05
 
 ### ✨ Nuevas Funcionalidades
 
 #### Sistema de Prompt Maestro Mejorado
 - ✅ Prompt cargado dinámicamente desde `prompt.md` (fácil de editar)
-- ✅ Guía completa con 11 ejemplos detallados (uno por cada tipo)
+- ✅ Guía completa con ejemplos detallados
 - ✅ Mejores prácticas pedagógicas incluidas
 - ✅ Checklist de calidad integrado
 - ✅ Modal rediseñado con mejor UX
@@ -14,7 +30,7 @@
 
 #### Exportación HTML Renovada
 - ✅ Diseño moderno con gradientes y efectos
-- ✅ Soporta todos los 11 tipos de ejercicios correctamente
+- ✅ Soporta todos los tipos de ejercicios correctamente
 - ✅ Incluye scaffolding completo (pistas, explicaciones, ampliación)
 - ✅ Estilos responsive y optimizados para imprimir
 - ✅ Iconografía de Font Awesome integrada
@@ -62,7 +78,7 @@
 - ✅ Feedback de estado más claro
 - ✅ Iconos coherentes (Phosphor Icons)
 
-### 📚 Tipos de Ejercicios Soportados (11 total)
+### 📚 Tipos de Ejercicios Soportados (9 total)
 
 1. **multiple_choice** - Elección múltiple
 2. **true_false** - Verdadero/Falso
@@ -71,10 +87,8 @@
 5. **matching** - Relacionar parejas
 6. **grouping** - Clasificar elementos
 7. **short_answer** - Respuesta corta
-8. **essay** - Ensayo/redacción
-9. **hotspot** - Zonas clicables en imagen
-10. **slider** - Escala numérica
-11. **drawing** - Dibujo/anotación
+8. **hotspot** - Zonas clicables en imagen
+9. **slider** - Escala numérica
 
 ### 🔄 Funcionalidades Existentes Mantenidas
 
@@ -93,7 +107,7 @@
 
 - **1,060 líneas** de JavaScript
 - **350+ líneas** de documentación markdown
-- **11 tipos** de ejercicios interactivos
+- **9 tipos** de ejercicios interactivos
 - **4 archivos** de documentación
 - **1 ejemplo** JSON completo de referencia
 

@@ -26,7 +26,7 @@ REGLAS:
 2. Incluir scaffolding obligatorio (hint_1, explanation, learn_more)
 3. Usar tipos diferentes de ejercicios
 
-TIPOS: multiple_choice, true_false, fill_gaps, ordering, matching, grouping, short_answer, essay, hotspot, slider, drawing
+TIPOS: multiple_choice, true_false, fill_gaps, ordering, matching, grouping, short_answer, hotspot, slider
 
 ESTRUCTURA:
 {
@@ -81,12 +81,11 @@ function initializeElements() {
         btnMerge: document.getElementById('btn-merge'),
         btnExport: document.getElementById('btn-export'),
         btnExportHtml: document.getElementById('btn-export-html'),
-        btnSaveProject: document.getElementById('btn-save-project'),
         btnUndo: document.getElementById('btn-undo'),
         btnRedo: document.getElementById('btn-redo'),
         btnShowPrompt: document.getElementById('btn-show-prompt'),
         btnUploadTrigger: document.getElementById('btn-upload-trigger'),
-        btnLoadProject: document.getElementById('btn-load-project'),
+        btnGenerateAI: document.getElementById('btn-generate-ai'),
         
         // Vistas principales
         welcomeScreen: document.getElementById('welcome-screen'),
@@ -101,8 +100,9 @@ function initializeElements() {
         },
         searchInput: document.getElementById('search-input'),
         filterType: document.getElementById('filter-type'),
-        
-        projectSelect: document.getElementById('project-select'),
+        geminiApiKey: document.getElementById('gemini-api-key'),
+        geminiModelSelect: document.getElementById('gemini-model-select'),
+        aiContentInput: document.getElementById('ai-content-input'),
         statusMsg: document.getElementById('status-msg'),
         
         // Modal
@@ -258,17 +258,6 @@ window.generateStudentView = function(ex) {
         }
         html += '</div>';
 
-    } else if (ex.type === 'essay') {
-        html += '<div style="padding: 20px;">';
-        html += `<p style="font-weight: 500; margin-bottom: 10px; color: #555;">Redacta un ensayo (${ex.interaction.min_words || 50}-${ex.interaction.max_words || 250} palabras):</p>`;
-        html += '<textarea style="width:100%; min-height:200px; padding:15px; border:2px solid #e0e7ff; border-radius:8px; resize: vertical;" placeholder="Desarrolla tu respuesta..."></textarea>';
-        if (ex.interaction.rubric && Object.keys(ex.interaction.rubric).length > 0) {
-            html += '<div style="margin-top:15px; padding:12px; background:#f8f9fa; border-radius:8px;">';
-            html += '<strong>Rúbrica:</strong><pre style="white-space: pre-wrap; margin: 8px 0 0 0;">' + JSON.stringify(ex.interaction.rubric, null, 2) + '</pre>';
-            html += '</div>';
-        }
-        html += '</div>';
-
     } else if (ex.type === 'hotspot') {
         html += '<div style="padding: 20px;">';
         html += '<p style="font-weight: 500; margin-bottom: 10px; color: #555;">Haz clic en las zonas correctas de la imagen:</p>';
@@ -285,13 +274,6 @@ window.generateStudentView = function(ex) {
         html += `<p style="font-weight: 500; margin-bottom: 10px; color: #555;">Selecciona un valor entre ${ex.interaction.min || 0} y ${ex.interaction.max || 100}:</p>`;
         html += `<input type="range" min="${ex.interaction.min || 0}" max="${ex.interaction.max || 100}" value="${ex.interaction.correct_value || 50}" style="width:100%;">`;
         html += `<p style="margin-top:8px; color:#888; font-size:0.9rem;">Valor objetivo: ${ex.interaction.correct_value || 50} ± ${ex.interaction.tolerance || 5}</p>`;
-        html += '</div>';
-
-    } else if (ex.type === 'drawing') {
-        html += '<div style="padding: 20px;">';
-        html += '<p style="font-weight: 500; margin-bottom: 10px; color: #555;">Dibuja o anota tu respuesta:</p>';
-        html += `<div style="width:100%; max-width: ${ex.interaction.canvas_width || 800}px; height: ${ex.interaction.canvas_height || 400}px; background:#f8f9fa; border:2px dashed #e0e7ff; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#bbb;">Zona de dibujo (mock)</div>`;
-        html += `<p style="margin-top:8px; color:#888; font-size:0.9rem;">Evaluación: ${ex.interaction.evaluation_type || 'manual'}</p>`;
         html += '</div>';
     }
     
@@ -335,11 +317,10 @@ function attachEventListeners() {
     elements.btnLoad.addEventListener('click', () => handleJsonAction('load'));
     elements.btnMerge.addEventListener('click', () => handleJsonAction('merge'));
     elements.btnExport.addEventListener('click', () => window.exportJson());
-    elements.btnSaveProject.addEventListener('click', saveProject);
-    elements.btnLoadProject.addEventListener('click', loadProject);
     elements.btnUndo.addEventListener('click', undo);
     elements.btnRedo.addEventListener('click', redo);
     elements.btnExportHtml.addEventListener('click', exportAsHTML);
+    elements.btnGenerateAI.addEventListener('click', generateWithGemini);
 
     // Botón limpiar JSON
     const btnClearJson = document.getElementById('btn-clear-json');
@@ -399,7 +380,9 @@ function attachEventListeners() {
             switch (e.key) {
                 case 's':
                     e.preventDefault();
-                    saveProject();
+                    if (currentData.exercises.length > 0) {
+                        window.exportJson();
+                    }
                     break;
                 case 'o':
                     e.preventDefault();
@@ -419,7 +402,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     attachEventListeners();
     await loadMasterPrompt(); // Cargar prompt desde archivo
     loadFromLocalStorage();
-    populateProjectSelect();
     renderApp();
 });
 // Función para guardar automáticamente en localStorage con debounce
@@ -443,6 +425,12 @@ function loadFromLocalStorage() {
             showStatus('Error al cargar datos guardados: ' + e.message, 'error');
         }
     }
+    
+    // Cargar API Key de Gemini si existe
+    const savedApiKey = localStorage.getItem('gemini_api_key');
+    if (savedApiKey && elements.geminiApiKey) {
+        elements.geminiApiKey.value = savedApiKey;
+    }
 }
 function validateJsonSchema(data) {
     if (!data || typeof data !== 'object') throw new Error('El JSON debe ser un objeto válido.');
@@ -455,7 +443,7 @@ function validateJsonSchema(data) {
     
     data.exercises.forEach((ex, index) => {
         if (!ex.id) ex.id = `ex_${Date.now()}_${index}`;
-        if (!ex.type || !['multiple_choice', 'true_false', 'fill_gaps', 'ordering', 'matching', 'grouping', 'short_answer', 'essay', 'hotspot', 'slider', 'drawing'].includes(ex.type)) {
+        if (!ex.type || !['multiple_choice', 'true_false', 'fill_gaps', 'ordering', 'matching', 'grouping', 'short_answer', 'hotspot', 'slider'].includes(ex.type)) {
             ex.type = 'multiple_choice'; // Default
         }
         if (!ex.content || typeof ex.content !== 'object') ex.content = { prompt_text: 'Enunciado faltante' };
@@ -483,17 +471,11 @@ function validateJsonSchema(data) {
                 case 'short_answer':
                     ex.interaction = { expected_answers: ['respuesta'], case_sensitive: false, max_length: 120 };
                     break;
-                case 'essay':
-                    ex.interaction = { min_words: 50, max_words: 250, rubric: {} };
-                    break;
                 case 'hotspot':
                     ex.interaction = { image_url: '', zones: [{ x: 0, y: 0, width: 50, height: 50, is_correct: true }] };
                     break;
                 case 'slider':
                     ex.interaction = { min: 0, max: 100, correct_value: 50, tolerance: 5 };
-                    break;
-                case 'drawing':
-                    ex.interaction = { canvas_width: 800, canvas_height: 600, evaluation_type: 'manual' };
                     break;
             }
         }
@@ -521,11 +503,6 @@ function validateJsonSchema(data) {
             if (typeof ex.interaction.case_sensitive !== 'boolean') ex.interaction.case_sensitive = false;
             if (!ex.interaction.max_length) ex.interaction.max_length = 120;
         }
-        if (ex.type === 'essay') {
-            if (!ex.interaction.min_words) ex.interaction.min_words = 50;
-            if (!ex.interaction.max_words) ex.interaction.max_words = 250;
-            if (!ex.interaction.rubric || typeof ex.interaction.rubric !== 'object') ex.interaction.rubric = {};
-        }
         if (ex.type === 'hotspot') {
             if (!ex.interaction.image_url) ex.interaction.image_url = '';
             if (!Array.isArray(ex.interaction.zones)) ex.interaction.zones = [{ x: 0, y: 0, width: 50, height: 50, is_correct: true }];
@@ -535,11 +512,6 @@ function validateJsonSchema(data) {
             if (typeof ex.interaction.max !== 'number') ex.interaction.max = 100;
             if (typeof ex.interaction.correct_value !== 'number') ex.interaction.correct_value = 50;
             if (typeof ex.interaction.tolerance !== 'number') ex.interaction.tolerance = 5;
-        }
-        if (ex.type === 'drawing') {
-            if (!ex.interaction.canvas_width) ex.interaction.canvas_width = 800;
-            if (!ex.interaction.canvas_height) ex.interaction.canvas_height = 600;
-            if (!ex.interaction.evaluation_type) ex.interaction.evaluation_type = 'manual';
         }
         
         if (!ex.scaffolding || typeof ex.scaffolding !== 'object') ex.scaffolding = { hint_1: '', explanation: '', learn_more: '' };
@@ -860,23 +832,7 @@ function getInteractionHTML(ex) {
         `;
     }
 
-    // CASO 8: ESSAY (ENSAYO/REDACCIÓN)
-    if (ex.type === 'essay') {
-        return `
-            <div style="background:white; padding:10px; border-radius:5px;">
-                <div style="margin-bottom:8px;">
-                    <strong>Extensión:</strong> ${data.min_words || 50} - ${data.max_words || 250} palabras
-                </div>
-                ${data.rubric && Object.keys(data.rubric).length > 0 ? 
-                    `<div style="margin-top:8px; font-size:0.9rem;">
-                        <strong>Rúbrica:</strong> <pre style="background:#f8f9fa; padding:8px; border-radius:4px; overflow-x:auto;">${JSON.stringify(data.rubric, null, 2)}</pre>
-                    </div>` : 
-                    '<div style="color:#999; font-size:0.9rem;">Sin rúbrica</div>'}
-            </div>
-        `;
-    }
-
-    // CASO 9: HOTSPOT (ZONAS CLICABLES)
+    // CASO 8: HOTSPOT (ZONAS CLICABLES)
     if (ex.type === 'hotspot') {
         return `
             <div style="background:white; padding:10px; border-radius:5px;">
@@ -893,7 +849,7 @@ function getInteractionHTML(ex) {
         `;
     }
 
-    // CASO 10: SLIDER (ESCALA NUMÉRICA)
+    // CASO 9: SLIDER (ESCALA NUMÉRICA)
     if (ex.type === 'slider') {
         return `
             <div style="background:white; padding:10px; border-radius:5px;">
@@ -907,25 +863,6 @@ function getInteractionHTML(ex) {
                 <input type="range" min="${data.min ?? 0}" max="${data.max ?? 100}" 
                        value="${data.correct_value ?? 50}" disabled 
                        style="width:100%; margin-top:8px;">
-            </div>
-        `;
-    }
-
-    // CASO 11: DRAWING (DIBUJO/ANOTACIÓN)
-    if (ex.type === 'drawing') {
-        return `
-            <div style="background:white; padding:10px; border-radius:5px;">
-                <div style="margin-bottom:8px;">
-                    <strong>Canvas:</strong> ${data.canvas_width || 800}px × ${data.canvas_height || 600}px
-                </div>
-                <div style="font-size:0.9rem; color:#666;">
-                    Evaluación: <strong>${data.evaluation_type || 'manual'}</strong>
-                </div>
-                <div style="width:100%; height:100px; background:#f8f9fa; border:2px dashed #ddd; 
-                            border-radius:5px; display:flex; align-items:center; justify-content:center; 
-                            margin-top:8px; color:#999;">
-                    Zona de dibujo (vista previa)
-                </div>
             </div>
         `;
     }
@@ -966,7 +903,9 @@ function showStatus(msg, type) {
     elements.statusMsg.innerText = msg;
     elements.statusMsg.className = 'status-msg'; // Reset
     elements.statusMsg.classList.add(`status-${type}`);
-    setTimeout(() => elements.statusMsg.innerText = '', 5000);
+    // Mensajes de advertencia duran más tiempo
+    const timeout = type === 'warning' ? 15000 : 5000;
+    setTimeout(() => elements.statusMsg.innerText = '', timeout);
 }
 
 window.exportJson = () => {
@@ -989,38 +928,108 @@ function exportAsHTML() {
     document.body.appendChild(a); a.click(); setTimeout(()=>document.body.removeChild(a), 100);
 }
 
-function saveProject() {
-    const name = prompt('Nombre del proyecto:');
-    if (name) {
-        const projects = JSON.parse(localStorage.getItem('ejecon_projects') || '{}');
-        projects[name] = currentData;
-        localStorage.setItem('ejecon_projects', JSON.stringify(projects));
-        populateProjectSelect();
-        showStatus(`Proyecto "${name}" guardado`, 'success');
+// ===== GENERACIÓN CON IA (GEMINI) =====
+async function generateWithGemini() {
+    const apiKey = elements.geminiApiKey.value.trim();
+    const content = elements.aiContentInput.value.trim();
+    const selectedModel = elements.geminiModelSelect.value;
+    
+    if (!apiKey) {
+        showStatus('Por favor ingresa tu API Key de Gemini', 'error');
+        elements.geminiApiKey.focus();
+        return;
     }
-}
-
-function loadProject() {
-    const selected = elements.projectSelect.value;
-    if (selected) {
-        const projects = JSON.parse(localStorage.getItem('ejecon_projects') || '{}');
-        if (projects[selected]) {
-            currentData = validateJsonSchema(projects[selected]);
-            renderApp();
-            showStatus(`Proyecto "${selected}" cargado`, 'success');
+    
+    if (!content) {
+        showStatus('Por favor ingresa contenido para generar ejercicios', 'error');
+        elements.aiContentInput.focus();
+        return;
+    }
+    
+    // Guardar API Key en localStorage para próximas sesiones
+    localStorage.setItem('gemini_api_key', apiKey);
+    
+    // Construir el prompt completo
+    const fullPrompt = MASTER_PROMPT.replace('[PEGAR CONTENIDO AQUÍ]', content);
+    
+    showStatus(`Generando ejercicios con ${selectedModel}...`, 'info');
+    elements.btnGenerateAI.disabled = true;
+    elements.btnGenerateAI.innerHTML = '<i class="ph ph-circle-notch" style="animation: spin 1s linear infinite;"></i> Generando...';
+    
+    try {
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: fullPrompt }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 8192,
+                    }
+                })
+            }
+        );
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            const errorMessage = errorData.error?.message || `HTTP ${response.status}`;
+            
+            // Detectar error de cuota
+            if (errorMessage.includes('quota') || errorMessage.includes('Quota exceeded')) {
+                throw new Error('QUOTA_EXCEEDED');
+            }
+            
+            throw new Error(errorMessage);
         }
+        
+        const data = await response.json();
+        const generatedText = data.candidates[0].content.parts[0].text;
+        
+        // Limpiar el texto (remover markdown si existe)
+        let jsonText = generatedText.trim();
+        if (jsonText.startsWith('```json')) {
+            jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?$/g, '');
+        } else if (jsonText.startsWith('```')) {
+            jsonText = jsonText.replace(/```\n?/g, '');
+        }
+        
+        // Parsear y validar
+        const parsedData = JSON.parse(jsonText);
+        const validatedData = validateJsonSchema(parsedData);
+        
+        // Cargar los datos
+        currentData = validatedData;
+        renderApp();
+        saveToHistory();
+        autoSave();
+        
+        showStatus(`✨ ${validatedData.exercises.length} ejercicios generados con éxito`, 'success');
+        
+        // Limpiar el textarea de contenido
+        elements.aiContentInput.value = '';
+        
+    } catch (error) {
+        console.error('Error al generar con Gemini:', error);
+        
+        if (error.message === 'QUOTA_EXCEEDED') {
+            showStatus('⏳ Cuota de API excedida. Usa el botón "Obtener Prompt Maestro" para copiar el prompt y usarlo manualmente en ChatGPT o Claude.', 'warning');
+            // Auto-abrir el modal del prompt después de 2 segundos
+            setTimeout(() => {
+                if (elements.btnShowPrompt) {
+                    elements.btnShowPrompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 2000);
+        } else {
+            showStatus(`Error: ${error.message}`, 'error');
+        }
+    } finally {
+        elements.btnGenerateAI.disabled = false;
+        elements.btnGenerateAI.innerHTML = '<i class="ph ph-magic-wand"></i> Generar Ejercicios con IA';
     }
-}
-
-function populateProjectSelect() {
-    const projects = JSON.parse(localStorage.getItem('ejecon_projects') || '{}');
-    elements.projectSelect.innerHTML = '<option value="">Seleccionar proyecto...</option>';
-    Object.keys(projects).forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        elements.projectSelect.appendChild(option);
-    });
 }
 
 function undo() {

@@ -41,10 +41,8 @@
 | **Matching** | Relacionar conceptos | Autores ↔ Obras literarias |
 | **Grouping** | Clasificaciones | Animales: herbívoros/carnívoros |
 | **Short Answer** | Respuestas específicas | ¿En qué año...? |
-| **Essay** | Pensamiento crítico | Analiza las causas de... |
 | **Hotspot** | Identificación visual | Señala el ventrículo izquierdo |
 | **Slider** | Valores aproximados | ¿Qué % del cuerpo es agua? |
-| **Drawing** | Esquemas y diagramas | Dibuja el ciclo del agua |
 
 ### 🔍 Buscar y Filtrar
 - **Buscar**: Escribe palabras del enunciado
