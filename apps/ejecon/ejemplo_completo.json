@@ -1,0 +1,284 @@
+{
+  "resource_metadata": {
+    "title": "El Sistema Solar - Ejemplo Completo",
+    "topic": "Ciencias Naturales - Astronomía"
+  },
+  "exercises": [
+    {
+      "id": "ex_1738695234_0",
+      "type": "multiple_choice",
+      "content": {
+        "prompt_text": "¿Cuál es el planeta más grande del Sistema Solar?"
+      },
+      "interaction": {
+        "options": [
+          {
+            "id": "opt1",
+            "text": "Júpiter",
+            "is_correct": true
+          },
+          {
+            "id": "opt2",
+            "text": "Saturno",
+            "is_correct": false
+          },
+          {
+            "id": "opt3",
+            "text": "Neptuno",
+            "is_correct": false
+          },
+          {
+            "id": "opt4",
+            "text": "Tierra",
+            "is_correct": false
+          }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Es un gigante gaseoso y tiene una gran mancha roja visible",
+        "explanation": "Júpiter es el planeta más grande del Sistema Solar, con un diámetro de 142,984 km, más de 11 veces el de la Tierra. Su masa es 318 veces la terrestre.",
+        "learn_more": "Júpiter tiene al menos 79 lunas conocidas. Las cuatro más grandes (Ío, Europa, Ganímedes y Calisto) fueron descubiertas por Galileo en 1610 y se llaman 'lunas galileanas'."
+      }
+    },
+    {
+      "id": "ex_1738695234_1",
+      "type": "true_false",
+      "content": {
+        "prompt_text": "El Sol es una estrella"
+      },
+      "interaction": {
+        "options": [
+          {
+            "id": "opt_true",
+            "text": "Verdadero",
+            "is_correct": true
+          },
+          {
+            "id": "opt_false",
+            "text": "Falso",
+            "is_correct": false
+          }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en qué genera la luz y el calor del Sol",
+        "explanation": "El Sol es efectivamente una estrella, específicamente una estrella de tipo G2V en la secuencia principal. Genera energía mediante fusión nuclear de hidrógeno en helio.",
+        "learn_more": "El Sol representa el 99.86% de toda la masa del Sistema Solar. Cada segundo, el Sol convierte 4 millones de toneladas de materia en energía pura a través de la fusión nuclear."
+      }
+    },
+    {
+      "id": "ex_1738695234_2",
+      "type": "fill_gaps",
+      "content": {
+        "prompt_text": "Complete las características de la Tierra"
+      },
+      "interaction": {
+        "template": "La Tierra es el [tercer] planeta desde el Sol y el único conocido que alberga [vida]. Tiene un satélite natural llamado [Luna] que influye en las [mareas]",
+        "distractors": [
+          "cuarto",
+          "agua",
+          "Marte",
+          "olas",
+          "estrellas",
+          "segundo"
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Cuenta la posición de los planetas: Mercurio, Venus, ____",
+        "explanation": "La Tierra orbita el Sol a una distancia media de 150 millones de km (1 UA). Su posición en la 'zona habitable' permite agua líquida, esencial para la vida.",
+        "learn_more": "La Luna se formó hace ~4.5 mil millones de años, probablemente por el impacto de un objeto del tamaño de Marte con la proto-Tierra. Se aleja de nosotros 3.8 cm cada año."
+      }
+    },
+    {
+      "id": "ex_1738695234_3",
+      "type": "ordering",
+      "content": {
+        "prompt_text": "Ordena los planetas desde el más cercano al más lejano del Sol"
+      },
+      "interaction": {
+        "sequence": [
+          {
+            "order": 1,
+            "text": "Mercurio"
+          },
+          {
+            "order": 2,
+            "text": "Venus"
+          },
+          {
+            "order": 3,
+            "text": "Tierra"
+          },
+          {
+            "order": 4,
+            "text": "Marte"
+          },
+          {
+            "order": 5,
+            "text": "Júpiter"
+          },
+          {
+            "order": 6,
+            "text": "Saturno"
+          },
+          {
+            "order": 7,
+            "text": "Urano"
+          },
+          {
+            "order": 8,
+            "text": "Neptuno"
+          }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Mnemotecnia: Mi Viejo Tío Maneja Jovialmente Su Unicornio Negro",
+        "explanation": "Los planetas se organizan en dos grupos: terrestres/rocosos (Mercurio-Marte) y gigantes gaseosos/helados (Júpiter-Neptuno), separados por el cinturón de asteroides.",
+        "learn_more": "Plutón fue reclasificado como 'planeta enano' en 2006. Existen otros planetas enanos: Eris, Haumea, Makemake y Ceres. El Sistema Solar se extiende mucho más allá de Neptuno."
+      }
+    },
+    {
+      "id": "ex_1738695234_4",
+      "type": "matching",
+      "content": {
+        "prompt_text": "Relaciona cada planeta con su característica distintiva"
+      },
+      "interaction": {
+        "pairs": [
+          {
+            "left": "Marte",
+            "right": "Planeta rojo con volcanes gigantes"
+          },
+          {
+            "left": "Venus",
+            "right": "Planeta más caliente con atmósfera tóxica"
+          },
+          {
+            "left": "Saturno",
+            "right": "Famoso por sus espectaculares anillos"
+          },
+          {
+            "left": "Mercurio",
+            "right": "Planeta más pequeño y cercano al Sol"
+          },
+          {
+            "left": "Neptuno",
+            "right": "Gigante helado con vientos más rápidos"
+          }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en las imágenes icónicas de cada planeta y sus colores característicos",
+        "explanation": "Cada planeta tiene características únicas debido a su composición, distancia del Sol y condiciones atmosféricas. Estas diferencias nos ayudan a entender la diversidad planetaria.",
+        "learn_more": "Venus tiene efecto invernadero extremo (~465°C). Marte tiene el Monte Olimpo (25 km), el volcán más alto del Sistema Solar. Los anillos de Saturno tienen 99.9% agua helada."
+      }
+    },
+    {
+      "id": "ex_1738695234_5",
+      "type": "grouping",
+      "content": {
+        "prompt_text": "Clasifica estos cuerpos celestes según su tipo"
+      },
+      "interaction": {
+        "categories": [
+          "Planetas Terrestres",
+          "Gigantes Gaseosos",
+          "Satélites Naturales"
+        ],
+        "items": [
+          {
+            "text": "Mercurio",
+            "category": "Planetas Terrestres"
+          },
+          {
+            "text": "Venus",
+            "category": "Planetas Terrestres"
+          },
+          {
+            "text": "Tierra",
+            "category": "Planetas Terrestres"
+          },
+          {
+            "text": "Marte",
+            "category": "Planetas Terrestres"
+          },
+          {
+            "text": "Júpiter",
+            "category": "Gigantes Gaseosos"
+          },
+          {
+            "text": "Saturno",
+            "category": "Gigantes Gaseosos"
+          },
+          {
+            "text": "Urano",
+            "category": "Gigantes Gaseosos"
+          },
+          {
+            "text": "Neptuno",
+            "category": "Gigantes Gaseosos"
+          },
+          {
+            "text": "Luna (de la Tierra)",
+            "category": "Satélites Naturales"
+          },
+          {
+            "text": "Titán (de Saturno)",
+            "category": "Satélites Naturales"
+          },
+          {
+            "text": "Europa (de Júpiter)",
+            "category": "Satélites Naturales"
+          }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Los planetas terrestres son rocosos y están cerca del Sol. Los gigantes gaseosos son enormes y están lejos",
+        "explanation": "Los planetas terrestres tienen superficie sólida, alta densidad y pocos satélites. Los gigantes gaseosos son masivos, de baja densidad, sin superficie sólida y tienen muchos satélites.",
+        "learn_more": "Urano y Neptuno a veces se clasifican aparte como 'gigantes de hielo' porque contienen más agua, metano y amoníaco congelados que Júpiter y Saturno."
+      }
+    },
+    {
+      "id": "ex_1738695234_6",
+      "type": "short_answer",
+      "content": {
+        "prompt_text": "¿Cuántos planetas tiene el Sistema Solar?"
+      },
+      "interaction": {
+        "expected_answers": [
+          "8",
+          "ocho"
+        ],
+        "case_sensitive": false,
+        "max_length": 50
+      },
+      "scaffolding": {
+        "hint_1": "Cuenta desde Mercurio hasta Neptuno (Plutón ya no cuenta como planeta)",
+        "explanation": "Desde 2006, el Sistema Solar oficialmente tiene 8 planetas, después de que Plutón fuera reclasificado como planeta enano por la Unión Astronómica Internacional.",
+        "learn_more": "Para ser considerado planeta, un cuerpo debe: 1) orbitar el Sol, 2) tener masa suficiente para forma esférica, y 3) haber 'limpiado' su órbita de otros objetos. Plutón no cumple el criterio 3."
+      }
+    },
+    {
+      "id": "ex_1738695234_7",
+      "type": "essay",
+      "content": {
+        "prompt_text": "Explica por qué es importante explorar el Sistema Solar y qué beneficios nos aporta"
+      },
+      "interaction": {
+        "min_words": 80,
+        "max_words": 200,
+        "rubric": {
+          "contenido": "Menciona al menos 3 beneficios o razones",
+          "coherencia": "Estructura lógica con introducción y conclusión",
+          "ejemplos": "Incluye al menos un ejemplo concreto (misión, descubrimiento, etc.)",
+          "redaccion": "Ortografía y gramática correctas"
+        }
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en aspectos científicos, tecnológicos y sobre el futuro de la humanidad",
+        "explanation": "La exploración espacial nos ayuda a: 1) Entender el origen del Sistema Solar y la vida, 2) Desarrollar nuevas tecnologías, 3) Buscar recursos y posibles lugares para habitar, 4) Proteger la Tierra de amenazas espaciales.",
+        "learn_more": "Tecnologías derivadas de la exploración espacial que usamos diariamente: GPS, cámaras de celular, filtros de agua, materiales aislantes, paneles solares, y hasta espuma viscoelástica (memory foam)."
+      }
+    }
+  ]
+}

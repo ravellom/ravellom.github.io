@@ -47,6 +47,9 @@
             </div>
         </div>
         <div class="actions">
+            <a href="GUIA_USO.md" target="_blank" class="btn btn-outline" title="Guía de uso" style="text-decoration: none;">
+                <i class="ph ph-question"></i> Ayuda
+            </a>
             <button id="btn-undo" class="btn btn-secondary" disabled title="Deshacer">
                 <i class="ph ph-arrow-counter-clockwise"></i> Deshacer
             </button>
@@ -97,9 +100,13 @@
                 <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:10px; border-style:dashed;" aria-label="Subir archivo JSON">
                     <i class="ph ph-upload-simple"></i> Subir Archivo .JSON
                 </button>
+                
+                <button id="btn-load-example" class="btn btn-outline" style="width:100%; margin-bottom:10px; background: #f0f9ff; border-color: #0284c7;" aria-label="Cargar ejemplo">
+                    <i class="ph ph-lightbulb"></i> Cargar Ejemplo
+                </button>
 
-                <p class="helper-text">O pega el código aquí:</p>
-                <textarea id="json-input" placeholder='Pegar código JSON aquí...'></textarea>
+                <p class="helper-text">O pega el código JSON aquí:</p>
+                <textarea id="json-input" placeholder='{"resource_metadata": {...}, "exercises": [...]}'></textarea>
                 
                 <div class="button-group">
                     <button id="btn-load" class="btn btn-secondary" aria-label="Procesar texto">
@@ -158,13 +165,18 @@
     </div>
 
     <div id="prompt-modal" class="modal-overlay hidden" style="display: none;" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-body">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 900px; max-height: 90vh;">
             <div class="modal-header">
-                <h3 id="modal-title">Prompt para Generar Ejercicios con IA</h3>
+                <h3 id="modal-title"><i class="ph ph-magic-wand"></i> Prompt Maestro para IA</h3>
                 <button id="btn-close-modal" class="close-icon" aria-label="Cerrar modal"><i class="ph ph-x"></i></button>
             </div>
-            <div class="modal-body" id="modal-body">
-                <p>Copia este texto manualmente (Ctrl + C) y pégalo en tu IA:</p>
+            <div class="modal-body" id="modal-body" style="max-height: calc(90vh - 120px); overflow-y: auto;">
+                <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                    <p style="margin: 0; color: #0c4a6e; font-size: 0.9rem;">
+                        <i class="ph ph-info"></i> <strong>Cómo usar:</strong> Selecciona todo el texto (Ctrl+A), cópialo (Ctrl+C) y pégalo en ChatGPT, Claude u otra IA. 
+                        Reemplaza <code>[PEGAR CONTENIDO AQUÍ]</code> con tu tema.
+                    </p>
+                </div>
                 <div class="code-block-wrapper">
                     <textarea id="prompt-text" readonly></textarea>
                     <button id="btn-copy-prompt" class="btn-copy" aria-label="Seleccionar todo el texto"><i class="ph ph-text-aa"></i> Seleccionar Todo</button>

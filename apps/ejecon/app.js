@@ -1,50 +1,51 @@
 /* * APP.JS - Constructor REAI-DUA (Versión Final Reparada) * */
 
-// 1. PROMPT MAESTRO AVANZADO
-const MASTER_PROMPT = `Actúa como un Diseñador Instruccional experto.
-Tu tarea es generar un JSON con ejercicios interactivos variados siguiendo el esquema oficial.
+// 1. PROMPT MAESTRO (cargado desde prompt.md)
+let MASTER_PROMPT = ''; // Se cargará dinámicamente
 
-📋 ESQUEMA COMPLETO: https://ravellom.github.io/Ejecon/schema.json
-
-REGLAS BÁSICAS:
-1. Respuesta SOLO JSON válido (sin markdown, sin explicaciones).
-2. Campo "interaction" polimórfico según "type".
-3. OBLIGATORIO incluir "scaffolding" con hint_1, explanation y learn_more.
-
-TIPOS DE EJERCICIOS DISPONIBLES (schema v1.1):
-
-• multiple_choice: Opciones múltiples (3-4 opciones, solo 1 correcta)
-• true_false: Verdadero/Falso (2 opciones)
-• fill_gaps: Rellenar huecos ([palabras] + distractors)
-• ordering: Ordenar secuencia (4-8 pasos)
-• matching: Relacionar parejas (4-8 pares)
-• grouping: Clasificar en categorías (2-4 categorías, 6-12 ítems)
-• short_answer: Respuesta corta (expected_answers, case_sensitive, max_length)
-• essay: Respuesta larga (min_words, max_words, rubric opcional)
-• hotspot: Zonas clicables en imagen (image_url, zones[x,y,width,height,is_correct])
-• slider: Escala numérica (min, max, correct_value, tolerance)
-• drawing: Dibujo/anotación (canvas_width, canvas_height, evaluation_type)
-
-ESTRUCTURA MÍNIMA REQUERIDA:
-{
-  "resource_metadata": { "title": "Título", "topic": "Tema" },
-  "exercises": [
-     {
-        "id": "ex_TIMESTAMP_INDEX",
-        "type": "uno_de_los_tipos",
-        "content": { "prompt_text": "Enunciado" },
-        "interaction": { /* ver schema.json */ },
-        "scaffolding": { 
-          "hint_1": "Pista útil",
-          "explanation": "Explicación pedagógica",
-          "learn_more": "Contenido ampliado (opcional)"
+// Función para cargar el prompt desde archivo
+async function loadMasterPrompt() {
+    try {
+        const response = await fetch('prompt.md');
+        if (response.ok) {
+            MASTER_PROMPT = await response.text();
+        } else {
+            throw new Error('No se pudo cargar prompt.md');
         }
-     }
+    } catch (error) {
+        console.warn('Usando prompt por defecto:', error);
+        // Fallback prompt simplificado
+        MASTER_PROMPT = `# Generador de Ejercicios Interactivos
+
+Actúa como Diseñador Instruccional experto y genera un JSON con ejercicios educativos variados.
+
+📋 ESQUEMA: https://ravellom.github.io/apps/ejecon/schema.json
+
+REGLAS:
+1. JSON válido únicamente (sin markdown ni explicaciones)
+2. Incluir scaffolding obligatorio (hint_1, explanation, learn_more)
+3. Usar tipos diferentes de ejercicios
+
+TIPOS: multiple_choice, true_false, fill_gaps, ordering, matching, grouping, short_answer, essay, hotspot, slider, drawing
+
+ESTRUCTURA:
+{
+  "resource_metadata": { "title": "...", "topic": "..." },
+  "exercises": [
+    {
+      "id": "ex_TIMESTAMP_INDEX",
+      "type": "tipo",
+      "content": { "prompt_text": "Enunciado" },
+      "interaction": { /* según tipo */ },
+      "scaffolding": { "hint_1": "...", "explanation": "...", "learn_more": "..." }
+    }
   ]
 }
 
-TAREA: Genera 4-6 ejercicios de DIFERENTES TIPOS sobre: 
+TAREA: Genera 8-12 ejercicios de tipos DIFERENTES sobre:
 [PEGAR CONTENIDO AQUÍ]`;
+    }
+}
 
 // 2. ESTADO GLOBAL Y REFERENCIAS
 let currentData = { resource_metadata: { title: "", topic: "" }, exercises: [] };
@@ -357,6 +358,26 @@ function attachEventListeners() {
     elements.btnUploadTrigger.addEventListener('click', () => elements.fileUpload.click());
     elements.fileUpload.addEventListener('change', handleFileUpload);
 
+    // Botón cargar ejemplo
+    const btnLoadExample = document.getElementById('btn-load-example');
+    if (btnLoadExample) {
+        btnLoadExample.addEventListener('click', async () => {
+            try {
+                const response = await fetch('ejemplo_completo.json');
+                if (response.ok) {
+                    const exampleData = await response.json();
+                    elements.jsonInput.value = JSON.stringify(exampleData, null, 2);
+                    handleJsonAction('load');
+                    showStatus('Ejemplo cargado correctamente', 'success');
+                } else {
+                    showStatus('No se pudo cargar el ejemplo', 'error');
+                }
+            } catch (error) {
+                showStatus('Error al cargar ejemplo: ' + error.message, 'error');
+            }
+        });
+    }
+
     // Listeners de UI
     elements.inputs.title.addEventListener('input', (e) => { currentData.resource_metadata.title = e.target.value; autoSave(); });
     elements.inputs.topic.addEventListener('input', (e) => { currentData.resource_metadata.topic = e.target.value; autoSave(); });
@@ -393,9 +414,10 @@ function attachEventListeners() {
 }
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initializeElements();
     attachEventListeners();
+    await loadMasterPrompt(); // Cargar prompt desde archivo
     loadFromLocalStorage();
     populateProjectSelect();
     renderApp();
@@ -542,34 +564,51 @@ function handleExerciseListClick(e) {
 function handleDragStart(e) {
     draggedElement = e.target;
     e.dataTransfer.effectAllowed = 'move';
+    e.target.style.opacity = '0.5';
 }
 
 function handleDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
+    if (e.target.classList.contains('ordering-item')) {
+        e.target.style.borderTop = '3px solid #667eea';
+    }
 }
 
 function handleDrop(e, exId) {
     e.preventDefault();
-    if (draggedElement && draggedElement !== e.target) {
-        const ex = currentData.exercises.find(e => e.id === exId);
-        if (ex && ex.type === 'ordering') {
-            const draggedIdx = parseInt(draggedElement.dataset.index);
-            const targetIdx = parseInt(e.target.dataset.index);
-            // Reordenar array
-            const [removed] = ex.interaction.sequence.splice(draggedIdx, 1);
-            ex.interaction.sequence.splice(targetIdx, 0, removed);
-            // Actualizar orders
-            ex.interaction.sequence.forEach((item, idx) => item.order = idx + 1);
-            renderApp();
+    // Limpiar estilos visuales
+    if (e.target.classList.contains('ordering-item')) {
+        e.target.style.borderTop = '';
+    }
+    if (draggedElement) {
+        draggedElement.style.opacity = '';
+        
+        if (draggedElement !== e.target) {
+            const ex = currentData.exercises.find(e => e.id === exId);
+            if (ex && ex.type === 'ordering') {
+                const draggedIdx = parseInt(draggedElement.dataset.index);
+                const targetIdx = parseInt(e.target.dataset.index);
+                if (!isNaN(draggedIdx) && !isNaN(targetIdx)) {
+                    // Reordenar array
+                    const [removed] = ex.interaction.sequence.splice(draggedIdx, 1);
+                    ex.interaction.sequence.splice(targetIdx, 0, removed);
+                    // Actualizar orders
+                    ex.interaction.sequence.forEach((item, idx) => item.order = idx + 1);
+                    saveToHistory();
+                    autoSave();
+                    renderApp();
+                }
+            }
         }
     }
     draggedElement = null;
 }
 // Función para sanitizar texto editable (prevenir XSS básico)
 window.sanitizeText = function(text) {
+    if (!text) return '';
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = String(text).trim();
     return div.innerHTML; // Solo texto plano
 }
 function handleFileUpload(event) {
@@ -645,6 +684,7 @@ function renderApp() {
         elements.exerciseList.classList.remove('hidden');
         elements.metaPanel.classList.remove('hidden');
         elements.btnExport.disabled = false;
+        elements.btnExportHtml.disabled = false;
     } else {
         elements.welcomeScreen.classList.remove('hidden');
         elements.exerciseList.classList.add('hidden');
@@ -724,6 +764,16 @@ function createExerciseCard(ex, index) {
         item.addEventListener('dragstart', handleDragStart);
         item.addEventListener('dragover', handleDragOver);
         item.addEventListener('drop', (e) => handleDrop(e, ex.id));
+        item.addEventListener('dragleave', (e) => {
+            if (e.target.classList.contains('ordering-item')) {
+                e.target.style.borderTop = '';
+            }
+        });
+        item.addEventListener('dragend', (e) => {
+            e.target.style.opacity = '';
+            // Limpiar todos los bordes
+            document.querySelectorAll('.ordering-item').forEach(el => el.style.borderTop = '');
+        });
     });
     return card;
 }
@@ -884,8 +934,14 @@ function getInteractionHTML(ex) {
 }
 
 // 6. FUNCIONES GLOBALES Y UTILIDADES
-function openPromptModal() {
+async function openPromptModal() {
     if (isModalOpen) return;
+    
+    // Asegurarse de que el prompt esté cargado
+    if (!MASTER_PROMPT) {
+        await loadMasterPrompt();
+    }
+    
     isModalOpen = true;
     elements.modal.text.value = MASTER_PROMPT;
     elements.modal.overlay.classList.remove('hidden');
@@ -1000,29 +1056,148 @@ function generateHTMLExport() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1 { color: #333; }
-        h2 { color: #666; margin-top: 30px; }
-        .exercise { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        .exercise h3 { margin-top: 0; color: #444; }
-        .question { font-weight: bold; }
-        .answer { margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #007bff; }
-        .type { font-size: 0.9em; color: #666; text-transform: uppercase; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px; line-height: 1.6; min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;
+        }
+        h1 { color: #667eea; font-size: 2rem; margin-bottom: 10px; }
+        .topic { color: #666; font-size: 1.1rem; font-weight: 500; }
+        .exercise {
+            background: white; margin-bottom: 20px; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s;
+        }
+        .exercise:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .ex-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .ex-number { font-size: 1.2rem; font-weight: bold; }
+        .ex-type {
+            background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .ex-body { padding: 25px; }
+        .prompt { font-size: 1.15rem; font-weight: 600; color: #333; margin-bottom: 20px; line-height: 1.5; }
+        .interaction { margin-bottom: 20px; }
+        .option {
+            padding: 12px 15px; margin: 8px 0; border-radius: 8px; border: 2px solid #e0e0e0;
+            display: flex; align-items: center; gap: 12px; transition: all 0.3s;
+        }
+        .option.correct { background: #d4edda; border-color: #28a745; }
+        .option i { font-size: 1.2rem; }
+        .scaffolding {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px; border-radius: 10px; margin-top: 20px;
+        }
+        .scaffold-item { margin-bottom: 12px; display: flex; align-items: start; gap: 10px; }
+        .scaffold-item strong { color: #d84315; min-width: 100px; }
+        .template-text {
+            background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace;
+            border-left: 4px solid #667eea;
+        }
+        .sequence-item, .pair-item, .group-item {
+            background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 8px;
+            border-left: 4px solid #667eea; display: flex; align-items: center; gap: 10px;
+        }
+        .footer {
+            text-align: center; padding: 30px; color: white; font-size: 0.9rem;
+        }
+        @media print {
+            body { background: white; }
+            .exercise { page-break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
-    <h1>${title}</h1>
-    ${topic ? `<h2>Tema: ${topic}</h2>` : ''}
-    
-    ${currentData.exercises.map((exercise, index) => `
-    <div class="exercise">
-        <div class="type">${exercise.type || 'Ejercicio'}</div>
-        <h3>Ejercicio ${index + 1}</h3>
-        <div class="question">${exercise.question || ''}</div>
-        ${exercise.answer ? `<div class="answer">${exercise.answer}</div>` : ''}
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-graduation-cap"></i> ${title}</h1>
+            ${topic ? `<p class="topic"><i class="fas fa-book"></i> ${topic}</p>` : ''}
+        </div>
+        
+        ${currentData.exercises.map((ex, index) => {
+            let interactionHTML = '';
+            const data = ex.interaction || {};
+            
+            // Generar HTML según tipo de ejercicio
+            if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
+                interactionHTML = '<div class="interaction">';
+                (data.options || []).forEach((opt, idx) => {
+                    interactionHTML += `
+                    <div class="option ${opt.is_correct ? 'correct' : ''}">
+                        <i class="fas fa-${opt.is_correct ? 'check-circle' : 'circle'}" style="color: ${opt.is_correct ? '#28a745' : '#999'}"></i>
+                        <strong>${String.fromCharCode(65 + idx)})</strong> ${opt.text}
+                    </div>`;
+                });
+                interactionHTML += '</div>';
+            } else if (ex.type === 'fill_gaps') {
+                interactionHTML = `<div class="template-text">${(data.template || '').replace(/\[([^\]]+)\]/g, '<strong style="color:#667eea">[$1]</strong>')}</div>`;
+                if (data.distractors && data.distractors.length > 0) {
+                    interactionHTML += `<p style="margin-top:10px; color:#666;"><strong>Palabras:</strong> ${data.distractors.join(', ')}</p>`;
+                }
+            } else if (ex.type === 'ordering') {
+                interactionHTML = '<div class="interaction">';
+                (data.sequence || []).forEach(item => {
+                    interactionHTML += `<div class="sequence-item"><strong style="color:#667eea">${item.order}.</strong> ${item.text}</div>`;
+                });
+                interactionHTML += '</div>';
+            } else if (ex.type === 'matching') {
+                interactionHTML = '<div class="interaction">';
+                (data.pairs || []).forEach(pair => {
+                    interactionHTML += `<div class="pair-item"><span>${pair.left}</span> <i class="fas fa-arrows-left-right" style="color:#667eea"></i> <span>${pair.right}</span></div>`;
+                });
+                interactionHTML += '</div>';
+            } else if (ex.type === 'grouping') {
+                interactionHTML = `<p style="margin-bottom:10px;"><strong>Categorías:</strong> ${(data.categories || []).join(' | ')}</p><div class="interaction">`;
+                (data.items || []).forEach(item => {
+                    interactionHTML += `<div class="group-item">• ${item.text} → <strong>${item.category}</strong></div>`;
+                });
+                interactionHTML += '</div>';
+            }
+            
+            // Scaffolding
+            let scaffoldHTML = '';
+            if (ex.scaffolding && (ex.scaffolding.hint_1 || ex.scaffolding.explanation || ex.scaffolding.learn_more)) {
+                scaffoldHTML = '<div class="scaffolding">';
+                if (ex.scaffolding.hint_1) {
+                    scaffoldHTML += `<div class="scaffold-item"><strong><i class="fas fa-lightbulb"></i> Pista:</strong> <span>${ex.scaffolding.hint_1}</span></div>`;
+                }
+                if (ex.scaffolding.explanation) {
+                    scaffoldHTML += `<div class="scaffold-item"><strong><i class="fas fa-info-circle"></i> Explicación:</strong> <span>${ex.scaffolding.explanation}</span></div>`;
+                }
+                if (ex.scaffolding.learn_more) {
+                    scaffoldHTML += `<div class="scaffold-item"><strong><i class="fas fa-book-open"></i> Más info:</strong> <span>${ex.scaffolding.learn_more}</span></div>`;
+                }
+                scaffoldHTML += '</div>';
+            }
+            
+            return `
+        <div class="exercise">
+            <div class="ex-header">
+                <div class="ex-number"><i class="fas fa-clipboard-question"></i> Ejercicio ${index + 1}</div>
+                <div class="ex-type">${ex.type.replace(/_/g, ' ')}</div>
+            </div>
+            <div class="ex-body">
+                <div class="prompt">${ex.content?.prompt_text || 'Sin enunciado'}</div>
+                ${interactionHTML}
+                ${scaffoldHTML}
+            </div>
+        </div>`;
+        }).join('')}
+        
+        <div class="footer">
+            <p>Generado con <strong>EjeCon</strong> - RecuEdu Labs | ${new Date().toLocaleDateString('es-ES')}</p>
+        </div>
     </div>
-    `).join('')}
 </body>
 </html>`;
     
