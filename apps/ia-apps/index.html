@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raidell Avello - Herramientas Educativas con IA</title>
+    <title>Incubadora Experimental | RecuEdu Labs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
@@ -41,93 +41,27 @@
     <nav class="navbar">
         <div class="container nav-content">
             <div class="logo">
-                <span>Herramientas Digitales</span>
+                <span>Incubadora Experimental</span>
             </div>
-            <span class="badge badge-pro">✨ AI Powered</span>
+            <span class="badge badge-exp" style="background:#ECFDF5; color: #10B981;">🧪 Prototipos</span>
         </div>
     </nav>
 
     <section class="hero" style="padding: 60px 0;">
         <div class="container">
-            <h1 style="font-size: 2.5rem;">Recursos Educativos con IA</h1>
-            <p>Herramientas digitales diseñadas para potenciar el aprendizaje</p>
+            <h1 style="font-size: 2.5rem;">Incubadora Experimental</h1>
+            <p>Prototipos didácticos en desarrollo para narrativas digitales y juegos educativos</p>
         </div>
     </section>
 
     <div class="container section">
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="openTab(event, 'general')">🌐 General</button>
-            <button class="tab-btn" onclick="openTab(event, 'informacion')">🗂️ Información</button>
+            <button class="tab-btn active" onclick="openTab(event, 'narativas')">🧩 Narrativas Digitales</button>
             <button class="tab-btn" onclick="openTab(event, 'erasmus')">📚 Proyectos Erasmus</button>
-            <button class="tab-btn" onclick="openTab(event, 'narativas')">🧩 Narrativas Digitales</button>
+            <button class="tab-btn" onclick="openTab(event, 'general')">🌐 Mapas Experimentales</button>
         </div>
-        <div id="general" class="tab-panel active">
-            <article class="card">
-                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
-                    <span>🎨</span>
-                </div>
-                <h3 class="card-title">Mapa de Europa</h3>
-                <p>Mapa interactivo con colores aleatorios al seleccionar países.</p>
-                <a href="mapa.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-
-            <article class="card">
-                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
-                    <span>🌍</span>
-                </div>
-                <h3 class="card-title">Mapa Interactivo 2</h3>
-                <p>Mapa avanzado con traducciones (ES/EN) y selección única.</p>
-                <a href="mapa2.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-        </div>
-
-        <div id="informacion" class="tab-panel">
-            <article class="card">
-                <div class="card-icon" style="background: #ECFDF5; color: #10B981;">
-                    <span>📚</span>
-                </div>
-                <h3 class="card-title">Biblio Click</h3>
-                <p>Gestor bibliográfico simple diseñado para educación primaria.</p>
-                <a href="https://ravellom.github.io/biblioclick/" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-        </div>
-
-        <div id="erasmus" class="tab-panel">
-            <article class="card">
-                <div class="card-icon" style="background: #F5F3FF; color: #8B5CF6;">
-                    <span>🧩</span>
-                </div>
-                <h3 class="card-title">7 Funciones Digitales</h3>
-                <p>Micro-experiencias del enfoque funcional Digital First.</p>
-                <a href="funciones.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-            <article class="card">
-                <div class="card-icon" style="background: #ECFDF5; color: #10B981;">
-                    <span>🛡️</span>
-                </div>
-                <h3 class="card-title">Wiki-Guardian</h3>
-                <p>Juego para evaluar la Función Representativa de la información.</p>
-                <a href="juego_el_editor.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-            <article class="card">
-                <div class="card-icon" style="background: #FEE2E2; color: #EF4444;">
-                    <span>🧠</span>
-                </div>
-                <h3 class="card-title">Función Imaginativa</h3>
-                <p>Organizador de conceptos para evaluación docente.</p>
-                <a href="creatividad.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-            <article class="card">
-                <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">
-                    <span>🚀</span>
-                </div>
-                <h3 class="card-title">Juego Crononautas</h3>
-                <p>El Portal de los Tiempos. Creatividad y Privacidad.</p>
-                <a href="juego_creativo.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
-            </article>
-        </div>
-
-        <div id="narativas" class="tab-panel">
+        
+        <div id="narativas" class="tab-panel active">
             <article class="card">
                 <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
                     <span>📝</span>
@@ -167,6 +101,61 @@
                 <h3 class="card-title">Director de Escena</h3>
                 <p>Convierte texto en imagen. Elige el plano y ángulo de cámara correcto para cada escena del guion.</p>
                 <a href="narrativa_director.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+        <div id="erasmus" class="tab-panel">
+            <article class="card">
+                <div class="card-icon" style="background: #F5F3FF; color: #8B5CF6;">
+                    <span>🧩</span>
+                </div>
+                <h3 class="card-title">7 Funciones Digitales</h3>
+                <p>Micro-experiencias del enfoque funcional Digital First.</p>
+                <a href="funciones.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #ECFDF5; color: #10B981;">
+                    <span>🛡️</span>
+                </div>
+                <h3 class="card-title">Wiki-Guardian</h3>
+                <p>Juego para evaluar la Función Representativa de la información.</p>
+                <a href="juego_el_editor.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FEE2E2; color: #EF4444;">
+                    <span>🧠</span>
+                </div>
+                <h3 class="card-title">Función Imaginativa</h3>
+                <p>Organizador de conceptos para evaluación docente.</p>
+                <a href="creatividad.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+            <article class="card">
+                <div class="card-icon" style="background: #FFFBEB; color: #F59E0B;">
+                    <span>🚀</span>
+                </div>
+                <h3 class="card-title">Juego Crononautas</h3>
+                <p>El Portal de los Tiempos. Creatividad y Privacidad.</p>
+                <a href="juego_creativo.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+        </div>
+
+        <div id="general" class="tab-panel">
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>🎨</span>
+                </div>
+                <h3 class="card-title">Mapa de Europa</h3>
+                <p>Mapa interactivo con colores aleatorios al seleccionar países.</p>
+                <a href="mapa.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
+            </article>
+
+            <article class="card">
+                <div class="card-icon" style="background: #EFF6FF; color: #3B82F6;">
+                    <span>🌍</span>
+                </div>
+                <h3 class="card-title">Mapa Interactivo 2</h3>
+                <p>Mapa avanzado con traducciones (ES/EN) y selección única.</p>
+                <a href="mapa2.html" target="_blank" class="btn btn-outline-dark">Abrir</a>
             </article>
         </div>
 
