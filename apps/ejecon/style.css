@@ -10,20 +10,31 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
-body { height: 100vh; overflow: hidden; }
+body { 
+    min-height: 100vh; 
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+}
 
 /* HEADER */
 .app-header {
     height: 64px; background: var(--bg-card); border-bottom: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center; padding: 0 24px;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); z-index: 10;
+    flex-shrink: 0;
 }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--primary); }
 .brand h1 { font-size: 1.1rem; font-weight: 700; margin: 0; }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
 /* LAYOUT */
-.workspace { display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 64px); }
+.workspace { 
+    display: grid; 
+    grid-template-columns: 360px 1fr; 
+    flex: 1;
+    overflow: hidden;
+}
 
 /* SIDEBAR */
 .sidebar { 

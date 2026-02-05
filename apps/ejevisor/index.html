@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor REAI | Gamificado</title>
+    <title>EjeVisor - Visor Interactivo de Ejercicios | RecuEdu Labs</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
     <link rel="stylesheet" href="visor.css">
 </head>
-<body>
+<body class="has-topbar">
     <!-- RecuEdu Topbar -->
     <div class="recuedu-topbar">
         <div class="topbar-container">
@@ -49,14 +49,22 @@
         <section id="screen-upload" class="screen active">
             <div class="card-glass center-content">
                 <i class="ph ph-game-controller" style="font-size: 4rem; color: var(--primary);"></i>
-                <h1>Visor Interactivo</h1>
-                <p>Arrastra tu archivo <strong>.json</strong> aquí</p>
+                <h1>EjeVisor - Visor Interactivo</h1>
+                <p>Carga ejercicios JSON generados con <strong>EjeCon</strong></p>
                 
                 <div class="upload-area" id="drop-zone">
                     <i class="ph ph-upload-simple" style="font-size: 2rem;"></i>
-                    <span>Seleccionar Archivo</span>
+                    <span>Seleccionar Archivo JSON</span>
                     <input type="file" id="file-input" accept=".json" hidden>
                 </div>
+                
+                <button id="btn-load-example" class="btn-action" style="margin-top: 15px;">
+                    <i class="ph ph-lightbulb"></i> Cargar Ejemplo de Prueba
+                </button>
+                
+                <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+                    <i class="ph ph-info"></i> Compatible con archivos JSON de <a href="../ejecon/" style="color: var(--primary); text-decoration: underline;">EjeCon</a>
+                </p>
             </div>
         </section>
 

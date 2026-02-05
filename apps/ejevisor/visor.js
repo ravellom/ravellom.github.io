@@ -12,6 +12,23 @@ let state = {
 
 let ui = {}; // Se inicializa en DOMContentLoaded
 
+// ===== CARGAR EJEMPLO =====
+async function loadExample() {
+    try {
+        const response = await fetch('ejemplo.json');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.exercises && data.exercises.length > 0) {
+                initGame(data.exercises);
+            }
+        } else {
+            alert('No se pudo cargar el ejemplo');
+        }
+    } catch (error) {
+        alert('Error al cargar ejemplo: ' + error.message);
+    }
+}
+
 // ===== FUNCIONES GLOBALES (usadas en onclick) =====
 window.selectOption = (id, btn) => {
     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
@@ -724,6 +741,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ui.btnReset) ui.btnReset.addEventListener('click', goToUpload);
     if (ui.btnHint) ui.btnHint.addEventListener('click', showHint);
     if (ui.btnCloseModal) ui.btnCloseModal.addEventListener('click', closeModal);
+    
+    // Botón cargar ejemplo
+    const btnLoadExample = document.getElementById('btn-load-example');
+    if (btnLoadExample) {
+        btnLoadExample.addEventListener('click', loadExample);
+    }
+    
     if (ui.themeSelect) {
         ui.themeSelect.addEventListener('change', (e) => {
             document.body.setAttribute('data-theme', e.target.value);

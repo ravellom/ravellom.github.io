@@ -1,11 +1,11 @@
 {
   "resource_metadata": {
-    "title": "Prueba del Visor Interactivo",
-    "topic": "Conocimientos Generales"
+    "title": "Demo EjeVisor - Variedad de Ejercicios",
+    "topic": "Cultura General y Conocimientos Básicos"
   },
   "exercises": [
     {
-      "id": "ex_1738012345_0",
+      "id": "ex_1738695234_0",
       "type": "multiple_choice",
       "content": {
         "prompt_text": "¿Cuál es la capital de Francia?"
@@ -20,50 +20,112 @@
       },
       "scaffolding": {
         "hint_1": "Es conocida como la Ciudad de la Luz",
-        "explanation": "París ha sido la capital de Francia desde 987 d.C.",
-        "learn_more": "París es también el centro económico y cultural más importante de Francia."
-      },
-      "status": "approved"
+        "explanation": "París ha sido la capital de Francia desde el año 987 d.C. y es el centro político, económico y cultural del país.",
+        "learn_more": "París alberga monumentos icónicos como la Torre Eiffel (construida en 1889), el Museo del Louvre y la catedral de Notre-Dame."
+      }
     },
     {
-      "id": "ex_1738012345_1",
+      "id": "ex_1738695234_1",
       "type": "true_false",
       "content": {
-        "prompt_text": "El Sol es una estrella."
+        "prompt_text": "El agua hierve a 100°C al nivel del mar"
       },
       "interaction": {
         "options": [
-          { "id": "o1", "text": "Verdadero", "is_correct": true },
-          { "id": "o2", "text": "Falso", "is_correct": false }
+          { "id": "opt_true", "text": "Verdadero", "is_correct": true },
+          { "id": "opt_false", "text": "Falso", "is_correct": false }
         ]
       },
       "scaffolding": {
-        "hint_1": "Piensa en qué tipo de objeto celeste emite luz propia",
-        "explanation": "El Sol es una estrella de tipo espectral G2V, ubicada en el centro de nuestro sistema solar.",
-        "learn_more": "Las estrellas son esferas de plasma que generan energía mediante fusión nuclear en su núcleo."
-      },
-      "status": "approved"
+        "hint_1": "Considera la presión atmosférica estándar",
+        "explanation": "A nivel del mar (1 atmósfera de presión), el punto de ebullición del agua es exactamente 100°C (212°F).",
+        "learn_more": "El punto de ebullición varía con la altitud. Por ejemplo, en La Paz, Bolivia (3600m de altura), el agua hierve a aproximadamente 87°C."
+      }
     },
     {
-      "id": "ex_1738012345_2",
-      "type": "multiple_choice",
+      "id": "ex_1738695234_2",
+      "type": "fill_gaps",
       "content": {
-        "prompt_text": "¿Qué elemento químico tiene el símbolo 'Au'?"
+        "prompt_text": "Completa la frase sobre la fotosíntesis"
       },
       "interaction": {
-        "options": [
-          { "id": "o1", "text": "Plata", "is_correct": false },
-          { "id": "o2", "text": "Oro", "is_correct": true },
-          { "id": "o3", "text": "Aluminio", "is_correct": false },
-          { "id": "o4", "text": "Hierro", "is_correct": false }
+        "template": "Las plantas realizan la [fotosíntesis] usando [luz] solar para producir [glucosa] y liberar [oxígeno] a la atmósfera",
+        "distractors": ["respiración", "agua", "dióxido", "nitrógeno", "calor", "proteína"]
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en el proceso que permite a las plantas crear su propio alimento",
+        "explanation": "La fotosíntesis es el proceso mediante el cual las plantas convierten energía lumínica en energía química (glucosa), usando CO₂ y H₂O como materia prima.",
+        "learn_more": "La ecuación química es: 6CO₂ + 6H₂O + luz → C₆H₁₂O₆ + 6O₂. Este proceso ocurre principalmente en los cloroplastos de las células vegetales."
+      }
+    },
+    {
+      "id": "ex_1738695234_3",
+      "type": "ordering",
+      "content": {
+        "prompt_text": "Ordena las fases del método científico"
+      },
+      "interaction": {
+        "sequence": [
+          { "order": 1, "text": "Observación del fenómeno" },
+          { "order": 2, "text": "Planteamiento de la pregunta" },
+          { "order": 3, "text": "Formulación de hipótesis" },
+          { "order": 4, "text": "Experimentación" },
+          { "order": 5, "text": "Análisis de resultados" },
+          { "order": 6, "text": "Conclusiones" }
         ]
       },
       "scaffolding": {
-        "hint_1": "Es un metal precioso muy valioso",
-        "explanation": "El símbolo Au proviene del latín 'Aurum', que significa oro brillante.",
-        "learn_more": "El oro es el elemento químico número 79 de la tabla periódica."
+        "hint_1": "Comienza por lo que hacemos naturalmente: observar algo interesante",
+        "explanation": "El método científico es un proceso sistemático para generar conocimiento verificable mediante la observación, hipótesis, experimentación y análisis.",
+        "learn_more": "Karl Popper enfatizó la falsabilidad: una hipótesis científica debe poder ser refutada mediante evidencia contraria para considerarse científica."
+      }
+    },
+    {
+      "id": "ex_1738695234_4",
+      "type": "matching",
+      "content": {
+        "prompt_text": "Relaciona cada autor con su obra literaria"
       },
-      "status": "approved"
+      "interaction": {
+        "pairs": [
+          { "left": "Gabriel García Márquez", "right": "Cien años de soledad" },
+          { "left": "Miguel de Cervantes", "right": "Don Quijote de la Mancha" },
+          { "left": "Federico García Lorca", "right": "Romancero gitano" },
+          { "left": "Pablo Neruda", "right": "Veinte poemas de amor" },
+          { "left": "Jorge Luis Borges", "right": "Ficciones" }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Piensa en el origen geográfico y la época de cada autor",
+        "explanation": "Cada autor desarrolló un estilo único: García Márquez con el realismo mágico, Cervantes con la novela moderna, Lorca con la poesía dramática.",
+        "learn_more": "El boom latinoamericano (1960-70) internacionalizó autores como García Márquez, Vargas Llosa, Cortázar y Fuentes, revolucionando la literatura mundial."
+      }
+    },
+    {
+      "id": "ex_1738695234_5",
+      "type": "grouping",
+      "content": {
+        "prompt_text": "Clasifica estos animales según su tipo de alimentación"
+      },
+      "interaction": {
+        "categories": ["Herbívoros", "Carnívoros", "Omnívoros"],
+        "items": [
+          { "text": "Conejo", "category": "Herbívoros" },
+          { "text": "Vaca", "category": "Herbívoros" },
+          { "text": "Jirafa", "category": "Herbívoros" },
+          { "text": "León", "category": "Carnívoros" },
+          { "text": "Águila", "category": "Carnívoros" },
+          { "text": "Tiburón", "category": "Carnívoros" },
+          { "text": "Cerdo", "category": "Omnívoros" },
+          { "text": "Oso", "category": "Omnívoros" },
+          { "text": "Humano", "category": "Omnívoros" }
+        ]
+      },
+      "scaffolding": {
+        "hint_1": "Considera qué come principalmente cada animal en su hábitat natural",
+        "explanation": "Los herbívoros se alimentan de plantas, los carnívoros de carne, y los omnívoros tienen una dieta mixta que les permite adaptarse mejor al entorno.",
+        "learn_more": "La dentadura revela la dieta: herbívoros tienen molares planos para triturar, carnívoros tienen colmillos y muelas cortantes, omnívoros tienen ambos tipos."
+      }
     }
   ]
 }
