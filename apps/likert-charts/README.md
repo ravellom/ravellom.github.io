@@ -2,6 +2,21 @@
 
 Una aplicación web profesional para visualización de datos de encuestas tipo Likert, con interfaz tipo dashboard y actualización reactiva en tiempo real.
 
+## 🤖 NUEVO: Procesamiento Inteligente con IA
+
+**¡Ahora con integración de Google Gemini AI!**
+
+- 📊 **Soporte para Excel** (.xlsx, .xls) - Ideal para MS Forms
+- 🧹 **Limpieza automática** de archivos de MS Forms y Google Forms
+- 🎯 **Detección automática** de escalas Likert
+- 📝 **Sugerencias inteligentes** de etiquetas
+- ⚡ **Transformación automática** al formato correcto
+- 🔍 **Validación y advertencias** de posibles problemas
+- 🎛️ **3 modelos disponibles**: Gemini 2.0 Flash, 3 Flash Preview, 3 Pro Preview
+- ✅ **Nombres sin comillas**: Compatible con exportaciones directas de MS Forms
+
+👉 **[Ver Guía Completa de IA](GEMINI_AI_GUIDE.md)**
+
 ## 🎯 Características Principales
 
 ### Dashboard Interactivo
@@ -176,7 +191,50 @@ El dashboard se adapta automáticamente a diferentes tamaños de pantalla:
 - **Configurable**: Escalas y colores externos
 - **Comentado**: Documentación inline completa
 
-## 🎯 Mejoras Implementadas
+## � Por Qué Canvas API Nativo (Sin Librerías)
+
+Esta aplicación utiliza el **Canvas API nativo de HTML5** para renderizar gráficos, en lugar de librerías como D3.js, Chart.js, Plotly o similares. Esta decisión técnica se basa en:
+
+### Ventajas de Usar Canvas Nativo
+
+1. **Cero Dependencias Externas**
+   - Sin archivos adicionales que cargar (~200-300KB menos)
+   - No hay riesgo de breaking changes en actualizaciones de librerías
+   - Despliegue ultra-simple: solo HTML, CSS y JS puro
+
+2. **Control Total del Renderizado**
+   - Gráficos altamente especializados para escalas Likert
+   - Diseño exacto: colores divergentes, alineación central, etiquetas personalizadas
+   - Funcionalidad precisa sin características innecesarias
+
+3. **Rendimiento Óptimo**
+   - Carga instantánea de la aplicación
+   - Canvas API es extremadamente eficiente
+   - Solo se ejecuta el código que realmente se necesita
+
+4. **Portabilidad y Mantenibilidad**
+   - Código autocontenido y fácil de entender
+   - Sin curva de aprendizaje de librerías complejas
+   - Modificaciones directas sin limitaciones del framework
+   - Ideal para GitHub Pages y hosting estático
+
+5. **Extensibilidad Modular (v3.0)**
+   - Sistema de plugins permite agregar nuevos tipos de gráficos
+   - Cada gráfico es independiente y comprensible
+   - Interfaz estándar facilita contribuciones
+
+### Cuándo Considerar una Librería
+
+Las librerías de gráficos son excelentes cuando necesitas:
+- Docenas de tipos de gráficos diferentes
+- Interactividad compleja (zoom, pan, tooltips avanzados)
+- Animaciones sofisticadas
+- Integración con frameworks (React, Vue, Angular)
+- Soporte garantizado a largo plazo
+
+Para este proyecto específico (visualización de Likert), el Canvas nativo ofrece la mejor relación simplicidad/control/rendimiento.
+
+## �🎯 Mejoras Implementadas
 
 ✅ Dashboard de vista única sin navegación por pasos
 ✅ Paneles colapsables organizados

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Procesador de Datos de Encuestas | RecuEdu Labs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- SheetJS para soporte de archivos Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- RecuEdu Topbar -->
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <i class="fa-solid fa-flask-vial"></i>
+                <span>RecuEdu Labs</span>
+            </a>
+            <div class="topbar-links">
+                <a href="../../index.html">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="https://github.com/ravellom" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <header class="app-header">
+        <div class="brand">
+            <i class="ph ph-database" style="font-size: 1.5rem;"></i>
+            <div>
+                <h1>Procesador de Datos <span class="badge">v2.0</span></h1>
+                <p class="subtitle">Limpieza, transformación y gestión de datos de encuestas</p>
+            </div>
+        </div>
+        <div class="actions">
+            <button id="btn-help" class="btn btn-outline" title="Ayuda">
+                <i class="ph ph-question"></i> Ayuda
+            </button>
+            <button id="btn-export-json" class="btn btn-primary" disabled title="Carga datos primero para exportar">
+                <i class="ph ph-download-simple"></i> Exportar JSON
+            </button>
+            <button id="btn-export-csv" class="btn btn-primary" disabled title="Carga datos primero para exportar">
+                <i class="ph ph-file-csv"></i> Exportar CSV
+            </button>
+            <button id="btn-save-dataset" class="btn btn-success" disabled title="Carga datos primero para guardar">
+                <i class="ph ph-floppy-disk"></i> Guardar en Storage
+            </button>
+        </div>
+    </header>
+
+    <main class="workspace-new">
+        <!-- Menú Principal Lateral Izquierdo -->
+        <nav class="main-sidebar">
+            <button class="sidebar-item active" data-panel="import">
+                <i class="ph ph-upload"></i>
+                <span>Importar</span>
+            </button>
+            <button class="sidebar-item" data-panel="transform">
+                <i class="ph ph-magic-wand"></i>
+                <span>Transformar</span>
+            </button>
+            <button class="sidebar-item" data-panel="clean">
+                <i class="ph ph-broom"></i>
+                <span>Limpiar</span>
+            </button>
+            <button class="sidebar-item" data-panel="storage">
+                <i class="ph ph-cloud"></i>
+                <span>Storage</span>
+            </button>
+            <div class="sidebar-divider"></div>
+            <button class="sidebar-item" data-panel="info">
+                <i class="ph ph-info"></i>
+                <span>Info</span>
+            </button>
+        </nav>
+
+        <!-- Panel Lateral Derecho con Opciones -->
+        <aside class="options-panel" id="options-panel">
+            <!-- Panel de Importación -->
+            <div class="option-content active" data-content="import">
+                <h3><i class="ph ph-upload"></i> Importar Datos</h3>
+                
+                <input type="file" id="file-upload" accept=".csv,.json,.xlsx,.xls" style="display: none;">
+                <button id="btn-upload-trigger" class="btn btn-outline" style="width:100%; margin-bottom:12px; border-style:dashed;">
+                    <i class="ph ph-upload-simple"></i> Subir Archivo CSV/JSON/XLSX
+                </button>
+                
+                <div class="form-group">
+                    <label><i class="ph ph-info"></i> Delimitador CSV:</label>
+                    <select id="delimiter-type" class="input-field">
+                        <option value="auto">Detectar automáticamente</option>
+                        <option value=",">Coma (,)</option>
+                        <option value=";">Punto y coma (;)</option>
+                        <option value="\t">Tabulador (Tab)</option>
+                        <option value="|">Barra vertical (|)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="ph ph-info"></i> Tipo de fuente:</label>
+                    <select id="source-type" class="input-field">
+                        <option value="auto">Detectar automáticamente</option>
+                        <option value="google_forms">Google Forms</option>
+                        <option value="ms_forms">Microsoft Forms</option>
+                        <option value="generic_csv">CSV Genérico</option>
+                        <option value="json">JSON</option>
+                    </select>
+                </div>
+
+                <p class="helper-text" style="margin-top: 16px;">O pega los datos CSV aquí:</p>
+                <textarea id="csv-input" placeholder="Pega tus datos CSV aquí...&#10;&#10;nombre,edad,respuesta&#10;Ana,25,Sí&#10;Luis,30,No" style="min-height: 120px;"></textarea>
+                
+                <button id="btn-load-csv" class="btn btn-secondary" style="width:100%; margin-top: 8px;">
+                    <i class="ph ph-check"></i> Procesar Datos
+                </button>
+            </div>
+
+            <!-- Panel de Transformaciones -->
+            <div class="option-content" data-content="transform">
+                <h3><i class="ph ph-magic-wand"></i> Transformar Datos</h3>
+                
+                <details class="transform-section" open>
+                    <summary><i class="ph ph-funnel"></i> 1. Seleccionar Columnas</summary>
+                    <div class="transform-content">
+                        <p class="helper-text" style="font-size: 0.75rem; margin-bottom: 8px;">
+                            💡 Elige las columnas con las que quieres trabajar. Las demás se eliminarán.
+                        </p>
+                        <div id="select-columns" style="max-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                            <!-- Checkboxes se generan dinámicamente -->
+                        </div>
+                        <button id="btn-select-columns" class="btn btn-sm btn-primary" style="width:100%; margin-top: 8px;">
+                            <i class="ph ph-check"></i> Aplicar Selección
+                        </button>
+                    </div>
+                </details>
+
+                <details class="transform-section">
+                    <summary><i class="ph ph-pencil-simple"></i> 2. Renombrar Columnas</summary>
+                    <div class="transform-content">
+                        <p class="helper-text" style="font-size: 0.75rem; margin-bottom: 8px;">
+                            ✏️ Cambia nombres largos por versiones más cortas y manejables.
+                        </p>
+                        <div id="rename-inputs"></div>
+                        <button id="btn-apply-rename" class="btn btn-sm btn-primary" style="width:100%; margin-top: 8px;">
+                            <i class="ph ph-check"></i> Aplicar Cambios
+                        </button>
+                    </div>
+                </details>
+
+                <details class="transform-section">
+                    <summary><i class="ph ph-scales"></i> 3. Normalizar Escalas Likert</summary>
+                    <div class="transform-content">
+                        <p class="helper-text" style="font-size: 0.75rem; margin-bottom: 8px;">
+                            ⚠️ Solo para columnas con valores numéricos ya convertidos (1, 2, 3...). Si tienes texto, usa primero paso 4.
+                        </p>
+                        <div id="likert-columns" style="max-height: 150px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                            <!-- Checkboxes se generan dinámicamente -->
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+                            <input type="number" id="likert-min" class="input-field" placeholder="Mín: 1" value="1">
+                            <input type="number" id="likert-max" class="input-field" placeholder="Máx: 5" value="5">
+                        </div>
+                        <button id="btn-normalize-likert" class="btn btn-sm btn-primary" style="width:100%; margin-top: 8px;">
+                            <i class="ph ph-check"></i> Aplicar
+                        </button>
+                    </div>
+                </details>
+
+                <details class="transform-section">
+                    <summary><i class="ph ph-text-aa"></i> 4. Texto Likert → Números</summary>
+                    <div class="transform-content">
+                        <p class="helper-text" style="font-size: 0.75rem; margin-bottom: 8px;">
+                            🔤 Convierte respuestas de texto a valores numéricos. Soporta español e inglés.
+                        </p>
+                        <div id="text-likert-columns" style="max-height: 350px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                            <!-- Checkboxes se generan dinámicamente -->
+                        </div>
+                        <div style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 8px; border-radius: 4px; margin-top: 8px; font-size: 0.7rem; color: #0c4a6e;">
+                            <strong>Ejemplos:</strong><br>
+                            "Strongly agree" → 5 • "Agree" → 4 • "Neutral" → 3<br>
+                            "Totalmente de acuerdo" → 5 • "De acuerdo" → 4
+                        </div>
+                        <button id="btn-text-to-number" class="btn btn-sm btn-primary" style="width:100%; margin-top: 8px;">
+                            <i class="ph ph-check"></i> Aplicar
+                        </button>
+                    </div>
+                </details>
+
+                <details class="transform-section">
+                    <summary><i class="ph ph-calculator"></i> 5. Calcular Promedios</summary>
+                    <div class="transform-content">
+                        <p class="helper-text" style="font-size: 0.75rem; margin-bottom: 8px;">
+                            📊 Crea una nueva columna con el promedio de varias columnas numéricas.
+                        </p>
+                        <div id="avg-columns" style="max-height: 150px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                            <!-- Checkboxes se generan dinámicamente -->
+                        </div>
+                        <input type="text" id="avg-column-name" class="input-field" placeholder="Nombre nueva columna" style="margin-top: 8px;">
+                        <button id="btn-calculate-avg" class="btn btn-sm btn-primary" style="width:100%; margin-top: 8px;">
+                            <i class="ph ph-check"></i> Calcular
+                        </button>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Panel de Limpieza -->
+            <div class="option-content" data-content="clean">
+                <h3><i class="ph ph-broom"></i> Limpiar Datos</h3>
+                
+                <button id="btn-remove-nulls" class="btn btn-secondary" style="width:100%; margin-bottom: 10px;">
+                    <i class="ph ph-trash"></i> Eliminar Filas Vacías
+                </button>
+
+                <button id="btn-fill-na" class="btn btn-secondary" style="width:100%; margin-bottom: 10px;">
+                    <i class="ph ph-fill"></i> Rellenar Vacíos con 0
+                </button>
+
+                <button id="btn-remove-duplicates" class="btn btn-secondary" style="width:100%; margin-bottom: 10px;">
+                    <i class="ph ph-copy"></i> Eliminar Duplicados
+                </button>
+
+                <button id="btn-trim-values" class="btn btn-secondary" style="width:100%; margin-bottom: 10px;">
+                    <i class="ph ph-scissors"></i> Limpiar Espacios
+                </button>
+
+                <div class="divider" style="margin: 16px 0;"></div>
+
+                <button id="btn-reset-data" class="btn btn-outline" style="width:100%; border-color: #dc2626; color: #dc2626;">
+                    <i class="ph ph-arrow-counter-clockwise"></i> Restaurar Original
+                </button>
+            </div>
+
+            <!-- Panel de Storage -->
+            <div class="option-content" data-content="storage">
+                <h3><i class="ph ph-cloud"></i> Storage Compartido</h3>
+                <p class="helper-text" style="margin-bottom: 12px;">
+                    Datasets guardados disponibles para otras apps RecuEdu Labs
+                </p>
+                <div id="saved-datasets-list" class="saved-datasets">
+                    <p class="helper-text">No hay datasets guardados</p>
+                </div>
+                <button id="btn-refresh-datasets" class="btn btn-outline" style="width:100%; margin-top: 12px;">
+                    <i class="ph ph-arrow-clockwise"></i> Actualizar Lista
+                </button>
+            </div>
+
+            <!-- Panel de Información -->
+            <div class="option-content" data-content="info">
+                <h3><i class="ph ph-info"></i> Información de Columnas</h3>
+                <div id="columns-stats-sidebar"></div>
+            </div>
+        </aside>
+
+        <!-- Divisor Redimensionable -->
+        <div class="panel-resizer" id="panel-resizer"></div>
+
+        <!-- Área Principal de Contenido -->
+        <section class="main-canvas">
+            <div id="welcome-screen" class="empty-state">
+                <div class="empty-icon-bg">
+                    <i class="ph ph-table"></i>
+                </div>
+                <h2>Procesador de Datos de Encuestas</h2>
+                <p>Sube un archivo CSV/JSON/XLSX o carga datos desde el storage compartido</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="ph ph-check-circle"></i>
+                        <h4>Parsea encuestas</h4>
+                        <p>Google Forms, MS Forms (CSV/XLSX), delimitadores automáticos</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ph ph-broom"></i>
+                        <h4>Limpia datos</h4>
+                        <p>Elimina vacíos, duplicados y valores atípicos</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ph ph-arrows-clockwise"></i>
+                        <h4>Transforma</h4>
+                        <p>Normaliza escalas, recodifica, calcula promedios</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ph ph-cloud-arrow-up"></i>
+                        <h4>Storage compartido</h4>
+                        <p>Comparte datos entre apps RecuEdu Labs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="data-view" class="data-container hidden">
+                <!-- Estadísticas -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <i class="ph ph-table"></i>
+                        <span>Filas: <strong id="stat-rows">0</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="ph ph-columns"></i>
+                        <span>Columnas: <strong id="stat-columns">0</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="ph ph-info"></i>
+                        <span>Fuente: <strong id="stat-source">-</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="ph ph-clock"></i>
+                        <span>Modificado: <strong id="stat-modified">Ahora</strong></span>
+                    </div>
+                </div>
+
+                <!-- Vista de Tabla -->
+                <div class="table-wrapper">
+                    <div class="table-controls">
+                        <h3>Vista de Datos</h3>
+                        <div class="view-toggle">
+                            <button id="btn-view-table" class="btn btn-sm active">
+                                <i class="ph ph-table"></i> Tabla
+                            </button>
+                            <button id="btn-view-json" class="btn btn-sm">
+                                <i class="ph ph-code"></i> JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="table-view">
+                        <div class="table-scroll">
+                            <table id="data-table">
+                                <thead id="table-head"></thead>
+                                <tbody id="table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="json-view" class="hidden">
+                        <pre id="json-preview"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Ayuda -->
+    <div id="help-modal" class="modal-overlay hidden" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="ph ph-question"></i> Guía de Uso</h3>
+                <button id="btn-close-help" class="close-icon"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <h4>🔹 Importar Datos</h4>
+                <p>Carga archivos CSV, JSON o XLSX (Excel) desde Google Forms, Microsoft Forms o cualquier fuente de datos.</p>
+                <ul style="margin: 8px 0 16px 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                    <li><strong>CSV:</strong> Detecta automáticamente el delimitador (coma, punto y coma, tabulador)</li>
+                    <li><strong>Excel (.xlsx):</strong> Soporte directo para archivos de MS Forms</li>
+                    <li><strong>JSON:</strong> Formato estructurado de datos</li>
+                    <li><strong>Pegado directo:</strong> Copia y pega datos desde Excel o Sheets</li>
+                </ul>
+                
+                <h4>🔹 Transformar</h4>
+                <ul>
+                    <li><strong>Normalizar Likert:</strong> Ajusta escalas al rango 1-5 o el que prefieras</li>
+                    <li><strong>Texto → Números:</strong> Convierte respuestas de texto a valores numéricos</li>
+                    <li><strong>Calcular Promedios:</strong> Crea nuevas columnas con promedios de varias preguntas</li>
+                    <li><strong>Renombrar:</strong> Cambia nombres de columnas largos por versiones cortas</li>
+                </ul>
+
+                <h4>🔹 Limpiar</h4>
+                <ul>
+                    <li>Eliminar filas con valores faltantes</li>
+                    <li>Rellenar valores vacíos con un valor predeterminado</li>
+                    <li>Eliminar respuestas duplicadas</li>
+                    <li>Limpiar espacios en blanco extras</li>
+                </ul>
+
+                <h4>🔹 Exportar y Compartir</h4>
+                <p><strong>Exportar:</strong> Descarga tus datos procesados en formato JSON o CSV para usar en otras aplicaciones.</p>
+                <p><strong>Storage Compartido:</strong> Guarda tus datasets en el navegador para reutilizarlos en otras aplicaciones RecuEdu Labs (likert-charts, etc.)</p>
+
+                <h4>🔹 Uso en Otras Apps</h4>
+                <p>Incluye la biblioteca en tu HTML:</p>
+                <pre style="background: #f1f5f9; padding: 12px; border-radius: 6px; overflow-x: auto;"><code>&lt;script src="../data-processor/recuedu-data-lib.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // Cargar dataset guardado
+  const data = RecuEduData.storage.loadDataset('mi-encuesta');
+  
+  // Usar funciones de procesamiento
+  const cleaned = RecuEduData.removeNullRows(data.data);
+&lt;/script&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Guardar Dataset -->
+    <div id="save-modal" class="modal-overlay hidden" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3><i class="ph ph-floppy-disk"></i> Guardar Dataset</h3>
+                <button id="btn-close-save" class="close-icon"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="dataset-name" style="display: block; margin-bottom: 8px; font-weight: 500;">
+                    Nombre del Dataset:
+                </label>
+                <input type="text" id="dataset-name" class="input-field" placeholder="Ej: encuesta-satisfaccion-2026" style="width: 100%;">
+                
+                <label for="dataset-description" style="display: block; margin: 16px 0 8px; font-weight: 500;">
+                    Descripción (opcional):
+                </label>
+                <textarea id="dataset-description" class="input-field" placeholder="Descripción breve del dataset..." style="width: 100%; min-height: 80px;"></textarea>
+
+                <div style="margin-top: 20px; display: flex; gap: 8px; justify-content: flex-end;">
+                    <button id="btn-cancel-save" class="btn btn-outline">Cancelar</button>
+                    <button id="btn-confirm-save" class="btn btn-success">
+                        <i class="ph ph-check"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="recuedu-data-lib.js?v=20260212019"></script>
+    <script src="app.js?v=20260212019"></script>
+</body>
+</html>

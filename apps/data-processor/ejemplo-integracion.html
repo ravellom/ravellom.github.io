@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Integración - RecuEdu Data Library</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #3b82f6;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #64748b;
+            margin-top: 30px;
+        }
+        .example {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .output {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #e0f2fe;
+            color: #0c4a6e;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 Ejemplo de Integración: RecuEdu Data Library</h1>
+        
+        <p>Este archivo demuestra cómo usar la biblioteca <code>recuedu-data-lib.js</code> en tus propias aplicaciones RecuEdu Labs.</p>
+
+        <div class="info">
+            💡 <strong>Nota:</strong> Abre la consola del navegador (F12) para ver mensajes adicionales
+        </div>
+
+        <!-- Ejemplo 1: Listar Datasets -->
+        <h2>📋 Ejemplo 1: Listar Datasets Guardados</h2>
+        <div class="example">
+            <p>Lista todos los datasets disponibles en el storage compartido:</p>
+            <button onclick="example1()">Listar Datasets</button>
+            <div id="output1" class="output" style="display:none;"></div>
+        </div>
+
+        <!-- Ejemplo 2: Cargar Dataset -->
+        <h2>📂 Ejemplo 2: Cargar Dataset Específico</h2>
+        <div class="example">
+            <p>Carga un dataset guardado desde otra aplicación:</p>
+            <input type="text" id="dataset-name" placeholder="Nombre del dataset" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <button onclick="example2()">Cargar Dataset</button>
+            <div id="output2" class="output" style="display:none;"></div>
+        </div>
+
+        <!-- Ejemplo 3: Procesar CSV -->
+        <h2>🔄 Ejemplo 3: Procesar CSV y Transformar</h2>
+        <div class="example">
+            <p>Parsea CSV y aplica transformaciones:</p>
+            <textarea id="csv-input" rows="5" style="width: 100%; padding: 8px; font-family: monospace; border: 1px solid #ccc; border-radius: 4px;" placeholder="Pega CSV aquí...">nombre,edad,satisfaccion
+Ana,25,5
+Luis,30,4
+María,28,5</textarea>
+            <button onclick="example3()">Procesar y Transformar</button>
+            <div id="output3" class="output" style="display:none;"></div>
+        </div>
+
+        <!-- Ejemplo 4: Guardar Dataset -->
+        <h2>💾 Ejemplo 4: Guardar Nuevo Dataset</h2>
+        <div class="example">
+            <p>Guarda datos en el storage compartido para usar en otras apps:</p>
+            <button onclick="example4()">Crear y Guardar Dataset de Prueba</button>
+            <div id="output4" class="output" style="display:none;"></div>
+        </div>
+
+        <!-- Ejemplo 5: Limpieza y Exportación -->
+        <h2>🧹 Ejemplo 5: Pipeline Completo de Limpieza</h2>
+        <div class="example">
+            <p>Ejecuta un pipeline completo de procesamiento:</p>
+            <button onclick="example5()">Ejecutar Pipeline</button>
+            <div id="output5" class="output" style="display:none;"></div>
+        </div>
+
+        <!-- Ejemplo 6: Estadísticas -->
+        <h2>📊 Ejemplo 6: Análisis Estadístico</h2>
+        <div class="example">
+            <p>Obtiene información estadística de un dataset:</p>
+            <button onclick="example6()">Analizar Datos</button>
+            <div id="output6" class="output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Importar la biblioteca -->
+    <script src="recuedu-data-lib.js"></script>
+
+    <script>
+        // ==================== EJEMPLO 1: LISTAR DATASETS ====================
+        function example1() {
+            const output = document.getElementById('output1');
+            output.style.display = 'block';
+            
+            const datasets = RecuEduData.storage.getDatasetsInfo();
+            
+            if (datasets.length === 0) {
+                output.textContent = '📭 No hay datasets guardados todavía.\n\nUsa el Procesador de Datos para crear algunos.';
+            } else {
+                output.textContent = `✅ Datasets encontrados: ${datasets.length}\n\n`;
+                datasets.forEach((ds, index) => {
+                    output.textContent += `${index + 1}. ${ds.name}\n`;
+                    output.textContent += `   - Filas: ${ds.rowCount}\n`;
+                    output.textContent += `   - Fuente: ${ds.source || 'Desconocido'}\n`;
+                    output.textContent += `   - Guardado: ${new Date(ds.savedAt).toLocaleString('es-ES')}\n\n`;
+                });
+            }
+            
+            console.log('Datasets completos:', RecuEduData.storage.listDatasets());
+        }
+
+        // ==================== EJEMPLO 2: CARGAR DATASET ====================
+        function example2() {
+            const output = document.getElementById('output2');
+            const name = document.getElementById('dataset-name').value.trim();
+            
+            output.style.display = 'block';
+            
+            if (!name) {
+                output.textContent = '⚠️ Ingresa el nombre de un dataset';
+                return;
+            }
+            
+            const dataset = RecuEduData.storage.loadDataset(name);
+            
+            if (!dataset) {
+                output.textContent = `❌ Dataset "${name}" no encontrado`;
+            } else {
+                output.textContent = `✅ Dataset cargado: ${name}\n\n`;
+                output.textContent += `Filas: ${dataset.data.length}\n`;
+                output.textContent += `Columnas: ${Object.keys(dataset.data[0] || {}).length}\n\n`;
+                output.textContent += 'Metadatos:\n';
+                output.textContent += JSON.stringify(dataset.metadata, null, 2);
+                output.textContent += '\n\nPrimeras 3 filas:\n';
+                output.textContent += JSON.stringify(dataset.data.slice(0, 3), null, 2);
+                
+                console.log('Dataset completo:', dataset);
+            }
+        }
+
+        // ==================== EJEMPLO 3: PROCESAR CSV ====================
+        function example3() {
+            const output = document.getElementById('output3');
+            const csvText = document.getElementById('csv-input').value.trim();
+            
+            output.style.display = 'block';
+            
+            if (!csvText) {
+                output.textContent = '⚠️ Pega datos CSV primero';
+                return;
+            }
+            
+            try {
+                // Parsear CSV
+                let data = RecuEduData.parseCSV(csvText);
+                output.textContent = '✅ Paso 1: CSV parseado\n';
+                output.textContent += JSON.stringify(data, null, 2) + '\n\n';
+                
+                // Limpiar espacios
+                data = RecuEduData.trimValues(data);
+                output.textContent += '✅ Paso 2: Espacios limpiados\n\n';
+                
+                // Si hay columna 'satisfaccion', normalizarla
+                if (data[0] && data[0].satisfaccion !== undefined) {
+                    data = RecuEduData.normalizeLikert(data, ['satisfaccion'], 1, 5);
+                    output.textContent += '✅ Paso 3: Escala normalizada (1-5)\n\n';
+                }
+                
+                // Obtener info
+                const info = RecuEduData.getDataInfo(data);
+                output.textContent += '📊 Información:\n';
+                output.textContent += `- ${info.rowCount} filas\n`;
+                output.textContent += `- ${info.columnCount} columnas\n\n`;
+                
+                output.textContent += 'Resultado final:\n';
+                output.textContent += JSON.stringify(data, null, 2);
+                
+                console.log('Datos procesados:', data);
+                
+            } catch (err) {
+                output.textContent = '❌ Error: ' + err.message;
+                console.error(err);
+            }
+        }
+
+        // ==================== EJEMPLO 4: GUARDAR DATASET ====================
+        function example4() {
+            const output = document.getElementById('output4');
+            output.style.display = 'block';
+            
+            // Crear datos de ejemplo
+            const sampleData = [
+                { nombre: 'Ana', edad: 25, nivel: 'Avanzado', satisfaccion: 5 },
+                { nombre: 'Luis', edad: 30, nivel: 'Intermedio', satisfaccion: 4 },
+                { nombre: 'María', edad: 28, nivel: 'Avanzado', satisfaccion: 5 },
+                { nombre: 'Carlos', edad: 35, nivel: 'Básico', satisfaccion: 3 }
+            ];
+            
+            const datasetName = `ejemplo-${Date.now()}`;
+            
+            try {
+                RecuEduData.storage.saveDataset(datasetName, sampleData, {
+                    source: 'ejemplo_manual',
+                    description: 'Dataset de ejemplo creado desde integración'
+                });
+                
+                output.textContent = `✅ Dataset guardado exitosamente\n\n`;
+                output.textContent += `Nombre: ${datasetName}\n`;
+                output.textContent += `Filas: ${sampleData.length}\n`;
+                output.textContent += `Columnas: ${Object.keys(sampleData[0]).length}\n\n`;
+                output.textContent += 'Datos guardados:\n';
+                output.textContent += JSON.stringify(sampleData, null, 2);
+                output.textContent += '\n\n💡 Ahora puedes cargar este dataset desde cualquier app RecuEdu Labs';
+                
+                console.log('Dataset guardado:', datasetName);
+                
+            } catch (err) {
+                output.textContent = '❌ Error al guardar: ' + err.message;
+                console.error(err);
+            }
+        }
+
+        // ==================== EJEMPLO 5: PIPELINE COMPLETO ====================
+        function example5() {
+            const output = document.getElementById('output5');
+            output.style.display = 'block';
+            
+            // Datos con problemas
+            let data = [
+                { nombre: '  Ana  ', edad: '25', satisfaccion: 'Totalmente de acuerdo' },
+                { nombre: 'Luis', edad: '30', satisfaccion: 'De acuerdo' },
+                { nombre: '  María  ', edad: '28', satisfaccion: 'Totalmente de acuerdo' },
+                { nombre: '', edad: '', satisfaccion: '' }, // Fila vacía
+                { nombre: 'Luis', edad: '30', satisfaccion: 'De acuerdo' }, // Duplicado
+                { nombre: 'Carlos  ', edad: '35', satisfaccion: 'Neutral' }
+            ];
+            
+            output.textContent = '🔧 PIPELINE DE LIMPIEZA\n';
+            output.textContent += '='.repeat(50) + '\n\n';
+            output.textContent += `Datos originales: ${data.length} filas\n\n`;
+            
+            // Paso 1: Limpiar espacios
+            data = RecuEduData.trimValues(data);
+            output.textContent += `✅ Paso 1: Espacios limpiados\n`;
+            
+            // Paso 2: Eliminar vacíos
+            data = RecuEduData.removeNullRows(data);
+            output.textContent += `✅ Paso 2: Filas vacías eliminadas → ${data.length} filas\n`;
+            
+            // Paso 3: Eliminar duplicados
+            const beforeDup = data.length;
+            data = RecuEduData.removeDuplicates(data);
+            output.textContent += `✅ Paso 3: ${beforeDup - data.length} duplicados eliminados → ${data.length} filas\n`;
+            
+            // Paso 4: Convertir Likert
+            data = RecuEduData.likertTextToNumber(data, ['satisfaccion']);
+            output.textContent += `✅ Paso 4: Texto Likert → números\n\n`;
+            
+            output.textContent += 'RESULTADO FINAL:\n';
+            output.textContent += JSON.stringify(data, null, 2);
+            
+            console.log('Pipeline completado:', data);
+        }
+
+        // ==================== EJEMPLO 6: ESTADÍSTICAS ====================
+        function example6() {
+            const output = document.getElementById('output6');
+            output.style.display = 'block';
+            
+            const sampleData = [
+                { nombre: 'Ana', edad: 25, satisfaccion: 5, activo: 'Sí' },
+                { nombre: 'Luis', edad: 30, satisfaccion: 4, activo: 'Sí' },
+                { nombre: 'María', edad: 28, satisfaccion: 5, activo: 'No' },
+                { nombre: 'Carlos', edad: 35, satisfaccion: 3, activo: 'Sí' },
+                { nombre: 'Laura', edad: '', satisfaccion: 4, activo: 'Sí' }
+            ];
+            
+            const info = RecuEduData.getDataInfo(sampleData);
+            
+            output.textContent = '📊 ANÁLISIS ESTADÍSTICO\n';
+            output.textContent += '='.repeat(50) + '\n\n';
+            output.textContent += `Total de filas: ${info.rowCount}\n`;
+            output.textContent += `Total de columnas: ${info.columnCount}\n\n`;
+            
+            output.textContent += 'DETALLE POR COLUMNA:\n';
+            output.textContent += '-'.repeat(50) + '\n\n';
+            
+            Object.entries(info.columns).forEach(([col, stats]) => {
+                output.textContent += `📌 ${col}\n`;
+                output.textContent += `   Tipo: ${stats.isNumeric ? 'Numérico' : 'Texto'}\n`;
+                output.textContent += `   Valores: ${stats.totalValues} (${stats.missingValues} faltantes)\n`;
+                output.textContent += `   Únicos: ${stats.uniqueValues}\n`;
+                
+                if (stats.isNumeric) {
+                    output.textContent += `   Rango: ${stats.min} - ${stats.max}\n`;
+                    output.textContent += `   Promedio: ${stats.avg}\n`;
+                }
+                
+                output.textContent += '\n';
+            });
+            
+            console.log('Información completa:', info);
+        }
+
+        // Inicialización
+        console.log('🚀 RecuEdu Data Library cargada');
+        console.log('Versión:', RecuEduData.version);
+    </script>
+</body>
+</html>

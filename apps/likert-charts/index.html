@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
     <link rel="stylesheet" href="style-dashboard.css">
+    <link rel="stylesheet" href="style-gemini.css">
+    
+    <!-- SheetJS para soporte de archivos Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <!-- RecuEdu Topbar -->
@@ -126,12 +130,83 @@
             <div class="options-panel active" id="panel-data">
                 <h3 class="options-title" data-i18n="panel_data_title">Cargar Datos</h3>
                 
+                <!-- Sección de IA -->
+                <div class="ai-config-section">
+                    <div class="ai-toggle">
+                        <input type="checkbox" id="enable-ai-processing">
+                        <label for="enable-ai-processing" data-i18n="enable_ai">Activar procesamiento con Gemini AI</label>
+                    </div>
+                    
+                    <div class="ai-settings" id="ai-settings">
+                        <div class="option-group">
+                            <label class="option-label" data-i18n="gemini_api_key">API Key de Gemini:</label>
+                            <input type="password" id="gemini-api-key" class="api-key-input" 
+                                   placeholder="AIza..." data-i18n-placeholder="gemini_api_key_placeholder">
+                            <p class="api-key-help">
+                                <span data-i18n="gemini_api_key_help">Obtén tu API key gratis en</span>
+                                <a href="https://aistudio.google.com/app/apikey" target="_blank" data-i18n="gemini_help_link">Google AI Studio</a>
+                            </p>
+                        </div>
+                        
+                        <div class="source-type-selector">
+                            <label data-i18n="source_type">Tipo de fuente de datos:</label>
+                            <select id="data-source-type">
+                                <option value="msforms" data-i18n="source_msforms">Microsoft Forms</option>
+                                <option value="gforms" data-i18n="source_gforms">Google Forms</option>
+                                <option value="other" data-i18n="source_other">Otro formato</option>
+                            </select>
+                        </div>
+                        
+                        <div class="source-type-selector">
+                            <label data-i18n="gemini_model">Modelo de Gemini:</label>
+                            <select id="gemini-model">
+                                <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+                                <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                                <option value="gemini-2.5-flash">Gemini 2.5 Flash (Rápido)</option>
+                                <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+                                <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (Más potente)</option>
+                            </select>
+                        </div>
+                        
+                        <div id="ai-status" class="ai-status"></div>
+                    </div>
+                </div>
+
+                <p class="help-text" style="text-align: center; margin: 12px 0; font-weight: 500;" data-i18n="normal_upload">O carga manual tradicional</p>
+
                 <div class="option-group">
-                    <label class="option-label" data-i18n="upload_csv">Archivo CSV:</label>
-                    <input type="file" id="csv-file" accept=".csv" class="file-input">
-                    <p class="help-text" data-i18n="csv_format_help">
-                        Primera columna = ID, resto = ítems con valores numéricos
+                    <label class="option-label" data-i18n="upload_file">Archivo de Datos:</label>
+                    <div style="display: flex; gap: 8px; align-items: flex-start;">
+                        <input type="file" id="csv-file" accept=".csv,.xlsx,.xls" class="file-input" style="flex: 1;">
+                        <button id="reset-upload-btn" class="btn-secondary" style="padding: 8px 12px; white-space: nowrap;" title="Limpiar y reiniciar carga de datos">
+                            🔄 Reiniciar
+                        </button>
+                    </div>
+                    <p class="help-text" data-i18n="file_format_help">
+                        Formatos: CSV o Excel (.xlsx, .xls) - Primera columna = ID, resto = ítems
                     </p>
+                </div>
+
+                <div class="option-group" style="border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                    <label class="option-label">Storage Global (Data Processor):</label>
+                    <div style="display: grid; gap: 8px;">
+                        <select id="storage-dataset-select" class="select-input">
+                            <option value="">Selecciona un dataset guardado...</option>
+                        </select>
+                        <div style="display: flex; gap: 8px;">
+                            <button id="refresh-storage-datasets" class="btn-secondary" style="flex: 1;">
+                                🔄 Actualizar
+                            </button>
+                            <button id="load-storage-dataset" class="btn-primary" style="flex: 1;">
+                                📥 Cargar
+                            </button>
+                        </div>
+                        <label class="checkbox-label" style="margin-top: 4px;">
+                            <input type="checkbox" id="storage-auto-process" checked>
+                            <span>Aplicar procesamiento automático (trim + texto Likert a número)</span>
+                        </label>
+                    </div>
+                    <p class="help-text">Usa datasets guardados en la app Data Processor para crear gráficos aquí.</p>
                 </div>
 
                 <div class="option-group">
@@ -484,6 +559,7 @@
         </aside>
     </div>
 
-    <script type="module" src="app-dashboard.js"></script>
+    <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
+    <script type="module" src="app-dashboard.js?v=20260212001"></script>
 </body>
 </html>

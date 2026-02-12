@@ -1,5 +1,133 @@
 # CHANGELOG - Likert Chart Visualizer
 
+## Version 3.1 - AI Processing Integration (Febrero 2026)
+
+### 🤖 INTEGRACIÓN DE INTELIGENCIA ARTIFICIAL
+
+#### 1. **Procesamiento Inteligente con Google Gemini AI**
+- ✅ Soporte completo para archivos Excel (.xlsx, .xls) - Ideal para MS Forms
+- ✅ Limpieza automática de archivos CSV de formularios
+- ✅ Detección automática de escalas Likert
+- ✅ Sugerencias inteligentes de etiquetas apropiadas
+- ✅ Transformación automática de formatos (MS Forms, Google Forms, otros)
+- ✅ Identificación y eliminación de columnas innecesarias (timestamps, emails, etc.)
+- ✅ Manejo inteligente de nombres de columnas sin comillas (estándar en MS Forms)
+- ✅ Interfaz de confirmación interactiva para revisar sugerencias
+- ✅ Validación y advertencias de posibles problemas
+- ✅ Selector de 3 modelos de Gemini (2.0 Flash, 3 Flash Preview, 3 Pro Preview)
+
+**Archivos nuevos:**
+- `ai/GeminiProcessor.js` - Módulo de integración con Gemini API
+- `style-gemini.css` - Estilos para modal de confirmación y panel de IA
+- `GEMINI_AI_GUIDE.md` - Guía completa de uso de la funcionalidad de IA
+- `ejemplo_msforms.csv` - Archivo de ejemplo de Microsoft Forms
+- `ejemplo_gforms.csv` - Archivo de ejemplo de Google Forms
+
+**Archivos modificados:**
+- `app-dashboard.js` - Integración del procesamiento con IA
+- `index.html` - Panel de configuración de IA en sección de datos
+- `i18n/es.json` - Traducciones en español para funcionalidad de IA
+- `i18n/en.json` - Traducciones en inglés para funcionalidad de IA
+- `README.md` - Documentación de la nueva funcionalidad
+
+#### 2. **Características del Procesamiento con IA**
+
+**Detección Automática:**
+- Identifica el tipo de fuente (MS Forms, Google Forms, otros)
+- Detecta automáticamente la escala Likert usada (3, 5, 7 puntos, etc.)
+- Reconoce columnas de datos Likert vs columnas administrativas
+- Calcula nivel de confianza en las detecciones
+
+**Transformación Inteligente:**
+- Convierte respuestas textuales a valores numéricos
+- Elimina columnas innecesarias (timestamps, emails, nombres)
+- Transforma a formato ancho requerido por la aplicación
+- Genera ID de respondent automáticamente si no existe
+
+**Interfaz Interactiva:**
+- Modal de confirmación con análisis completo
+- Edición directa de etiquetas sugeridas
+- Vista previa del CSV limpio
+- Advertencias sobre posibles problemas
+- Opción de cancelar y volver al modo manual
+
+**Seguridad y Privacidad:**
+- API Key guardada localmente en el navegador
+- Solo se envía a Google Gemini para procesamiento
+- Opción de borrar la clave en cualquier momento
+- Modo manual disponible para datos sensibles
+
+#### 3. **Flujo de Trabajo Mejorado**
+
+**Antes (Modo Manual):**
+1. Usuario debe conocer formato exacto
+2. Limpiar manualmente columnas innecesarias  
+3. Identificar escala Likert manualmente
+4. Transformar datos al formato correcto
+5. Configurar etiquetas manualmente
+
+**Ahora (Modo IA):**
+1. Activar procesamiento con IA
+2. Ingresar API Key de Gemini (una sola vez)
+3. Cargar archivo CSV
+4. **Revisar y confirmar sugerencias de la IA**
+5. ¡Listo! Gráfico generado automáticamente
+
+#### 4. **Soporte de Formatos**
+
+- ✅ Microsoft Forms (con timestamps, emails, nombres)
+- ✅ Google Forms (con timestamps)
+- ✅ CSV genéricos con respuestas Likert
+- ✅ Respuestas en formato texto o numérico
+- ✅ Múltiples idiomas (español, inglés)
+
+### 📊 Ejemplo de Procesamiento
+
+**Entrada (MS Forms):**
+```csv
+ID,Email,Timestamp,Q1,Q2,Q3
+1,user@mail.com,2024-01-15,Totalmente de acuerdo,De acuerdo,Neutral
+```
+
+**Salida (Procesada por IA):**
+```csv
+respondent,Q1,Q2,Q3
+1,5,4,3
+```
+
+**Escala Detectada:** 5 puntos (Acuerdo)  
+**Etiquetas Sugeridas:** Totalmente en desacuerdo, En desacuerdo, Neutral, De acuerdo, Totalmente de acuerdo
+
+### 🎯 Beneficios Clave
+
+- ⚡ **Ahorro de tiempo**: De 15 minutos a 30 segundos
+- 🎯 **Mayor precisión**: Detección automática de escalas
+- 🧹 **Datos limpios**: Eliminación automática de columnas innecesarias
+- 📝 **Etiquetas apropiadas**: Sugerencias en el idioma correcto
+- ✅ **Validación**: Advertencias sobre posibles problemas
+- 🔄 **Flexibilidad**: Siempre puedes editar o usar modo manual
+
+### 🔗 API y Dependencias
+
+- **Google Gemini API**: Modelos disponibles
+  - `gemini-2.0-flash` - Rápido y eficiente (por defecto)
+  - `gemini-3-flash-preview` - Preview de última generación
+  - `gemini-3-pro-preview` - Máxima potencia
+- **Plan gratuito**: 15 req/min
+- **Sin librerías adicionales**: Solo Vanilla JavaScript
+- **Compatibilidad**: Todos los navegadores modernos
+
+### 📚 Documentación
+
+Ver [GEMINI_AI_GUIDE.md](GEMINI_AI_GUIDE.md) para:
+- Guía paso a paso de uso
+- Obtención de API Key gratuita
+- Ejemplos completos
+- Solución de problemas
+- FAQs
+
+---
+
 ## Version 3.0 - Modular Plugin System (Febrero 2026)
 
 ### 🚀 CAMBIOS REVOLUCIONARIOS

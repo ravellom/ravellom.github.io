@@ -4,6 +4,7 @@
 // ========================================
 
 import { chartRegistry } from './core/ChartRegistry.js';
+import { GeminiProcessor, GeminiConfirmationUI } from './ai/GeminiProcessor.js';
 
 /**
  * Global Application State
@@ -14,6 +15,7 @@ const AppState = {
     currentLanguage: 'es',
     translations: {},
     config: null,
+    geminiApiKey: '',
     scaleConfig: {
         type: 'custom',
         points: 5,
@@ -221,7 +223,7 @@ const I18n = {
  */
 const DataParser = {
     parseCSV(csvText) {
-        const lines = csvText.trim().split('\n');
+        const lines = csvText.trim().split('\n').filter(line => line.trim().length > 0);
         if (lines.length < 2) {
             throw new Error(I18n.t('invalid_csv'));
         }
@@ -229,23 +231,29 @@ const DataParser = {
         let headers = this.parseCSVLine(lines[0]);
         const rows = [];
         
-        // Validar que los headers estén entre comillas
-        const headerLine = lines[0];
-        const quotedHeadersCount = (headerLine.match(/"/g) || []).length;
-        if (quotedHeadersCount < headers.length * 2) {
-            throw new Error('❌ Error: Los nombres de las columnas deben estar entre comillas dobles.\n\n' +
-                          'Por favor, asegúrate de que todos los encabezados estén en el formato:\n' +
-                          '"ID","Pregunta 1","Pregunta 2",...\n\n' +
-                          'Puedes usar el prompt de ayuda con IA para generar el formato correcto.');
-        }
+        // NO validamos comillas - MS Forms y otros no las usan
+        // Los nombres pueden estar con o sin comillas
+        
+        console.log(`📄 Parseando CSV: ${lines.length} líneas totales, ${headers.length} columnas`);
+        console.log('📊 Headers:', headers);
         
         for (let i = 1; i < lines.length; i++) {
-            const values = this.parseCSVLine(lines[i]);
+            const line = lines[i].trim();
+            if (!line) continue; // Saltar líneas vacías
             
-            // Validar que la fila tenga el número correcto de columnas
-            if (values.length !== headers.length) {
-                console.warn(`Fila ${i} tiene ${values.length} columnas pero se esperan ${headers.length}. Saltando fila.`);
-                continue;
+            const values = this.parseCSVLine(line);
+            
+            // Ajustar número de columnas si es necesario
+            if (values.length < headers.length) {
+                // Rellenar con valores vacíos
+                console.warn(`⚠️ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), rellenando con vacíos`);
+                while (values.length < headers.length) {
+                    values.push('');
+                }
+            } else if (values.length > headers.length) {
+                // Truncar columnas extra
+                console.warn(`⚠️ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), truncando extras`);
+                values.length = headers.length;
             }
             
             const row = {};
@@ -289,23 +297,47 @@ const DataParser = {
         const longData = [];
         const headers = wideData.headers;
         const idColumn = headers[0];
+        let emptyValueCount = 0;
+        let validValueCount = 0;
 
-        wideData.rows.forEach(row => {
+        console.log(`🔄 Convirtiendo datos de formato ancho a largo...`);
+        console.log(`   Columna ID: "${idColumn}"`);
+        console.log(`   ${wideData.rows.length} filas × ${headers.length - 1} ítems = ${wideData.rows.length * (headers.length - 1)} registros esperados`);
+
+        wideData.rows.forEach((row, rowIndex) => {
             const respondentId = row[idColumn];
             
             for (let i = 1; i < headers.length; i++) {
                 const itemName = headers[i];
                 const value = row[itemName];
-                const numValue = parseInt(value, 10);
                 
-                longData.push({
-                    respondent: respondentId,
-                    item: itemName,
-                    value: numValue
-                });
+                // Manejar valores vacíos o inválidos
+                if (value === '' || value === null || value === undefined) {
+                    console.warn(`⚠️ Fila ${rowIndex + 1}, columna "${itemName}": valor vacío, usando null`);
+                    emptyValueCount++;
+                    longData.push({
+                        respondent: respondentId,
+                        item: itemName,
+                        value: null
+                    });
+                } else {
+                    const numValue = parseInt(value, 10);
+                    if (isNaN(numValue)) {
+                        console.warn(`⚠️ Fila ${rowIndex + 1}, columna "${itemName}": valor "${value}" no es numérico`);
+                        emptyValueCount++;
+                    } else {
+                        validValueCount++;
+                    }
+                    longData.push({
+                        respondent: respondentId,
+                        item: itemName,
+                        value: numValue
+                    });
+                }
             }
         });
 
+        console.log(`✅ Conversión completada: ${validValueCount} valores válidos, ${emptyValueCount} valores vacíos/inválidos`);
         return longData;
     },
 
@@ -313,20 +345,54 @@ const DataParser = {
         const minValue = 1;
         const maxValue = scaleConfig.points;
         const invalidValues = [];
+        const nullValues = [];
+        const outOfRangeValues = [];
+
+        console.log(`🔍 Validando ${longData.length} registros contra escala de ${minValue}-${maxValue}...`);
 
         longData.forEach(record => {
-            if (isNaN(record.value) || record.value < minValue || record.value > maxValue) {
-                invalidValues.push({
+            // Permitir valores null/vacíos (respuestas no contestadas)
+            if (record.value === null || isNaN(record.value)) {
+                nullValues.push({
                     item: record.item,
                     respondent: record.respondent,
                     value: record.value
                 });
+                // NO agregar a invalidValues - los null son válidos en encuestas
+            } else if (record.value < minValue || record.value > maxValue) {
+                outOfRangeValues.push({
+                    item: record.item,
+                    respondent: record.respondent,
+                    value: record.value
+                });
+                invalidValues.push({
+                    item: record.item,
+                    respondent: record.respondent,
+                    value: record.value,
+                    reason: `fuera de rango (${minValue}-${maxValue})`
+                });
             }
         });
 
+        if (nullValues.length > 0) {
+            console.warn(`ℹ️ ${nullValues.length} valores vacíos/no contestados (esto es normal en encuestas)`);
+        }
+        
+        if (outOfRangeValues.length > 0) {
+            console.warn(`❌ Validación falló: ${outOfRangeValues.length} valores fuera de rango`);
+            console.warn('Primeros 5 valores fuera de rango:', outOfRangeValues.slice(0, 5));
+        } else {
+            console.log(`✅ Validación exitosa: todos los valores numéricos están en rango ${minValue}-${maxValue}`);
+        }
+
         return {
-            valid: invalidValues.length === 0,
-            invalidValues: invalidValues
+            valid: invalidValues.length === 0, // Solo fallar si hay valores fuera de rango
+            invalidValues: invalidValues,
+            summary: {
+                total: longData.length,
+                nullValues: nullValues.length,
+                outOfRange: outOfRangeValues.length
+            }
         };
     }
 };
@@ -339,7 +405,29 @@ const DataTransformer = {
         const stats = {};
 
         items.forEach(item => {
-            const itemData = longData.filter(d => d.item === item).map(d => d.value);
+            // Filtrar datos por ítem y EXCLUIR valores null/NaN
+            const itemData = longData
+                .filter(d => d.item === item)
+                .map(d => d.value)
+                .filter(val => val !== null && !isNaN(val));
+            
+            // Si no hay datos válidos para este ítem, usar valores por defecto
+            if (itemData.length === 0) {
+                const maxScale = AppState.scaleConfig.points;
+                const frequencies = {};
+                for (let i = 1; i <= maxScale; i++) {
+                    frequencies[i] = 0;
+                }
+                
+                stats[item] = {
+                    mean: 0,
+                    median: 0,
+                    frequencies,
+                    total: 0,
+                    agreementPercent: 0
+                };
+                return;
+            }
             
             const mean = itemData.reduce((sum, val) => sum + val, 0) / itemData.length;
             
@@ -619,6 +707,22 @@ const UI = {
         this.populatePresetScales();
         this.populateColorSchemes();
         this.populateChartTypes();
+        this.loadGeminiApiKey();
+        this.refreshStorageDatasets();
+    },
+
+    /**
+     * Load saved Gemini API key from localStorage
+     */
+    loadGeminiApiKey() {
+        const savedKey = localStorage.getItem('gemini_api_key');
+        if (savedKey) {
+            AppState.geminiApiKey = savedKey;
+            const input = document.getElementById('gemini-api-key');
+            if (input) {
+                input.value = savedKey;
+            }
+        }
     },
 
     setupEventListeners() {
@@ -630,6 +734,16 @@ const UI = {
         // File upload
         document.getElementById('csv-file')?.addEventListener('change', (e) => {
             this.handleFileUpload(e.target.files[0]);
+        });
+
+        // AI Processing toggle
+        document.getElementById('enable-ai-processing')?.addEventListener('change', (e) => {
+            this.toggleAISettings(e.target.checked);
+        });
+
+        // Gemini API Key save
+        document.getElementById('gemini-api-key')?.addEventListener('blur', (e) => {
+            this.saveGeminiApiKey(e.target.value);
         });
 
         // Preset scale
@@ -647,6 +761,20 @@ const UI = {
             ChartRenderer.downloadChart();
         });
 
+        // Reset upload button
+        document.getElementById('reset-upload-btn')?.addEventListener('click', () => {
+            this.resetDataUpload();
+        });
+
+        // Global storage dataset controls
+        document.getElementById('refresh-storage-datasets')?.addEventListener('click', () => {
+            this.refreshStorageDatasets();
+        });
+
+        document.getElementById('load-storage-dataset')?.addEventListener('click', () => {
+            this.loadDatasetFromStorage();
+        });
+
         // Filter buttons
         document.getElementById('select-all-btn')?.addEventListener('click', () => {
             this.selectAllItems(true);
@@ -655,6 +783,135 @@ const UI = {
         document.getElementById('deselect-all-btn')?.addEventListener('click', () => {
             this.selectAllItems(false);
         });
+    },
+
+    getSharedDataApi() {
+        if (typeof window !== 'undefined' && window.RecuEduData) {
+            return window.RecuEduData;
+        }
+        return null;
+    },
+
+    refreshStorageDatasets() {
+        const select = document.getElementById('storage-dataset-select');
+        if (!select) return;
+
+        const dataApi = this.getSharedDataApi();
+        if (!dataApi || !dataApi.storage) {
+            select.innerHTML = '<option value="">Storage no disponible</option>';
+            return;
+        }
+
+        try {
+            const datasets = dataApi.storage.getDatasetsInfo();
+            select.innerHTML = '<option value="">Selecciona un dataset guardado...</option>';
+
+            if (!Array.isArray(datasets) || datasets.length === 0) {
+                select.innerHTML = '<option value="">No hay datasets guardados</option>';
+                return;
+            }
+
+            datasets.forEach(ds => {
+                const option = document.createElement('option');
+                option.value = ds.name;
+                option.textContent = `${ds.name} (${ds.rowCount || 0} filas)`;
+                select.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error al listar datasets del storage:', error);
+            select.innerHTML = '<option value="">Error al cargar datasets</option>';
+        }
+    },
+
+    loadDatasetFromStorage() {
+        const select = document.getElementById('storage-dataset-select');
+        if (!select || !select.value) {
+            alert('Selecciona un dataset guardado primero.');
+            return;
+        }
+
+        const dataApi = this.getSharedDataApi();
+        if (!dataApi || !dataApi.storage) {
+            alert('Storage global no disponible. Abre primero Data Processor para inicializar la biblioteca compartida.');
+            return;
+        }
+
+        try {
+            const dataset = dataApi.storage.loadDataset(select.value);
+            if (!dataset || !Array.isArray(dataset.data) || dataset.data.length === 0) {
+                alert('El dataset seleccionado está vacío o no es válido.');
+                return;
+            }
+
+            const autoProcess = document.getElementById('storage-auto-process')?.checked !== false;
+            let rows = dataset.data.map(row => ({ ...row }));
+
+            if (autoProcess) {
+                rows = dataApi.trimValues(rows);
+                const itemColumns = Object.keys(rows[0]).slice(1);
+                if (itemColumns.length > 0) {
+                    rows = dataApi.likertTextToNumber(rows, itemColumns);
+                }
+            }
+
+            const headers = Object.keys(rows[0]);
+            if (headers.length < 2) {
+                alert('El dataset necesita al menos 2 columnas (ID + ítems).');
+                return;
+            }
+
+            const idColumn = headers[0];
+            const normalizedRows = rows.map((row, index) => ({
+                ...row,
+                [idColumn]: row[idColumn] !== undefined && row[idColumn] !== null && row[idColumn] !== ''
+                    ? row[idColumn]
+                    : `R${index + 1}`
+            }));
+
+            const parsedData = {
+                headers,
+                rows: normalizedRows
+            };
+
+            this.applyParsedData(parsedData, `storage: ${select.value}`);
+        } catch (error) {
+            console.error('Error al cargar dataset desde storage:', error);
+            alert('No se pudo cargar el dataset guardado: ' + error.message);
+        }
+    },
+
+    applyParsedData(parsedData, sourceLabel = 'archivo') {
+        AppState.data = parsedData;
+        AppState.longData = DataParser.convertToLong(parsedData);
+
+        const numericValues = AppState.longData
+            .map(d => d.value)
+            .filter(v => v !== null && !isNaN(v));
+        if (numericValues.length > 0) {
+            const maxValue = Math.max(...numericValues);
+            if (maxValue >= 2 && maxValue <= 10 && maxValue !== AppState.scaleConfig.points) {
+                AppState.scaleConfig.points = maxValue;
+                AppState.scaleConfig.labels = Array.from({ length: maxValue }, (_, i) => `${i + 1}`);
+                const scaleInput = document.getElementById('scale-points');
+                if (scaleInput) scaleInput.value = maxValue;
+                this.updateScaleLabels();
+            }
+        }
+
+        const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
+        if (!validation.valid) {
+            alert(I18n.t('invalid_data') + '\n' + JSON.stringify(validation.invalidValues.slice(0, 20), null, 2));
+            return;
+        }
+
+        this.showDataPreview(parsedData);
+        this.populateItemFilter();
+        ChartRenderer.render();
+
+        const statusText = document.getElementById('status-text');
+        if (statusText) {
+            statusText.textContent = `Datos cargados (${sourceLabel})`;
+        }
     },
 
     setupReactiveControls() {
@@ -990,23 +1247,366 @@ const UI = {
     async handleFileUpload(file) {
         if (!file) return;
 
-        try {
-            const text = await file.text();
-            const parsedData = DataParser.parseCSV(text);
-            AppState.data = parsedData;
-            AppState.longData = DataParser.convertToLong(parsedData);
+        // Check if AI processing is enabled
+        const aiEnabled = document.getElementById('enable-ai-processing')?.checked;
+        if (aiEnabled) {
+            await this.processFileWithAI(file);
+            return;
+        }
 
+        // Traditional manual upload
+        try {
+            // Convert Excel to CSV if needed
+            let csvText;
+            if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                csvText = await this.convertExcelToCSV(file);
+            } else {
+                csvText = await file.text();
+            }
+            
+            const parsedData = DataParser.parseCSV(csvText);
+            this.applyParsedData(parsedData, 'archivo');
+        } catch (error) {
+            alert(I18n.t('error_loading_csv') + ': ' + error.message);
+        }
+    },
+
+    /**
+     * Toggle AI settings visibility
+     */
+    toggleAISettings(enabled) {
+        const aiSettings = document.getElementById('ai-settings');
+        if (aiSettings) {
+            aiSettings.classList.toggle('active', enabled);
+        }
+    },
+
+    /**
+     * Save Gemini API key to app state
+     */
+    saveGeminiApiKey(apiKey) {
+        AppState.geminiApiKey = apiKey.trim();
+        localStorage.setItem('gemini_api_key', apiKey.trim());
+        
+        const statusDiv = document.getElementById('ai-status');
+        if (statusDiv && apiKey.trim()) {
+            statusDiv.className = 'ai-status success';
+            statusDiv.textContent = '✓ API Key guardada';
+            setTimeout(() => {
+                statusDiv.className = 'ai-status';
+                statusDiv.textContent = '';
+            }, 3000);
+        }
+    },
+
+    /**
+     * Convert Excel file to CSV
+     */
+    async convertExcelToCSV(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                try {
+                    console.log(`📂 Convirtiendo Excel "${file.name}" a CSV...`);
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // Get first sheet
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    // Get range info
+                    const range = XLSX.utils.decode_range(worksheet['!ref']);
+                    const rowCount = range.e.r - range.s.r + 1;
+                    const colCount = range.e.c - range.s.c + 1;
+                    
+                    console.log(`   Hoja: "${firstSheetName}"`);
+                    console.log(`   Rango: ${worksheet['!ref']} (${rowCount} filas × ${colCount} columnas)`);
+                    console.log(`   Filas de datos: ${rowCount - 1} (excluyendo encabezado)`);
+                    
+                    // Convert to CSV
+                    const csv = XLSX.utils.sheet_to_csv(worksheet);
+                    const csvLines = csv.trim().split('\n');
+                    console.log(`✅ CSV generado: ${csvLines.length} líneas totales`);
+                    
+                    // Show first few lines
+                    console.log('Primeras 3 líneas del CSV:');
+                    console.log(csvLines.slice(0, 3).join('\n'));
+                    
+                    resolve(csv);
+                } catch (error) {
+                    console.error('❌ Error al convertir Excel:', error);
+                    reject(new Error('Error al convertir Excel a CSV: ' + error.message));
+                }
+            };
+            
+            reader.onerror = () => {
+                console.error('❌ Error al leer el archivo Excel');
+                reject(new Error('Error al leer el archivo Excel'));
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    },
+
+    /**
+     * Reset data upload and clear all state
+     */
+    resetDataUpload() {
+        // Clear file input
+        const fileInput = document.getElementById('csv-file');
+        if (fileInput) {
+            fileInput.value = '';
+        }
+
+        // Clear app state
+        AppState.data = null;
+        AppState.longData = null;
+        AppState.filteredItems.clear();
+
+        // Clear preview
+        const preview = document.getElementById('data-preview');
+        if (preview) {
+            preview.innerHTML = '<p class="text-muted">No hay datos cargados</p>';
+        }
+
+        // Clear filter container
+        const filterContainer = document.getElementById('item-filter-container');
+        if (filterContainer) {
+            filterContainer.innerHTML = '';
+        }
+
+        // Clear AI status
+        const statusDiv = document.getElementById('ai-status');
+        if (statusDiv) {
+            statusDiv.className = 'ai-status';
+            statusDiv.textContent = '';
+        }
+
+        // Clear chart
+        const canvas = document.getElementById('chart-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Show placeholder
+        document.querySelector('.chart-placeholder')?.classList.remove('hidden');
+        document.querySelector('.chart-wrapper')?.classList.add('hidden');
+
+        // Update status
+        const statusText = document.getElementById('status-text');
+        if (statusText) {
+            statusText.textContent = 'Sin datos';
+        }
+
+        console.log('✅ Carga de datos reiniciada');
+    },
+
+    /**
+     * Process file with Gemini AI
+     */
+    async processFileWithAI(file) {
+        const apiKey = document.getElementById('gemini-api-key')?.value.trim();
+        const sourceType = document.getElementById('data-source-type')?.value || 'other';
+        const model = document.getElementById('gemini-model')?.value || 'gemini-2.0-flash';
+        const statusDiv = document.getElementById('ai-status');
+
+        if (!apiKey) {
+            if (statusDiv) {
+                statusDiv.className = 'ai-status error';
+                statusDiv.textContent = I18n.t('ai_invalid_key');
+            }
+            return;
+        }
+
+        try {
+            // Show processing status
+            if (statusDiv) {
+                statusDiv.className = 'ai-status info';
+                statusDiv.innerHTML = `<div class="spinner"></div> ${I18n.t('processing_file')}`;
+            }
+
+            // Read file - convert Excel to CSV if needed
+            let csvContent;
+            console.log(`📝 Procesando archivo: ${file.name}`);
+            if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                csvContent = await this.convertExcelToCSV(file);
+            } else {
+                csvContent = await file.text();
+                const csvLines = csvContent.trim().split('\n');
+                console.log(`📝 Archivo CSV: ${csvLines.length} líneas totales`);
+            }
+
+            // Process with Gemini
+            console.log(`🤖 Enviando a Gemini AI (modelo: ${model})...`);
+            const processor = new GeminiProcessor(apiKey, model);
+            const result = await processor.processFile(csvContent, sourceType);
+
+            // Hide processing status
+            if (statusDiv) {
+                statusDiv.className = 'ai-status';
+                statusDiv.textContent = '';
+            }
+
+            // Show confirmation UI
+            const confirmUI = new GeminiConfirmationUI(
+                result,
+                (confirmedResult) => this.applyGeminiSuggestions(confirmedResult),
+                () => {
+                    // User cancelled
+                    if (statusDiv) {
+                        statusDiv.className = 'ai-status info';
+                        statusDiv.textContent = 'Procesamiento cancelado';
+                        setTimeout(() => {
+                            statusDiv.className = 'ai-status';
+                            statusDiv.textContent = '';
+                        }, 3000);
+                    }
+                }
+            );
+            confirmUI.show();
+
+        } catch (error) {
+            console.error('Error processing with AI:', error);
+            
+            // Clear file input to allow retry
+            const fileInput = document.getElementById('csv-file');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            
+            if (statusDiv) {
+                statusDiv.className = 'ai-status error';
+                
+                // Check if it's a quota error
+                if (error.message && error.message.includes('quota')) {
+                    statusDiv.innerHTML = `
+                        <strong>⚠️ Cuota de API excedida</strong><br>
+                        El modelo <code>${model}</code> ha alcanzado su límite.<br>
+                        <strong>Soluciones:</strong><br>
+                        • Espera unos minutos e intenta de nuevo<br>
+                        • Prueba con otro modelo (Gemini 3 Flash/Pro)<br>
+                        • Usa el modo de carga manual<br>
+                        • Revisa tu cuota en: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <strong>❌ ${I18n.t('ai_error')}</strong><br>
+                        ${error.message}<br>
+                        <small>Haz clic en "🔄 Reiniciar" para intentar de nuevo</small>
+                    `;
+                }
+            }
+        }
+    },
+
+    /**
+     * Apply Gemini suggestions to the app
+     */
+    async applyGeminiSuggestions(result) {
+        const statusDiv = document.getElementById('ai-status');
+
+        try {
+            // Get edited labels and column names from confirmation UI
+            const modal = document.querySelector('.gemini-modal');
+            let scaleLabels = result.suggestions.scaleLabels;
+            let columnNames = result.analysis.likertColumns || [];
+            
+            if (modal) {
+                const labelInputs = modal.querySelectorAll('.scale-label-input');
+                scaleLabels = Array.from(labelInputs).map(input => input.value.trim());
+                
+                const columnInputs = modal.querySelectorAll('.column-name-input');
+                if (columnInputs.length > 0) {
+                    columnNames = Array.from(columnInputs).map(input => input.value.trim());
+                }
+            }
+
+            // Apply column name changes to the CSV
+            let cleanedCSV = result.cleanedCSV;
+            if (columnNames.length > 0) {
+                const lines = cleanedCSV.split('\n');
+                const originalHeaders = lines[0].split(',');
+                const firstCol = originalHeaders[0]; // Keep first column (ID)
+                const newHeaders = [firstCol, ...columnNames];
+                lines[0] = newHeaders.join(',');
+                cleanedCSV = lines.join('\n');
+            }
+            
+            console.log('📊 Aplicando datos procesados por IA...');
+            console.log('Nombres de columnas:', columnNames);
+
+            // Parse the cleaned CSV
+            console.log('📋 CSV limpio a procesar:');
+            console.log(cleanedCSV.split('\n').slice(0, 3).join('\n') + '\n...');
+            
+            const parsedData = DataParser.parseCSV(cleanedCSV);
+            console.log(`✅ Datos parseados: ${parsedData.rows.length} filas, ${parsedData.headers.length} columnas`);
+
+            // Apply detected scale
+            const scalePoints = result.analysis.scaleDetected.points;
+            AppState.scaleConfig = {
+                type: 'custom',
+                points: scalePoints,
+                labels: scaleLabels
+            };
+
+            // Update UI controls
+            document.getElementById('scale-points').value = scalePoints;
+            document.getElementById('preset-scale').value = '';
+            
+            // Update scale labels in UI
+            this.updateScaleLabels();
+
+            // Aplicar datos después de configurar la escala detectada
+            this.applyParsedData(parsedData, 'gemini');
+
+            // Validate data
             const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
             if (!validation.valid) {
-                alert(I18n.t('invalid_data') + '\n' + JSON.stringify(validation.invalidValues, null, 2));
+                const errorMsg = `❌ DATOS INVÁLIDOS DETECTADOS\n\n` +
+                    `Total de registros: ${validation.summary.total}\n` +
+                    `Valores vacíos/no contestados: ${validation.summary.nullValues} (aceptables)\n` +
+                    `Valores fuera de rango (1-${scalePoints}): ${validation.summary.outOfRange} ⚠️\n\n` +
+                    `PROBLEMA:\n` +
+                    `Hay ${validation.summary.outOfRange} respuestas con valores fuera del rango 1-${scalePoints}\n\n` +
+                    `SOLUCIONES:\n` +
+                    `1. Revisa la consola (F12) para ver exactamente qué filas tienen problemas\n` +
+                    `2. Verifica que todas las respuestas estén entre 1 y ${scalePoints}\n` +
+                    `3. Corrige los valores en el archivo Excel original\n` +
+                    `4. Intenta cargar el archivo de nuevo\n\n` +
+                    `Primeros valores inválidos:\n` +
+                    JSON.stringify(validation.invalidValues.slice(0, 3), null, 2);
+                
+                if (statusDiv) {
+                    statusDiv.className = 'ai-status error';
+                    statusDiv.innerHTML = `<strong>❌ Error de validación</strong><br>` +
+                        `${validation.summary.outOfRange} valores fuera de rango (1-${scalePoints}).<br>` +
+                        `<small>Abre la consola (F12) para ver detalles exactos</small>`;
+                }
+                
+                alert(errorMsg);
+                console.error('Detalles completos de validación:', validation);
                 return;
             }
 
-            this.showDataPreview(parsedData);
-            this.populateItemFilter();
-            ChartRenderer.render();
+            // Show success message
+            if (statusDiv) {
+                statusDiv.className = 'ai-status success';
+                statusDiv.textContent = I18n.t('ai_applied_success');
+                setTimeout(() => {
+                    statusDiv.className = 'ai-status';
+                    statusDiv.textContent = '';
+                }, 5000);
+            }
+
         } catch (error) {
-            alert(I18n.t('error_loading_csv') + ': ' + error.message);
+            console.error('Error applying AI suggestions:', error);
+            if (statusDiv) {
+                statusDiv.className = 'ai-status error';
+                statusDiv.textContent = I18n.t('ai_error') + ': ' + error.message;
+            }
         }
     },
 
