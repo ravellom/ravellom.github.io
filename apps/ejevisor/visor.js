@@ -12,6 +12,54 @@ let state = {
 
 let ui = {}; // Se inicializa en DOMContentLoaded
 
+const SoundFX = {
+    ctx: null,
+    enabled: true,
+
+    getCtx() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return null;
+            this.ctx = new AudioCtx();
+        }
+        return this.ctx;
+    },
+
+    beep({ frequency = 440, type = 'sine', duration = 0.12, volume = 0.05, at = 0 }) {
+        if (!this.enabled) return;
+        const ctx = this.getCtx();
+        if (!ctx) return;
+
+        const when = ctx.currentTime + at;
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, when);
+
+        gain.gain.setValueAtTime(0.0001, when);
+        gain.gain.exponentialRampToValueAtTime(volume, when + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        oscillator.start(when);
+        oscillator.stop(when + duration + 0.02);
+    },
+
+    playSuccess() {
+        this.beep({ frequency: 523.25, type: 'triangle', duration: 0.1, volume: 0.04, at: 0.00 });
+        this.beep({ frequency: 659.25, type: 'triangle', duration: 0.12, volume: 0.05, at: 0.08 });
+        this.beep({ frequency: 783.99, type: 'triangle', duration: 0.14, volume: 0.05, at: 0.16 });
+    },
+
+    playError() {
+        this.beep({ frequency: 220, type: 'sawtooth', duration: 0.12, volume: 0.045, at: 0.00 });
+        this.beep({ frequency: 174.61, type: 'sawtooth', duration: 0.16, volume: 0.04, at: 0.08 });
+    }
+};
+
 // ===== CARGAR EJEMPLO =====
 async function loadExample() {
     try {
@@ -104,6 +152,81 @@ function updateHUD() {
     if (qDisplay) qDisplay.textContent = `Pregunta ${current}/${total}`;
 }
 
+function initializeExerciseInteractions(ex) {
+    if (ex.type === 'ordering') {
+        if (typeof Sortable !== 'undefined') {
+            new Sortable(document.getElementById('sortable-list'), { animation: 150, onEnd: enableCheck });
+        }
+        enableCheck(); 
+    } 
+    else if (ex.type === 'fill_gaps') {
+        const inputs = document.querySelectorAll('.cloze-input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const allFilled = Array.from(inputs).every(i => i.value.trim() !== '');
+                if (allFilled) enableCheck();
+            });
+        });
+    }
+    else if (ex.type === 'matching') {
+        if (typeof Sortable !== 'undefined') {
+            new Sortable(document.getElementById('matching-list'), { animation: 150, onEnd: enableCheck });
+        }
+        enableCheck();
+    }
+    else if (ex.type === 'grouping') {
+        if (typeof Sortable !== 'undefined') {
+            new Sortable(document.getElementById('pool-list'), { group: 'shared', animation: 150, onEnd: checkGroupingStatus });
+            
+            document.querySelectorAll('.bucket-dropzone').forEach(zone => {
+                new Sortable(zone, { group: 'shared', animation: 150, onEnd: checkGroupingStatus });
+            });
+        }
+    }
+    else if (ex.type === 'short_answer') {
+        const input = document.getElementById('short-answer-input');
+        if (input) {
+            input.addEventListener('input', () => {
+                state.currentAnswer = input.value.trim();
+                if (state.currentAnswer) enableCheck();
+            });
+        }
+    }
+    else if (ex.type === 'hotspot') {
+        document.querySelectorAll('.hotspot-zone').forEach(zone => {
+            zone.addEventListener('click', () => {
+                document.querySelectorAll('.hotspot-zone').forEach(z => z.classList.remove('selected'));
+                zone.classList.add('selected');
+                state.currentAnswer = zone.dataset.zoneId;
+                enableCheck();
+            });
+        });
+    }
+    else if (ex.type === 'slider') {
+        const slider = document.getElementById('slider-input');
+        const valueDisplay = document.getElementById('slider-value');
+        if (slider && valueDisplay) {
+            slider.addEventListener('input', () => {
+                const currentValue = slider.value;
+                valueDisplay.textContent = currentValue;
+                state.currentAnswer = Number(currentValue);
+                enableCheck();
+            });
+        }
+    }
+    
+    if (ex.type === 'multiple_choice') {
+        const options = document.querySelectorAll('.options-grid .option-btn');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                enableCheck();
+            });
+        });
+    }
+
+    if (ui.btnPrev) ui.btnPrev.disabled = state.currentIndex === 0;
+}
+
 // ===== RENDERIZADO DE EJERCICIOS =====
 
 function renderCurrentExercise() {
@@ -111,6 +234,12 @@ function renderCurrentExercise() {
     const ex = state.exercises[state.currentIndex];
     if (!ex) {
         ui.container.innerHTML = '<p style="text-align:center; color:#999;">No hay ejercicio para mostrar.</p>';
+        return;
+    }
+
+    if (window.RecuEduExerciseEngine && typeof window.RecuEduExerciseEngine.renderGameExercise === 'function') {
+        ui.container.innerHTML = window.RecuEduExerciseEngine.renderGameExercise(ex);
+        initializeExerciseInteractions(ex);
         return;
     }
     
@@ -251,83 +380,7 @@ function renderCurrentExercise() {
 
     ui.container.innerHTML = html;
 
-    // --- INICIALIZAR LIBRERÍAS (Post-Render) ---
-
-    if (ex.type === 'ordering') {
-        if (typeof Sortable !== 'undefined') {
-            new Sortable(document.getElementById('sortable-list'), { animation: 150, onEnd: enableCheck });
-        }
-        enableCheck(); 
-    } 
-    else if (ex.type === 'fill_gaps') {
-        const inputs = document.querySelectorAll('.cloze-input');
-        inputs.forEach(input => {
-            input.addEventListener('input', () => {
-                // Habilitar si al menos uno está completado
-                const allFilled = Array.from(inputs).every(i => i.value.trim() !== '');
-                if (allFilled) enableCheck();
-            });
-        });
-    }
-    else if (ex.type === 'matching') {
-        if (typeof Sortable !== 'undefined') {
-            new Sortable(document.getElementById('matching-list'), { animation: 150, onEnd: enableCheck });
-        }
-        enableCheck();
-    }
-    else if (ex.type === 'grouping') {
-        if (typeof Sortable !== 'undefined') {
-            new Sortable(document.getElementById('pool-list'), { group: 'shared', animation: 150, onEnd: checkGroupingStatus });
-            
-            document.querySelectorAll('.bucket-dropzone').forEach(zone => {
-                new Sortable(zone, { group: 'shared', animation: 150, onEnd: checkGroupingStatus });
-            });
-        }
-    }
-    else if (ex.type === 'short_answer') {
-        const input = document.getElementById('short-answer-input');
-        if (input) {
-            input.addEventListener('input', () => {
-                state.currentAnswer = input.value.trim();
-                if (state.currentAnswer) enableCheck();
-            });
-        }
-    }
-    else if (ex.type === 'hotspot') {
-        document.querySelectorAll('.hotspot-zone').forEach(zone => {
-            zone.addEventListener('click', () => {
-                document.querySelectorAll('.hotspot-zone').forEach(z => z.classList.remove('selected'));
-                zone.classList.add('selected');
-                state.currentAnswer = zone.dataset.zoneId;
-                enableCheck();
-            });
-        });
-    }
-    else if (ex.type === 'slider') {
-        const slider = document.getElementById('slider-input');
-        const valueDisplay = document.getElementById('slider-value');
-        if (slider && valueDisplay) {
-            slider.addEventListener('input', () => {
-                const currentValue = slider.value;
-                valueDisplay.textContent = currentValue;
-                state.currentAnswer = Number(currentValue);
-                enableCheck();
-            });
-        }
-    }
-    
-    // Para tipos múltiples choice que NO sean true_false
-    if (ex.type === 'multiple_choice') {
-        const options = document.querySelectorAll('.options-grid .option-btn');
-        options.forEach(opt => {
-            opt.addEventListener('click', () => {
-                enableCheck();
-            });
-        });
-    }
-
-    // Actualizar navegación
-    if (ui.btnPrev) ui.btnPrev.disabled = state.currentIndex === 0;
+    initializeExerciseInteractions(ex);
 }
 
 // LOGICA ESPECIFICA PARA HABILITAR BOTON EN GROUPING
@@ -541,6 +594,12 @@ function checkAnswer() {
 
 function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId) {
     if (!ui.modal) return;
+
+    if (isCorrect) {
+        SoundFX.playSuccess();
+    } else {
+        SoundFX.playError();
+    }
     
     // Actualizar puntuación si es la primera vez
     if (!alreadyGraded && isCorrect) {

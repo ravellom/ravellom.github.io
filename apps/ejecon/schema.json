@@ -44,7 +44,10 @@
               "fill_gaps",
               "ordering",
               "matching",
-              "grouping"
+              "grouping",
+              "short_answer",
+              "hotspot",
+              "slider"
             ]
           },
           "content": {
@@ -200,6 +203,67 @@
                       }
                     }
                   }
+                }
+              },
+              {
+                "title": "Short Answer",
+                "description": "Respuesta corta de texto libre",
+                "required": ["expected_answers"],
+                "properties": {
+                  "expected_answers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    },
+                    "examples": [["mitocondria", "la mitocondria"]]
+                  },
+                  "case_sensitive": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "max_length": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 120
+                  }
+                }
+              },
+              {
+                "title": "Hotspot",
+                "description": "Identificar zonas correctas sobre una imagen",
+                "required": ["image_url", "zones"],
+                "properties": {
+                  "image_url": {
+                    "type": "string",
+                    "description": "URL de imagen base"
+                  },
+                  "zones": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["x", "y", "width", "height", "is_correct"],
+                      "properties": {
+                        "x": { "type": "number", "minimum": 0, "maximum": 100 },
+                        "y": { "type": "number", "minimum": 0, "maximum": 100 },
+                        "width": { "type": "number", "minimum": 0, "maximum": 100 },
+                        "height": { "type": "number", "minimum": 0, "maximum": 100 },
+                        "is_correct": { "type": "boolean" }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "title": "Slider",
+                "description": "Respuesta numérica en rango con tolerancia",
+                "required": ["min", "max", "correct_value"],
+                "properties": {
+                  "min": { "type": "number" },
+                  "max": { "type": "number" },
+                  "correct_value": { "type": "number" },
+                  "tolerance": { "type": "number", "minimum": 0, "default": 5 }
                 }
               }
             ]

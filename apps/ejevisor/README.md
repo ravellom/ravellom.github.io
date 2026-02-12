@@ -24,10 +24,8 @@ Aplicación gamificada para visualizar y resolver ejercicios generados con **[Ej
 - ✅ **Matching** - Emparejar elementos (arrastrables)
 - ✅ **Grouping** - Clasificar en categorías (arrastrables)
 - ✅ **Short Answer** - Respuesta corta
-- ✅ **Essay** - Ensayo/redacción
 - ✅ **Hotspot** - Zonas clicables en imagen
 - ✅ **Slider** - Escala numérica
-- ✅ **Drawing** - Dibujo/anotación
 
 ---
 
@@ -150,7 +148,7 @@ EjeCon (Creación)          EjeVisor (Práctica)
 ### Compatibilidad Total
 - ✅ Misma estructura JSON
 - ✅ Mismo schema de validación
-- ✅ Mismos 11 tipos de ejercicios
+- ✅ Mismos 9 tipos de ejercicios activos en EjeCon
 - ✅ Mismo scaffolding DUA
 
 ---
@@ -178,8 +176,8 @@ Cada tipo de ejercicio tiene su propio renderizador:
 - `renderMatching()` con drag & drop
 - `renderGrouping()` con drop zones
 - `renderShortAnswer()`
-- `renderEssay()`
-- Y más...
+- `renderHotspot()`
+- `renderSlider()`
 
 ### Validadores
 - `checkMultipleChoice()` - Compara ID seleccionado
@@ -277,7 +275,7 @@ ejevisor/
 - ✅ Compatibilidad total con EjeCon
 - ✅ Corrección problema topbar
 - ✅ Botón "Cargar Ejemplo"
-- ✅ 11 tipos de ejercicios soportados
+- ✅ 9 tipos de ejercicios soportados
 - ✅ 3 temas visuales
 - ✅ Sistema de gamificación completo
 - ✅ Documentación completa

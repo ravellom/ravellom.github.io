@@ -47,7 +47,7 @@ Constructor visual de ejercicios interactivos con soporte para 9 tipos diferente
 2. Se abre un modal con el prompt completo
 3. El prompt incluye:
    - Instrucciones detalladas para la IA
-   - 11 ejemplos completos (uno por cada tipo)
+  - 9 ejemplos completos (uno por cada tipo)
    - Checklist de calidad
    - Estructura JSON requerida
 
@@ -169,7 +169,7 @@ Para personalizar el prompt maestro:
 ## 📚 Recursos Adicionales
 
 - **Schema JSON**: `schema.json` - Especificación completa
-- **Ejemplos**: Ver `prompt.md` para 11 ejemplos completos
+- **Ejemplos**: Ver `prompt.md` para 9 ejemplos completos
 - **RecuEdu Labs**: https://ravellom.github.io
 
 ## 🐛 Solución de Problemas

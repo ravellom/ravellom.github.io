@@ -1,5 +1,25 @@
 # 📝 Changelog - EjeCon
 
+## [1.1.1] - 2026-02-12
+
+### 🔄 Consolidación de Versión Activa
+- ✅ `index.html` ahora usa únicamente `app.js` como script principal
+- 🧹 Eliminado `app-new.js` por duplicidad exacta (mismo contenido que `app.js`)
+- 🧭 Se evita confusión entre versión activa y archivo alternativo
+
+### 🤝 Compatibilidad con EjeVisor
+- ✅ Alineado contrato JSON para los **9 tipos activos** de ejercicios
+- ✅ `schema.json` actualizado para incluir `short_answer`, `hotspot` y `slider`
+- ✅ Documentación sincronizada para mantener consistencia EjeCon ↔ EjeVisor
+
+### 🔧 Archivos Modificados
+- `index.html`: referencia final a `app.js`
+- `schema.json`: ampliación de enum y estructuras de interacción
+- `README.md`: ajuste de conteos de ejemplos y tipos
+- `CHANGELOG.md`: registro de consolidación
+
+---
+
 ## [1.1.0] - 2026-02-05
 
 ### 🛠️ Cambios Importantes
@@ -150,4 +170,4 @@ Este proyecto sigue [Semantic Versioning](https://semver.org/):
 
 **Mantenido por**: RecuEdu Labs  
 **Licencia**: Open Source Educativo  
-**Última actualización**: Febrero 5, 2026
+**Última actualización**: Febrero 12, 2026

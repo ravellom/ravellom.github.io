@@ -152,6 +152,10 @@ window.deleteExercise = (id) => {
 };
 
 window.generateStudentView = function(ex) {
+    if (window.RecuEduExerciseEngine && typeof window.RecuEduExerciseEngine.renderPreviewExercise === 'function') {
+        return window.RecuEduExerciseEngine.renderPreviewExercise(ex);
+    }
+
     let html = `
         <div style="font-family: 'Inter', Arial, sans-serif; max-width: 800px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; margin-bottom: 20px;">
