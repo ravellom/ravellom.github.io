@@ -426,6 +426,105 @@ select {
 .cloze-text {
     font-size: 1.3rem;
     line-height: 2.2;
+    background: rgba(255, 255, 255, 0.72);
+    border: 2px solid #dbeafe;
+    border-radius: 16px;
+    padding: 16px;
+    white-space: normal;
+}
+
+.cloze-bank-wrap {
+    margin-top: 16px;
+}
+
+.cloze-bank {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 14px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.cloze-token {
+    font-family: inherit;
+}
+
+.cloze-bank .cloze-token {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-weight: 700;
+    background: var(--bg-card);
+    color: var(--text-main);
+    cursor: grab;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-size: 1rem;
+    line-height: 1.2;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.cloze-bank .cloze-token:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.cloze-bank .cloze-token:active {
+    cursor: grabbing;
+}
+
+.cloze-bank .cloze-token.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25);
+}
+
+.cloze-drop {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 124px;
+    min-height: 44px;
+    padding: 2px 8px;
+    margin: 0 5px;
+    border: 2px dashed var(--primary);
+    vertical-align: middle;
+    border-radius: 10px;
+    background: rgba(224, 242, 254, 0.42);
+    transition: background 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.cloze-drop.drag-over {
+    background: rgba(14, 165, 233, 0.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25);
+}
+
+.cloze-drop.filled {
+    background: rgba(14, 165, 233, 0.08);
+    border-style: solid;
+}
+
+.cloze-drop .cloze-token {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 0 2px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--primary-dark);
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.cloze-drop-placeholder {
+    color: var(--text-light);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    opacity: 0.75;
 }
 
 .cloze-input {
@@ -456,14 +555,28 @@ select {
     border-radius: 12px;
     border: 2px solid #e2e8f0;
     display: flex;
-    align-items: center;
-    gap: 15px;
+    align-items: flex-start;
+    gap: 12px;
     cursor: grab;
     font-weight: 700;
     color: var(--text-main);
+    line-height: 1.35;
 }
 .sortable-item:active { cursor: grabbing; border-color: var(--primary); background: #f0f9ff; }
-.sortable-item i { color: var(--text-light); font-size: 1.5rem; }
+
+.sortable-handle {
+    color: var(--text-light);
+    font-size: 1.35rem;
+    line-height: 1;
+    margin-top: 2px;
+    flex: 0 0 auto;
+}
+
+.sortable-label {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
 
 /* TIPO 5: MATCHING (RELACIONAR) */
 .matching-grid {

@@ -10,6 +10,98 @@
             .replace(/'/g, '&#39;');
     }
 
+    function escapeHtmlWithLineBreaks(value) {
+        return escapeHtml(value).replace(/\r?\n/g, '<br>');
+    }
+
+    function buildFillGapsModel(templateSource, correctAnswers) {
+        const safeTemplate = String(templateSource || '');
+        const answers = Array.isArray(correctAnswers) ? correctAnswers : [];
+        const parts = safeTemplate.split(/(\[[^\]]+\]|\{_+\}|_{3,})/g);
+        let answerIndex = 0;
+        const segments = [];
+        const usedAnswers = [];
+
+        parts.forEach(part => {
+            if (!part) {
+                return;
+            }
+
+            if (part.startsWith('[') && part.endsWith(']')) {
+                const answerRaw = part.slice(1, -1);
+                segments.push({ type: 'gap', answer: answerRaw });
+                usedAnswers.push(answerRaw);
+                return;
+            }
+
+            if (/^\{_+\}$/.test(part) || /^_{3,}$/.test(part)) {
+                const answerRaw = String(answers[answerIndex] ?? '');
+                answerIndex += 1;
+                segments.push({ type: 'gap', answer: answerRaw });
+                usedAnswers.push(answerRaw);
+                return;
+            }
+
+            segments.push({ type: 'text', value: part });
+        });
+
+        const hasAtLeastOneGap = segments.some(segment => segment.type === 'gap');
+        if (!hasAtLeastOneGap && answers.length > 0) {
+            if (segments.length > 0) {
+                segments.push({ type: 'text', value: '\n' });
+            }
+            answers.forEach(answer => {
+                const normalized = String(answer ?? '').trim();
+                if (!normalized) return;
+                segments.push({ type: 'gap', answer: normalized });
+                usedAnswers.push(normalized);
+                segments.push({ type: 'text', value: ' ' });
+            });
+        }
+
+        return {
+            segments,
+            usedAnswers: usedAnswers.map(item => String(item ?? '').trim()).filter(Boolean)
+        };
+    }
+
+    function buildFillGapsWordBank(usedAnswers, distractors) {
+        const base = Array.isArray(usedAnswers) ? usedAnswers : [];
+        const extras = Array.isArray(distractors) ? distractors : [];
+        return shuffleArray(
+            [...base, ...extras]
+                .map(item => String(item ?? '').trim())
+                .filter(Boolean)
+        );
+    }
+
+    function renderFillGapsGameMarkup(templateSource, correctAnswers, distractors) {
+        const model = buildFillGapsModel(templateSource, correctAnswers);
+        const bankWords = buildFillGapsWordBank(model.usedAnswers, distractors);
+        let gapIndex = 0;
+
+        const renderedTemplate = model.segments.map(segment => {
+            if (segment.type === 'text') {
+                return escapeHtmlWithLineBreaks(segment.value);
+            }
+
+            const answerEncoded = encodeURIComponent(String(segment.answer || ''));
+            const currentIndex = gapIndex;
+            gapIndex += 1;
+            return `<span class="cloze-drop" style="display:inline-flex; align-items:center; justify-content:center; min-width:124px; min-height:44px; padding:2px 8px; margin:0 5px; border:2px dashed var(--primary); border-radius:10px; background:rgba(224,242,254,0.42); vertical-align:middle;" data-gap-index="${currentIndex}" data-ans-encoded="${answerEncoded}"><span class="cloze-drop-placeholder" style="color:var(--text-light); font-weight:700; letter-spacing:0.8px; opacity:0.75;">______</span></span>`;
+        }).join('');
+
+        const bankHtml = bankWords.length > 0
+            ? `<div class="cloze-bank-wrap" style="margin-top:16px;"><p class="helper" style="margin-top:12px; margin-bottom:8px;">Arrastra cada palabra al espacio correcto.</p><div class="cloze-bank" id="cloze-bank" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:64px; padding:14px; border:2px dashed #cbd5e1; border-radius:16px; background:rgba(255,255,255,0.82);">${bankWords.map((word, index) => `<button type="button" class="cloze-token" style="font-family:inherit; border:1px solid #cbd5e1; border-radius:999px; padding:8px 16px; font-weight:700; background:var(--bg-card); color:var(--text-main); cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.08); font-size:1rem; line-height:1.2;" draggable="true" data-token-id="${index}" data-token-text-encoded="${encodeURIComponent(word)}">${escapeHtml(word)}</button>`).join('')}</div></div>`
+            : '';
+
+        return {
+            templateHtml: renderedTemplate,
+            bankHtml,
+            usedAnswers: model.usedAnswers
+        };
+    }
+
     function shuffleArray(items) {
         const array = Array.isArray(items) ? [...items] : [];
         for (let index = array.length - 1; index > 0; index -= 1) {
@@ -17,6 +109,56 @@
             [array[index], array[randomIndex]] = [array[randomIndex], array[index]];
         }
         return array;
+    }
+
+    function resolveOrderingSequence(interaction) {
+        const source = interaction && typeof interaction === 'object' ? interaction : {};
+
+        const normalizeEntries = (value) => {
+            if (!Array.isArray(value)) {
+                return [];
+            }
+
+            return value
+                .map((item, index) => {
+                    if (typeof item === 'string') {
+                        const text = item.trim();
+                        return text ? { text, order: index + 1 } : null;
+                    }
+                    if (!item || typeof item !== 'object') {
+                        return null;
+                    }
+                    const text = String(item.text ?? item.label ?? item.value ?? '').trim();
+                    if (!text) {
+                        return null;
+                    }
+                    const orderRaw = Number(item.order ?? item.position ?? item.index);
+                    return {
+                        text,
+                        order: Number.isFinite(orderRaw) && orderRaw > 0 ? orderRaw : index + 1
+                    };
+                })
+                .filter(Boolean)
+                .sort((left, right) => left.order - right.order)
+                .map((item, index) => ({ text: item.text, order: index + 1 }));
+        };
+
+        const candidates = [
+            source.sequence,
+            source.steps,
+            source.items,
+            source.lines,
+            source.correct_order
+        ];
+
+        for (const candidate of candidates) {
+            const normalized = normalizeEntries(candidate);
+            if (normalized.length > 0) {
+                return normalized;
+            }
+        }
+
+        return [];
     }
 
     function renderGameExercise(exercise) {
@@ -27,7 +169,7 @@
         const content = exercise.content || {};
         const interaction = exercise.interaction || {};
 
-        let html = `<div class="question-text">${escapeHtml(content.prompt_text || '')}</div>`;
+        let html = `<div class="question-text">${escapeHtmlWithLineBreaks(content.prompt_text || '')}</div>`;
 
         if (content.media && content.media.url) {
             html += `<img src="${escapeHtml(content.media.url)}" style="max-width:100%; border-radius:12px; margin-bottom:20px;">`;
@@ -40,21 +182,15 @@
                 return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}" onclick="selectOption(this.dataset.optionId, this)">${escapeHtml(opt.text || '')}</button>`;
             }).join('')}</div>`;
         } else if (exercise.type === 'fill_gaps') {
-            const template = String(interaction.template || '');
-            const parts = template.split(/(\[.*?\])/);
-            html += `<div class="cloze-text">${parts.map(part => {
-                if (part.startsWith('[') && part.endsWith(']')) {
-                    const answerRaw = part.slice(1, -1);
-                    const answerEncoded = encodeURIComponent(answerRaw);
-                    return `<input type="text" class="cloze-input" data-ans-encoded="${answerEncoded}" oninput="enableCheck()">`;
-                }
-                return escapeHtml(part);
-            }).join('')}</div>`;
+            const template = String(interaction.template || content.prompt_text || '');
+            const fillGapsMarkup = renderFillGapsGameMarkup(template, interaction.correct_answers, interaction.distractors);
+            html += `<div class="cloze-text">${fillGapsMarkup.templateHtml}</div>${fillGapsMarkup.bankHtml}`;
         } else if (exercise.type === 'ordering') {
-            const sequence = shuffleArray(Array.isArray(interaction.sequence) ? interaction.sequence : []);
+            const sequence = shuffleArray(resolveOrderingSequence(interaction));
             html += `<ul id="sortable-list" class="sortable-list">${sequence.map(item => `
                 <li class="sortable-item" data-id="${Number(item.order) || 0}">
-                    <i class="ph ph-dots-six-vertical"></i> ${escapeHtml(item.text || '')}
+                    <span class="sortable-handle" aria-hidden="true"><i class="ph ph-dots-six-vertical"></i></span>
+                    <span class="sortable-label">${escapeHtml(item.text || '')}</span>
                 </li>
             `).join('')}</ul>`;
         } else if (exercise.type === 'matching') {
@@ -153,7 +289,7 @@
         let html = `
             <div style="font-family: 'Inter', Arial, sans-serif; max-width: 800px; margin: 0 auto;">
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; margin-bottom: 20px;">
-                    <h4 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${escapeHtml(exercise.content?.prompt_text || 'Sin enunciado')}</h4>
+                    <h4 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${escapeHtmlWithLineBreaks(exercise.content?.prompt_text || 'Sin enunciado')}</h4>
                 </div>
         `;
 
@@ -189,22 +325,28 @@
             html += '</div>';
         } else if (exercise.type === 'fill_gaps') {
             const template = String(interaction.template || 'Plantilla no disponible');
-            const renderedTemplate = escapeHtml(template).replace(/\[([^\]]+)\]/g, '<input type="text" placeholder="..." style="border: none; border-bottom: 2px solid #667eea; padding: 5px 10px; margin: 0 5px; font-weight: 500; min-width: 100px; background: #f0f4ff;">');
+            const fillGapsMarkup = renderFillGapsGameMarkup(template, interaction.correct_answers, interaction.distractors);
+            const renderedTemplate = fillGapsMarkup.templateHtml
+                .replace(/class="cloze-drop"[^>]*>/g, 'style="display:inline-flex; align-items:center; justify-content:center; min-width:100px; border-bottom:2px solid #667eea; margin:0 5px;">')
+                .replace(/<span class="cloze-drop-placeholder">______<\/span>/g, '______')
+                .replace(/<button type="button" class="cloze-token"[^>]*>/g, '<span style="background:white; padding:8px 15px; border-radius:20px; border:1px solid #ffc107; font-weight:500; display:inline-block;">')
+                .replace(/<\/button>/g, '</span>');
             html += '<div style="padding: 20px;">';
             html += '<p style="font-weight: 500; margin-bottom: 15px; color: #555;">Completa los espacios en blanco:</p>';
             html += `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; line-height: 2; font-size: 1.05rem;">${renderedTemplate}</div>`;
-            const distractors = Array.isArray(interaction.distractors) ? interaction.distractors : [];
-            if (distractors.length > 0) {
+            const previewWords = buildFillGapsWordBank(fillGapsMarkup.usedAnswers, interaction.distractors);
+            if (previewWords.length > 0) {
                 html += '<div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">';
                 html += '<p style="font-weight: 500; margin-bottom: 10px; color: #856404;">💡 Palabras disponibles:</p>';
-                html += `<div style="display: flex; flex-wrap: wrap; gap: 10px;">${distractors.map(word => `<span style="background: white; padding: 8px 15px; border-radius: 20px; border: 1px solid #ffc107; font-weight: 500;">${escapeHtml(word)}</span>`).join('')}</div>`;
+                html += `<div style="display: flex; flex-wrap: wrap; gap: 10px;">${previewWords.map(word => `<span style="background: white; padding: 8px 15px; border-radius: 20px; border: 1px solid #ffc107; font-weight: 500;">${escapeHtml(word)}</span>`).join('')}</div>`;
                 html += '</div>';
             }
             html += '</div>';
         } else if (exercise.type === 'ordering') {
-            const sequence = [...(Array.isArray(interaction.sequence) ? interaction.sequence : [])].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+            const sequence = resolveOrderingSequence(interaction);
             html += '<div style="padding: 20px;">';
             html += '<p style="font-weight: 500; margin-bottom: 15px; color: #555;">Ordena los elementos en la secuencia correcta:</p>';
+            html += `${sequence.length === 0 ? '<p style="color:#999;">No hay pasos definidos para este ejercicio.</p>' : ''}`;
             html += `<div style="display: flex; flex-direction: column; gap: 10px;">${sequence.map(item => `
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea; display: flex; align-items: center; gap: 15px;">
                     <span style="background: #667eea; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem;">

@@ -103,8 +103,20 @@ export default {
         template: 'Plantilla (con [respuestas])',
         distractors: 'Distractores (separados por ;)',
         expectedAnswers: 'Respuestas esperadas (separadas por ;)',
+        orderingStepText: 'Texto del paso',
+        addOrderingStep: 'Agregar paso',
+        fillGapsMapTitle: 'Clave de corrección (orden de huecos)',
+        fillGapsGapLabel: 'Hueco',
+        fillGapsMissing: '(sin definir)',
+        fillGapsNoMap: 'No se detectaron huecos. Usa [respuesta] o {___}, o completa Respuestas esperadas.',
         interactionJson: 'Interacción (JSON editable)',
         previous: 'Anterior',
-        next: 'Siguiente'
+        next: 'Siguiente',
+        reviewed: 'Revisado',
+        pendingReview: 'Pendiente',
+        markReviewed: 'Marcar revisado',
+        markPending: 'Marcar pendiente',
+        deleteExercise: 'Eliminar',
+        deleteConfirm: '¿Seguro que deseas eliminar este ejercicio? Esta acción no se puede deshacer.'
     }
 };

@@ -103,8 +103,20 @@ export default {
         template: 'Template (with [answers])',
         distractors: 'Distractors (separated by ;)',
         expectedAnswers: 'Expected answers (separated by ;)',
+        orderingStepText: 'Step text',
+        addOrderingStep: 'Add step',
+        fillGapsMapTitle: 'Answer key (gap order)',
+        fillGapsGapLabel: 'Gap',
+        fillGapsMissing: '(not defined)',
+        fillGapsNoMap: 'No gaps detected. Use [answer] or {___}, or fill Expected answers.',
         interactionJson: 'Interaction (editable JSON)',
         previous: 'Previous',
-        next: 'Next'
+        next: 'Next',
+        reviewed: 'Reviewed',
+        pendingReview: 'Pending',
+        markReviewed: 'Mark reviewed',
+        markPending: 'Mark pending',
+        deleteExercise: 'Delete',
+        deleteConfirm: 'Are you sure you want to delete this exercise? This action cannot be undone.'
     }
 };

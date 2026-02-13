@@ -60,6 +60,62 @@ const SoundFX = {
     }
 };
 
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function resolveOrderingSequence(interaction) {
+    const source = interaction && typeof interaction === 'object' ? interaction : {};
+
+    const normalizeEntries = (value) => {
+        if (!Array.isArray(value)) return [];
+        return value
+            .map((item, index) => {
+                if (typeof item === 'string') {
+                    const text = item.trim();
+                    return text ? { text, order: index + 1 } : null;
+                }
+                if (!item || typeof item !== 'object') {
+                    return null;
+                }
+                const text = String(item.text ?? item.label ?? item.value ?? '').trim();
+                if (!text) {
+                    return null;
+                }
+                const rawOrder = Number(item.order ?? item.position ?? item.index);
+                return {
+                    text,
+                    order: Number.isFinite(rawOrder) && rawOrder > 0 ? rawOrder : index + 1
+                };
+            })
+            .filter(Boolean)
+            .sort((left, right) => left.order - right.order)
+            .map((item, index) => ({ ...item, order: index + 1 }));
+    };
+
+    const candidates = [
+        source.sequence,
+        source.steps,
+        source.items,
+        source.lines,
+        source.correct_order
+    ];
+
+    for (const candidate of candidates) {
+        const normalized = normalizeEntries(candidate);
+        if (normalized.length > 0) {
+            return normalized;
+        }
+    }
+
+    return [];
+}
+
 // ===== CARGAR EJEMPLO =====
 async function loadExample() {
     try {
@@ -163,13 +219,117 @@ function initializeExerciseInteractions(ex) {
         enableCheck(); 
     } 
     else if (ex.type === 'fill_gaps') {
-        const inputs = document.querySelectorAll('.cloze-input');
-        inputs.forEach(input => {
-            input.addEventListener('input', () => {
-                const allFilled = Array.from(inputs).every(i => i.value.trim() !== '');
+        const drops = Array.from(document.querySelectorAll('.cloze-drop'));
+        const bank = document.getElementById('cloze-bank');
+
+        if (drops.length > 0 && bank) {
+            let selectedToken = null;
+
+            const setSelectedToken = (token) => {
+                document.querySelectorAll('.cloze-token').forEach(item => item.classList.remove('selected'));
+                selectedToken = token;
+                if (selectedToken) selectedToken.classList.add('selected');
+            };
+
+            const ensurePlaceholder = (dropZone) => {
+                if (!dropZone.querySelector('.cloze-token')) {
+                    dropZone.innerHTML = '<span class="cloze-drop-placeholder">______</span>';
+                    dropZone.classList.remove('filled');
+                    delete dropZone.dataset.userValueEncoded;
+                }
+            };
+
+            const updateFillGapsCheckState = () => {
+                const allFilled = drops.every(zone => !!zone.querySelector('.cloze-token'));
                 if (allFilled) enableCheck();
+            };
+
+            const attachTokenEvents = (token) => {
+                token.addEventListener('dragstart', (event) => {
+                    event.dataTransfer.setData('text/plain', token.dataset.tokenId || '');
+                    event.dataTransfer.effectAllowed = 'move';
+                    setSelectedToken(token);
+                });
+
+                token.addEventListener('click', () => {
+                    setSelectedToken(token === selectedToken ? null : token);
+                });
+            };
+
+            const moveTokenToDrop = (token, dropZone) => {
+                const previousParent = token.parentElement;
+                if (previousParent && previousParent.classList.contains('cloze-drop')) {
+                    ensurePlaceholder(previousParent);
+                }
+
+                const existingToken = dropZone.querySelector('.cloze-token');
+                if (existingToken && existingToken !== token) {
+                    bank.appendChild(existingToken);
+                }
+
+                dropZone.innerHTML = '';
+                dropZone.appendChild(token);
+                dropZone.classList.add('filled');
+                dropZone.dataset.userValueEncoded = token.dataset.tokenTextEncoded || '';
+                setSelectedToken(null);
+                updateFillGapsCheckState();
+            };
+
+            const sendTokenToBank = (token) => {
+                const previousParent = token.parentElement;
+                if (previousParent && previousParent.classList.contains('cloze-drop')) {
+                    ensurePlaceholder(previousParent);
+                }
+                bank.appendChild(token);
+                setSelectedToken(null);
+            };
+
+            Array.from(document.querySelectorAll('.cloze-token')).forEach(attachTokenEvents);
+
+            drops.forEach(dropZone => {
+                dropZone.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    dropZone.classList.add('drag-over');
+                });
+
+                dropZone.addEventListener('dragleave', () => {
+                    dropZone.classList.remove('drag-over');
+                });
+
+                dropZone.addEventListener('drop', (event) => {
+                    event.preventDefault();
+                    dropZone.classList.remove('drag-over');
+                    const tokenId = event.dataTransfer.getData('text/plain');
+                    const token = document.querySelector(`.cloze-token[data-token-id="${tokenId}"]`);
+                    if (token) moveTokenToDrop(token, dropZone);
+                });
+
+                dropZone.addEventListener('click', () => {
+                    if (selectedToken) moveTokenToDrop(selectedToken, dropZone);
+                });
             });
-        });
+
+            bank.addEventListener('dragover', (event) => {
+                event.preventDefault();
+            });
+
+            bank.addEventListener('drop', (event) => {
+                event.preventDefault();
+                const tokenId = event.dataTransfer.getData('text/plain');
+                const token = document.querySelector(`.cloze-token[data-token-id="${tokenId}"]`);
+                if (token) sendTokenToBank(token);
+            });
+
+            updateFillGapsCheckState();
+        } else {
+            const inputs = document.querySelectorAll('.cloze-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    const allFilled = Array.from(inputs).every(i => i.value.trim() !== '');
+                    if (allFilled) enableCheck();
+                });
+            });
+        }
     }
     else if (ex.type === 'matching') {
         if (typeof Sortable !== 'undefined') {
@@ -271,25 +431,70 @@ function renderCurrentExercise() {
     
     // 3. FILL GAPS
     else if (ex.type === 'fill_gaps') {
-        const parts = ex.interaction.template.split(/(\[.*?\])/);
+        const templateSource = String(ex.interaction.template || ex.content?.prompt_text || '');
+        const correctAnswers = Array.isArray(ex.interaction.correct_answers) ? ex.interaction.correct_answers : [];
+        const distractors = Array.isArray(ex.interaction.distractors) ? ex.interaction.distractors : [];
+        const parts = templateSource.split(/(\[[^\]]+\]|\{_+\}|_{3,})/g);
+        const wordsPool = [];
+        let answerIndex = 0;
+        let gapIndex = 0;
+        let foundGap = false;
+
         html += `<div class="cloze-text">
             ${parts.map(part => {
                 if (part.startsWith('[') && part.endsWith(']')) {
                     const ans = part.slice(1, -1);
-                    return `<input type="text" class="cloze-input" data-ans="${ans}" oninput="enableCheck()">`;
+                    const ansEncoded = encodeURIComponent(ans);
+                    wordsPool.push(ans);
+                    const slot = `<span class="cloze-drop" style="display:inline-flex; align-items:center; justify-content:center; min-width:124px; min-height:44px; padding:2px 8px; margin:0 5px; border:2px dashed var(--primary); border-radius:10px; background:rgba(224,242,254,0.42); vertical-align:middle;" data-gap-index="${gapIndex}" data-ans-encoded="${ansEncoded}"><span class="cloze-drop-placeholder" style="color:var(--text-light); font-weight:700; letter-spacing:0.8px; opacity:0.75;">______</span></span>`;
+                    foundGap = true;
+                    gapIndex += 1;
+                    return slot;
+                }
+                if (/^\{_+\}$/.test(part) || /^_{3,}$/.test(part)) {
+                    const ans = String(correctAnswers[answerIndex] ?? '');
+                    answerIndex += 1;
+                    const ansEncoded = encodeURIComponent(ans);
+                    if (ans) wordsPool.push(ans);
+                    const slot = `<span class="cloze-drop" style="display:inline-flex; align-items:center; justify-content:center; min-width:124px; min-height:44px; padding:2px 8px; margin:0 5px; border:2px dashed var(--primary); border-radius:10px; background:rgba(224,242,254,0.42); vertical-align:middle;" data-gap-index="${gapIndex}" data-ans-encoded="${ansEncoded}"><span class="cloze-drop-placeholder" style="color:var(--text-light); font-weight:700; letter-spacing:0.8px; opacity:0.75;">______</span></span>`;
+                    foundGap = true;
+                    gapIndex += 1;
+                    return slot;
                 }
                 return part;
             }).join('')}
         </div>`;
+
+        if (!foundGap && correctAnswers.length > 0) {
+            html += `<div class="cloze-text" style="margin-top:8px;">${correctAnswers.map((ans) => {
+                const ansEncoded = encodeURIComponent(String(ans || '').trim());
+                return `<span class="cloze-drop" style="display:inline-flex; align-items:center; justify-content:center; min-width:124px; min-height:44px; padding:2px 8px; margin:0 5px; border:2px dashed var(--primary); border-radius:10px; background:rgba(224,242,254,0.42); vertical-align:middle;" data-gap-index="${gapIndex++}" data-ans-encoded="${ansEncoded}"><span class="cloze-drop-placeholder" style="color:var(--text-light); font-weight:700; letter-spacing:0.8px; opacity:0.75;">______</span></span>`;
+            }).join('')}</div>`;
+            wordsPool.push(...correctAnswers);
+        }
+
+        const bankWords = [...wordsPool, ...distractors]
+            .map(word => String(word || '').trim())
+            .filter(Boolean)
+            .sort(() => Math.random() - 0.5);
+
+        if (bankWords.length > 0) {
+            html += `<div class="cloze-bank-wrap" style="margin-top:16px;"><p class="helper">Arrastra cada palabra al espacio correcto.</p><div id="cloze-bank" class="cloze-bank" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:64px; padding:14px; border:2px dashed #cbd5e1; border-radius:16px; background:rgba(255,255,255,0.82);">${bankWords.map((word, index) => `<button type="button" class="cloze-token" style="font-family:inherit; border:1px solid #cbd5e1; border-radius:999px; padding:8px 16px; font-weight:700; background:var(--bg-card); color:var(--text-main); cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.08); font-size:1rem; line-height:1.2;" draggable="true" data-token-id="${index}" data-token-text-encoded="${encodeURIComponent(word)}">${word}</button>`).join('')}</div></div>`;
+        }
     }
 
     // 4. ORDERING
     else if (ex.type === 'ordering') {
-        const shuffled = [...ex.interaction.sequence].sort(() => Math.random() - 0.5);
+        const orderingSequence = resolveOrderingSequence(ex.interaction);
+        const shuffled = [...orderingSequence].sort(() => Math.random() - 0.5);
+        if (shuffled.length === 0) {
+            html += `<p class="helper">No hay pasos definidos para ordenar en este ejercicio.</p>`;
+        }
         html += `<ul id="sortable-list" class="sortable-list">
             ${shuffled.map(item => `
                 <li class="sortable-item" data-id="${item.order}">
-                    <i class="ph ph-dots-six-vertical"></i> ${item.text}
+                    <span class="sortable-handle" aria-hidden="true"><i class="ph ph-dots-six-vertical"></i></span>
+                    <span class="sortable-label">${item.text}</span>
                 </li>
             `).join('')}
         </ul>`;
@@ -521,6 +726,7 @@ function checkAnswer() {
     
     let isCorrect = false;
     let msg = '';
+    let extraFeedbackHtml = '';
     const alreadyGraded = state.graded[ex.id] || false;
     
     // LÓGICA DE VALIDACIÓN
@@ -539,14 +745,59 @@ function checkAnswer() {
         if (!opt) msg = "Elige una opción";
     } 
     else if (ex.type === 'fill_gaps') {
-        const inputs = document.querySelectorAll('.cloze-input');
-        isCorrect = Array.from(inputs).every(i => {
-            const rawExpected = i.dataset.ansEncoded
-                ? decodeURIComponent(i.dataset.ansEncoded)
-                : (i.dataset.ans || '');
-            return i.value.trim().toLowerCase() === String(rawExpected).trim().toLowerCase();
-        });
+        const drops = Array.from(document.querySelectorAll('.cloze-drop'));
+        const expectedByGap = [];
+        if (drops.length > 0) {
+            const allFilled = drops.every(zone => String(zone.dataset.userValueEncoded || '').trim() !== '');
+            if (!allFilled) {
+                alert('Completa todos los espacios antes de comprobar');
+                return;
+            }
+
+            drops.forEach((zone) => {
+                expectedByGap.push(decodeURIComponent(zone.dataset.ansEncoded || '').trim());
+            });
+
+            isCorrect = drops.every(zone => {
+                const expectedValue = decodeURIComponent(zone.dataset.ansEncoded || '').trim();
+                const userValue = decodeURIComponent(zone.dataset.userValueEncoded || '').trim();
+                if (!expectedValue) {
+                    return userValue.length > 0;
+                }
+                return userValue.toLowerCase() === expectedValue.toLowerCase();
+            });
+        } else {
+            const inputs = document.querySelectorAll('.cloze-input');
+            if (inputs.length === 0) {
+                alert('No se encontraron espacios para completar');
+                return;
+            }
+            Array.from(inputs).forEach((input) => {
+                const expectedRaw = input.dataset.ansEncoded
+                    ? decodeURIComponent(input.dataset.ansEncoded)
+                    : (input.dataset.ans || '');
+                expectedByGap.push(String(expectedRaw).trim());
+            });
+            isCorrect = Array.from(inputs).every(i => {
+                const rawExpected = i.dataset.ansEncoded
+                    ? decodeURIComponent(i.dataset.ansEncoded)
+                    : (i.dataset.ans || '');
+                const userValue = i.value.trim();
+                const expectedValue = String(rawExpected).trim();
+                if (!expectedValue) {
+                    return userValue.length > 0;
+                }
+                return userValue.toLowerCase() === expectedValue.toLowerCase();
+            });
+        }
         msg = isCorrect ? "¡Bien completado!" : "Hay errores en las palabras";
+
+        if (!isCorrect) {
+            const solved = expectedByGap.map(item => String(item || '').trim()).filter(Boolean);
+            if (solved.length > 0) {
+                extraFeedbackHtml = `<div style="margin-top:12px; padding:10px; border-radius:8px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35);"><div style="font-weight:700; color:#166534; margin-bottom:6px;">✅ Combinación correcta:</div>${solved.map((answer, index) => `<div style="font-size:0.95em; color:#14532d;">Hueco ${index + 1}: <strong>${escapeHtml(answer)}</strong></div>`).join('')}</div>`;
+            }
+        }
     }
     else if (ex.type === 'ordering') {
         const items = document.querySelectorAll('.sortable-item');
@@ -614,7 +865,7 @@ function checkAnswer() {
         ui.btnCheck.style.opacity = "0.5";
     }
     
-    showFeedback(isCorrect, msg, ex.scaffolding, alreadyGraded, ex.id);
+    showFeedback(isCorrect, msg, ex.scaffolding, alreadyGraded, ex.id, extraFeedbackHtml);
     
     if (ui.btnRetry) {
         ui.btnRetry.disabled = false;
@@ -622,7 +873,7 @@ function checkAnswer() {
     }
 }
 
-function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId) {
+function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFeedbackHtml = '') {
     if (!ui.modal) return;
 
     if (isCorrect) {
@@ -677,6 +928,10 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId) {
     if (more) {
         html += `<details class="fb-more" style="margin-top:12px; cursor:pointer;"><summary style="font-weight:700; color:var(--primary); cursor:pointer;">📚 Aprender más</summary><div style="margin-top:8px; padding:10px; background:rgba(59,130,246,0.05); border-radius:8px; color:#333;">${more}</div></details>`;
 
+    }
+
+    if (extraFeedbackHtml) {
+        html += extraFeedbackHtml;
     }
     
     if (alreadyGraded) {

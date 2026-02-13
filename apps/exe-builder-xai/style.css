@@ -257,6 +257,16 @@ body {
     color: var(--xai-text);
 }
 
+.exercise-nav-item.pending {
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+.exercise-nav-item.reviewed {
+    background: #ecfdf5;
+    border-color: #86efac;
+}
+
 .exercise-nav-item:hover {
     border-color: #c7d2fe;
     background: #f8faff;
@@ -267,9 +277,49 @@ body {
     background: #eff6ff;
 }
 
+.exercise-nav-item.pending.active {
+    border-color: #fb923c;
+    background: #ffedd5;
+}
+
+.exercise-nav-item.reviewed.active {
+    border-color: #22c55e;
+    background: #dcfce7;
+}
+
 .exercise-nav-item .type {
     color: var(--xai-muted);
     font-size: 0.75rem;
+}
+
+.review-badge {
+    margin-top: 2px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.exercise-nav-item.pending .review-badge {
+    color: #c2410c;
+}
+
+.exercise-nav-item.reviewed .review-badge {
+    color: #166534;
+}
+
+.exercise-detail-tools {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.btn-danger-soft {
+    border-color: #fecaca;
+    color: #b91c1c;
+    background: #fff1f2;
+}
+
+.btn-danger-soft:hover {
+    border-color: #fca5a5;
+    background: #ffe4e6;
 }
 
 .exercise-detail {
@@ -321,6 +371,37 @@ body {
 .section-interaction h4 { color: #0369a1; }
 .section-preview h4 { color: #4338ca; }
 
+.fillgaps-map {
+    border: 1px dashed #93c5fd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #eff6ff;
+}
+
+.fillgaps-map-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 6px;
+}
+
+.fillgaps-map-empty {
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+.fillgaps-map-list {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 3px;
+}
+
+.fillgaps-map-list li {
+    font-size: 0.8rem;
+    color: #0f172a;
+}
+
 .option-edit-list {
     display: grid;
     gap: 8px;
@@ -335,6 +416,15 @@ body {
     border: 1px solid var(--xai-border);
     border-radius: 8px;
     padding: 8px;
+}
+
+.ordering-edit-row {
+    grid-template-columns: 1fr 84px auto;
+}
+
+.ordering-order-input {
+    text-align: center;
+    font-weight: 700;
 }
 
 .option-edit-actions {

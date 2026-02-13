@@ -78,6 +78,48 @@ function readJsonFile(file) {
     });
 }
 
+function buildBatchCounts(total, chunkSize) {
+    const result = [];
+    let remaining = Math.max(0, Number(total) || 0);
+    while (remaining > 0) {
+        const next = Math.min(chunkSize, remaining);
+        result.push(next);
+        remaining -= next;
+    }
+    return result;
+}
+
+function mergeGeneratedBundles(parsedBundles) {
+    const bundles = Array.isArray(parsedBundles) ? parsedBundles.filter(Boolean) : [];
+    if (bundles.length === 0) {
+        return null;
+    }
+
+    const base = bundles[0] && typeof bundles[0] === 'object' ? bundles[0] : {};
+    const mergedExercises = bundles.flatMap((bundle) => Array.isArray(bundle?.exercises) ? bundle.exercises : []);
+    const usedIds = new Set();
+
+    mergedExercises.forEach((exercise, index) => {
+        if (!exercise || typeof exercise !== 'object') {
+            return;
+        }
+        const rawId = String(exercise.id || `ex_${index + 1}`).trim() || `ex_${index + 1}`;
+        let nextId = rawId;
+        let suffix = 2;
+        while (usedIds.has(nextId)) {
+            nextId = `${rawId}_${suffix}`;
+            suffix += 1;
+        }
+        exercise.id = nextId;
+        usedIds.add(nextId);
+    });
+
+    return {
+        ...base,
+        exercises: mergedExercises
+    };
+}
+
 function updateDerivedViews(elements, data, validation) {
     elements.jsonInput.value = data ? JSON.stringify(data, null, 2) : '';
     renderValidationResult(elements, validation || null);
@@ -144,7 +186,11 @@ async function handleGenerate(elements) {
     }
 
     const locale = appState.locale || 'es';
-    const prompt = buildXaiPrompt({ locale, content, exerciseCount });
+    const isPreviewModel = /preview/i.test(model);
+    const chunkSize = exerciseCount >= 7
+        ? (isPreviewModel ? 3 : 4)
+        : exerciseCount;
+    const batchCounts = buildBatchCounts(exerciseCount, chunkSize);
 
     localStorage.setItem('exe_builder_xai_api_key', apiKey);
     localStorage.setItem('exe_builder_xai_model', model);
@@ -156,8 +202,26 @@ async function handleGenerate(elements) {
     setStatus(elements, t('status.generating'), 'info');
 
     try {
-        const result = await generateWithGemini({ apiKey, model, prompt });
-        const validation = applyBundle(elements, result.parsed);
+        const parsedBundles = [];
+
+        for (let index = 0; index < batchCounts.length; index += 1) {
+            const batchCount = batchCounts[index];
+            const batchPrompt = buildXaiPrompt({ locale, content, exerciseCount: batchCount });
+            if (batchCounts.length > 1) {
+                setStatus(elements, `${t('status.generating')} (${index + 1}/${batchCounts.length})`, 'info');
+            }
+
+            const result = await generateWithGemini({
+                apiKey,
+                model,
+                prompt: batchPrompt,
+                maxOutputTokens: isPreviewModel ? 12288 : 16384
+            });
+            parsedBundles.push(result.parsed);
+        }
+
+        const mergedBundle = mergeGeneratedBundles(parsedBundles);
+        const validation = applyBundle(elements, mergedBundle);
 
         if (validation.valid) {
             setStatus(elements, t('status.generatedOk', { count: validation.summary.exerciseCount }), 'success');
@@ -165,7 +229,11 @@ async function handleGenerate(elements) {
             setStatus(elements, t('status.generatedInvalid'), 'error');
         }
     } catch (error) {
-        setStatus(elements, t('status.requestError', { message: error.message }), 'error');
+        const message = String(error?.message || 'Error desconocido');
+        const parseHint = /JSON|Unexpected|Expected ','|position \d+/i.test(message)
+            ? ' El modelo devolvió JSON incompleto o malformado. Intenta generar de nuevo o reducir la cantidad de ejercicios; para solicitudes grandes ahora se usa generación por lotes.'
+            : '';
+        setStatus(elements, t('status.requestError', { message: `${message}${parseHint}` }), 'error');
     } finally {
         elements.btnGenerate.disabled = false;
         elements.btnGenerate.textContent = originalText;

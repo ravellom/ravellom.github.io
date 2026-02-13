@@ -25,6 +25,57 @@ function asObject(value) {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
 
+function normalizeInteractionByType(type, interactionValue) {
+    const interaction = asObject(interactionValue);
+
+    if (type !== 'ordering') {
+        return interaction;
+    }
+
+    const candidates = [
+        interaction.sequence,
+        interaction.steps,
+        interaction.items,
+        interaction.lines,
+        interaction.correct_order
+    ];
+
+    let rawSequence = [];
+    for (const candidate of candidates) {
+        if (Array.isArray(candidate) && candidate.length > 0) {
+            rawSequence = candidate;
+            break;
+        }
+    }
+
+    const prepared = rawSequence.map((item, index) => {
+        if (typeof item === 'string') {
+            return {
+                text: asString(item, `Paso ${index + 1}`),
+                order: index + 1
+            };
+        }
+        const asItem = asObject(item);
+        const text = asString(asItem.text || asItem.label || asItem.value, `Paso ${index + 1}`);
+        const parsedOrder = Number(asItem.order ?? asItem.position ?? asItem.index);
+        return {
+            text,
+            order: Number.isFinite(parsedOrder) && parsedOrder > 0 ? parsedOrder : index + 1
+        };
+    });
+
+    const sorted = prepared.sort((left, right) => left.order - right.order);
+    const normalizedSequence = sorted.map((item, index) => ({
+        text: item.text,
+        order: index + 1
+    }));
+
+    return {
+        ...interaction,
+        sequence: normalizedSequence
+    };
+}
+
 function normalizeExercise(exercise, index) {
     const ex = asObject(exercise);
     const xaiRaw = ex.xai;
@@ -84,13 +135,16 @@ function normalizeExercise(exercise, index) {
         }
         : asObject(traceRaw);
 
+    const type = asString(ex.type, 'multiple_choice');
+
     return {
         id: asString(ex.id, `ex_auto_${Date.now()}_${index}`),
-        type: asString(ex.type, 'multiple_choice'),
+        reviewed: ex.reviewed === true,
+        type,
         content: {
             prompt_text: asString(ex?.content?.prompt_text, '')
         },
-        interaction: asObject(ex.interaction),
+        interaction: normalizeInteractionByType(type, ex.interaction),
         scaffolding: {
             hint_1: asString(ex?.scaffolding?.hint_1, ''),
             explanation: asString(ex?.scaffolding?.explanation, ''),

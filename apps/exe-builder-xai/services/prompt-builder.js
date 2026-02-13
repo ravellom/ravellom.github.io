@@ -29,6 +29,7 @@ REQUISITOS ADICIONALES:
 5) El output debe cumplir schema_version: "xai-exercises/1.0.0".
 6) PROHIBIDO usar strings donde se espera objeto. Ejemplo: xai.pedagogical_alignment DEBE ser objeto.
 7) No incluyas texto fuera del JSON.
+8) Si type = "fill_gaps", interaction DEBE incluir: template (con [respuesta] o {___}), correct_answers (array con respuestas correctas en orden) y distractors (array con palabras extra).
 
 PLANTILLA OBLIGATORIA POR EJERCICIO (respeta tipos):
 {
