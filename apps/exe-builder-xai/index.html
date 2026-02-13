@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Exe Builder XAI | RecuEdu Labs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <i class="fa-solid fa-flask-vial"></i>
+                <span>RecuEdu Labs</span>
+            </a>
+            <div class="topbar-links">
+                <a href="../../index.html">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="https://github.com/ravellom" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <header class="app-header">
+        <div class="app-title-wrap">
+            <h1 data-i18n="app.title">Exercise builder with XAI</h1>
+            <p data-i18n="app.subtitle">Diseño de ejercicios con explicabilidad</p>
+        </div>
+        <div class="toolbar">
+            <label for="language-select" data-i18n="ui.language">Idioma</label>
+            <select id="language-select" class="control-select" aria-label="Seleccionar idioma">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+            </select>
+            <a href="help.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
+                <i class="ph ph-question"></i> Ayuda
+            </a>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside class="panel panel-left">
+            <h2 data-i18n="panel.ai">Generación con IA</h2>
+            <label class="field-label" for="api-key-input" data-i18n="ui.apiKey">API Key</label>
+            <input id="api-key-input" class="text-input" type="password" autocomplete="off" placeholder="AIza...">
+
+            <label class="field-label" for="model-select" data-i18n="ui.model">Modelo</label>
+            <select id="model-select" class="control-select" aria-label="Seleccionar modelo">
+                <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+                <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                <option value="gemini-2.5-flash">Gemini 2.5 Flash (Rápido)</option>
+                <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+                <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (Más potente)</option>
+            </select>
+
+            <label class="field-label" for="exercise-count" data-i18n="ui.exerciseCount">Cantidad de ejercicios (máx 15)</label>
+            <select id="exercise-count" class="control-select" aria-label="Cantidad de ejercicios">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+            </select>
+
+            <label class="field-label" for="content-input" data-i18n="ui.content">Contenido o resumen</label>
+            <textarea id="content-input" class="json-input" spellcheck="false" placeholder="Pega aquí el resumen o contenido base para generar el set de ejercicios XAI..."></textarea>
+
+            <input id="summary-file" type="file" accept=".txt,.md,.json,.docx,.doc,.pdf" style="display:none;">
+            <div class="panel-actions">
+                <button id="btn-upload-summary" class="btn btn-outline" data-i18n="actions.uploadSummary">Subir resumen</button>
+                <button id="btn-generate" class="btn btn-primary" data-i18n="actions.generate">Generar con IA</button>
+            </div>
+            <div class="panel-actions">
+                <button id="btn-load-example" class="btn btn-outline" data-i18n="actions.loadExample">Cargar ejemplo</button>
+                <button id="btn-validate" class="btn btn-primary" data-i18n="actions.validate">Validar</button>
+            </div>
+            <input id="project-file" type="file" accept=".json" style="display:none;">
+            <div class="panel-actions">
+                <button id="btn-import-project" class="btn btn-outline" data-i18n="actions.importProject">Cargar proyecto docente</button>
+            </div>
+            <div class="panel-actions">
+                <button id="btn-export-project" class="btn btn-outline" data-i18n="actions.exportProject">Exportar proyecto docente</button>
+                <button id="btn-export-visor" class="btn btn-primary" data-i18n="actions.exportVisor">Exportar para visor</button>
+            </div>
+            <div id="status-msg" class="status-msg" aria-live="polite"></div>
+            <p class="hint" data-i18n="ui.schemaHint">Esquema oficial: schema/xai-exercise-schema.json</p>
+        </aside>
+
+        <div id="layout-resizer" class="panel-resizer" aria-hidden="true"></div>
+
+        <section class="panel panel-main">
+            <h2><i class="ph ph-squares-four"></i> <span data-i18n="panel.explorer">Explorador de ejercicios XAI</span></h2>
+            <div class="editor-workspace" aria-live="polite">
+                <aside class="exercise-nav">
+                    <div class="exercise-nav-head">
+                        <h3><i class="ph ph-list-bullets"></i> <span data-i18n="panel.exerciseList">Listado</span></h3>
+                        <span id="exercise-count-badge" class="exercise-count-badge">0</span>
+                    </div>
+                    <input id="exercise-search" class="mini-input" type="text" data-i18n-placeholder="ui.searchExercise" placeholder="Buscar ejercicio...">
+                    <ul id="exercise-nav-list" class="exercise-nav-list"></ul>
+                </aside>
+
+                <div id="editor-resizer" class="subpanel-resizer" aria-hidden="true"></div>
+
+                <section class="exercise-detail">
+                    <div id="exercise-detail-header" class="exercise-detail-header"></div>
+                    <div id="exercise-editor" class="exercise-editor"></div>
+                </section>
+            </div>
+
+            <details class="json-details">
+                <summary data-i18n="panel.output">JSON XAI generado (técnico)</summary>
+                <textarea id="json-input" class="json-input" spellcheck="false" placeholder="{\n  \"schema_version\": \"xai-exercises/1.0.0\",\n  ...\n}"></textarea>
+            </details>
+
+            <h2 data-i18n="panel.results">Resultados de validación</h2>
+            <div id="summary-card" class="summary-card" aria-live="polite"></div>
+            <div class="result-grid">
+                <div>
+                    <h3 data-i18n="results.errors">Errores</h3>
+                    <ul id="errors-list" class="result-list"></ul>
+                </div>
+                <div>
+                    <h3 data-i18n="results.warnings">Advertencias</h3>
+                    <ul id="warnings-list" class="result-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../eje-shared/exercise-engine.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

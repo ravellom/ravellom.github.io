@@ -1,0 +1,32 @@
+export function getDomElements() {
+    return {
+        layout: document.querySelector('.layout'),
+        editorWorkspace: document.querySelector('.editor-workspace'),
+        layoutResizer: document.getElementById('layout-resizer'),
+        editorResizer: document.getElementById('editor-resizer'),
+        languageSelect: document.getElementById('language-select'),
+        apiKeyInput: document.getElementById('api-key-input'),
+        modelSelect: document.getElementById('model-select'),
+        exerciseCount: document.getElementById('exercise-count'),
+        contentInput: document.getElementById('content-input'),
+        summaryFile: document.getElementById('summary-file'),
+        projectFile: document.getElementById('project-file'),
+        btnUploadSummary: document.getElementById('btn-upload-summary'),
+        btnImportProject: document.getElementById('btn-import-project'),
+        btnGenerate: document.getElementById('btn-generate'),
+        jsonInput: document.getElementById('json-input'),
+        exerciseSearch: document.getElementById('exercise-search'),
+        exerciseNavList: document.getElementById('exercise-nav-list'),
+        exerciseCountBadge: document.getElementById('exercise-count-badge'),
+        exerciseDetailHeader: document.getElementById('exercise-detail-header'),
+        exerciseEditor: document.getElementById('exercise-editor'),
+        btnLoadExample: document.getElementById('btn-load-example'),
+        btnValidate: document.getElementById('btn-validate'),
+        btnExportProject: document.getElementById('btn-export-project'),
+        btnExportVisor: document.getElementById('btn-export-visor'),
+        statusMsg: document.getElementById('status-msg'),
+        summaryCard: document.getElementById('summary-card'),
+        errorsList: document.getElementById('errors-list'),
+        warningsList: document.getElementById('warnings-list')
+    };
+}

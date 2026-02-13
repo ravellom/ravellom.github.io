@@ -81,7 +81,10 @@ async function loadExample() {
 window.selectOption = (id, btn) => {
     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-    state.currentAnswer = id;
+    const resolved = (id !== undefined && id !== null && String(id).trim() !== '')
+        ? String(id)
+        : String(btn?.dataset?.optionIndex ?? '');
+    state.currentAnswer = resolved;
     enableCheck();
 };
 
@@ -215,10 +218,16 @@ function initializeExerciseInteractions(ex) {
         }
     }
     
-    if (ex.type === 'multiple_choice') {
+    if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
         const options = document.querySelectorAll('.options-grid .option-btn');
         options.forEach(opt => {
             opt.addEventListener('click', () => {
+                options.forEach(item => item.classList.remove('selected'));
+                opt.classList.add('selected');
+
+                const optionId = String(opt.dataset.optionId || '').trim();
+                const optionIndex = String(opt.dataset.optionIndex || '').trim();
+                state.currentAnswer = optionId || optionIndex;
                 enableCheck();
             });
         });
@@ -496,7 +505,16 @@ function checkAnswer() {
     // Tipos que leen del DOM no necesitan state.currentAnswer pre-establecido
     const domReadTypes = ['ordering', 'matching', 'grouping', 'fill_gaps', 'hotspot'];
     
-    if (!domReadTypes.includes(ex.type) && !state.currentAnswer) {
+    if ((ex.type === 'multiple_choice' || ex.type === 'true_false') && !state.currentAnswer) {
+        const selectedBtn = document.querySelector('.options-grid .option-btn.selected');
+        if (selectedBtn) {
+            const optionId = String(selectedBtn.dataset.optionId || '').trim();
+            const optionIndex = String(selectedBtn.dataset.optionIndex || '').trim();
+            state.currentAnswer = optionId || optionIndex;
+        }
+    }
+
+    if (!domReadTypes.includes(ex.type) && (state.currentAnswer === null || state.currentAnswer === undefined || String(state.currentAnswer).trim() === '')) {
         alert('Por favor, proporciona una respuesta antes de comprobar');
         return;
     }
@@ -508,14 +526,26 @@ function checkAnswer() {
     // LÓGICA DE VALIDACIÓN
     
     if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
-        const opt = ex.interaction.options.find(o => o.id === state.currentAnswer);
+        const options = Array.isArray(ex?.interaction?.options) ? ex.interaction.options : [];
+        let opt = options.find(o => String(o.id) === String(state.currentAnswer));
+        if (!opt) {
+            const asIndex = Number(state.currentAnswer);
+            if (Number.isInteger(asIndex) && asIndex >= 0 && asIndex < options.length) {
+                opt = options[asIndex];
+            }
+        }
         isCorrect = opt && opt.is_correct;
         msg = isCorrect ? "¡Correcto!" : "Incorrecto";
         if (!opt) msg = "Elige una opción";
     } 
     else if (ex.type === 'fill_gaps') {
         const inputs = document.querySelectorAll('.cloze-input');
-        isCorrect = Array.from(inputs).every(i => i.value.trim().toLowerCase() === i.dataset.ans.toLowerCase());
+        isCorrect = Array.from(inputs).every(i => {
+            const rawExpected = i.dataset.ansEncoded
+                ? decodeURIComponent(i.dataset.ansEncoded)
+                : (i.dataset.ans || '');
+            return i.value.trim().toLowerCase() === String(rawExpected).trim().toLowerCase();
+        });
         msg = isCorrect ? "¡Bien completado!" : "Hay errores en las palabras";
     }
     else if (ex.type === 'ordering') {

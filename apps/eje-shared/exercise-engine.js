@@ -35,17 +35,18 @@
 
         if (exercise.type === 'multiple_choice' || exercise.type === 'true_false') {
             const options = Array.isArray(interaction.options) ? interaction.options : [];
-            html += `<div class="options-grid">${options.map(opt => {
+            html += `<div class="options-grid">${options.map((opt, index) => {
                 const optionId = escapeHtml(String(opt.id ?? ''));
-                return `<button class="option-btn" data-option-id="${optionId}" onclick="selectOption(this.dataset.optionId, this)">${escapeHtml(opt.text || '')}</button>`;
+                return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}" onclick="selectOption(this.dataset.optionId, this)">${escapeHtml(opt.text || '')}</button>`;
             }).join('')}</div>`;
         } else if (exercise.type === 'fill_gaps') {
             const template = String(interaction.template || '');
             const parts = template.split(/(\[.*?\])/);
             html += `<div class="cloze-text">${parts.map(part => {
                 if (part.startsWith('[') && part.endsWith(']')) {
-                    const answer = escapeHtml(part.slice(1, -1));
-                    return `<input type="text" class="cloze-input" data-ans="${answer}" oninput="enableCheck()">`;
+                    const answerRaw = part.slice(1, -1);
+                    const answerEncoded = encodeURIComponent(answerRaw);
+                    return `<input type="text" class="cloze-input" data-ans-encoded="${answerEncoded}" oninput="enableCheck()">`;
                 }
                 return escapeHtml(part);
             }).join('')}</div>`;
