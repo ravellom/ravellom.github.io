@@ -110,6 +110,25 @@ function normalizeExercise(exercise, index) {
         }
         : asObject(fairnessRaw);
 
+    const oversightRaw = xaiObj.human_oversight;
+    const oversight = typeof oversightRaw === 'string'
+        ? {
+            review_protocol: oversightRaw,
+            teacher_action_on_risk: '',
+            override_policy: ''
+        }
+        : asObject(oversightRaw);
+
+    const qualityRaw = xaiObj.quality_of_explanation;
+    const quality = typeof qualityRaw === 'string'
+        ? {
+            target_audience: 'docente',
+            clarity_level: 'media',
+            actionable_feedback: qualityRaw,
+            adaptation_notes: ''
+        }
+        : asObject(qualityRaw);
+
     const uncertaintyRaw = xaiObj.uncertainty;
     const uncertainty = typeof uncertaintyRaw === 'string'
         ? {
@@ -173,6 +192,17 @@ function normalizeExercise(exercise, index) {
                 potential_biases: asArray(fairness.potential_biases),
                 mitigations: asArray(fairness.mitigations)
             },
+            human_oversight: {
+                review_protocol: asString(oversight.review_protocol, ''),
+                teacher_action_on_risk: asString(oversight.teacher_action_on_risk, ''),
+                override_policy: asString(oversight.override_policy, '')
+            },
+            quality_of_explanation: {
+                target_audience: asString(quality.target_audience, 'docente'),
+                clarity_level: asString(quality.clarity_level, 'media'),
+                actionable_feedback: asString(quality.actionable_feedback, ''),
+                adaptation_notes: asString(quality.adaptation_notes, '')
+            },
             uncertainty: {
                 confidence: Number(uncertainty.confidence) || 0,
                 limitations: asArray(uncertainty.limitations)
@@ -195,7 +225,7 @@ export function normalizeXaiBundle(bundle) {
     const exercises = Array.isArray(root.exercises) ? root.exercises : [];
 
     return {
-        schema_version: asString(root.schema_version, 'xai-exercises/1.0.0'),
+        schema_version: asString(root.schema_version, 'xai-exercises/2.0.0'),
         resource_metadata: {
             title: asString(root?.resource_metadata?.title, ''),
             topic: asString(root?.resource_metadata?.topic, ''),

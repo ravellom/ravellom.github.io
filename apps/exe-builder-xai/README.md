@@ -17,7 +17,7 @@ Aplicación nueva para diseñar sets de ejercicios con trazabilidad de **Explain
 - `core/validators.js`: validaciones mínimas XAI.
 - `i18n/`: internacionalización base (`es`, `en`).
 - `ui/`: acceso DOM y render desacoplado.
-- `schema/xai-exercise-schema.json`: contrato oficial XAI v1.
+- `schema/xai-exercise-schema.json`: contrato oficial XAI v2 (`xai-exercises/2.0.0`).
 - `examples/example-xai.js`: dataset de prueba.
 - `services/ai-contract.js`: contrato para prompts/generación IA.
 - `services/prompt-builder.js`: constructor de prompt estricto para salida XAI.
@@ -33,7 +33,9 @@ Aplicación nueva para diseñar sets de ejercicios con trazabilidad de **Explain
 4. Justificación mínima (`why_this_exercise`, `why_this_content` con longitud suficiente).
 5. Incertidumbre explícita (`confidence` en [0,1] y `limitations`).
 6. Contrafactual obligatorio (`condition`, `expected_change`).
-7. Control de calidad por lote (fallo si >20% incumple criterios críticos).
+7. Supervisión humana obligatoria (`human_oversight.review_protocol`, `teacher_action_on_risk`, `override_policy`).
+8. Calidad de explicación obligatoria (`quality_of_explanation.target_audience`, `clarity_level`, `actionable_feedback`, `adaptation_notes`).
+9. Control de calidad por lote (fallo si >20% incumple criterios críticos).
 
 ## Flujo actual
 

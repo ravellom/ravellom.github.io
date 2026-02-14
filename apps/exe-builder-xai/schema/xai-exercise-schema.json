@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Exe Builder XAI Schema v1",
+  "title": "Exe Builder XAI Schema v2",
   "description": "Esquema base para sets de ejercicios con bloque de explicabilidad por ejercicio.",
   "type": "object",
   "required": [
@@ -12,7 +12,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "xai-exercises/1.0.0"
+      "const": "xai-exercises/2.0.0"
     },
     "resource_metadata": {
       "type": "object",
@@ -88,6 +88,8 @@
               "content_selection",
               "design_rationale",
               "fairness_and_risk",
+              "human_oversight",
+              "quality_of_explanation",
               "uncertainty",
               "counterfactual",
               "trace"
@@ -151,6 +153,31 @@
                     "type": "array",
                     "items": { "type": "string" }
                   }
+                }
+              },
+              "human_oversight": {
+                "type": "object",
+                "required": ["review_protocol", "teacher_action_on_risk", "override_policy"],
+                "properties": {
+                  "review_protocol": { "type": "string", "minLength": 10 },
+                  "teacher_action_on_risk": { "type": "string", "minLength": 10 },
+                  "override_policy": { "type": "string", "minLength": 10 }
+                }
+              },
+              "quality_of_explanation": {
+                "type": "object",
+                "required": ["target_audience", "clarity_level", "actionable_feedback", "adaptation_notes"],
+                "properties": {
+                  "target_audience": {
+                    "type": "string",
+                    "enum": ["docente", "estudiante", "mixta"]
+                  },
+                  "clarity_level": {
+                    "type": "string",
+                    "enum": ["baja", "media", "alta"]
+                  },
+                  "actionable_feedback": { "type": "string", "minLength": 10 },
+                  "adaptation_notes": { "type": "string", "minLength": 10 }
                 }
               },
               "uncertainty": {

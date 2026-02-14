@@ -1,5 +1,7 @@
 export const BLOOM_LEVELS = ['recordar', 'comprender', 'aplicar', 'analizar', 'evaluar', 'crear'];
 export const DIFFICULTY_LEVELS = ['bajo', 'medio', 'alto'];
+export const CLARITY_LEVELS = ['baja', 'media', 'alta'];
+export const TARGET_AUDIENCE_LEVELS = ['docente', 'estudiante', 'mixta'];
 
 function hasText(value, min = 1) {
     return typeof value === 'string' && value.trim().length >= min;
@@ -88,6 +90,27 @@ export function validateXaiBundle(bundle, t) {
         const hasMitigations = Array.isArray(mitigations) && mitigations.length > 0;
         if (hasRisks && !hasMitigations) {
             addError(errors, criticalErrors, t('validation.fairnessMitigation', { index: pos }));
+        }
+
+        const reviewProtocol = xai?.human_oversight?.review_protocol;
+        const teacherActionOnRisk = xai?.human_oversight?.teacher_action_on_risk;
+        const overridePolicy = xai?.human_oversight?.override_policy;
+        if (!hasText(reviewProtocol, 10) || !hasText(teacherActionOnRisk, 10) || !hasText(overridePolicy, 10)) {
+            addError(errors, criticalErrors, t('validation.humanOversightRequired', { index: pos }));
+        }
+
+        const qualityAudience = xai?.quality_of_explanation?.target_audience;
+        const qualityClarity = xai?.quality_of_explanation?.clarity_level;
+        const qualityActionable = xai?.quality_of_explanation?.actionable_feedback;
+        const qualityAdaptation = xai?.quality_of_explanation?.adaptation_notes;
+        if (!hasText(qualityAudience, 4) || !hasText(qualityActionable, 10) || !hasText(qualityAdaptation, 10)) {
+            addError(errors, criticalErrors, t('validation.qualityExplanationRequired', { index: pos }));
+        }
+        if (hasText(qualityAudience) && !TARGET_AUDIENCE_LEVELS.includes(qualityAudience)) {
+            addError(errors, criticalErrors, t('validation.qualityAudienceOutOfCatalog', { index: pos }));
+        }
+        if (hasText(qualityClarity) && !CLARITY_LEVELS.includes(qualityClarity)) {
+            warnings.push(t('validation.qualityClarityOutOfCatalog', { index: pos }));
         }
     });
 

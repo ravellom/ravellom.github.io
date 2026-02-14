@@ -647,6 +647,14 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     gridXai.appendChild(createArrayField(t('editor.limitations'), safeGet(selectedExercise, 'xai.uncertainty.limitations', []), 'xai.uncertainty.limitations', applyChange));
     gridXai.appendChild(createArrayField(t('editor.risks'), safeGet(selectedExercise, 'xai.fairness_and_risk.potential_biases', []), 'xai.fairness_and_risk.potential_biases', applyChange));
     gridXai.appendChild(createArrayField(t('editor.mitigations'), safeGet(selectedExercise, 'xai.fairness_and_risk.mitigations', []), 'xai.fairness_and_risk.mitigations', applyChange));
+    gridXai.appendChild(createField(t('editor.qualityTargetAudience'), safeGet(selectedExercise, 'xai.quality_of_explanation.target_audience', 'docente'), 'xai.quality_of_explanation.target_audience', applyChange));
+    gridXai.appendChild(createSelectField(t('editor.qualityClarityLevel'), safeGet(selectedExercise, 'xai.quality_of_explanation.clarity_level', 'media'), 'xai.quality_of_explanation.clarity_level', ['baja', 'media', 'alta'], applyChange));
+    const qualityActionableField = createField(t('editor.qualityActionableFeedback'), safeGet(selectedExercise, 'xai.quality_of_explanation.actionable_feedback', ''), 'xai.quality_of_explanation.actionable_feedback', applyChange, true);
+    qualityActionableField.classList.add('field-full');
+    gridXai.appendChild(qualityActionableField);
+    const qualityAdaptationField = createField(t('editor.qualityAdaptationNotes'), safeGet(selectedExercise, 'xai.quality_of_explanation.adaptation_notes', ''), 'xai.quality_of_explanation.adaptation_notes', applyChange, true);
+    qualityAdaptationField.classList.add('field-full');
+    gridXai.appendChild(qualityAdaptationField);
     const xaiSection = createSection(t('editor.sectionXai'), 'ph-brain', 'section-xai');
     xaiSection.appendChild(gridXai);
 
@@ -654,6 +662,15 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     gridControl.className = 'exercise-grid';
     gridControl.appendChild(createField(t('editor.counterfactualCondition'), safeGet(selectedExercise, 'xai.counterfactual.condition', ''), 'xai.counterfactual.condition', applyChange, true));
     gridControl.appendChild(createField(t('editor.counterfactualChange'), safeGet(selectedExercise, 'xai.counterfactual.expected_change', ''), 'xai.counterfactual.expected_change', applyChange, true));
+    const reviewProtocolField = createField(t('editor.reviewProtocol'), safeGet(selectedExercise, 'xai.human_oversight.review_protocol', ''), 'xai.human_oversight.review_protocol', applyChange, true);
+    reviewProtocolField.classList.add('field-full');
+    gridControl.appendChild(reviewProtocolField);
+    const teacherRiskField = createField(t('editor.teacherActionOnRisk'), safeGet(selectedExercise, 'xai.human_oversight.teacher_action_on_risk', ''), 'xai.human_oversight.teacher_action_on_risk', applyChange, true);
+    teacherRiskField.classList.add('field-full');
+    gridControl.appendChild(teacherRiskField);
+    const overridePolicyField = createField(t('editor.overridePolicy'), safeGet(selectedExercise, 'xai.human_oversight.override_policy', ''), 'xai.human_oversight.override_policy', applyChange, true);
+    overridePolicyField.classList.add('field-full');
+    gridControl.appendChild(overridePolicyField);
     gridControl.appendChild(createField(t('editor.confidence'), String(safeGet(selectedExercise, 'xai.uncertainty.confidence', 0.5)), 'xai.uncertainty.confidence', (path, rawValue) => {
         const num = Number(rawValue);
         applyChange(path, Number.isFinite(num) ? num : 0);

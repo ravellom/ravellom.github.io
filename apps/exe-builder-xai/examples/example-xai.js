@@ -1,5 +1,5 @@
 const exampleXaiBundle = {
-    schema_version: 'xai-exercises/1.0.0',
+    schema_version: 'xai-exercises/2.0.0',
     resource_metadata: {
         title: 'Causa y efecto en Ciencias',
         topic: 'Ciencias Naturales',
@@ -54,6 +54,17 @@ const exampleXaiBundle = {
                     potential_biases: ['Distinta familiaridad territorial con lagunas'],
                     mitigations: ['Se contextualiza el fenómeno en términos generales antes del ítem']
                 },
+                human_oversight: {
+                    review_protocol: 'Docente revisa enunciado, opciones y justificación XAI antes de publicar el ejercicio.',
+                    teacher_action_on_risk: 'Si detecta sesgo contextual o nivel lector inadecuado, ajusta redacción y distractores antes del uso en aula.',
+                    override_policy: 'La decisión final de incluir, editar o descartar este ejercicio siempre corresponde al docente responsable.'
+                },
+                quality_of_explanation: {
+                    target_audience: 'mixta',
+                    clarity_level: 'alta',
+                    actionable_feedback: 'La explicación incluye causa principal, descarte de distractores y criterio observable para justificar la respuesta correcta.',
+                    adaptation_notes: 'Para estudiantes con menor comprensión lectora, usar versión resumida en viñetas y glosario breve previo.'
+                },
                 uncertainty: {
                     confidence: 0.82,
                     limitations: ['No incorpora diagnóstico lector previo del grupo']
@@ -64,7 +75,7 @@ const exampleXaiBundle = {
                 },
                 trace: {
                     model: 'gpt-5.3-codex',
-                    prompt_id: 'xai_prompt_v1',
+                    prompt_id: 'xai_prompt_v2',
                     timestamp_utc: '2026-02-13T12:00:00Z'
                 }
             }

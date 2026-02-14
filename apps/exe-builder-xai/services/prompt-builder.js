@@ -26,10 +26,15 @@ REQUISITOS ADICIONALES:
 2) Usa variedad de tipos de ejercicio.
 3) Asegura coherencia pedagógica con Bloom y dificultad.
 4) Incluye source_refs, uncertainty y counterfactual en cada xai.
-5) El output debe cumplir schema_version: "xai-exercises/1.0.0".
+4.1) Incluye human_oversight en cada xai con protocolo de revisión docente y política de intervención humana.
+4.2) Incluye quality_of_explanation en cada xai para auditar claridad y accionabilidad pedagógica de la explicación.
+5) El output debe cumplir schema_version: "xai-exercises/2.0.0".
 6) PROHIBIDO usar strings donde se espera objeto. Ejemplo: xai.pedagogical_alignment DEBE ser objeto.
 7) No incluyas texto fuera del JSON.
 8) Si type = "fill_gaps", interaction DEBE incluir: template (con [respuesta] o {___}), correct_answers (array con respuestas correctas en orden) y distractors (array con palabras extra).
+9) IDs de ejercicio únicos en todo el array exercises.
+10) No uses null ni undefined en ningún campo requerido.
+11) Antes de responder, valida internamente: tipos correctos, enums válidos, longitud mínima de textos y conteo exacto de ejercicios.
 
 PLANTILLA OBLIGATORIA POR EJERCICIO (respeta tipos):
 {
@@ -61,6 +66,17 @@ PLANTILLA OBLIGATORIA POR EJERCICIO (respeta tipos):
             "potential_biases": ["..."],
             "mitigations": ["..."]
         },
+        "human_oversight": {
+            "review_protocol": "...",
+            "teacher_action_on_risk": "...",
+            "override_policy": "..."
+        },
+        "quality_of_explanation": {
+            "target_audience": "docente|estudiante|mixta",
+            "clarity_level": "baja|media|alta",
+            "actionable_feedback": "...",
+            "adaptation_notes": "..."
+        },
         "uncertainty": {
             "confidence": 0.75,
             "limitations": ["..."]
@@ -71,7 +87,7 @@ PLANTILLA OBLIGATORIA POR EJERCICIO (respeta tipos):
         },
         "trace": {
             "model": "${locale === 'en' ? 'model-name' : 'nombre-modelo'}",
-            "prompt_id": "xai_prompt_v1",
+            "prompt_id": "xai_prompt_v2",
             "timestamp_utc": "2026-02-13T12:00:00Z"
         }
     }
