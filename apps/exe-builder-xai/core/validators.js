@@ -14,6 +14,14 @@ function addError(errors, criticalErrors, message, isCritical = true) {
     }
 }
 
+function isGenericOptionText(value) {
+    return /^(opci[oó]n|option)\s*\d+$/i.test(String(value || '').trim());
+}
+
+function isGenericStepText(value) {
+    return /^(paso|step)\s*\d+$/i.test(String(value || '').trim());
+}
+
 export function validateXaiBundle(bundle, t) {
     const errors = [];
     const warnings = [];
@@ -36,6 +44,8 @@ export function validateXaiBundle(bundle, t) {
     exercises.forEach((exercise, index) => {
         const pos = index + 1;
         const xai = exercise?.xai;
+        const interaction = exercise?.interaction && typeof exercise.interaction === 'object' ? exercise.interaction : {};
+        const exerciseType = String(exercise?.type || '').trim();
 
         if (!xai || typeof xai !== 'object') {
             addError(errors, criticalErrors, t('validation.xaiMissing', { index: pos }));
@@ -111,6 +121,27 @@ export function validateXaiBundle(bundle, t) {
         }
         if (hasText(qualityClarity) && !CLARITY_LEVELS.includes(qualityClarity)) {
             warnings.push(t('validation.qualityClarityOutOfCatalog', { index: pos }));
+        }
+
+        if (exerciseType === 'multiple_choice') {
+            const options = Array.isArray(interaction.options) ? interaction.options : [];
+            if (options.length > 0 && options.every((option) => isGenericOptionText(option?.text))) {
+                warnings.push(t('validation.genericMcOptions', { index: pos }));
+            }
+        }
+
+        if (exerciseType === 'ordering') {
+            const sequence = Array.isArray(interaction.sequence) ? interaction.sequence : [];
+            if (sequence.length > 0 && sequence.every((step) => isGenericStepText(step?.text))) {
+                warnings.push(t('validation.genericOrderingSteps', { index: pos }));
+            }
+        }
+
+        if (exerciseType === 'fill_gaps') {
+            const template = String(interaction.template || '');
+            if (/\[(answer|answers|respuesta|respuestas|blank|gap)\]/i.test(template)) {
+                warnings.push(t('validation.fillGapsGenericToken', { index: pos }));
+            }
         }
     });
 

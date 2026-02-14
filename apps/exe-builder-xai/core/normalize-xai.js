@@ -25,55 +25,211 @@ function asObject(value) {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
 
-function normalizeInteractionByType(type, interactionValue) {
-    const interaction = asObject(interactionValue);
+function isGenericGapToken(value) {
+    const token = asString(value).toLowerCase();
+    return token === 'answer' || token === 'answers' || token === 'respuesta' || token === 'respuestas' || token === 'blank' || token === 'gap';
+}
 
-    if (type !== 'ordering') {
-        return interaction;
-    }
-
+function normalizeChoiceOptions(interaction, forceBoolean = false) {
+    const source = asObject(interaction);
     const candidates = [
-        interaction.sequence,
-        interaction.steps,
-        interaction.items,
-        interaction.lines,
-        interaction.correct_order
+        source.options,
+        source.choices,
+        source.answers,
+        source.items
     ];
 
-    let rawSequence = [];
+    let rawOptions = [];
     for (const candidate of candidates) {
         if (Array.isArray(candidate) && candidate.length > 0) {
-            rawSequence = candidate;
+            rawOptions = candidate;
             break;
         }
     }
 
-    const prepared = rawSequence.map((item, index) => {
-        if (typeof item === 'string') {
+    const normalized = rawOptions
+        .map((item, index) => {
+            if (typeof item === 'string') {
+                return {
+                    id: `o${index + 1}`,
+                    text: asString(item),
+                    is_correct: index === 0
+                };
+            }
+            const asItem = asObject(item);
             return {
-                text: asString(item, `Paso ${index + 1}`),
-                order: index + 1
+                id: asString(asItem.id, `o${index + 1}`),
+                text: asString(asItem.text ?? asItem.label ?? asItem.value),
+                is_correct: Boolean(asItem.is_correct ?? asItem.correct ?? asItem.isCorrect)
             };
-        }
-        const asItem = asObject(item);
-        const text = asString(asItem.text || asItem.label || asItem.value, `Paso ${index + 1}`);
-        const parsedOrder = Number(asItem.order ?? asItem.position ?? asItem.index);
-        return {
-            text,
-            order: Number.isFinite(parsedOrder) && parsedOrder > 0 ? parsedOrder : index + 1
-        };
-    });
+        })
+        .filter((item) => item.text);
 
-    const sorted = prepared.sort((left, right) => left.order - right.order);
-    const normalizedSequence = sorted.map((item, index) => ({
-        text: item.text,
-        order: index + 1
-    }));
+    if (forceBoolean && normalized.length === 0) {
+        return {
+            ...source,
+            options: [
+                { id: 'o1', text: 'Verdadero', is_correct: true },
+                { id: 'o2', text: 'Falso', is_correct: false }
+            ]
+        };
+    }
+
+    if (normalized.length > 0 && !normalized.some((item) => item.is_correct)) {
+        normalized[0].is_correct = true;
+    }
 
     return {
-        ...interaction,
-        sequence: normalizedSequence
+        ...source,
+        options: normalized
     };
+}
+
+function normalizeFillGapsInteraction(interaction, promptText = '') {
+    const source = asObject(interaction);
+    const correctAnswers = asArray(source.correct_answers);
+    const distractors = asArray(source.distractors);
+    const templateBase = asString(source.template, asString(promptText, ''));
+    const parts = templateBase.split(/(\[[^\]]+\])/g);
+
+    let answerIndex = 0;
+    const template = parts.map((part) => {
+        if (!part || !part.startsWith('[') || !part.endsWith(']')) {
+            return part;
+        }
+        const rawToken = part.slice(1, -1);
+        if (!isGenericGapToken(rawToken)) {
+            return part;
+        }
+        const replacement = asString(correctAnswers[answerIndex]);
+        answerIndex += 1;
+        return replacement ? `[${replacement}]` : part;
+    }).join('');
+
+    return {
+        ...source,
+        template,
+        correct_answers: correctAnswers,
+        distractors
+    };
+}
+
+function normalizeOrderingInteraction(interaction) {
+    const source = asObject(interaction);
+
+    const normalizeEntries = (value) => {
+        if (!Array.isArray(value)) {
+            return [];
+        }
+
+        return value
+            .map((item, index) => {
+                if (typeof item === 'string') {
+                    const text = item.trim();
+                    return text ? { text, order: index + 1 } : null;
+                }
+                const asItem = asObject(item);
+                const text = asString(asItem.text ?? asItem.label ?? asItem.value);
+                if (!text) {
+                    return null;
+                }
+                const parsedOrder = Number(asItem.order ?? asItem.position ?? asItem.index);
+                return {
+                    text,
+                    order: Number.isFinite(parsedOrder) && parsedOrder > 0 ? parsedOrder : index + 1
+                };
+            })
+            .filter(Boolean)
+            .sort((left, right) => left.order - right.order)
+            .map((item, index) => ({ text: item.text, order: index + 1 }));
+    };
+
+    const candidates = [
+        source.sequence,
+        source.steps,
+        source.items,
+        source.lines,
+        source.correct_order
+    ];
+
+    let sequence = [];
+    for (const candidate of candidates) {
+        const normalized = normalizeEntries(candidate);
+        if (normalized.length > 0) {
+            sequence = normalized;
+            break;
+        }
+    }
+
+    return {
+        ...source,
+        sequence
+    };
+}
+
+function normalizeMatchingInteraction(interaction) {
+    const source = asObject(interaction);
+
+    const normalizePair = (item) => {
+        if (!item || typeof item !== 'object' || Array.isArray(item)) {
+            return null;
+        }
+        const obj = asObject(item);
+        const left = asString(obj.left ?? obj.term ?? obj.concept ?? obj.a ?? obj.source);
+        const right = asString(obj.right ?? obj.definition ?? obj.target ?? obj.b ?? obj.match);
+        if (!left || !right) {
+            return null;
+        }
+        return { left, right };
+    };
+
+    let pairs = [];
+    if (Array.isArray(source.pairs)) {
+        pairs = source.pairs.map(normalizePair).filter(Boolean);
+    }
+
+    if (pairs.length === 0 && Array.isArray(source.matching_pairs)) {
+        pairs = source.matching_pairs.map(normalizePair).filter(Boolean);
+    }
+
+    if (pairs.length === 0 && Array.isArray(source.left_items) && Array.isArray(source.right_items)) {
+        const limit = Math.min(source.left_items.length, source.right_items.length);
+        pairs = Array.from({ length: limit }, (_, index) => ({
+            left: asString(source.left_items[index]),
+            right: asString(source.right_items[index])
+        })).filter((pair) => pair.left && pair.right);
+    }
+
+    return {
+        ...source,
+        pairs
+    };
+}
+
+function normalizeInteractionByType(type, interactionValue, promptText = '') {
+    const interaction = asObject(interactionValue);
+
+    if (type === 'multiple_choice') {
+        return normalizeChoiceOptions(interaction, false);
+    }
+
+    if (type === 'true_false') {
+        return normalizeChoiceOptions(interaction, true);
+    }
+
+    if (type === 'fill_gaps') {
+        return normalizeFillGapsInteraction(interaction, promptText);
+    }
+
+    if (type === 'ordering') {
+        return normalizeOrderingInteraction(interaction);
+    }
+
+    if (type === 'matching') {
+        return normalizeMatchingInteraction(interaction);
+    }
+
+    return interaction;
 }
 
 function normalizeExercise(exercise, index) {
@@ -163,7 +319,7 @@ function normalizeExercise(exercise, index) {
         content: {
             prompt_text: asString(ex?.content?.prompt_text, '')
         },
-        interaction: normalizeInteractionByType(type, ex.interaction),
+        interaction: normalizeInteractionByType(type, ex.interaction, ex?.content?.prompt_text),
         scaffolding: {
             hint_1: asString(ex?.scaffolding?.hint_1, ''),
             explanation: asString(ex?.scaffolding?.explanation, ''),

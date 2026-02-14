@@ -175,11 +175,19 @@ function buildFillGapsMapping(interaction) {
     const mapping = [];
     let answerIndex = 0;
 
+    const isGenericToken = (value) => /^(answer|answers|respuesta|respuestas|blank|gap)$/i.test(String(value || '').trim());
+
     parts.forEach((part) => {
         if (!part) return;
 
         if (part.startsWith('[') && part.endsWith(']')) {
-            mapping.push(part.slice(1, -1).trim());
+            const token = part.slice(1, -1).trim();
+            if (isGenericToken(token)) {
+                mapping.push(String(correctAnswers[answerIndex] || '').trim());
+                answerIndex += 1;
+            } else {
+                mapping.push(token);
+            }
             return;
         }
 
@@ -258,12 +266,12 @@ function createInteractionEditor(selectedExercise, applyChange) {
         if (!Array.isArray(interaction.options) || interaction.options.length === 0) {
             interaction.options = type === 'true_false'
                 ? [
-                    { id: 'o1', text: 'Verdadero', is_correct: true },
-                    { id: 'o2', text: 'Falso', is_correct: false }
+                    { id: 'o1', text: t('editor.defaultTrue'), is_correct: true },
+                    { id: 'o2', text: t('editor.defaultFalse'), is_correct: false }
                 ]
                 : [
-                    { id: 'o1', text: 'Opción 1', is_correct: true },
-                    { id: 'o2', text: 'Opción 2', is_correct: false }
+                    { id: 'o1', text: `${t('editor.defaultOption')} 1`, is_correct: true },
+                    { id: 'o2', text: `${t('editor.defaultOption')} 2`, is_correct: false }
                 ];
         }
 
@@ -331,7 +339,7 @@ function createInteractionEditor(selectedExercise, applyChange) {
             addBtn.textContent = t('editor.addOption');
             addBtn.addEventListener('click', () => {
                 const nextIndex = interaction.options.length + 1;
-                interaction.options.push({ id: `o${nextIndex}`, text: `Opción ${nextIndex}`, is_correct: false });
+                interaction.options.push({ id: `o${nextIndex}`, text: `${t('editor.defaultOption')} ${nextIndex}`, is_correct: false });
                 applyChange('interaction.options', [...interaction.options]);
             });
             interactionSection.appendChild(addBtn);
@@ -386,16 +394,17 @@ function createInteractionEditor(selectedExercise, applyChange) {
 
     if (type === 'ordering') {
         const resolvedSequence = resolveOrderingSequence(interaction);
-        interaction.sequence = resolvedSequence.length > 0
-            ? resolvedSequence
-            : [
-                { order: 1, text: 'Paso 1' },
-                { order: 2, text: 'Paso 2' },
-                { order: 3, text: 'Paso 3' }
-            ];
+        interaction.sequence = resolvedSequence.length > 0 ? resolvedSequence : [];
 
         const list = document.createElement('div');
         list.className = 'option-edit-list';
+
+        if (interaction.sequence.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'mini-label';
+            empty.textContent = t('editor.orderingNoSteps');
+            list.appendChild(empty);
+        }
 
         interaction.sequence.forEach((step, index) => {
             const row = document.createElement('div');
@@ -404,7 +413,7 @@ function createInteractionEditor(selectedExercise, applyChange) {
             const textInput = document.createElement('input');
             textInput.className = 'mini-input';
             textInput.value = step.text || '';
-            textInput.placeholder = t('editor.orderingStepText');
+            textInput.placeholder = t('editor.orderingStepPlaceholder');
             textInput.addEventListener('change', () => {
                 interaction.sequence[index].text = textInput.value;
                 applyChange('interaction.sequence', [...interaction.sequence]);
@@ -455,8 +464,77 @@ function createInteractionEditor(selectedExercise, applyChange) {
         addBtn.textContent = t('editor.addOrderingStep');
         addBtn.addEventListener('click', () => {
             const nextIndex = interaction.sequence.length + 1;
-            interaction.sequence.push({ order: nextIndex, text: `Paso ${nextIndex}` });
+            interaction.sequence.push({ order: nextIndex, text: '' });
             applyChange('interaction.sequence', [...interaction.sequence]);
+        });
+        interactionSection.appendChild(addBtn);
+
+        return interactionSection;
+    }
+
+    if (type === 'matching') {
+        if (!Array.isArray(interaction.pairs)) {
+            interaction.pairs = [];
+        }
+
+        const list = document.createElement('div');
+        list.className = 'option-edit-list';
+
+        if (interaction.pairs.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'mini-label';
+            empty.textContent = t('editor.matchingNoPairs');
+            list.appendChild(empty);
+        }
+
+        interaction.pairs.forEach((pair, index) => {
+            const row = document.createElement('div');
+            row.className = 'option-edit-row';
+
+            const leftInput = document.createElement('input');
+            leftInput.className = 'mini-input';
+            leftInput.value = pair?.left || '';
+            leftInput.placeholder = t('editor.matchingLeft');
+            leftInput.addEventListener('change', () => {
+                interaction.pairs[index] = { ...interaction.pairs[index], left: leftInput.value };
+                applyChange('interaction.pairs', [...interaction.pairs]);
+            });
+
+            const rightInput = document.createElement('input');
+            rightInput.className = 'mini-input';
+            rightInput.value = pair?.right || '';
+            rightInput.placeholder = t('editor.matchingRight');
+            rightInput.addEventListener('change', () => {
+                interaction.pairs[index] = { ...interaction.pairs[index], right: rightInput.value };
+                applyChange('interaction.pairs', [...interaction.pairs]);
+            });
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn btn-outline';
+            removeBtn.style.padding = '4px 8px';
+            removeBtn.textContent = t('editor.remove');
+            removeBtn.addEventListener('click', () => {
+                interaction.pairs.splice(index, 1);
+                applyChange('interaction.pairs', [...interaction.pairs]);
+            });
+
+            row.appendChild(leftInput);
+            row.appendChild(rightInput);
+            row.appendChild(removeBtn);
+            list.appendChild(row);
+        });
+
+        interactionSection.appendChild(list);
+
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn btn-outline';
+        addBtn.style.marginTop = '8px';
+        addBtn.textContent = t('editor.addMatchingPair');
+        addBtn.addEventListener('click', () => {
+            interaction.pairs.push({ left: '', right: '' });
+            applyChange('interaction.pairs', [...interaction.pairs]);
         });
         interactionSection.appendChild(addBtn);
 
@@ -491,10 +569,10 @@ function createPreviewSection(exercise) {
     const shell = document.createElement('div');
     shell.className = 'preview-shell';
 
-    if (window.RecuEduExerciseEngine && typeof window.RecuEduExerciseEngine.renderPreviewExercise === 'function') {
-        shell.innerHTML = window.RecuEduExerciseEngine.renderPreviewExercise(exercise);
+    if (window.RecuEduExerciseEngine && typeof window.RecuEduExerciseEngine.renderGameExercise === 'function') {
+        shell.innerHTML = window.RecuEduExerciseEngine.renderGameExercise(exercise);
     } else {
-        shell.textContent = 'Vista previa no disponible.';
+        shell.textContent = t('editor.previewUnavailable');
     }
 
     previewSection.appendChild(shell);

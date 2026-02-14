@@ -3,7 +3,8 @@ const listeners = new Set();
 export const appState = {
     locale: 'es',
     data: null,
-    validation: null
+    validation: null,
+    promptTrace: ''
 };
 
 export function setState(partialState) {

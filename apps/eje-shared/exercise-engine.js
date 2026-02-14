@@ -21,6 +21,7 @@
         let answerIndex = 0;
         const segments = [];
         const usedAnswers = [];
+        const isGenericToken = (value) => /^(answer|answers|respuesta|respuestas|blank|gap)$/i.test(String(value || '').trim());
 
         parts.forEach(part => {
             if (!part) {
@@ -28,7 +29,13 @@
             }
 
             if (part.startsWith('[') && part.endsWith(']')) {
-                const answerRaw = part.slice(1, -1);
+                const token = part.slice(1, -1);
+                const answerRaw = isGenericToken(token)
+                    ? String(answers[answerIndex] ?? '')
+                    : token;
+                if (isGenericToken(token)) {
+                    answerIndex += 1;
+                }
                 segments.push({ type: 'gap', answer: answerRaw });
                 usedAnswers.push(answerRaw);
                 return;

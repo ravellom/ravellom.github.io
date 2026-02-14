@@ -5,14 +5,20 @@ export default {
     },
     ui: {
         language: 'Idioma',
+        help: 'Ayuda',
+        xaiFoundations: 'Fundamentos XAI',
         schemaHint: 'Esquema oficial: schema/xai-exercise-schema.json',
         noItems: 'Sin elementos',
         parseError: 'JSON inválido. Revisa la sintaxis.',
         apiKey: 'API Key',
         model: 'Modelo',
         exerciseCount: 'Cantidad de ejercicios (máx 15)',
+        typePlanTitle: 'Control por tipo (opcional)',
+        typePlanHelp: 'Define cuántos ejercicios quieres por tipo. Si usas este control, la suma reemplaza la cantidad total.',
+        typePlanTotalValue: 'Total por tipo: {total}/15',
         content: 'Contenido o resumen',
-        searchExercise: 'Buscar ejercicio por texto, tipo o ID...'
+        searchExercise: 'Buscar ejercicio por texto, tipo o ID...',
+        noPromptTrace: 'Todavía no hay prompt en esta sesión. Genera con IA para verlo aquí.'
     },
     panel: {
         input: 'Entrada JSON XAI',
@@ -20,7 +26,8 @@ export default {
         explorer: 'Explorador de ejercicios XAI',
         exerciseList: 'Listado',
         output: 'JSON XAI generado',
-        results: 'Resultados de validación'
+        results: 'Resultados de validación',
+        promptTrace: 'Prompt final usado (sesión actual)'
     },
     actions: {
         loadExample: 'Cargar ejemplo',
@@ -29,8 +36,20 @@ export default {
         importProject: 'Cargar proyecto docente',
         exportProject: 'Exportar proyecto docente',
         exportVisor: 'Exportar para visor',
+        clearTypePlan: 'Limpiar',
         generate: 'Generar con IA',
         generating: 'Generando...'
+    },
+    types: {
+        multiple_choice: 'Opción múltiple',
+        true_false: 'Verdadero/Falso',
+        fill_gaps: 'Completar huecos',
+        ordering: 'Ordenamiento',
+        matching: 'Emparejar',
+        grouping: 'Agrupar',
+        short_answer: 'Respuesta corta',
+        hotspot: 'Hotspot',
+        slider: 'Slider'
     },
     results: {
         errors: 'Errores',
@@ -55,7 +74,10 @@ export default {
         qualityClarityOutOfCatalog: 'Ejercicio {index}: quality_of_explanation.clarity_level fuera del catálogo recomendado.',
         criticalThreshold: 'Más del 20% de ejercicios incumple criterios críticos.',
         bloomOutOfCatalog: 'Ejercicio {index}: bloom_level fuera de catálogo recomendado.',
-        difficultyOutOfCatalog: 'Ejercicio {index}: difficulty_level fuera de catálogo recomendado.'
+        difficultyOutOfCatalog: 'Ejercicio {index}: difficulty_level fuera de catálogo recomendado.',
+        genericMcOptions: 'Ejercicio {index}: opciones genéricas detectadas (por ejemplo, "Opción 1").',
+        genericOrderingSteps: 'Ejercicio {index}: pasos genéricos detectados (por ejemplo, "Paso 1").',
+        fillGapsGenericToken: 'Ejercicio {index}: fill_gaps usa marcadores genéricos como [answer]. Reemplaza por respuestas reales.'
     },
     status: {
         needApiKey: 'Por favor ingresa tu API Key.',
@@ -64,6 +86,8 @@ export default {
         generating: 'Generando set de ejercicios XAI con IA...',
         generatedOk: 'Set generado correctamente: {count} ejercicios.',
         generatedInvalid: 'La IA generó JSON, pero no cumple criterios XAI mínimos. Revisa errores.',
+        typePlanExceeded: 'La suma por tipos no puede superar 15 ejercicios.',
+        typePlanMismatch: 'La IA no respetó exactamente la distribución por tipo solicitada. Revisa el resultado o vuelve a generar.',
         fileLoaded: 'Archivo cargado correctamente.',
         fileLoadedWithWarning: 'Archivo cargado con advertencia: formato .doc puede perder estructura. Preferir .docx.',
         fileReadError: 'No se pudo leer el archivo.',
@@ -75,7 +99,9 @@ export default {
         projectLoaded: 'Proyecto docente cargado correctamente.',
         projectLoadError: 'El archivo no es un JSON válido de proyecto.',
         projectExported: 'Proyecto docente exportado correctamente.',
-        visorExported: 'Paquete para visor exportado correctamente.'
+        visorExported: 'Paquete para visor exportado correctamente.',
+        parseHintJson: ' El modelo devolvió JSON incompleto o malformado. Intenta generar de nuevo o reducir la cantidad de ejercicios; para solicitudes grandes se usa generación por lotes.',
+        unknownError: 'Error desconocido'
     },
     editor: {
         exercise: 'Ejercicio',
@@ -115,7 +141,13 @@ export default {
         distractors: 'Distractores (separados por ;)',
         expectedAnswers: 'Respuestas esperadas (separadas por ;)',
         orderingStepText: 'Texto del paso',
+        orderingStepPlaceholder: 'Describe el paso con una acción concreta',
+        orderingNoSteps: 'No hay pasos definidos. Agrega pasos concretos.',
         addOrderingStep: 'Agregar paso',
+        matchingNoPairs: 'No hay pares definidos. Agrega pares para la actividad.',
+        matchingLeft: 'Elemento izquierdo (concepto)',
+        matchingRight: 'Elemento derecho (definición o relación)',
+        addMatchingPair: 'Agregar par',
         fillGapsMapTitle: 'Clave de corrección (orden de huecos)',
         fillGapsGapLabel: 'Hueco',
         fillGapsMissing: '(sin definir)',
@@ -128,6 +160,11 @@ export default {
         markReviewed: 'Marcar revisado',
         markPending: 'Marcar pendiente',
         deleteExercise: 'Eliminar',
-        deleteConfirm: '¿Seguro que deseas eliminar este ejercicio? Esta acción no se puede deshacer.'
+        deleteConfirm: '¿Seguro que deseas eliminar este ejercicio? Esta acción no se puede deshacer.',
+        defaultTrue: 'Verdadero',
+        defaultFalse: 'Falso',
+        defaultOption: 'Opción',
+        defaultStep: 'Paso',
+        previewUnavailable: 'Vista previa no disponible.'
     }
 };

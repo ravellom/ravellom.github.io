@@ -5,14 +5,20 @@ export default {
     },
     ui: {
         language: 'Language',
+        help: 'Help',
+        xaiFoundations: 'XAI Foundations',
         schemaHint: 'Official schema: schema/xai-exercise-schema.json',
         noItems: 'No items',
         parseError: 'Invalid JSON. Please check syntax.',
         apiKey: 'API Key',
         model: 'Model',
         exerciseCount: 'Exercise count (max 15)',
+        typePlanTitle: 'Type control (optional)',
+        typePlanHelp: 'Set how many exercises you want per type. If used, this total overrides the exercise count.',
+        typePlanTotalValue: 'Type total: {total}/15',
         content: 'Content or summary',
-        searchExercise: 'Search exercise by text, type or ID...'
+        searchExercise: 'Search exercise by text, type or ID...',
+        noPromptTrace: 'No prompt in this session yet. Generate with AI to see it here.'
     },
     panel: {
         input: 'XAI JSON Input',
@@ -20,7 +26,8 @@ export default {
         explorer: 'XAI Exercise Explorer',
         exerciseList: 'List',
         output: 'Generated XAI JSON',
-        results: 'Validation Results'
+        results: 'Validation Results',
+        promptTrace: 'Final prompt used (current session)'
     },
     actions: {
         loadExample: 'Load example',
@@ -29,8 +36,20 @@ export default {
         importProject: 'Load teacher project',
         exportProject: 'Export teacher project',
         exportVisor: 'Export for visor',
+        clearTypePlan: 'Clear',
         generate: 'Generate with AI',
         generating: 'Generating...'
+    },
+    types: {
+        multiple_choice: 'Multiple choice',
+        true_false: 'True/False',
+        fill_gaps: 'Fill gaps',
+        ordering: 'Ordering',
+        matching: 'Matching',
+        grouping: 'Grouping',
+        short_answer: 'Short answer',
+        hotspot: 'Hotspot',
+        slider: 'Slider'
     },
     results: {
         errors: 'Errors',
@@ -51,11 +70,14 @@ export default {
         fairnessMitigation: 'Exercise {index}: declared risks require mitigations.',
         humanOversightRequired: 'Exercise {index}: human_oversight requires review protocol, teacher action on risk, and final decision override policy.',
         qualityExplanationRequired: 'Exercise {index}: quality_of_explanation requires target audience, actionable feedback, and adaptation notes.',
-        qualityAudienceOutOfCatalog: 'Exercise {index}: quality_of_explanation.target_audience must be docente, estudiante, or mixta.',
+        qualityAudienceOutOfCatalog: 'Exercise {index}: quality_of_explanation.target_audience must be one of: docente, estudiante, mixta (teacher, student, mixed).',
         qualityClarityOutOfCatalog: 'Exercise {index}: quality_of_explanation.clarity_level is outside recommended catalog.',
         criticalThreshold: 'More than 20% of exercises fail critical criteria.',
         bloomOutOfCatalog: 'Exercise {index}: bloom_level outside recommended catalog.',
-        difficultyOutOfCatalog: 'Exercise {index}: difficulty_level outside recommended catalog.'
+        difficultyOutOfCatalog: 'Exercise {index}: difficulty_level outside recommended catalog.',
+        genericMcOptions: 'Exercise {index}: generic options detected (e.g., "Option 1").',
+        genericOrderingSteps: 'Exercise {index}: generic steps detected (e.g., "Step 1").',
+        fillGapsGenericToken: 'Exercise {index}: fill_gaps uses generic placeholders such as [answer]. Replace with real answers.'
     },
     status: {
         needApiKey: 'Please enter your API key.',
@@ -64,6 +86,8 @@ export default {
         generating: 'Generating XAI exercise set with AI...',
         generatedOk: 'Set generated successfully: {count} exercises.',
         generatedInvalid: 'AI returned JSON, but minimum XAI criteria failed. Please review errors.',
+        typePlanExceeded: 'Type distribution total cannot exceed 15 exercises.',
+        typePlanMismatch: 'AI did not follow the requested type distribution exactly. Review output or generate again.',
         fileLoaded: 'File loaded successfully.',
         fileLoadedWithWarning: 'File loaded with warning: .doc may lose structure. Prefer .docx.',
         fileReadError: 'Could not read the file.',
@@ -75,7 +99,9 @@ export default {
         projectLoaded: 'Teacher project loaded successfully.',
         projectLoadError: 'The file is not a valid project JSON.',
         projectExported: 'Teacher project exported successfully.',
-        visorExported: 'Visor package exported successfully.'
+        visorExported: 'Visor package exported successfully.',
+        parseHintJson: ' The model returned incomplete or malformed JSON. Try again or reduce exercise count; large requests use batch generation.',
+        unknownError: 'Unknown error'
     },
     editor: {
         exercise: 'Exercise',
@@ -115,7 +141,13 @@ export default {
         distractors: 'Distractors (separated by ;)',
         expectedAnswers: 'Expected answers (separated by ;)',
         orderingStepText: 'Step text',
+        orderingStepPlaceholder: 'Describe the step with a concrete action',
+        orderingNoSteps: 'No steps defined yet. Add concrete steps.',
         addOrderingStep: 'Add step',
+        matchingNoPairs: 'No pairs defined yet. Add pairs for the activity.',
+        matchingLeft: 'Left item (concept)',
+        matchingRight: 'Right item (definition or relation)',
+        addMatchingPair: 'Add pair',
         fillGapsMapTitle: 'Answer key (gap order)',
         fillGapsGapLabel: 'Gap',
         fillGapsMissing: '(not defined)',
@@ -128,6 +160,11 @@ export default {
         markReviewed: 'Mark reviewed',
         markPending: 'Mark pending',
         deleteExercise: 'Delete',
-        deleteConfirm: 'Are you sure you want to delete this exercise? This action cannot be undone.'
+        deleteConfirm: 'Are you sure you want to delete this exercise? This action cannot be undone.',
+        defaultTrue: 'True',
+        defaultFalse: 'False',
+        defaultOption: 'Option',
+        defaultStep: 'Step',
+        previewUnavailable: 'Preview not available.'
     }
 };

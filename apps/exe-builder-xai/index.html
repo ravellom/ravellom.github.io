@@ -44,11 +44,11 @@
                 <option value="es">Español</option>
                 <option value="en">English</option>
             </select>
-            <a href="help.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
-                <i class="ph ph-question"></i> Ayuda
+            <a id="help-link" href="help.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
+                <i class="ph ph-question"></i> <span data-i18n="ui.help">Ayuda</span>
             </a>
-            <a href="help-xai-evidencia.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
-                <i class="ph ph-book-open-text"></i> Fundamentos XAI
+            <a id="help-evidence-link" href="help-xai-evidencia.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
+                <i class="ph ph-book-open-text"></i> <span data-i18n="ui.xaiFoundations">Fundamentos XAI</span>
             </a>
         </div>
     </header>
@@ -86,6 +86,26 @@
                 <option value="14">14</option>
                 <option value="15">15</option>
             </select>
+
+            <div class="type-plan-box">
+                <div class="type-plan-head">
+                    <label class="field-label" data-i18n="ui.typePlanTitle">Control por tipo (opcional)</label>
+                    <button id="btn-clear-type-plan" type="button" class="btn btn-outline btn-mini" data-i18n="actions.clearTypePlan">Limpiar</button>
+                </div>
+                <p class="type-plan-help" data-i18n="ui.typePlanHelp">Define cuántos ejercicios quieres por tipo. Si usas este control, la suma reemplaza la cantidad total.</p>
+                <div class="type-plan-grid">
+                    <label class="type-plan-row"><span data-i18n="types.multiple_choice">Opción múltiple</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="multiple_choice"></label>
+                    <label class="type-plan-row"><span data-i18n="types.true_false">Verdadero/Falso</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="true_false"></label>
+                    <label class="type-plan-row"><span data-i18n="types.fill_gaps">Completar huecos</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="fill_gaps"></label>
+                    <label class="type-plan-row"><span data-i18n="types.ordering">Ordenamiento</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="ordering"></label>
+                    <label class="type-plan-row"><span data-i18n="types.matching">Emparejar</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="matching"></label>
+                    <label class="type-plan-row"><span data-i18n="types.grouping">Agrupar</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="grouping"></label>
+                    <label class="type-plan-row"><span data-i18n="types.short_answer">Respuesta corta</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="short_answer"></label>
+                    <label class="type-plan-row"><span data-i18n="types.hotspot">Hotspot</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="hotspot"></label>
+                    <label class="type-plan-row"><span data-i18n="types.slider">Slider</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="slider"></label>
+                </div>
+                <p id="type-plan-total" class="type-plan-total">Total por tipo: 0/15</p>
+            </div>
 
             <label class="field-label" for="content-input" data-i18n="ui.content">Contenido o resumen</label>
             <textarea id="content-input" class="json-input" spellcheck="false" placeholder="Pega aquí el resumen o contenido base para generar el set de ejercicios XAI..."></textarea>
@@ -140,6 +160,10 @@
 
             <h2 data-i18n="panel.results">Resultados de validación</h2>
             <div id="summary-card" class="summary-card" aria-live="polite"></div>
+            <details id="prompt-trace-details" class="json-details prompt-trace-details">
+                <summary data-i18n="panel.promptTrace">Prompt final usado (sesión actual)</summary>
+                <pre id="prompt-trace-output" class="prompt-trace-output"></pre>
+            </details>
             <div class="result-grid">
                 <div>
                     <h3 data-i18n="results.errors">Errores</h3>
