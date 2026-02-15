@@ -168,6 +168,113 @@
         return [];
     }
 
+    function resolveGroupingModel(interaction) {
+        const source = interaction && typeof interaction === 'object' ? interaction : {};
+        const groupsSource = Array.isArray(source.groups)
+            ? source.groups
+            : (Array.isArray(source.buckets) ? source.buckets : (Array.isArray(source.clusters) ? source.clusters : []));
+
+        const idToLabel = new Map();
+        const categories = [];
+        const items = [];
+
+        const registerCategory = (label) => {
+            const normalized = String(label ?? '').trim();
+            if (!normalized) {
+                return null;
+            }
+            if (!categories.includes(normalized)) {
+                categories.push(normalized);
+            }
+            return normalized;
+        };
+
+        const normalizeItemText = (item) => {
+            if (typeof item === 'string') {
+                return item.trim();
+            }
+            if (!item || typeof item !== 'object') {
+                return '';
+            }
+            return String(item.text ?? item.label ?? item.value ?? item.term ?? '').trim();
+        };
+
+        if (Array.isArray(source.categories)) {
+            source.categories.forEach((category) => {
+                registerCategory(category);
+            });
+        }
+
+        groupsSource.forEach((group, index) => {
+            if (!group || typeof group !== 'object') {
+                return;
+            }
+
+            const groupId = String(group.id ?? group.key ?? group.group_id ?? index).trim();
+            const label = registerCategory(group.label ?? group.name ?? group.title ?? group.category ?? groupId);
+            if (!label) {
+                return;
+            }
+            if (groupId) {
+                idToLabel.set(groupId, label);
+            }
+
+            const groupItems = Array.isArray(group.items)
+                ? group.items
+                : (Array.isArray(group.elements)
+                    ? group.elements
+                    : (Array.isArray(group.values) ? group.values : []));
+
+            groupItems.forEach((entry) => {
+                const text = normalizeItemText(entry);
+                if (!text) {
+                    return;
+                }
+                items.push({ text, category: label });
+            });
+        });
+
+        const sourceItems = Array.isArray(source.items)
+            ? source.items
+            : (Array.isArray(source.elements) ? source.elements : []);
+
+        sourceItems.forEach((entry) => {
+            const text = normalizeItemText(entry);
+            if (!text) {
+                return;
+            }
+
+            let category = '';
+            if (entry && typeof entry === 'object') {
+                const rawCategory = String(entry.category ?? entry.group ?? entry.group_id ?? entry.bucket ?? '').trim();
+                category = idToLabel.get(rawCategory) || rawCategory;
+            }
+
+            const resolvedCategory = registerCategory(category);
+            if (!resolvedCategory) {
+                return;
+            }
+
+            items.push({ text, category: resolvedCategory });
+        });
+
+        const deduped = [];
+        const seen = new Set();
+        items.forEach((item) => {
+            const key = `${item.text}::${item.category}`;
+            if (seen.has(key)) {
+                return;
+            }
+            seen.add(key);
+            deduped.push(item);
+        });
+
+        return {
+            categories,
+            items: deduped
+        };
+    }
+
     function renderGameExercise(exercise) {
         if (!exercise || typeof exercise !== 'object') {
             return '<p style="text-align:center; color:#999;">No hay ejercicio para mostrar.</p>';
@@ -186,7 +293,7 @@
             const options = Array.isArray(interaction.options) ? interaction.options : [];
             html += `<div class="options-grid">${options.map((opt, index) => {
                 const optionId = escapeHtml(String(opt.id ?? ''));
-                return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}" onclick="selectOption(this.dataset.optionId, this)">${escapeHtml(opt.text || '')}</button>`;
+                return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}">${escapeHtml(opt.text || '')}</button>`;
             }).join('')}</div>`;
         } else if (exercise.type === 'fill_gaps') {
             const template = String(interaction.template || content.prompt_text || '');
@@ -218,8 +325,9 @@
                 </div>
             </div>`;
         } else if (exercise.type === 'grouping') {
-            const items = shuffleArray(Array.isArray(interaction.items) ? interaction.items : []);
-            const categories = Array.isArray(interaction.categories) ? interaction.categories : [];
+            const grouping = resolveGroupingModel(interaction);
+            const items = shuffleArray(grouping.items);
+            const categories = grouping.categories;
             html += `
             <div class="grouping-area">
                 <div id="pool-list" class="items-pool">
@@ -376,8 +484,9 @@
             `).join('')}</div>`;
             html += '</div>';
         } else if (exercise.type === 'grouping') {
-            const categories = Array.isArray(interaction.categories) ? interaction.categories : [];
-            const items = Array.isArray(interaction.items) ? interaction.items : [];
+            const grouping = resolveGroupingModel(interaction);
+            const categories = grouping.categories;
+            const items = grouping.items;
             const colors = ['#e3f2fd', '#f3e5f5', '#e8f5e9', '#fff3e0', '#fce4ec'];
             html += '<div style="padding: 20px;">';
             html += '<p style="font-weight: 500; margin-bottom: 15px; color: #555;">Clasifica los elementos en las categorías correctas:</p>';

@@ -148,6 +148,8 @@ export default {
         matchingLeft: 'Elemento izquierdo (concepto)',
         matchingRight: 'Elemento derecho (definición o relación)',
         addMatchingPair: 'Agregar par',
+        groupingCategories: 'Categorías (separadas por ;)',
+        groupingItemsMap: 'Elementos por categoría (una línea por elemento: texto => categoría)',
         fillGapsMapTitle: 'Clave de corrección (orden de huecos)',
         fillGapsGapLabel: 'Hueco',
         fillGapsMissing: '(sin definir)',

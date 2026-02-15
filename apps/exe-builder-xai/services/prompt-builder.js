@@ -62,6 +62,7 @@ ADDITIONAL REQUIREMENTS:
 15) For ordering: steps must be concrete action statements in the correct process, not numbered placeholder labels.
 16) For fill_gaps: bracket tokens in template must contain real answer text aligned in order with correct_answers; symbols are allowed as valid answers (e.g., "/", "//", "%").
 17) For matching: interaction must include a non-empty pairs array with objects { left, right }, each side meaningful and non-generic.
+18) For grouping: interaction must include categories (array of category labels) and items (array of { text, category }); every item.category must exist in categories.
 
 MANDATORY PER-EXERCISE TEMPLATE (respect types):
 {

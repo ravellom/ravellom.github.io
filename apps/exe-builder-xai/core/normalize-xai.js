@@ -149,7 +149,13 @@ function normalizeOrderingInteraction(interaction) {
         source.steps,
         source.items,
         source.lines,
-        source.correct_order
+        source.correct_order,
+        source.fragments,
+        source.blocks,
+        source.snippets,
+        source.parts,
+        source.elements,
+        source.chunks
     ];
 
     let sequence = [];
@@ -206,6 +212,103 @@ function normalizeMatchingInteraction(interaction) {
     };
 }
 
+function normalizeGroupingInteraction(interaction) {
+    const source = asObject(interaction);
+    const groupsSource = Array.isArray(source.groups)
+        ? source.groups
+        : (Array.isArray(source.buckets) ? source.buckets : (Array.isArray(source.clusters) ? source.clusters : []));
+
+    const idToLabel = new Map();
+    const categories = [];
+    const items = [];
+
+    const registerCategory = (value) => {
+        const normalized = asString(value, '');
+        if (!normalized) {
+            return '';
+        }
+        if (!categories.includes(normalized)) {
+            categories.push(normalized);
+        }
+        return normalized;
+    };
+
+    const normalizeItemText = (value) => {
+        if (typeof value === 'string') {
+            return asString(value, '');
+        }
+        const obj = asObject(value);
+        return asString(obj.text ?? obj.label ?? obj.value ?? obj.term, '');
+    };
+
+    if (Array.isArray(source.categories)) {
+        source.categories.forEach((category) => {
+            registerCategory(category);
+        });
+    }
+
+    groupsSource.forEach((group, index) => {
+        const grp = asObject(group);
+        const groupId = asString(grp.id ?? grp.key ?? grp.group_id ?? String(index), '');
+        const label = registerCategory(grp.label ?? grp.name ?? grp.title ?? grp.category ?? groupId);
+        if (!label) {
+            return;
+        }
+        if (groupId) {
+            idToLabel.set(groupId, label);
+        }
+
+        const groupItems = Array.isArray(grp.items)
+            ? grp.items
+            : (Array.isArray(grp.elements) ? grp.elements : (Array.isArray(grp.values) ? grp.values : []));
+
+        groupItems.forEach((entry) => {
+            const text = normalizeItemText(entry);
+            if (!text) {
+                return;
+            }
+            items.push({ text, category: label });
+        });
+    });
+
+    const sourceItems = Array.isArray(source.items)
+        ? source.items
+        : (Array.isArray(source.elements) ? source.elements : []);
+
+    sourceItems.forEach((entry) => {
+        const text = normalizeItemText(entry);
+        if (!text) {
+            return;
+        }
+
+        const itemObj = asObject(entry);
+        const rawCategory = asString(itemObj.category ?? itemObj.group ?? itemObj.group_id ?? itemObj.bucket, '');
+        const resolvedCategory = registerCategory(idToLabel.get(rawCategory) || rawCategory);
+        if (!resolvedCategory) {
+            return;
+        }
+
+        items.push({ text, category: resolvedCategory });
+    });
+
+    const deduped = [];
+    const seen = new Set();
+    items.forEach((item) => {
+        const key = `${item.text}::${item.category}`;
+        if (seen.has(key)) {
+            return;
+        }
+        seen.add(key);
+        deduped.push(item);
+    });
+
+    return {
+        ...source,
+        categories,
+        items: deduped
+    };
+}
+
 function normalizeInteractionByType(type, interactionValue, promptText = '') {
     const interaction = asObject(interactionValue);
 
@@ -227,6 +330,10 @@ function normalizeInteractionByType(type, interactionValue, promptText = '') {
 
     if (type === 'matching') {
         return normalizeMatchingInteraction(interaction);
+    }
+
+    if (type === 'grouping') {
+        return normalizeGroupingInteraction(interaction);
     }
 
     return interaction;

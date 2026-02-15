@@ -116,6 +116,113 @@ function resolveOrderingSequence(interaction) {
     return [];
 }
 
+function resolveGroupingModel(interaction) {
+    const source = interaction && typeof interaction === 'object' ? interaction : {};
+    const groupsSource = Array.isArray(source.groups)
+        ? source.groups
+        : (Array.isArray(source.buckets) ? source.buckets : (Array.isArray(source.clusters) ? source.clusters : []));
+
+    const idToLabel = new Map();
+    const categories = [];
+    const items = [];
+
+    const registerCategory = (label) => {
+        const normalized = String(label ?? '').trim();
+        if (!normalized) {
+            return null;
+        }
+        if (!categories.includes(normalized)) {
+            categories.push(normalized);
+        }
+        return normalized;
+    };
+
+    const normalizeItemText = (item) => {
+        if (typeof item === 'string') {
+            return item.trim();
+        }
+        if (!item || typeof item !== 'object') {
+            return '';
+        }
+        return String(item.text ?? item.label ?? item.value ?? item.term ?? '').trim();
+    };
+
+    if (Array.isArray(source.categories)) {
+        source.categories.forEach((category) => {
+            registerCategory(category);
+        });
+    }
+
+    groupsSource.forEach((group, index) => {
+        if (!group || typeof group !== 'object') {
+            return;
+        }
+
+        const groupId = String(group.id ?? group.key ?? group.group_id ?? index).trim();
+        const label = registerCategory(group.label ?? group.name ?? group.title ?? group.category ?? groupId);
+        if (!label) {
+            return;
+        }
+        if (groupId) {
+            idToLabel.set(groupId, label);
+        }
+
+        const groupItems = Array.isArray(group.items)
+            ? group.items
+            : (Array.isArray(group.elements)
+                ? group.elements
+                : (Array.isArray(group.values) ? group.values : []));
+
+        groupItems.forEach((entry) => {
+            const text = normalizeItemText(entry);
+            if (!text) {
+                return;
+            }
+            items.push({ text, category: label });
+        });
+    });
+
+    const sourceItems = Array.isArray(source.items)
+        ? source.items
+        : (Array.isArray(source.elements) ? source.elements : []);
+
+    sourceItems.forEach((entry) => {
+        const text = normalizeItemText(entry);
+        if (!text) {
+            return;
+        }
+
+        let category = '';
+        if (entry && typeof entry === 'object') {
+            const rawCategory = String(entry.category ?? entry.group ?? entry.group_id ?? entry.bucket ?? '').trim();
+            category = idToLabel.get(rawCategory) || rawCategory;
+        }
+
+        const resolvedCategory = registerCategory(category);
+        if (!resolvedCategory) {
+            return;
+        }
+
+        items.push({ text, category: resolvedCategory });
+    });
+
+    const deduped = [];
+    const seen = new Set();
+    items.forEach((item) => {
+        const key = `${item.text}::${item.category}`;
+        if (seen.has(key)) {
+            return;
+        }
+        seen.add(key);
+        deduped.push(item);
+    });
+
+    return {
+        categories,
+        items: deduped
+    };
+}
+
 // ===== CARGAR EJEMPLO =====
 async function loadExample() {
     try {
@@ -522,7 +629,8 @@ function renderCurrentExercise() {
 
     // 6. GROUPING
     else if (ex.type === 'grouping') {
-        const allItems = [...ex.interaction.items].sort(() => Math.random() - 0.5);
+        const grouping = resolveGroupingModel(ex.interaction);
+        const allItems = [...grouping.items].sort(() => Math.random() - 0.5);
         
         html += `
         <div class="grouping-area">
@@ -532,7 +640,7 @@ function renderCurrentExercise() {
                 `).join('')}
             </div>
             <div class="buckets-container">
-                ${ex.interaction.categories.map(cat => `
+                ${grouping.categories.map(cat => `
                     <div class="bucket">
                         <div class="bucket-header">${cat}</div>
                         <div class="bucket-dropzone" data-category="${cat}"></div>

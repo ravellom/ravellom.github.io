@@ -148,6 +148,8 @@ export default {
         matchingLeft: 'Left item (concept)',
         matchingRight: 'Right item (definition or relation)',
         addMatchingPair: 'Add pair',
+        groupingCategories: 'Categories (separated by ;)',
+        groupingItemsMap: 'Items by category (one line per item: text => category)',
         fillGapsMapTitle: 'Answer key (gap order)',
         fillGapsGapLabel: 'Gap',
         fillGapsMissing: '(not defined)',

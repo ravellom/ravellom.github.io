@@ -244,7 +244,13 @@ function resolveOrderingSequence(interaction) {
         source.steps,
         source.items,
         source.lines,
-        source.correct_order
+        source.correct_order,
+        source.fragments,
+        source.blocks,
+        source.snippets,
+        source.parts,
+        source.elements,
+        source.chunks
     ];
 
     for (const candidate of candidates) {
@@ -255,6 +261,224 @@ function resolveOrderingSequence(interaction) {
     }
 
     return [];
+}
+
+function setupPreviewChoiceInteractions(shell) {
+    const options = Array.from(shell.querySelectorAll('.options-grid .option-btn'));
+    options.forEach((button) => {
+        button.removeAttribute('onclick');
+        button.addEventListener('click', () => {
+            options.forEach((candidate) => candidate.classList.remove('selected'));
+            button.classList.add('selected');
+        });
+    });
+}
+
+function setupPreviewReorderable(listSelector, itemSelector, shell) {
+    const list = shell.querySelector(listSelector);
+    if (!list) {
+        return;
+    }
+
+    const items = Array.from(list.querySelectorAll(itemSelector));
+    if (items.length === 0) {
+        return;
+    }
+
+    let draggedItem = null;
+
+    items.forEach((item) => {
+        item.draggable = true;
+
+        item.addEventListener('dragstart', () => {
+            draggedItem = item;
+            item.classList.add('dragging');
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            draggedItem = null;
+        });
+
+        item.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        item.addEventListener('drop', (event) => {
+            event.preventDefault();
+            if (!draggedItem || draggedItem === item) {
+                return;
+            }
+
+            const rect = item.getBoundingClientRect();
+            const dropAfter = event.clientY > rect.top + rect.height / 2;
+            if (dropAfter) {
+                item.after(draggedItem);
+            } else {
+                item.before(draggedItem);
+            }
+        });
+    });
+}
+
+function setupPreviewFillGapsInteractions(shell) {
+    const bank = shell.querySelector('#cloze-bank');
+    const drops = Array.from(shell.querySelectorAll('.cloze-drop'));
+    const bankTokens = Array.from(shell.querySelectorAll('#cloze-bank .cloze-token'));
+
+    if (!bank || drops.length === 0 || bankTokens.length === 0) {
+        return;
+    }
+
+    let selectedToken = null;
+
+    bankTokens.forEach((token) => {
+        token.draggable = true;
+        token.addEventListener('dragstart', () => {
+            selectedToken = token;
+        });
+        token.addEventListener('click', () => {
+            bankTokens.forEach((candidate) => candidate.classList.remove('selected'));
+            token.classList.add('selected');
+            selectedToken = token;
+        });
+    });
+
+    const attachTokenToDrop = (drop, token) => {
+        if (!drop || !token) {
+            return;
+        }
+
+        const existing = drop.querySelector('.cloze-token');
+        if (existing) {
+            bank.appendChild(existing);
+            existing.classList.remove('selected');
+        }
+
+        const placeholder = drop.querySelector('.cloze-drop-placeholder');
+        if (placeholder) {
+            placeholder.remove();
+        }
+
+        token.classList.remove('selected');
+        drop.appendChild(token);
+        drop.classList.add('filled');
+    };
+
+    drops.forEach((drop) => {
+        drop.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            drop.classList.add('drag-over');
+        });
+
+        drop.addEventListener('dragleave', () => {
+            drop.classList.remove('drag-over');
+        });
+
+        drop.addEventListener('drop', (event) => {
+            event.preventDefault();
+            drop.classList.remove('drag-over');
+            attachTokenToDrop(drop, selectedToken);
+        });
+
+        drop.addEventListener('click', () => {
+            if (selectedToken) {
+                attachTokenToDrop(drop, selectedToken);
+            }
+        });
+    });
+}
+
+function setupPreviewGroupingInteractions(shell) {
+    const pool = shell.querySelector('#pool-list');
+    const zones = Array.from(shell.querySelectorAll('.bucket-dropzone'));
+    if (!pool || zones.length === 0) {
+        return;
+    }
+
+    const targets = [pool, ...zones];
+    let selectedItem = null;
+
+    const bindItem = (item) => {
+        if (!item || item.dataset.previewBound === '1') {
+            return;
+        }
+        item.dataset.previewBound = '1';
+        item.draggable = true;
+
+        item.addEventListener('dragstart', () => {
+            selectedItem = item;
+            item.classList.add('dragging');
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+        });
+
+        item.addEventListener('click', () => {
+            const alreadySelected = selectedItem === item;
+            shell.querySelectorAll('.group-item.selected').forEach((node) => node.classList.remove('selected'));
+            selectedItem = alreadySelected ? null : item;
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+        });
+    };
+
+    shell.querySelectorAll('.group-item').forEach(bindItem);
+
+    targets.forEach((target) => {
+        target.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        target.addEventListener('drop', (event) => {
+            event.preventDefault();
+            if (!selectedItem) {
+                return;
+            }
+            selectedItem.classList.remove('selected', 'dragging');
+            target.appendChild(selectedItem);
+            selectedItem = null;
+        });
+
+        target.addEventListener('click', () => {
+            if (!selectedItem) {
+                return;
+            }
+            selectedItem.classList.remove('selected', 'dragging');
+            target.appendChild(selectedItem);
+            selectedItem = null;
+        });
+    });
+}
+
+function hydratePreviewInteractions(shell, exercise) {
+    const type = String(exercise?.type || '').trim();
+
+    if (type === 'multiple_choice' || type === 'true_false') {
+        setupPreviewChoiceInteractions(shell);
+        return;
+    }
+
+    if (type === 'fill_gaps') {
+        setupPreviewFillGapsInteractions(shell);
+        return;
+    }
+
+    if (type === 'ordering') {
+        setupPreviewReorderable('#sortable-list', '.sortable-item', shell);
+        return;
+    }
+
+    if (type === 'matching') {
+        setupPreviewReorderable('#matching-list', '.draggable-item', shell);
+        return;
+    }
+
+    if (type === 'grouping') {
+        setupPreviewGroupingInteractions(shell);
+    }
 }
 
 function createInteractionEditor(selectedExercise, applyChange) {
@@ -551,6 +775,51 @@ function createInteractionEditor(selectedExercise, applyChange) {
         return interactionSection;
     }
 
+    if (type === 'grouping') {
+        const grid = document.createElement('div');
+        grid.className = 'exercise-grid';
+
+        grid.appendChild(createField(
+            t('editor.groupingCategories'),
+            Array.isArray(interaction.categories) ? interaction.categories.join('; ') : '',
+            'interaction.categories',
+            (_, raw) => {
+                const categories = raw.split(';').map((item) => item.trim()).filter(Boolean);
+                applyChange('interaction.categories', categories);
+            },
+            true
+        ));
+
+        grid.appendChild(createField(
+            t('editor.groupingItemsMap'),
+            Array.isArray(interaction.items)
+                ? interaction.items.map((item) => `${item?.text || ''} => ${item?.category || ''}`).join('\n')
+                : '',
+            'interaction.items',
+            (_, raw) => {
+                const parsed = raw
+                    .split('\n')
+                    .map((line) => line.trim())
+                    .filter(Boolean)
+                    .map((line) => {
+                        const separator = line.includes('=>') ? '=>' : ':';
+                        const [left, ...rest] = line.split(separator);
+                        return {
+                            text: String(left || '').trim(),
+                            category: String(rest.join(separator) || '').trim()
+                        };
+                    })
+                    .filter((item) => item.text && item.category);
+
+                applyChange('interaction.items', parsed);
+            },
+            true
+        ));
+
+        interactionSection.appendChild(grid);
+        return interactionSection;
+    }
+
     const generic = createField(t('editor.interactionJson'), JSON.stringify(interaction, null, 2), 'interaction', (_, raw) => {
         try {
             const parsed = JSON.parse(raw);
@@ -571,6 +840,7 @@ function createPreviewSection(exercise) {
 
     if (window.RecuEduExerciseEngine && typeof window.RecuEduExerciseEngine.renderGameExercise === 'function') {
         shell.innerHTML = window.RecuEduExerciseEngine.renderGameExercise(exercise);
+        hydratePreviewInteractions(shell, exercise);
     } else {
         shell.textContent = t('editor.previewUnavailable');
     }
