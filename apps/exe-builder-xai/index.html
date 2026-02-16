@@ -145,46 +145,102 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="layout-resizer" class="panel-resizer" aria-hidden="true"></div>
 
         <section class="panel panel-main">
-            <h2><i class="ph ph-squares-four"></i> <span data-i18n="panel.explorer">Explorador de ejercicios XAI</span></h2>
-            <div class="editor-workspace" aria-live="polite">
-                <aside class="exercise-nav">
-                    <div class="exercise-nav-head">
-                        <h3><i class="ph ph-list-bullets"></i> <span data-i18n="panel.exerciseList">Listado</span></h3>
-                        <span id="exercise-count-badge" class="exercise-count-badge">0</span>
+            <div class="main-tabs" role="tablist" aria-label="Vista principal">
+                <button id="tab-btn-plan" class="main-tab-btn active" type="button" role="tab" aria-selected="true" data-target="tab-plan">
+                    <i class="ph ph-squares-four"></i> <span data-i18n="panel.explorer">Explorador de ejercicios XAI</span>
+                </button>
+                <button id="tab-btn-insights" class="main-tab-btn" type="button" role="tab" aria-selected="false" data-target="tab-insights">
+                    <i class="ph ph-eye"></i> XAI Insights (¿Por qué?)
+                </button>
+            </div>
+
+            <section id="tab-plan" class="main-tab-panel active" role="tabpanel">
+                <div class="editor-workspace" aria-live="polite">
+                    <aside class="exercise-nav">
+                        <div class="exercise-nav-head">
+                            <h3><i class="ph ph-list-bullets"></i> <span data-i18n="panel.exerciseList">Listado</span></h3>
+                            <span id="exercise-count-badge" class="exercise-count-badge">0</span>
+                        </div>
+                        <input id="exercise-search" class="mini-input" type="text" data-i18n-placeholder="ui.searchExercise" placeholder="Buscar ejercicio...">
+                        <ul id="exercise-nav-list" class="exercise-nav-list"></ul>
+                    </aside>
+
+                    <div id="editor-resizer" class="subpanel-resizer" aria-hidden="true"></div>
+
+                    <section class="exercise-detail">
+                        <div id="exercise-detail-header" class="exercise-detail-header"></div>
+                        <div id="exercise-editor" class="exercise-editor"></div>
+                    </section>
+                </div>
+
+                <details class="json-details">
+                    <summary data-i18n="panel.output">JSON XAI generado (técnico)</summary>
+                    <textarea id="json-input" class="json-input" spellcheck="false" placeholder="{\n  \"schema_version\": \"xai-exercises/2.0.0\",\n  ...\n}"></textarea>
+                </details>
+
+                <h2 data-i18n="panel.results">Resultados de validación</h2>
+                <div id="summary-card" class="summary-card" aria-live="polite"></div>
+                <details id="prompt-trace-details" class="json-details prompt-trace-details">
+                    <summary data-i18n="panel.promptTrace">Prompt final usado (sesión actual)</summary>
+                    <pre id="prompt-trace-output" class="prompt-trace-output"></pre>
+                </details>
+                <div class="result-grid">
+                    <div>
+                        <h3 class="result-title-row"><span data-i18n="results.errors">Errores</span><span id="errors-badge" class="result-badge">0</span></h3>
+                        <ul id="errors-list" class="result-list"></ul>
                     </div>
-                    <input id="exercise-search" class="mini-input" type="text" data-i18n-placeholder="ui.searchExercise" placeholder="Buscar ejercicio...">
-                    <ul id="exercise-nav-list" class="exercise-nav-list"></ul>
-                </aside>
-
-                <div id="editor-resizer" class="subpanel-resizer" aria-hidden="true"></div>
-
-                <section class="exercise-detail">
-                    <div id="exercise-detail-header" class="exercise-detail-header"></div>
-                    <div id="exercise-editor" class="exercise-editor"></div>
-                </section>
-            </div>
-
-            <details class="json-details">
-                <summary data-i18n="panel.output">JSON XAI generado (técnico)</summary>
-                <textarea id="json-input" class="json-input" spellcheck="false" placeholder="{\n  \"schema_version\": \"xai-exercises/2.0.0\",\n  ...\n}"></textarea>
-            </details>
-
-            <h2 data-i18n="panel.results">Resultados de validación</h2>
-            <div id="summary-card" class="summary-card" aria-live="polite"></div>
-            <details id="prompt-trace-details" class="json-details prompt-trace-details">
-                <summary data-i18n="panel.promptTrace">Prompt final usado (sesión actual)</summary>
-                <pre id="prompt-trace-output" class="prompt-trace-output"></pre>
-            </details>
-            <div class="result-grid">
-                <div>
-                    <h3 data-i18n="results.errors">Errores</h3>
-                    <ul id="errors-list" class="result-list"></ul>
+                    <div>
+                        <h3 class="result-title-row"><span data-i18n="results.warnings">Advertencias</span><span id="warnings-badge" class="result-badge warning">0</span></h3>
+                        <ul id="warnings-list" class="result-list"></ul>
+                    </div>
                 </div>
-                <div>
-                    <h3 data-i18n="results.warnings">Advertencias</h3>
-                    <ul id="warnings-list" class="result-list"></ul>
+            </section>
+
+            <section id="tab-insights" class="main-tab-panel" role="tabpanel">
+                <div class="insights-header">
+                    <h2><i class="ph ph-brain"></i> Informe de transparencia</h2>
+                    <p>Resumen rápido del estado de calidad, trazabilidad y supervisión humana del set generado.</p>
                 </div>
-            </div>
+
+                <div class="insight-kpis">
+                    <article class="insight-card">
+                        <span class="insight-label">Ejercicios</span>
+                        <strong id="insight-kpi-exercises" class="insight-value">0</strong>
+                    </article>
+                    <article class="insight-card ok">
+                        <span class="insight-label">Errores críticos</span>
+                        <strong id="insight-kpi-errors" class="insight-value">0</strong>
+                    </article>
+                    <article class="insight-card warn">
+                        <span class="insight-label">Advertencias</span>
+                        <strong id="insight-kpi-warnings" class="insight-value">0</strong>
+                    </article>
+                </div>
+
+                <div class="insight-grid">
+                    <article class="insight-block">
+                        <h3><i class="ph ph-list-checks"></i> Decisión lógica (rationale)</h3>
+                        <p id="insight-rationale">La lógica de diseño se actualizará cuando generes o valides un conjunto de ejercicios.</p>
+                    </article>
+                    <article class="insight-block">
+                        <h3><i class="ph ph-scales"></i> Mitigación de sesgos</h3>
+                        <p id="insight-bias">Recomendación: revisar lenguaje inclusivo, diversidad de contextos y accesibilidad en los enunciados.</p>
+                    </article>
+                    <article class="insight-block">
+                        <h3><i class="ph ph-graduation-cap"></i> Alineación pedagógica</h3>
+                        <p id="insight-pedagogy">Alinea objetivos, criterios y apoyos diferenciados antes de exportar al visor.</p>
+                    </article>
+                    <article class="insight-block">
+                        <h3><i class="ph ph-shield-check"></i> Estado de cumplimiento</h3>
+                        <p id="insight-compliance">Sin datos aún. Genera o valida para estimar cumplimiento técnico inicial.</p>
+                    </article>
+                </div>
+
+                <div class="human-review-callout">
+                    <strong><i class="ph ph-user-circle-gear"></i> Supervisión humana requerida</strong>
+                    <p>Antes de publicar o aplicar en aula, revisa precisión disciplinar, adecuación ética y pertinencia para tu contexto educativo.</p>
+                </div>
+            </section>
         </section>
     </main>
 

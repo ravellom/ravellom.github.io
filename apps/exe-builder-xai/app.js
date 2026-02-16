@@ -299,6 +299,7 @@ function enforceRequestedExerciseCount(bundle, requestedCount) {
 function updateDerivedViews(elements, data, validation, promptTrace = '') {
     elements.jsonInput.value = data ? JSON.stringify(data, null, 2) : '';
     renderValidationResult(elements, validation || null);
+    updateInsightsAndBadges(data, validation);
     if (elements.promptTraceOutput) {
         elements.promptTraceOutput.textContent = String(promptTrace || '').trim() || t('ui.noPromptTrace');
     }
@@ -311,6 +312,112 @@ function updateDerivedViews(elements, data, validation, promptTrace = '') {
         setState({ data, validation: nextValidation });
     };
     renderExerciseEditor(elements, data, onEditorChange);
+}
+
+function setupMainTabs() {
+    const tabButtons = Array.from(document.querySelectorAll('.main-tab-btn'));
+    const tabPanels = Array.from(document.querySelectorAll('.main-tab-panel'));
+
+    if (!tabButtons.length || !tabPanels.length) {
+        return;
+    }
+
+    const activate = (targetId) => {
+        tabButtons.forEach((button) => {
+            const isActive = button.dataset.target === targetId;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-selected', String(isActive));
+        });
+
+        tabPanels.forEach((panel) => {
+            panel.classList.toggle('active', panel.id === targetId);
+        });
+    };
+
+    tabButtons.forEach((button) => {
+        button.addEventListener('click', () => activate(button.dataset.target));
+    });
+}
+
+function updateInsightsAndBadges(data, validation) {
+    const errors = Array.isArray(validation?.errors) ? validation.errors.length : 0;
+    const warnings = Array.isArray(validation?.warnings) ? validation.warnings.length : 0;
+    const exerciseCount = Number(validation?.summary?.exerciseCount)
+        || (Array.isArray(data?.exercises) ? data.exercises.length : 0)
+        || 0;
+
+    const errorsBadge = document.getElementById('errors-badge');
+    const warningsBadge = document.getElementById('warnings-badge');
+    const kpiExercises = document.getElementById('insight-kpi-exercises');
+    const kpiErrors = document.getElementById('insight-kpi-errors');
+    const kpiWarnings = document.getElementById('insight-kpi-warnings');
+    const rationale = document.getElementById('insight-rationale');
+    const bias = document.getElementById('insight-bias');
+    const pedagogy = document.getElementById('insight-pedagogy');
+    const compliance = document.getElementById('insight-compliance');
+
+    if (errorsBadge) {
+        errorsBadge.textContent = String(errors);
+    }
+    if (warningsBadge) {
+        warningsBadge.textContent = String(warnings);
+    }
+    if (kpiExercises) {
+        kpiExercises.textContent = String(exerciseCount);
+    }
+    if (kpiErrors) {
+        kpiErrors.textContent = String(errors);
+    }
+    if (kpiWarnings) {
+        kpiWarnings.textContent = String(warnings);
+    }
+
+    if (!validation) {
+        if (rationale) {
+            rationale.textContent = 'La lógica de diseño se actualizará cuando generes o valides un conjunto de ejercicios.';
+        }
+        if (bias) {
+            bias.textContent = 'Recomendación: revisar lenguaje inclusivo, diversidad de contextos y accesibilidad en los enunciados.';
+        }
+        if (pedagogy) {
+            pedagogy.textContent = 'Alinea objetivos, criterios y apoyos diferenciados antes de exportar al visor.';
+        }
+        if (compliance) {
+            compliance.textContent = 'Sin datos aún. Genera o valida para estimar cumplimiento técnico inicial.';
+        }
+        return;
+    }
+
+    if (rationale) {
+        if (validation.valid) {
+            rationale.textContent = `El bundle es válido con ${exerciseCount} ejercicios. Puedes centrar la revisión en calidad pedagógica y ajustes contextuales.`;
+        } else {
+            rationale.textContent = `Se detectaron ${errors} errores críticos. Prioriza correcciones estructurales antes de exportar o implementar.`;
+        }
+    }
+
+    if (bias) {
+        if (warnings > 0) {
+            bias.textContent = `Hay ${warnings} advertencias a revisar: sesgo potencial, formulación o apoyos diferenciados incompletos.`;
+        } else {
+            bias.textContent = 'No se detectan advertencias en esta revisión automática. Mantén auditoría docente final.';
+        }
+    }
+
+    if (pedagogy) {
+        const types = new Set((Array.isArray(data?.exercises) ? data.exercises : []).map((exercise) => exercise?.type).filter(Boolean));
+        pedagogy.textContent = `Se identifican ${types.size || 0} tipos de ejercicio. Verifica variedad metodológica y coherencia con objetivos de aprendizaje.`;
+    }
+
+    if (compliance) {
+        if (validation.valid && warnings === 0) {
+            compliance.textContent = 'Cumplimiento técnico alto: sin errores ni advertencias. Requiere igualmente revisión humana final.';
+        } else if (validation.valid) {
+            compliance.textContent = 'Cumplimiento técnico aceptable: sin errores críticos, pero con advertencias pendientes.';
+        } else {
+            compliance.textContent = 'Cumplimiento técnico insuficiente: corrige errores críticos antes de su uso en aula o publicación.';
+        }
+    }
 }
 
 async function handleSummaryUpload(elements) {
@@ -469,6 +576,7 @@ async function handleGenerate(elements) {
 
 function initializeApp() {
     const elements = getDomElements();
+    setupMainTabs();
 
     setupHorizontalResize(elements.layoutResizer, elements.layout, 320, 760, '--left-panel-width');
     setupHorizontalResize(elements.editorResizer, elements.editorWorkspace, 220, 520, '--exercise-nav-width');
