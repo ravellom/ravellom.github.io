@@ -374,48 +374,48 @@ function updateInsightsAndBadges(data, validation) {
 
     if (!validation) {
         if (rationale) {
-            rationale.textContent = 'La lógica de diseño se actualizará cuando generes o valides un conjunto de ejercicios.';
+            rationale.textContent = t('insights.rationale_default');
         }
         if (bias) {
-            bias.textContent = 'Recomendación: revisar lenguaje inclusivo, diversidad de contextos y accesibilidad en los enunciados.';
+            bias.textContent = t('insights.bias_default');
         }
         if (pedagogy) {
-            pedagogy.textContent = 'Alinea objetivos, criterios y apoyos diferenciados antes de exportar al visor.';
+            pedagogy.textContent = t('insights.pedagogy_default');
         }
         if (compliance) {
-            compliance.textContent = 'Sin datos aún. Genera o valida para estimar cumplimiento técnico inicial.';
+            compliance.textContent = t('insights.compliance_default');
         }
         return;
     }
 
     if (rationale) {
         if (validation.valid) {
-            rationale.textContent = `El bundle es válido con ${exerciseCount} ejercicios. Puedes centrar la revisión en calidad pedagógica y ajustes contextuales.`;
+            rationale.textContent = t('insights.rationale_valid', { count: exerciseCount });
         } else {
-            rationale.textContent = `Se detectaron ${errors} errores críticos. Prioriza correcciones estructurales antes de exportar o implementar.`;
+            rationale.textContent = t('insights.rationale_invalid', { count: errors });
         }
     }
 
     if (bias) {
         if (warnings > 0) {
-            bias.textContent = `Hay ${warnings} advertencias a revisar: sesgo potencial, formulación o apoyos diferenciados incompletos.`;
+            bias.textContent = t('insights.bias_warnings', { count: warnings });
         } else {
-            bias.textContent = 'No se detectan advertencias en esta revisión automática. Mantén auditoría docente final.';
+            bias.textContent = t('insights.bias_nowarnings');
         }
     }
 
     if (pedagogy) {
         const types = new Set((Array.isArray(data?.exercises) ? data.exercises : []).map((exercise) => exercise?.type).filter(Boolean));
-        pedagogy.textContent = `Se identifican ${types.size || 0} tipos de ejercicio. Verifica variedad metodológica y coherencia con objetivos de aprendizaje.`;
+        pedagogy.textContent = t('insights.pedagogy_types', { count: types.size || 0 });
     }
 
     if (compliance) {
         if (validation.valid && warnings === 0) {
-            compliance.textContent = 'Cumplimiento técnico alto: sin errores ni advertencias. Requiere igualmente revisión humana final.';
+            compliance.textContent = t('insights.compliance_high');
         } else if (validation.valid) {
-            compliance.textContent = 'Cumplimiento técnico aceptable: sin errores críticos, pero con advertencias pendientes.';
+            compliance.textContent = t('insights.compliance_ok');
         } else {
-            compliance.textContent = 'Cumplimiento técnico insuficiente: corrige errores críticos antes de su uso en aula o publicación.';
+            compliance.textContent = t('insights.compliance_low');
         }
     }
 }

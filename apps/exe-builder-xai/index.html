@@ -150,7 +150,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <i class="ph ph-squares-four"></i> <span data-i18n="panel.explorer">Explorador de ejercicios XAI</span>
                 </button>
                 <button id="tab-btn-insights" class="main-tab-btn" type="button" role="tab" aria-selected="false" data-target="tab-insights">
-                    <i class="ph ph-eye"></i> XAI Insights (¿Por qué?)
+                    <i class="ph ph-eye"></i> <span data-i18n="insights.tabLabel">XAI Insights (¿Por qué?)</span>
                 </button>
             </div>
 
@@ -198,47 +198,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <section id="tab-insights" class="main-tab-panel" role="tabpanel">
                 <div class="insights-header">
-                    <h2><i class="ph ph-brain"></i> Informe de transparencia</h2>
-                    <p>Resumen rápido del estado de calidad, trazabilidad y supervisión humana del set generado.</p>
+                    <h2><i class="ph ph-brain"></i> <span data-i18n="insights.title">Informe de transparencia</span></h2>
+                    <p data-i18n="insights.desc">Resumen rápido del estado de calidad, trazabilidad y supervisión humana del set generado.</p>
                 </div>
 
                 <div class="insight-kpis">
                     <article class="insight-card">
-                        <span class="insight-label">Ejercicios</span>
+                        <span class="insight-label" data-i18n="insights.kpi_exercises">Ejercicios</span>
                         <strong id="insight-kpi-exercises" class="insight-value">0</strong>
                     </article>
                     <article class="insight-card ok">
-                        <span class="insight-label">Errores críticos</span>
+                        <span class="insight-label" data-i18n="insights.kpi_errors">Errores críticos</span>
                         <strong id="insight-kpi-errors" class="insight-value">0</strong>
                     </article>
                     <article class="insight-card warn">
-                        <span class="insight-label">Advertencias</span>
+                        <span class="insight-label" data-i18n="insights.kpi_warnings">Advertencias</span>
                         <strong id="insight-kpi-warnings" class="insight-value">0</strong>
                     </article>
                 </div>
 
                 <div class="insight-grid">
                     <article class="insight-block">
-                        <h3><i class="ph ph-list-checks"></i> Decisión lógica (rationale)</h3>
-                        <p id="insight-rationale">La lógica de diseño se actualizará cuando generes o valides un conjunto de ejercicios.</p>
+                        <h3><i class="ph ph-list-checks"></i> <span data-i18n="insights.rationale_title">Decisión lógica (rationale)</span></h3>
+                        <p id="insight-rationale"></p>
                     </article>
                     <article class="insight-block">
-                        <h3><i class="ph ph-scales"></i> Mitigación de sesgos</h3>
-                        <p id="insight-bias">Recomendación: revisar lenguaje inclusivo, diversidad de contextos y accesibilidad en los enunciados.</p>
+                        <h3><i class="ph ph-scales"></i> <span data-i18n="insights.bias_title">Mitigación de sesgos</span></h3>
+                        <p id="insight-bias"></p>
                     </article>
                     <article class="insight-block">
-                        <h3><i class="ph ph-graduation-cap"></i> Alineación pedagógica</h3>
-                        <p id="insight-pedagogy">Alinea objetivos, criterios y apoyos diferenciados antes de exportar al visor.</p>
+                        <h3><i class="ph ph-graduation-cap"></i> <span data-i18n="insights.pedagogy_title">Alineación pedagógica</span></h3>
+                        <p id="insight-pedagogy"></p>
                     </article>
                     <article class="insight-block">
-                        <h3><i class="ph ph-shield-check"></i> Estado de cumplimiento</h3>
-                        <p id="insight-compliance">Sin datos aún. Genera o valida para estimar cumplimiento técnico inicial.</p>
+                        <h3><i class="ph ph-shield-check"></i> <span data-i18n="insights.compliance_title">Estado de cumplimiento</span></h3>
+                        <p id="insight-compliance"></p>
                     </article>
                 </div>
 
                 <div class="human-review-callout">
-                    <strong><i class="ph ph-user-circle-gear"></i> Supervisión humana requerida</strong>
-                    <p>Antes de publicar o aplicar en aula, revisa precisión disciplinar, adecuación ética y pertinencia para tu contexto educativo.</p>
+                    <strong><i class="ph ph-user-circle-gear"></i> <span data-i18n="insights.human_review_title">Supervisión humana requerida</span></strong>
+                    <p data-i18n="insights.human_review_desc">Antes de publicar o aplicar en aula, revisa precisión disciplinar, adecuación ética y pertinencia para tu contexto educativo.</p>
                 </div>
             </section>
         </section>
