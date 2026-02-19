@@ -1,6 +1,6 @@
-// ========================================
+﻿// ========================================
 // LIKERT DASHBOARD - 3 Column Layout
-// Sistema con navegación por paneles
+// Sistema con navegaciÃ³n por paneles
 // ========================================
 
 import { chartRegistry } from './core/ChartRegistry.js';
@@ -51,13 +51,13 @@ const AppState = {
         barBorderColor: '#ffffff',
         barBorderWidth: 1,
         labelMaxLines: 2,
-        // Nuevos controles de márgenes
+        // Nuevos controles de mÃ¡rgenes
         marginTop: 60,
         marginBottom: 80,
         marginLeft: 200,
         marginRight: 150,
         chartWidth: 1200,
-        // Nuevos controles de títulos y ejes
+        // Nuevos controles de tÃ­tulos y ejes
         chartTitle: '',
         showTitle: true,
         showGridBorder: true,
@@ -75,7 +75,7 @@ const AppState = {
 window.AppState = AppState;
 
 /**
- * Navegación entre paneles
+ * NavegaciÃ³n entre paneles
  */
 const Navigation = {
     init() {
@@ -88,7 +88,7 @@ const Navigation = {
     },
 
     switchPanel(panelId) {
-        // Actualizar botones de navegación
+        // Actualizar botones de navegaciÃ³n
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.remove('active');
         });
@@ -105,7 +105,7 @@ const Navigation = {
 };
 
 /**
- * ConfigLoader - Carga configuración y registra tipos de gráficos
+ * ConfigLoader - Carga configuraciÃ³n y registra tipos de grÃ¡ficos
  */
 const ConfigLoader = {
     async loadConfig() {
@@ -154,9 +154,9 @@ const ConfigLoader = {
                 const chartModule = module.default;
                 
                 if (chartRegistry.register(chartModule)) {
-                    console.log(`[ConfigLoader] ✓ Chart registered: ${chartType.id}`);
+                    console.log(`[ConfigLoader] âœ“ Chart registered: ${chartType.id}`);
                 } else {
-                    console.error(`[ConfigLoader] ✗ Failed to register: ${chartType.id}`);
+                    console.error(`[ConfigLoader] âœ— Failed to register: ${chartType.id}`);
                 }
             } catch (error) {
                 console.error(`[ConfigLoader] Error loading chart ${chartType.id}:`, error);
@@ -168,7 +168,7 @@ const ConfigLoader = {
 };
 
 /**
- * I18n - Internacionalización
+ * I18n - InternacionalizaciÃ³n
  */
 const I18n = {
     async loadLanguage(lang) {
@@ -214,7 +214,7 @@ const I18n = {
             UI.updateScaleLabels();
         }
         
-        // Redibujar gráfico si hay datos cargados
+        // Redibujar grÃ¡fico si hay datos cargados
         if (AppState.longData && AppState.longData.length > 0) {
             ChartRenderer.render();
         }
@@ -237,25 +237,25 @@ const DataParser = {
         // NO validamos comillas - MS Forms y otros no las usan
         // Los nombres pueden estar con o sin comillas
         
-        console.log(`📄 Parseando CSV: ${lines.length} líneas totales, ${headers.length} columnas`);
-        console.log('📊 Headers:', headers);
+        console.log(`ðŸ“„ Parseando CSV: ${lines.length} lÃ­neas totales, ${headers.length} columnas`);
+        console.log('ðŸ“Š Headers:', headers);
         
         for (let i = 1; i < lines.length; i++) {
             const line = lines[i].trim();
-            if (!line) continue; // Saltar líneas vacías
+            if (!line) continue; // Saltar lÃ­neas vacÃ­as
             
             const values = this.parseCSVLine(line);
             
-            // Ajustar número de columnas si es necesario
+            // Ajustar nÃºmero de columnas si es necesario
             if (values.length < headers.length) {
-                // Rellenar con valores vacíos
-                console.warn(`⚠️ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), rellenando con vacíos`);
+                // Rellenar con valores vacÃ­os
+                console.warn(`âš ï¸ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), rellenando con vacÃ­os`);
                 while (values.length < headers.length) {
                     values.push('');
                 }
             } else if (values.length > headers.length) {
                 // Truncar columnas extra
-                console.warn(`⚠️ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), truncando extras`);
+                console.warn(`âš ï¸ Fila ${i}: ${values.length} columnas (esperadas ${headers.length}), truncando extras`);
                 values.length = headers.length;
             }
             
@@ -267,8 +267,8 @@ const DataParser = {
         }
         
         if (rows.length === 0) {
-            throw new Error('❌ Error: No se encontraron filas válidas de datos.\n\n' +
-                          'Verifica que tu CSV tenga datos y que todas las filas tengan el mismo número de columnas.');
+            throw new Error('âŒ Error: No se encontraron filas vÃ¡lidas de datos.\n\n' +
+                          'Verifica que tu CSV tenga datos y que todas las filas tengan el mismo nÃºmero de columnas.');
         }
 
         return { headers, rows };
@@ -300,23 +300,69 @@ const DataParser = {
         const longData = [];
         const headers = wideData.headers;
         const idColumn = headers[0];
+        const nonIdColumns = headers.slice(1);
+        let candidateColumns = nonIdColumns.filter((col) => {
+            const values = wideData.rows
+                .map((row) => row[col])
+                .filter((v) => v !== '' && v !== null && v !== undefined);
+            if (values.length === 0) return false;
+
+            let numericCount = 0;
+            let integerCount = 0;
+            let likertRangeCount = 0;
+
+            values.forEach((v) => {
+                const n = Number(v);
+                if (Number.isFinite(n)) {
+                    numericCount += 1;
+                    if (Number.isInteger(n)) integerCount += 1;
+                    if (n >= 0 && n <= 10) likertRangeCount += 1;
+                }
+            });
+
+            const numericRatio = numericCount / values.length;
+            const integerRatio = numericCount > 0 ? integerCount / numericCount : 0;
+            const rangeRatio = numericCount > 0 ? likertRangeCount / numericCount : 0;
+
+            return numericRatio >= 0.6 && integerRatio >= 0.9 && rangeRatio >= 0.8;
+        });
+
+        // Fallback: si la heurística estricta no detecta columnas Likert,
+        // usamos columnas con al menos un valor numérico para evitar vista en blanco.
+        if (candidateColumns.length === 0) {
+            candidateColumns = nonIdColumns.filter((col) => {
+                const values = wideData.rows.map((row) => row[col]);
+                return values.some((v) => Number.isFinite(Number(v)));
+            });
+
+            if (candidateColumns.length > 0) {
+                console.warn(`No se detectaron columnas Likert estrictas; fallback a columnas numéricas: ${candidateColumns.length}`);
+            } else {
+                candidateColumns = [...nonIdColumns];
+                console.warn('No se detectaron columnas numéricas; fallback a todas las columnas no-ID.');
+            }
+        }
+
         let emptyValueCount = 0;
         let validValueCount = 0;
 
-        console.log(`🔄 Convirtiendo datos de formato ancho a largo...`);
+        console.log('Convirtiendo datos de formato ancho a largo...');
         console.log(`   Columna ID: "${idColumn}"`);
-        console.log(`   ${wideData.rows.length} filas × ${headers.length - 1} ítems = ${wideData.rows.length * (headers.length - 1)} registros esperados`);
+        console.log(`   Columnas Likert detectadas: ${candidateColumns.length}/${headers.length - 1}`);
+        if (candidateColumns.length < headers.length - 1) {
+            const skipped = headers.slice(1).filter((h) => !candidateColumns.includes(h));
+            console.log(`   Columnas omitidas (no Likert): ${skipped.join(', ')}`);
+        }
+        console.log(`   ${wideData.rows.length} filas x ${candidateColumns.length} items = ${wideData.rows.length * candidateColumns.length} registros esperados`);
 
         wideData.rows.forEach((row, rowIndex) => {
             const respondentId = row[idColumn];
-            
-            for (let i = 1; i < headers.length; i++) {
-                const itemName = headers[i];
+
+            for (let i = 0; i < candidateColumns.length; i++) {
+                const itemName = candidateColumns[i];
                 const value = row[itemName];
-                
-                // Manejar valores vacíos o inválidos
+
                 if (value === '' || value === null || value === undefined) {
-                    console.warn(`⚠️ Fila ${rowIndex + 1}, columna "${itemName}": valor vacío, usando null`);
                     emptyValueCount++;
                     longData.push({
                         respondent: respondentId,
@@ -326,7 +372,6 @@ const DataParser = {
                 } else {
                     const numValue = parseInt(value, 10);
                     if (isNaN(numValue)) {
-                        console.warn(`⚠️ Fila ${rowIndex + 1}, columna "${itemName}": valor "${value}" no es numérico`);
                         emptyValueCount++;
                     } else {
                         validValueCount++;
@@ -340,7 +385,7 @@ const DataParser = {
             }
         });
 
-        console.log(`✅ Conversión completada: ${validValueCount} valores válidos, ${emptyValueCount} valores vacíos/inválidos`);
+        console.log(`Conversion completada: ${validValueCount} valores validos, ${emptyValueCount} vacios/invalidos`);
         return longData;
     },
 
@@ -351,17 +396,15 @@ const DataParser = {
         const nullValues = [];
         const outOfRangeValues = [];
 
-        console.log(`🔍 Validando ${longData.length} registros contra escala de ${minValue}-${maxValue}...`);
+        console.log(`Validando ${longData.length} registros contra escala ${minValue}-${maxValue}...`);
 
         longData.forEach(record => {
-            // Permitir valores null/vacíos (respuestas no contestadas)
             if (record.value === null || isNaN(record.value)) {
                 nullValues.push({
                     item: record.item,
                     respondent: record.respondent,
                     value: record.value
                 });
-                // NO agregar a invalidValues - los null son válidos en encuestas
             } else if (record.value < minValue || record.value > maxValue) {
                 outOfRangeValues.push({
                     item: record.item,
@@ -374,22 +417,29 @@ const DataParser = {
                     value: record.value,
                     reason: `fuera de rango (${minValue}-${maxValue})`
                 });
+                // No bloqueamos: tratamos fuera de rango como no respondido
+                record.value = null;
+                nullValues.push({
+                    item: record.item,
+                    respondent: record.respondent,
+                    value: null
+                });
             }
         });
 
         if (nullValues.length > 0) {
-            console.warn(`ℹ️ ${nullValues.length} valores vacíos/no contestados (esto es normal en encuestas)`);
+            console.warn(`${nullValues.length} valores vacios/no contestados (normal en encuestas)`);
         }
-        
+
         if (outOfRangeValues.length > 0) {
-            console.warn(`❌ Validación falló: ${outOfRangeValues.length} valores fuera de rango`);
+            console.warn(`${outOfRangeValues.length} valores fuera de rango fueron convertidos a vacio para continuar`);
             console.warn('Primeros 5 valores fuera de rango:', outOfRangeValues.slice(0, 5));
         } else {
-            console.log(`✅ Validación exitosa: todos los valores numéricos están en rango ${minValue}-${maxValue}`);
+            console.log(`Validacion exitosa: todos los valores numericos en rango ${minValue}-${maxValue}`);
         }
 
         return {
-            valid: invalidValues.length === 0, // Solo fallar si hay valores fuera de rango
+            valid: true,
             invalidValues: invalidValues,
             summary: {
                 total: longData.length,
@@ -401,20 +451,20 @@ const DataParser = {
 };
 
 /**
- * DataTransformer - Transformación de datos
+ * DataTransformer - TransformaciÃ³n de datos
  */
 const DataTransformer = {
     calculateStatistics(longData, items) {
         const stats = {};
 
         items.forEach(item => {
-            // Filtrar datos por ítem y EXCLUIR valores null/NaN
+            // Filtrar datos por Ã­tem y EXCLUIR valores null/NaN
             const itemData = longData
                 .filter(d => d.item === item)
                 .map(d => d.value)
                 .filter(val => val !== null && !isNaN(val));
             
-            // Si no hay datos válidos para este ítem, usar valores por defecto
+            // Si no hay datos vÃ¡lidos para este Ã­tem, usar valores por defecto
             if (itemData.length === 0) {
                 const maxScale = AppState.scaleConfig.points;
                 const frequencies = {};
@@ -653,13 +703,13 @@ const ChartRenderer = {
         const scale = parseInt(document.getElementById('export-scale')?.value || '2');
 
         if (format === 'png') {
-            // Crear canvas temporal con escala para alta resolución
+            // Crear canvas temporal con escala para alta resoluciÃ³n
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = canvas.width * scale;
             tempCanvas.height = canvas.height * scale;
             const tempCtx = tempCanvas.getContext('2d');
             
-            // Fondo blanco para mejor visualización
+            // Fondo blanco para mejor visualizaciÃ³n
             tempCtx.fillStyle = '#FFFFFF';
             tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
             
@@ -677,7 +727,7 @@ const ChartRenderer = {
     },
 
     exportAsSVG(canvas) {
-        // Convertir canvas a SVG usando serialización del contenido
+        // Convertir canvas a SVG usando serializaciÃ³n del contenido
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
@@ -947,7 +997,7 @@ const UI = {
 
             const headers = Object.keys(rows[0]);
             if (headers.length < 2) {
-                alert('El dataset necesita al menos 2 columnas (ID + ítems).');
+                alert('El dataset necesita al menos 2 columnas (ID + Ã­tems).');
                 return;
             }
 
@@ -1002,9 +1052,8 @@ const UI = {
         }
 
         const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
-        if (!validation.valid) {
-            alert(I18n.t('invalid_data') + '\n' + JSON.stringify(validation.invalidValues.slice(0, 20), null, 2));
-            return;
+        if (validation.summary.outOfRange > 0) {
+            console.warn(`${validation.summary.outOfRange} valores fuera de rango convertidos a vacio.`);
         }
 
         this.showDataPreview(parsedData);
@@ -1108,7 +1157,7 @@ const UI = {
                     case 'label-max-lines':
                         AppState.chartConfig.labelMaxLines = parseInt(value);
                         break;
-                    // Nuevos controles de márgenes
+                    // Nuevos controles de mÃ¡rgenes
                     case 'margin-top':
                         AppState.chartConfig.marginTop = parseInt(value);
                         break;
@@ -1124,7 +1173,7 @@ const UI = {
                     case 'chart-width':
                         AppState.chartConfig.chartWidth = parseInt(value);
                         break;
-                    // Nuevos controles de títulos y ejes
+                    // Nuevos controles de tÃ­tulos y ejes
                     case 'chart-title':
                         AppState.chartConfig.chartTitle = value;
                         break;
@@ -1394,7 +1443,7 @@ const UI = {
         const statusDiv = document.getElementById('ai-status');
         if (statusDiv && apiKey.trim()) {
             statusDiv.className = 'ai-status success';
-            statusDiv.textContent = '✓ API Key guardada';
+            statusDiv.textContent = 'âœ“ API Key guardada';
             setTimeout(() => {
                 statusDiv.className = 'ai-status';
                 statusDiv.textContent = '';
@@ -1411,7 +1460,7 @@ const UI = {
             
             reader.onload = (e) => {
                 try {
-                    console.log(`📂 Convirtiendo Excel "${file.name}" a CSV...`);
+                    console.log(`ðŸ“‚ Convirtiendo Excel "${file.name}" a CSV...`);
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     
@@ -1425,27 +1474,27 @@ const UI = {
                     const colCount = range.e.c - range.s.c + 1;
                     
                     console.log(`   Hoja: "${firstSheetName}"`);
-                    console.log(`   Rango: ${worksheet['!ref']} (${rowCount} filas × ${colCount} columnas)`);
+                    console.log(`   Rango: ${worksheet['!ref']} (${rowCount} filas Ã— ${colCount} columnas)`);
                     console.log(`   Filas de datos: ${rowCount - 1} (excluyendo encabezado)`);
                     
                     // Convert to CSV
                     const csv = XLSX.utils.sheet_to_csv(worksheet);
                     const csvLines = csv.trim().split('\n');
-                    console.log(`✅ CSV generado: ${csvLines.length} líneas totales`);
+                    console.log(`âœ… CSV generado: ${csvLines.length} lÃ­neas totales`);
                     
                     // Show first few lines
-                    console.log('Primeras 3 líneas del CSV:');
+                    console.log('Primeras 3 lÃ­neas del CSV:');
                     console.log(csvLines.slice(0, 3).join('\n'));
                     
                     resolve(csv);
                 } catch (error) {
-                    console.error('❌ Error al convertir Excel:', error);
+                    console.error('âŒ Error al convertir Excel:', error);
                     reject(new Error('Error al convertir Excel a CSV: ' + error.message));
                 }
             };
             
             reader.onerror = () => {
-                console.error('❌ Error al leer el archivo Excel');
+                console.error('âŒ Error al leer el archivo Excel');
                 reject(new Error('Error al leer el archivo Excel'));
             };
             reader.readAsArrayBuffer(file);
@@ -1503,7 +1552,7 @@ const UI = {
             statusText.textContent = 'Sin datos';
         }
 
-        console.log('✅ Carga de datos reiniciada');
+        console.log('âœ… Carga de datos reiniciada');
     },
 
     /**
@@ -1532,17 +1581,17 @@ const UI = {
 
             // Read file - convert Excel to CSV if needed
             let csvContent;
-            console.log(`📝 Procesando archivo: ${file.name}`);
+            console.log(`ðŸ“ Procesando archivo: ${file.name}`);
             if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
                 csvContent = await this.convertExcelToCSV(file);
             } else {
                 csvContent = await file.text();
                 const csvLines = csvContent.trim().split('\n');
-                console.log(`📝 Archivo CSV: ${csvLines.length} líneas totales`);
+                console.log(`ðŸ“ Archivo CSV: ${csvLines.length} lÃ­neas totales`);
             }
 
             // Process with Gemini
-            console.log(`🤖 Enviando a Gemini AI (modelo: ${model})...`);
+            console.log(`ðŸ¤– Enviando a Gemini AI (modelo: ${model})...`);
             const processor = new GeminiProcessor(apiKey, model);
             const result = await processor.processFile(csvContent, sourceType);
 
@@ -1585,19 +1634,19 @@ const UI = {
                 // Check if it's a quota error
                 if (error.message && error.message.includes('quota')) {
                     statusDiv.innerHTML = `
-                        <strong>⚠️ Cuota de API excedida</strong><br>
-                        El modelo <code>${model}</code> ha alcanzado su límite.<br>
+                        <strong>âš ï¸ Cuota de API excedida</strong><br>
+                        El modelo <code>${model}</code> ha alcanzado su lÃ­mite.<br>
                         <strong>Soluciones:</strong><br>
-                        • Espera unos minutos e intenta de nuevo<br>
-                        • Prueba con otro modelo (Gemini 3 Flash/Pro)<br>
-                        • Usa el modo de carga manual<br>
-                        • Revisa tu cuota en: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                        â€¢ Espera unos minutos e intenta de nuevo<br>
+                        â€¢ Prueba con otro modelo (Gemini 3 Flash/Pro)<br>
+                        â€¢ Usa el modo de carga manual<br>
+                        â€¢ Revisa tu cuota en: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
                     `;
                 } else {
                     statusDiv.innerHTML = `
-                        <strong>❌ ${I18n.t('ai_error')}</strong><br>
+                        <strong>âŒ ${I18n.t('ai_error')}</strong><br>
                         ${error.message}<br>
-                        <small>Haz clic en "🔄 Reiniciar" para intentar de nuevo</small>
+                        <small>Haz clic en "ðŸ”„ Reiniciar" para intentar de nuevo</small>
                     `;
                 }
             }
@@ -1637,15 +1686,15 @@ const UI = {
                 cleanedCSV = lines.join('\n');
             }
             
-            console.log('📊 Aplicando datos procesados por IA...');
+            console.log('ðŸ“Š Aplicando datos procesados por IA...');
             console.log('Nombres de columnas:', columnNames);
 
             // Parse the cleaned CSV
-            console.log('📋 CSV limpio a procesar:');
+            console.log('ðŸ“‹ CSV limpio a procesar:');
             console.log(cleanedCSV.split('\n').slice(0, 3).join('\n') + '\n...');
             
             const parsedData = DataParser.parseCSV(cleanedCSV);
-            console.log(`✅ Datos parseados: ${parsedData.rows.length} filas, ${parsedData.headers.length} columnas`);
+            console.log(`âœ… Datos parseados: ${parsedData.rows.length} filas, ${parsedData.headers.length} columnas`);
 
             // Apply detected scale
             const scalePoints = result.analysis.scaleDetected.points;
@@ -1662,36 +1711,13 @@ const UI = {
             // Update scale labels in UI
             this.updateScaleLabels();
 
-            // Aplicar datos después de configurar la escala detectada
+            // Aplicar datos despuÃ©s de configurar la escala detectada
             this.applyParsedData(parsedData, 'gemini');
 
             // Validate data
             const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
-            if (!validation.valid) {
-                const errorMsg = `❌ DATOS INVÁLIDOS DETECTADOS\n\n` +
-                    `Total de registros: ${validation.summary.total}\n` +
-                    `Valores vacíos/no contestados: ${validation.summary.nullValues} (aceptables)\n` +
-                    `Valores fuera de rango (1-${scalePoints}): ${validation.summary.outOfRange} ⚠️\n\n` +
-                    `PROBLEMA:\n` +
-                    `Hay ${validation.summary.outOfRange} respuestas con valores fuera del rango 1-${scalePoints}\n\n` +
-                    `SOLUCIONES:\n` +
-                    `1. Revisa la consola (F12) para ver exactamente qué filas tienen problemas\n` +
-                    `2. Verifica que todas las respuestas estén entre 1 y ${scalePoints}\n` +
-                    `3. Corrige los valores en el archivo Excel original\n` +
-                    `4. Intenta cargar el archivo de nuevo\n\n` +
-                    `Primeros valores inválidos:\n` +
-                    JSON.stringify(validation.invalidValues.slice(0, 3), null, 2);
-                
-                if (statusDiv) {
-                    statusDiv.className = 'ai-status error';
-                    statusDiv.innerHTML = `<strong>❌ Error de validación</strong><br>` +
-                        `${validation.summary.outOfRange} valores fuera de rango (1-${scalePoints}).<br>` +
-                        `<small>Abre la consola (F12) para ver detalles exactos</small>`;
-                }
-                
-                alert(errorMsg);
-                console.error('Detalles completos de validación:', validation);
-                return;
+            if (validation.summary.outOfRange > 0) {
+                console.warn(`${validation.summary.outOfRange} valores fuera de rango convertidos a vacio.`);
             }
 
             // Show success message
@@ -1736,7 +1762,7 @@ const UI = {
         html += '</tbody></table>';
         
         if (data.rows.length > 5) {
-            html += `<p class="text-muted" style="margin-top: 0.5rem;">... y ${data.rows.length - 5} filas más</p>`;
+            html += `<p class="text-muted" style="margin-top: 0.5rem;">... y ${data.rows.length - 5} filas mÃ¡s</p>`;
         }
         
         container.innerHTML = html;
@@ -1789,7 +1815,12 @@ const UI = {
     }
 };
 
-// Inicializar cuando el DOM esté listo
+// Inicializar cuando el DOM estÃ© listo
 document.addEventListener('DOMContentLoaded', () => {
     UI.init();
 });
+
+
+
+
+

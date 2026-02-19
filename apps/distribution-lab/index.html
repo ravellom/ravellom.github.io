@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -165,6 +165,8 @@
                             <option value="boxplot">Boxplot</option>
                             <option value="violin">Violin</option>
                             <option value="boxviolin">Box + Violin</option>
+                            <option value="raincloud">Raincloud</option>
+                            <option value="errorbar">Mean + Error Bars</option>
                         </select>
                     </div>
                     <div class="option-group">
@@ -188,6 +190,19 @@
                     <div class="option-group">
                         <label class="option-label" data-i18n="kde_steps">KDE steps</label>
                         <input id="kde-steps" type="number" min="30" max="200" step="5" value="70" class="number-input">
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="error_metric">Error metric</label>
+                        <select id="error-metric" class="select-input">
+                            <option value="sd" data-i18n="error_sd">SD</option>
+                            <option value="se" data-i18n="error_se">SE</option>
+                            <option value="ci95" data-i18n="error_ci95">CI 95%</option>
+                            <option value="minmax" data-i18n="error_minmax">Min-Max</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="error_ci_level">CI level (%)</label>
+                        <input id="error-ci-level" type="number" min="80" max="99" step="1" value="95" class="number-input">
                     </div>
                 </details>
                 <details class="settings-section">
@@ -372,6 +387,20 @@
                             <span data-i18n="show_stats_panel">Show stats panel</span>
                         </label>
                     </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-hypothesis-panel" type="checkbox">
+                            <span data-i18n="show_hypothesis_panel">Show hypothesis test</span>
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="hypothesis_mode">Hypothesis mode</label>
+                        <select id="hypothesis-mode" class="select-input">
+                            <option value="auto" data-i18n="hypothesis_auto">Auto</option>
+                            <option value="parametric" data-i18n="hypothesis_parametric">Parametric</option>
+                            <option value="nonparametric" data-i18n="hypothesis_nonparametric">Non-parametric</option>
+                        </select>
+                    </div>
                     <div class="option-group" id="stats-fields-group">
                         <label class="option-label" data-i18n="stats_fields">Stats fields</label>
                         <div class="option-group two-col">
@@ -489,6 +518,16 @@
                     </button>
                 </div>
                 <div class="option-group">
+                    <button id="btn-export-pdf" class="btn-secondary btn-block">
+                        <i class="ph ph-file-pdf"></i> <span data-i18n="export_pdf">PDF</span>
+                    </button>
+                </div>
+                <div class="option-group">
+                    <button id="btn-copy-clipboard" class="btn-secondary btn-block">
+                        <i class="ph ph-clipboard-text"></i> <span data-i18n="copy_clipboard">Copy to Clipboard</span>
+                    </button>
+                </div>
+                <div class="option-group">
                     <button id="btn-export-summary" class="btn-secondary btn-block">
                         <i class="ph ph-file-csv"></i> <span data-i18n="export_summary_csv">Summary CSV</span>
                     </button>
@@ -498,11 +537,24 @@
                         <i class="ph ph-file-json"></i> <span data-i18n="export_config_json">Config JSON</span>
                     </button>
                 </div>
+                <div class="option-group">
+                    <button id="btn-import-config" class="btn-secondary btn-block">
+                        <i class="ph ph-upload-simple"></i> <span data-i18n="import_config_json">Import Config JSON</span>
+                    </button>
+                    <input id="config-file-input" type="file" accept=".json,application/json" class="hidden">
+                </div>
+                <div class="option-group">
+                    <button id="btn-export-batch" class="btn-primary btn-block">
+                        <i class="ph ph-stack"></i> <span data-i18n="export_batch">Export Batch</span>
+                    </button>
+                </div>
             </div>
         </aside>
     </div>
 
     <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
-    <script type="module" src="app-dashboard.js?v=20260219007"></script>
+    <script type="module" src="app-dashboard.js?v=20260219010"></script>
 </body>
 </html>
+
+

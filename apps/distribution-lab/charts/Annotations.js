@@ -65,6 +65,59 @@ function drawStatsBox(ctx, cfg) {
     ctx.restore();
 }
 
+function drawHypothesisBox(ctx, cfg) {
+    if (!cfg.showHypothesis || !cfg.hypothesisResult) return;
+    const h = cfg.hypothesisResult;
+    const testNameMap = {
+        welch_t: 'Welch t-test',
+        mann_whitney: 'Mann-Whitney U',
+        anova: 'ANOVA',
+        kruskal_wallis: 'Kruskal-Wallis'
+    };
+    const lines = [];
+    if (h.test) lines.push(`test = ${testNameMap[h.test] || h.test}`);
+    if (h.statLabel && Number.isFinite(h.stat)) lines.push(`${h.statLabel} = ${h.stat.toFixed(3)}`);
+    if (Number.isFinite(h.df) && !Number.isFinite(h.df1)) lines.push(`df = ${h.df.toFixed(1)}`);
+    if (Number.isFinite(h.df1) && Number.isFinite(h.df2)) lines.push(`df = ${h.df1.toFixed(0)}, ${h.df2.toFixed(0)}`);
+    if (Number.isFinite(h.p)) lines.push(`p = ${h.p < 0.001 ? '< 0.001' : h.p.toFixed(4)}`);
+    if (h.effectLabel && Number.isFinite(h.effect)) lines.push(`${h.effectLabel} = ${h.effect.toFixed(3)}`);
+    if (!lines.length) return;
+
+    const pad = 8;
+    const lineHeight = Math.max(14, cfg.labelFontSize + 2);
+    ctx.save();
+    ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
+    const textWidth = Math.max(...lines.map((line) => ctx.measureText(line).width));
+    const boxWidth = textWidth + pad * 2;
+    const boxHeight = lines.length * lineHeight + pad * 2;
+    const offset = 10;
+    let x = cfg.chartLeft + offset;
+    let y = cfg.chartTop + offset;
+    if (cfg.statsPosition === 'top_left') {
+        x = cfg.chartRight - boxWidth - offset;
+    } else if (cfg.statsPosition === 'bottom_left') {
+        x = cfg.chartRight - boxWidth - offset;
+        y = cfg.chartBottom - boxHeight - offset;
+    } else if (cfg.statsPosition === 'bottom_right') {
+        x = cfg.chartLeft + offset;
+        y = cfg.chartBottom - boxHeight - offset;
+    }
+
+    ctx.fillStyle = 'rgba(255,255,255,0.88)';
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1;
+    ctx.fillRect(x, y, boxWidth, boxHeight);
+    ctx.strokeRect(x, y, boxWidth, boxHeight);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    lines.forEach((line, index) => {
+        ctx.fillText(line, x + pad, y + pad + index * lineHeight);
+    });
+    ctx.restore();
+}
+
 function drawCustomText(ctx, cfg) {
     const text = String(cfg.annotationText || '').trim();
     if (!text) return;
@@ -133,6 +186,7 @@ function drawMeanLine(ctx, cfg) {
 export function drawAnnotations(ctx, cfg) {
     drawMeanLine(ctx, cfg);
     drawStatsBox(ctx, cfg);
+    drawHypothesisBox(ctx, cfg);
     drawCustomText(ctx, cfg);
 }
 

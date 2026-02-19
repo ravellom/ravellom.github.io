@@ -1,7 +1,10 @@
 import { StatsEngine } from './core/StatsEngine.js';
+import { HypothesisTests } from './core/HypothesisTests.js';
 import BoxPlotChart from './charts/BoxPlotChart.js';
 import ViolinChart from './charts/ViolinChart.js';
 import BoxViolinChart from './charts/BoxViolinChart.js';
+import RaincloudChart from './charts/RaincloudChart.js';
+import ErrorBarChart from './charts/ErrorBarChart.js';
 import { ExportUtils } from './utils/ExportUtils.js';
 
 const COLOR_SCHEMES = {
@@ -118,6 +121,8 @@ const DataBridge = {
         if (!numericSelect || !categorySelect) return;
 
         const columns = Object.keys(rows[0] || {});
+        const prevNumeric = numericSelect.value;
+        const prevCategory = categorySelect.value;
         const numericColumns = columns.filter((col) => {
             let numericCount = 0;
             let total = 0;
@@ -127,7 +132,7 @@ const DataBridge = {
                 total += 1;
                 if (!isNaN(Number(value))) numericCount += 1;
             });
-            return total > 0 && (numericCount / total) >= 0.8;
+            return total > 0 && numericCount >= 1;
         });
 
         numericSelect.innerHTML = '';
@@ -146,6 +151,16 @@ const DataBridge = {
             opt.textContent = col;
             categorySelect.appendChild(opt);
         });
+
+        if (numericColumns.includes(prevNumeric)) {
+            numericSelect.value = prevNumeric;
+        } else if (numericColumns.length > 0) {
+            numericSelect.value = numericColumns[0];
+        }
+
+        if (columns.includes(prevCategory)) {
+            categorySelect.value = prevCategory;
+        }
     }
 };
 
@@ -173,6 +188,8 @@ const ChartController = {
             whiskerMultiplier: this.parseNumber('whisker-multiplier', 1.5, 0.5, 4),
             kdeBandwidthFactor: this.parseNumber('kde-bandwidth-factor', 1, 0.2, 4),
             kdeSteps: this.parseNumber('kde-steps', 70, 30, 260),
+            errorMetric: document.getElementById('error-metric')?.value || 'sd',
+            errorCiLevel: this.parseNumber('error-ci-level', 95, 80, 99),
             colorScheme: document.getElementById('color-scheme')?.value || 'blue_orange',
             fontFamily: document.getElementById('font-family')?.value || 'Arial, sans-serif',
             titleFontSize: this.parseNumber('title-font-size', 20, 12, 42),
@@ -198,6 +215,8 @@ const ChartController = {
             meanLineGap: this.parseNumber('mean-line-gap', 6, 2, 40),
             showMeanLabel: document.getElementById('show-mean-label')?.checked !== false,
             showStats: document.getElementById('show-stats-panel')?.checked === true,
+            showHypothesis: document.getElementById('show-hypothesis-panel')?.checked === true,
+            hypothesisMode: document.getElementById('hypothesis-mode')?.value || 'auto',
             statsPosition: document.getElementById('stats-position')?.value || 'top_right',
             statsFields: {
                 n: document.getElementById('stats-show-n')?.checked !== false,
@@ -306,6 +325,9 @@ const ChartController = {
         const title = cfg.chartTitle || `${cfg.numericColumn} ${cfg.categoryColumn ? `by ${cfg.categoryColumn}` : ''}`.trim();
         const palette = COLOR_SCHEMES[cfg.colorScheme] || COLOR_SCHEMES.blue_orange;
         const overallStats = this.computeOverallStats(groups);
+        const hypothesisResult = cfg.categoryColumn && cfg.showHypothesis
+            ? HypothesisTests.compare(groups, cfg.hypothesisMode)
+            : null;
 
         const renderOptions = {
             orientation: cfg.orientation,
@@ -325,7 +347,7 @@ const ChartController = {
             outlierColor: cfg.outlierColor,
             groupHeight: cfg.groupThickness,
             groupGap: cfg.groupGap,
-            width: cfg.chartWidth,
+            width: this.getResponsiveWidth(cfg.chartWidth),
             minCanvasHeight: cfg.chartMinHeight,
             marginLeft: cfg.marginLeft,
             marginRight: cfg.marginRight,
@@ -333,6 +355,8 @@ const ChartController = {
             marginBottom: cfg.marginBottom,
             kdeBandwidthFactor: cfg.kdeBandwidthFactor,
             kdeSteps: cfg.kdeSteps,
+            errorMetric: cfg.errorMetric,
+            errorCiLevel: cfg.errorCiLevel,
             annotations: {
                 showMeanLine: cfg.showMeanLine,
                 meanValue: overallStats.mean,
@@ -342,6 +366,9 @@ const ChartController = {
                 meanLineGap: cfg.meanLineGap,
                 showMeanLabel: cfg.showMeanLabel,
                 showStats: cfg.showStats,
+                showHypothesis: cfg.showHypothesis,
+                hypothesisMode: cfg.hypothesisMode,
+                hypothesisResult,
                 statsPosition: cfg.statsPosition,
                 statsFields: cfg.statsFields,
                 stats: overallStats,
@@ -364,10 +391,14 @@ const ChartController = {
             numericColumn: cfg.numericColumn,
             categoryColumn: cfg.categoryColumn,
             chartType: cfg.chartType,
-            config: cfg,
+            config: {
+                ...cfg,
+                annotations: renderOptions.annotations
+            },
             overallStats,
             groups: groups.map((g) => ({
                 label: g.label,
+                values: Array.isArray(g.values) ? [...g.values] : [],
                 summary: g.summary
             }))
         };
@@ -379,11 +410,25 @@ const ChartController = {
             case 'boxviolin':
                 BoxViolinChart.render(canvas, groups, renderOptions);
                 break;
+            case 'raincloud':
+                RaincloudChart.render(canvas, groups, renderOptions);
+                break;
+            case 'errorbar':
+                ErrorBarChart.render(canvas, groups, renderOptions);
+                break;
             case 'boxplot':
             default:
                 BoxPlotChart.render(canvas, groups, renderOptions);
                 break;
         }
+    },
+
+    getResponsiveWidth(requestedWidth) {
+        const container = document.querySelector('.chart-container');
+        if (!container) return requestedWidth;
+        // Usa el ancho interno disponible para evitar overflow inicial en iframe/pantallas pequeñas.
+        const availableWidth = Math.max(320, Math.floor(container.clientWidth - 8));
+        return Math.min(requestedWidth, availableWidth);
     }
 };
 
@@ -404,6 +449,12 @@ function bindMessages() {
 }
 
 function bindUI() {
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => ChartController.render(), 120);
+    });
+
     document.getElementById('language-select')?.addEventListener('change', (event) => {
         I18n.load(event.target.value);
     });
@@ -423,13 +474,39 @@ function bindUI() {
             return;
         }
         const chartType = document.getElementById('chart-type')?.value || 'chart';
-        const context = AppState.lastRender;
-        const title = context?.config?.chartTitle
-            || `${context?.numericColumn || 'distribution'} ${context?.categoryColumn ? `by ${context.categoryColumn}` : ''}`.trim();
-        ExportUtils.exportCanvasSVG(canvas, `distribution-${chartType}-${Date.now()}.svg`, {
-            title,
-            description: `Dataset: ${AppState.activeDatasetName || '-'}`
-        });
+        const ok = ExportUtils.exportVectorSVG(AppState.lastRender, `distribution-${chartType}-${Date.now()}.svg`);
+        if (!ok) {
+            const context = AppState.lastRender;
+            const title = context?.config?.chartTitle
+                || `${context?.numericColumn || 'distribution'} ${context?.categoryColumn ? `by ${context.categoryColumn}` : ''}`.trim();
+            ExportUtils.exportCanvasSVGFallback(canvas, `distribution-${chartType}-${Date.now()}.svg`, {
+                title,
+                description: `Dataset: ${AppState.activeDatasetName || '-'}`
+            });
+        }
+    });
+    document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
+        const canvas = document.getElementById('chart-canvas');
+        if (!canvas || canvas.classList.contains('hidden')) {
+            alert(I18n.t('export_no_chart'));
+            return;
+        }
+        const chartType = document.getElementById('chart-type')?.value || 'chart';
+        ExportUtils.exportCanvasPDF(canvas, `distribution-${chartType}-${Date.now()}.pdf`);
+    });
+    document.getElementById('btn-copy-clipboard')?.addEventListener('click', async () => {
+        const canvas = document.getElementById('chart-canvas');
+        if (!canvas || canvas.classList.contains('hidden')) {
+            alert(I18n.t('export_no_chart'));
+            return;
+        }
+        try {
+            const ok = await ExportUtils.copyCanvasToClipboard(canvas);
+            alert(ok ? I18n.t('clipboard_ok') : I18n.t('clipboard_unsupported'));
+        } catch (error) {
+            console.error(error);
+            alert(I18n.t('clipboard_error'));
+        }
     });
     document.getElementById('btn-export-config')?.addEventListener('click', () => {
         if (!AppState.lastRender) {
@@ -448,6 +525,46 @@ function bindUI() {
         const chartType = context.chartType || 'chart';
         ExportUtils.exportGroupSummaryCSV(context.groups, `distribution-${chartType}-summary-${Date.now()}.csv`);
     });
+    document.getElementById('btn-export-batch')?.addEventListener('click', () => {
+        const canvas = document.getElementById('chart-canvas');
+        const context = AppState.lastRender;
+        if (!canvas || canvas.classList.contains('hidden') || !context) {
+            alert(I18n.t('export_no_data'));
+            return;
+        }
+        const chartType = context.chartType || 'chart';
+        const stamp = Date.now();
+        ExportUtils.exportCanvasPNG(canvas, `distribution-${chartType}-${stamp}.png`);
+        const ok = ExportUtils.exportVectorSVG(context, `distribution-${chartType}-${stamp}.svg`);
+        if (!ok) {
+            ExportUtils.exportCanvasSVGFallback(canvas, `distribution-${chartType}-${stamp}.svg`);
+        }
+        ExportUtils.exportGroupSummaryCSV(context.groups, `distribution-${chartType}-summary-${stamp}.csv`);
+        ExportUtils.exportJSON(context, `distribution-${chartType}-config-${stamp}.json`);
+    });
+
+    const configFileInput = document.getElementById('config-file-input');
+    document.getElementById('btn-import-config')?.addEventListener('click', () => configFileInput?.click());
+    configFileInput?.addEventListener('change', async (event) => {
+        const file = event.target?.files?.[0];
+        if (!file) return;
+        try {
+            const text = await file.text();
+            const payload = JSON.parse(text);
+            const config = payload?.config || payload || {};
+            applyConfigToUI(config);
+            if (payload?.dataset) {
+                DataBridge.loadDatasetByName(payload.dataset);
+            }
+            ChartController.render();
+            alert(I18n.t('import_ok'));
+        } catch (error) {
+            console.error(error);
+            alert(I18n.t('import_error'));
+        } finally {
+            event.target.value = '';
+        }
+    });
 
     [
         'numeric-column',
@@ -462,6 +579,8 @@ function bindUI() {
         'whisker-multiplier',
         'kde-bandwidth-factor',
         'kde-steps',
+        'error-metric',
+        'error-ci-level',
         'color-scheme',
         'font-family',
         'title-font-size',
@@ -487,6 +606,8 @@ function bindUI() {
         'mean-line-gap',
         'show-mean-label',
         'show-stats-panel',
+        'show-hypothesis-panel',
+        'hypothesis-mode',
         'stats-show-n',
         'stats-show-mean',
         'stats-show-median',
@@ -509,6 +630,100 @@ function bindUI() {
         if (!el) return;
         el.addEventListener('change', () => ChartController.render());
         el.addEventListener('input', () => ChartController.render());
+    });
+}
+
+function applyConfigToUI(config = {}) {
+    const mappings = {
+        numericColumn: 'numeric-column',
+        categoryColumn: 'category-column',
+        chartType: 'chart-type',
+        orientation: 'chart-orientation',
+        groupOrder: 'group-order',
+        topN: 'top-n-groups',
+        whiskerMultiplier: 'whisker-multiplier',
+        kdeBandwidthFactor: 'kde-bandwidth-factor',
+        kdeSteps: 'kde-steps',
+        errorMetric: 'error-metric',
+        errorCiLevel: 'error-ci-level',
+        colorScheme: 'color-scheme',
+        fontFamily: 'font-family',
+        titleFontSize: 'title-font-size',
+        labelFontSize: 'label-font-size',
+        lineWidth: 'line-width',
+        violinOpacity: 'violin-opacity',
+        jitterSize: 'jitter-size',
+        jitterAlpha: 'jitter-alpha',
+        outlierSize: 'outlier-size',
+        outlierColor: 'outlier-color',
+        groupThickness: 'group-thickness',
+        groupGap: 'group-gap',
+        chartWidth: 'chart-width',
+        chartMinHeight: 'chart-min-height',
+        marginLeft: 'margin-left',
+        marginRight: 'margin-right',
+        marginTop: 'margin-top',
+        marginBottom: 'margin-bottom',
+        chartTitle: 'chart-title-input',
+        showOutliers: 'show-outliers',
+        showJitter: 'show-jitter',
+        showGrid: 'show-grid'
+    };
+
+    Object.entries(mappings).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (!el || !(key in config)) return;
+        if (el.type === 'checkbox') {
+            el.checked = Boolean(config[key]);
+        } else {
+            el.value = config[key];
+        }
+    });
+
+    const anno = config.annotations || {};
+    const annoMappings = {
+        showMeanLine: 'show-mean-line',
+        meanLineColor: 'mean-line-color',
+        meanLineWidth: 'mean-line-width',
+        meanLineDash: 'mean-line-dash',
+        meanLineGap: 'mean-line-gap',
+        showMeanLabel: 'show-mean-label',
+        showStats: 'show-stats-panel',
+        showHypothesis: 'show-hypothesis-panel',
+        hypothesisMode: 'hypothesis-mode',
+        statsPosition: 'stats-position',
+        showGroupMarker: 'show-group-marker',
+        groupMetric: 'group-metric',
+        groupMarkerStyle: 'group-marker-style',
+        groupMarkerColor: 'group-marker-color',
+        groupMarkerSize: 'group-marker-size',
+        annotationText: 'annotation-text',
+        annotationX: 'annotation-x',
+        annotationY: 'annotation-y',
+        annotationColor: 'annotation-color',
+        annotationSize: 'annotation-size'
+    };
+    Object.entries(annoMappings).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (!el || !(key in anno)) return;
+        if (el.type === 'checkbox') {
+            el.checked = Boolean(anno[key]);
+        } else {
+            el.value = anno[key];
+        }
+    });
+    const statsFields = anno.statsFields || {};
+    const statsMap = {
+        n: 'stats-show-n',
+        mean: 'stats-show-mean',
+        median: 'stats-show-median',
+        sd: 'stats-show-sd',
+        iqr: 'stats-show-iqr'
+    };
+    Object.entries(statsMap).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (!el || !(key in statsFields)) return;
+        el.checked = Boolean(statsFields[key]);
     });
 }
 
