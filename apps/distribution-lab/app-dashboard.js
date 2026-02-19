@@ -322,7 +322,13 @@ const ChartController = {
         placeholder.classList.add('hidden');
         canvas.classList.remove('hidden');
 
-        const title = cfg.chartTitle || `${cfg.numericColumn} ${cfg.categoryColumn ? `by ${cfg.categoryColumn}` : ''}`.trim();
+        const autoTitleBase = cfg.categoryColumn
+            ? `${cfg.numericColumn} by ${cfg.categoryColumn}`
+            : cfg.numericColumn;
+        const autoTitle = autoTitleBase.length > 80
+            ? `${autoTitleBase.slice(0, 77)}...`
+            : autoTitleBase;
+        const title = cfg.chartTitle || autoTitle;
         const palette = COLOR_SCHEMES[cfg.colorScheme] || COLOR_SCHEMES.blue_orange;
         const overallStats = this.computeOverallStats(groups);
         const hypothesisResult = cfg.categoryColumn && cfg.showHypothesis

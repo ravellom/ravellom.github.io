@@ -20,7 +20,9 @@ const AppState = {
     scaleConfig: {
         type: 'custom',
         points: 5,
-        labels: []
+        labels: [],
+        rawMin: 1,
+        rawMax: 5
     },
     chartConfig: {
         type: 'stacked',
@@ -390,8 +392,10 @@ const DataParser = {
     },
 
     validateData(longData, scaleConfig) {
-        const minValue = 1;
-        const maxValue = scaleConfig.points;
+        const minValue = Number.isFinite(Number(scaleConfig.rawMin)) ? Number(scaleConfig.rawMin) : 1;
+        const maxValue = Number.isFinite(Number(scaleConfig.rawMax)) ? Number(scaleConfig.rawMax) : Number(scaleConfig.points || 5);
+        const requiresShift = minValue === 0;
+        const allowedUpperBound = requiresShift ? maxValue + 1 : maxValue;
         const invalidValues = [];
         const nullValues = [];
         const outOfRangeValues = [];
@@ -405,7 +409,7 @@ const DataParser = {
                     respondent: record.respondent,
                     value: record.value
                 });
-            } else if (record.value < minValue || record.value > maxValue) {
+            } else if (record.value < minValue || record.value > allowedUpperBound) {
                 outOfRangeValues.push({
                     item: record.item,
                     respondent: record.respondent,
@@ -424,6 +428,10 @@ const DataParser = {
                     respondent: record.respondent,
                     value: null
                 });
+            } else if (requiresShift && !record.__shiftedLikertZeroBased && record.value <= maxValue) {
+                // Internally keep values in 1..N. For 0..9, shift by +1 (idempotent).
+                record.value = record.value + 1;
+                record.__shiftedLikertZeroBased = true;
             }
         });
 
@@ -1041,9 +1049,20 @@ const UI = {
             .map(d => d.value)
             .filter(v => v !== null && !isNaN(v));
         if (numericValues.length > 0) {
+            const minValue = Math.min(...numericValues);
             const maxValue = Math.max(...numericValues);
-            if (maxValue >= 2 && maxValue <= 10 && maxValue !== AppState.scaleConfig.points) {
+            if (minValue === 0 && maxValue === 9) {
+                AppState.scaleConfig.points = 10;
+                AppState.scaleConfig.rawMin = 0;
+                AppState.scaleConfig.rawMax = 9;
+                AppState.scaleConfig.labels = Array.from({ length: 10 }, (_, i) => `${i}`);
+                const scaleInput = document.getElementById('scale-points');
+                if (scaleInput) scaleInput.value = 10;
+                this.updateScaleLabels();
+            } else if (maxValue >= 2 && maxValue <= 10 && maxValue !== AppState.scaleConfig.points) {
                 AppState.scaleConfig.points = maxValue;
+                AppState.scaleConfig.rawMin = 1;
+                AppState.scaleConfig.rawMax = maxValue;
                 AppState.scaleConfig.labels = Array.from({ length: maxValue }, (_, i) => `${i + 1}`);
                 const scaleInput = document.getElementById('scale-points');
                 if (scaleInput) scaleInput.value = maxValue;
@@ -1353,9 +1372,13 @@ const UI = {
         AppState.scaleConfig = {
             type: presetKey,
             points: scale.points,
-            labels: scale.labels[AppState.currentLanguage] || scale.labels.en
+            labels: scale.labels[AppState.currentLanguage] || scale.labels.en,
+            rawMin: Number.isFinite(Number(scale.rawMin)) ? Number(scale.rawMin) : 1,
+            rawMax: Number.isFinite(Number(scale.rawMax)) ? Number(scale.rawMax) : scale.points
         };
 
+        const pointsInput = document.getElementById('scale-points');
+        if (pointsInput) pointsInput.value = scale.points;
         this.updateScaleLabels();
         ChartRenderer.render();
     },
@@ -1365,7 +1388,9 @@ const UI = {
         AppState.scaleConfig = {
             type: 'custom',
             points: points,
-            labels: Array.from({ length: points }, (_, i) => `${i + 1}`)
+            labels: Array.from({ length: points }, (_, i) => `${i + 1}`),
+            rawMin: 1,
+            rawMax: points
         };
 
         this.updateScaleLabels();
@@ -1377,11 +1402,14 @@ const UI = {
         if (!container) return;
 
         container.innerHTML = '';
+        const labelStart = Number.isFinite(Number(AppState.scaleConfig.rawMin))
+            ? Number(AppState.scaleConfig.rawMin)
+            : 1;
         AppState.scaleConfig.labels.forEach((label, index) => {
             const div = document.createElement('div');
             div.className = 'option-group';
             div.innerHTML = `
-                <label class="option-label">${index + 1}:</label>
+                <label class="option-label">${labelStart + index}:</label>
                 <input type="text" value="${label}" data-scale-label="${index}" class="text-input scale-label-input">
             `;
             container.appendChild(div);
@@ -1701,7 +1729,9 @@ const UI = {
             AppState.scaleConfig = {
                 type: 'custom',
                 points: scalePoints,
-                labels: scaleLabels
+                labels: scaleLabels,
+                rawMin: 1,
+                rawMax: scalePoints
             };
 
             // Update UI controls

@@ -46,6 +46,7 @@
 
         // Transform controls
         likertColumns: document.getElementById('likert-columns'),
+        likertScalePreset: document.getElementById('likert-scale-preset'),
         likertMin: document.getElementById('likert-min'),
         likertMax: document.getElementById('likert-max'),
         btnNormalizeLikert: document.getElementById('btn-normalize-likert'),
@@ -198,6 +199,13 @@
         if (elements.avgColumnName) elements.avgColumnName.placeholder = 'New column name';
         if (elements.likertMin) elements.likertMin.placeholder = 'Min: 1';
         if (elements.likertMax) elements.likertMax.placeholder = 'Max: 5';
+        if (elements.likertScalePreset) {
+            elements.likertScalePreset.options[0].text = 'Preset: 1-5';
+            elements.likertScalePreset.options[1].text = 'Preset: 1-7';
+            elements.likertScalePreset.options[2].text = 'Preset: 0-9';
+            elements.likertScalePreset.options[3].text = 'Preset: 1-10';
+            elements.likertScalePreset.options[4].text = 'Custom';
+        }
 
         const storageHelper = document.querySelector('.option-content[data-content="storage"] .helper-text');
         if (storageHelper) storageHelper.textContent = 'Saved datasets available for other RecuEdu Labs apps';
@@ -407,6 +415,19 @@
         // Transform
         if (elements.btnNormalizeLikert) {
             elements.btnNormalizeLikert.addEventListener('click', applyNormalizeLikert);
+        }
+        if (elements.likertScalePreset) {
+            elements.likertScalePreset.addEventListener('change', applyLikertScalePreset);
+        }
+        if (elements.likertMin) {
+            elements.likertMin.addEventListener('input', () => {
+                if (elements.likertScalePreset) elements.likertScalePreset.value = 'custom';
+            });
+        }
+        if (elements.likertMax) {
+            elements.likertMax.addEventListener('input', () => {
+                if (elements.likertScalePreset) elements.likertScalePreset.value = 'custom';
+            });
         }
         if (elements.btnTextToNumber) {
             elements.btnTextToNumber.addEventListener('click', applyTextToNumber);
@@ -827,6 +848,20 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     }
 
     // ==================== TRANSFORMATIONS ====================
+    function applyLikertScalePreset() {
+        const preset = elements.likertScalePreset?.value || '1-5';
+        const mapping = {
+            '1-5': [1, 5],
+            '1-7': [1, 7],
+            '0-9': [0, 9],
+            '1-10': [1, 10]
+        };
+        if (preset === 'custom') return;
+        const range = mapping[preset] || [1, 5];
+        if (elements.likertMin) elements.likertMin.value = range[0];
+        if (elements.likertMax) elements.likertMax.value = range[1];
+    }
+
     function applyNormalizeLikert() {
         const dataApi = getDataApi();
         if (!dataApi) {
