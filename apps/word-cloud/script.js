@@ -1,7 +1,9 @@
 // Configuración global
 let currentWordData = [];
 let currentLayout = null;
-let currentLanguage = 'es';
+let currentLanguage = 'en';
+let activeDatasetName = '';
+let activeDatasetRows = [];
 
 // Traducciones
 const translations = {
@@ -75,7 +77,17 @@ const translations = {
         confirmClear: '¿Estás seguro de que quieres limpiar todo?',
         allCleared: 'Todo limpiado',
         confirmClearWords: '¿Limpiar todas las palabras a excluir?',
-        frequency: 'Frecuencia'
+        frequency: 'Frecuencia',
+        sharedDataset: 'Dataset compartido',
+        activeDataset: 'Dataset activo',
+        textColumn: 'Columna de texto',
+        useColumn: 'Usar texto de la columna',
+        selectColumn: 'Selecciona columna...',
+        noDatasetLoaded: 'No hay dataset activo cargado',
+        noTextColumnSelected: 'Selecciona una columna de texto',
+        loadedColumnRows: 'Filas cargadas desde la columna',
+        noTextValuesFound: 'No se encontraron valores de texto en la columna',
+        noData: 'Sin datos'
     },
     en: {
         title: 'Word Cloud',
@@ -147,7 +159,17 @@ const translations = {
         confirmClear: 'Are you sure you want to clear everything?',
         allCleared: 'All cleared',
         confirmClearWords: 'Clear all excluded words?',
-        frequency: 'Frequency'
+        frequency: 'Frequency',
+        sharedDataset: 'Shared dataset',
+        activeDataset: 'Active dataset',
+        textColumn: 'Text column',
+        useColumn: 'Use column text',
+        selectColumn: 'Select column...',
+        noDatasetLoaded: 'No active dataset loaded',
+        noTextColumnSelected: 'Select a text column',
+        loadedColumnRows: 'Rows loaded from column',
+        noTextValuesFound: 'No text values found in selected column',
+        noData: 'No data'
     }
 };
 
@@ -219,11 +241,13 @@ function initializeApp() {
     document.getElementById('resetBtn').addEventListener('click', resetAll);
     document.getElementById('maxWords').addEventListener('input', updateMaxWordsValue);
     document.getElementById('colorScheme').addEventListener('change', handleColorSchemeChange);
+    document.getElementById('btn-use-column')?.addEventListener('click', loadSelectedDatasetColumn);
     
     // Cargar idioma guardado o detectar del navegador
     const savedLang = localStorage.getItem('wordcloud_language');
+    const suiteLang = localStorage.getItem('survey_suite_language');
     const browserLang = navigator.language.startsWith('es') ? 'es' : 'en';
-    currentLanguage = savedLang || browserLang;
+    currentLanguage = suiteLang || savedLang || browserLang;
     document.getElementById('languageSelector').value = currentLanguage;
     
     // Aplicar traducciones iniciales
@@ -234,6 +258,12 @@ function initializeApp() {
     
     // Cargar datos guardados si existen
     loadSavedData();
+    bindSuiteMessaging();
+
+    const savedActiveDataset = localStorage.getItem('survey_suite_active_dataset');
+    if (savedActiveDataset) {
+        loadDatasetByName(savedActiveDataset);
+    }
 }
 
 // Inicializar palabras a excluir con una lista básica
@@ -251,6 +281,7 @@ function initializeStopWords() {
 function changeLanguage() {
     currentLanguage = document.getElementById('languageSelector').value;
     localStorage.setItem('wordcloud_language', currentLanguage);
+    localStorage.setItem('survey_suite_language', currentLanguage);
     updateLanguage();
     initializeStopWords();
 }
@@ -282,11 +313,101 @@ function updateLanguage() {
             option.textContent = t[key];
         }
     });
+
+    const columnSelect = document.getElementById('datasetColumnSelect');
+    if (columnSelect && columnSelect.options.length > 0 && !activeDatasetRows.length) {
+        columnSelect.innerHTML = `<option value="">${t.selectColumn}</option>`;
+    }
 }
 
 // Obtener traducción
 function t(key) {
     return translations[currentLanguage][key] || key;
+}
+
+function bindSuiteMessaging() {
+    window.addEventListener('message', (event) => {
+        const data = event?.data;
+        if (!data || typeof data !== 'object') return;
+
+        if (data.type === 'survey-suite-set-language' && (data.lang === 'en' || data.lang === 'es')) {
+            currentLanguage = data.lang;
+            localStorage.setItem('wordcloud_language', currentLanguage);
+            localStorage.setItem('survey_suite_language', currentLanguage);
+            const languageSelector = document.getElementById('languageSelector');
+            if (languageSelector) languageSelector.value = currentLanguage;
+            updateLanguage();
+            return;
+        }
+
+        if (data.type === 'survey-suite-load-dataset' && data.datasetName) {
+            loadDatasetByName(data.datasetName);
+        }
+    });
+}
+
+function loadDatasetByName(datasetName) {
+    const api = window.RecuEduData;
+    if (!api || !api.storage) return;
+
+    const dataset = api.storage.loadDataset(datasetName);
+    if (!dataset || !Array.isArray(dataset.data)) {
+        showNotification(t('noDatasetLoaded'), 'warning');
+        return;
+    }
+
+    activeDatasetName = datasetName;
+    activeDatasetRows = dataset.data;
+
+    const activeLabel = document.getElementById('activeDatasetName');
+    if (activeLabel) activeLabel.textContent = datasetName;
+
+    populateDatasetColumns(activeDatasetRows);
+}
+
+function populateDatasetColumns(rows) {
+    const select = document.getElementById('datasetColumnSelect');
+    if (!select) return;
+
+    select.innerHTML = `<option value="">${t('selectColumn')}</option>`;
+
+    if (!Array.isArray(rows) || rows.length === 0) return;
+
+    const columns = Object.keys(rows[0] || {});
+    columns.forEach((col) => {
+        const option = document.createElement('option');
+        option.value = col;
+        option.textContent = col;
+        select.appendChild(option);
+    });
+}
+
+function loadSelectedDatasetColumn() {
+    if (!Array.isArray(activeDatasetRows) || activeDatasetRows.length === 0) {
+        showNotification(t('noDatasetLoaded'), 'warning');
+        return;
+    }
+
+    const column = document.getElementById('datasetColumnSelect')?.value;
+    if (!column) {
+        showNotification(t('noTextColumnSelected'), 'warning');
+        return;
+    }
+
+    const values = activeDatasetRows
+        .map((row) => row?.[column])
+        .filter((value) => value !== null && value !== undefined)
+        .map((value) => String(value).trim())
+        .filter((value) => value.length > 0);
+
+    if (!values.length) {
+        showNotification(t('noTextValuesFound'), 'warning');
+        return;
+    }
+
+    document.getElementById('textInput').value = values.join('\n');
+    updateWordCount();
+    showNotification(`${t('loadedColumnRows')}: ${values.length}`, 'success');
 }
 
 // Agregar grupo de palabras
@@ -616,7 +737,7 @@ function updateStatistics(wordData) {
     const statsContainer = document.getElementById('stats');
     
     if (wordData.length === 0) {
-        statsContainer.innerHTML = '<p class="text-muted">No hay datos</p>';
+        statsContainer.innerHTML = `<p class="text-muted">${t('noData')}</p>`;
         return;
     }
     

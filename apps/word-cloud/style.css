@@ -25,6 +25,10 @@ body {
     color: var(--dark-text);
 }
 
+.embed-mode .recuedu-topbar {
+    display: none;
+}
+
 .container-fluid {
     height: 100vh;
     overflow: hidden;

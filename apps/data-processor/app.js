@@ -6,6 +6,17 @@
 (function() {
     'use strict';
 
+    const AppLang = (function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const urlLang = params.get('lang');
+        if (urlLang === 'en' || urlLang === 'es') return urlLang;
+        const suiteLang = localStorage.getItem('survey_suite_language');
+        if (suiteLang === 'en' || suiteLang === 'es') return suiteLang;
+        return 'es';
+    })();
+    const isEnglish = AppLang === 'en';
+    const tr = (es, en) => (isEnglish ? en : es);
+
     // ==================== STATE ====================
     let originalData = null;
     let currentData = null;
@@ -89,11 +100,148 @@
 
     // ==================== INITIALIZATION ====================
     function init() {
+        applyLanguage(AppLang);
         attachEventListeners();
         setupSidebarNavigation();
         setupPanelResizer();
         refreshSavedDatasets();
-        showStatus('👋 Listo para procesar datos', 'info');
+        showStatus(AppLang === 'en' ? 'Ready to process data' : '👋 Listo para procesar datos', 'info');
+    }
+
+    function applyLanguage(lang) {
+        if (lang !== 'en') return;
+
+        document.documentElement.lang = 'en';
+        document.title = 'Survey Data Processor | RecuEdu Labs';
+
+        const setText = (selector, text) => {
+            const el = document.querySelector(selector);
+            if (!el) return;
+            const icon = el.querySelector('i');
+            if (icon) {
+                el.innerHTML = `${icon.outerHTML} ${text}`;
+            } else {
+                el.textContent = text;
+            }
+        };
+
+        setText('.brand h1', 'Data Processor v2.0');
+        const subtitle = document.querySelector('.subtitle');
+        if (subtitle) subtitle.textContent = 'Cleaning, transformation, and management of survey data';
+        setText('.sidebar-item[data-panel="import"] span', 'Import');
+        setText('.sidebar-item[data-panel="transform"] span', 'Transform');
+        setText('.sidebar-item[data-panel="clean"] span', 'Clean');
+        setText('.sidebar-item[data-panel="storage"] span', 'Storage');
+        setText('.sidebar-item[data-panel="info"] span', 'Info');
+        setText('.topbar-links a[href="../../index.html"] span', 'Home');
+        setText('#btn-help', 'Help');
+        setText('#btn-export-json', 'Export JSON');
+        setText('#btn-export-csv', 'Export CSV');
+        setText('#btn-save-dataset', 'Save to Storage');
+        setText('#btn-upload-trigger', 'Upload CSV/JSON/XLSX');
+        setText('#btn-load-csv', 'Process Data');
+        setText('#btn-remove-nulls', 'Remove Empty Rows');
+        setText('#btn-fill-na', 'Fill Empty with 0');
+        setText('#btn-remove-duplicates', 'Remove Duplicates');
+        setText('#btn-trim-values', 'Trim Spaces');
+        setText('#btn-reset-data', 'Restore Original');
+        setText('#btn-refresh-datasets', 'Refresh List');
+        setText('#btn-view-table', 'Table');
+        setText('#btn-view-json', 'JSON');
+        setText('#btn-confirm-save', 'Save');
+        setText('#btn-cancel-save', 'Cancel');
+
+        const importTitle = document.querySelector('.option-content[data-content="import"] h3');
+        if (importTitle) importTitle.innerHTML = '<i class="ph ph-upload"></i> Import Data';
+        const transformTitle = document.querySelector('.option-content[data-content="transform"] h3');
+        if (transformTitle) transformTitle.innerHTML = '<i class="ph ph-magic-wand"></i> Transform Data';
+        const cleanTitle = document.querySelector('.option-content[data-content="clean"] h3');
+        if (cleanTitle) cleanTitle.innerHTML = '<i class="ph ph-broom"></i> Clean Data';
+        const storageTitle = document.querySelector('.option-content[data-content="storage"] h3');
+        if (storageTitle) storageTitle.innerHTML = '<i class="ph ph-cloud"></i> Shared Storage';
+        const infoTitle = document.querySelector('.option-content[data-content="info"] h3');
+        if (infoTitle) infoTitle.innerHTML = '<i class="ph ph-info"></i> Dataset Info';
+
+        const importHelper = document.querySelector('.option-content[data-content="import"] .helper-text');
+        if (importHelper) importHelper.textContent = 'Or paste CSV data here:';
+        if (elements.csvInput) {
+            elements.csvInput.placeholder = 'Paste your CSV data here...\n\nname,age,response\nAna,25,Yes\nLuis,30,No';
+        }
+        const delimiterLabel = document.querySelector('label[for="delimiter-type"], .form-group:nth-of-type(1) label');
+        if (delimiterLabel) delimiterLabel.innerHTML = '<i class="ph ph-info"></i> CSV delimiter:';
+        const sourceLabel = document.querySelector('label[for="source-type"], .form-group:nth-of-type(2) label');
+        if (sourceLabel) sourceLabel.innerHTML = '<i class="ph ph-info"></i> Source type:';
+        const delimiterSelect = document.getElementById('delimiter-type');
+        if (delimiterSelect) {
+            delimiterSelect.options[0].text = 'Auto detect';
+            delimiterSelect.options[1].text = 'Comma (,)';
+            delimiterSelect.options[2].text = 'Semicolon (;)';
+            delimiterSelect.options[3].text = 'Tab';
+            delimiterSelect.options[4].text = 'Pipe (|)';
+        }
+        const sourceSelect = document.getElementById('source-type');
+        if (sourceSelect) {
+            sourceSelect.options[0].text = 'Auto detect';
+            sourceSelect.options[3].text = 'Generic CSV';
+        }
+
+        document.querySelectorAll('.transform-section summary')[0].innerHTML = '<i class="ph ph-funnel"></i> 1. Select Columns';
+        document.querySelectorAll('.transform-section summary')[1].innerHTML = '<i class="ph ph-pencil-simple"></i> 2. Rename Columns';
+        document.querySelectorAll('.transform-section summary')[2].innerHTML = '<i class="ph ph-scales"></i> 3. Normalize Likert Scales';
+        document.querySelectorAll('.transform-section summary')[3].innerHTML = '<i class="ph ph-text-aa"></i> 4. Likert Text -> Numbers';
+        document.querySelectorAll('.transform-section summary')[4].innerHTML = '<i class="ph ph-calculator"></i> 5. Calculate Averages';
+        setText('#btn-select-columns', 'Apply Selection');
+        setText('#btn-apply-rename', 'Apply Changes');
+        setText('#btn-normalize-likert', 'Apply');
+        setText('#btn-text-to-number', 'Apply');
+        setText('#btn-calculate-avg', 'Calculate');
+        if (elements.avgColumnName) elements.avgColumnName.placeholder = 'New column name';
+        if (elements.likertMin) elements.likertMin.placeholder = 'Min: 1';
+        if (elements.likertMax) elements.likertMax.placeholder = 'Max: 5';
+
+        const storageHelper = document.querySelector('.option-content[data-content="storage"] .helper-text');
+        if (storageHelper) storageHelper.textContent = 'Saved datasets available for other RecuEdu Labs apps';
+
+        const welcomeTitle = document.querySelector('#welcome-screen h2');
+        if (welcomeTitle) welcomeTitle.textContent = 'Survey Data Processor';
+        const welcomeSub = document.querySelector('#welcome-screen p');
+        if (welcomeSub) welcomeSub.textContent = 'Upload a CSV/JSON/XLSX file or load data from shared storage';
+        const cards = document.querySelectorAll('.feature-card');
+        if (cards[0]) {
+            cards[0].querySelector('h4').textContent = 'Parse surveys';
+            cards[0].querySelector('p').textContent = 'Google Forms, MS Forms (CSV/XLSX), automatic delimiters';
+        }
+        if (cards[1]) {
+            cards[1].querySelector('h4').textContent = 'Clean data';
+            cards[1].querySelector('p').textContent = 'Remove empty values, duplicates and outliers';
+        }
+        if (cards[2]) {
+            cards[2].querySelector('h4').textContent = 'Transform';
+            cards[2].querySelector('p').textContent = 'Normalize scales, recode, compute averages';
+        }
+        if (cards[3]) {
+            cards[3].querySelector('h4').textContent = 'Shared storage';
+            cards[3].querySelector('p').textContent = 'Share data across RecuEdu Labs apps';
+        }
+
+        const statsLabels = document.querySelectorAll('.stats-bar .stat-item span');
+        if (statsLabels[0]) statsLabels[0].innerHTML = `Rows: <strong id="stat-rows">${document.getElementById('stat-rows')?.textContent || '0'}</strong>`;
+        if (statsLabels[1]) statsLabels[1].innerHTML = `Columns: <strong id="stat-columns">${document.getElementById('stat-columns')?.textContent || '0'}</strong>`;
+        if (statsLabels[2]) statsLabels[2].innerHTML = `Source: <strong id="stat-source">${document.getElementById('stat-source')?.textContent || '-'}</strong>`;
+        if (statsLabels[3]) statsLabels[3].innerHTML = `Modified: <strong id="stat-modified">${document.getElementById('stat-modified')?.textContent || 'Now'}</strong>`;
+        const tableTitle = document.querySelector('.table-controls h3');
+        if (tableTitle) tableTitle.textContent = 'Data View';
+
+        const helpTitle = document.querySelector('#help-modal .modal-header h3');
+        if (helpTitle) helpTitle.innerHTML = '<i class="ph ph-question"></i> User Guide';
+        const saveTitle = document.querySelector('#save-modal .modal-header h3');
+        if (saveTitle) saveTitle.innerHTML = '<i class="ph ph-floppy-disk"></i> Save Dataset';
+        const nameLabel = document.querySelector('label[for="dataset-name"]');
+        if (nameLabel) nameLabel.textContent = 'Dataset name:';
+        const descLabel = document.querySelector('label[for="dataset-description"]');
+        if (descLabel) descLabel.textContent = 'Description (optional):';
+        if (elements.datasetName) elements.datasetName.placeholder = 'E.g. satisfaction-survey-2026';
+        if (elements.datasetDescription) elements.datasetDescription.placeholder = 'Short dataset description...';
     }
 
     // ==================== PANEL RESIZER ====================
@@ -171,14 +319,14 @@
     function updateColumnInfoSidebar() {
         const container = document.getElementById('columns-stats-sidebar');
         if (!container || !currentData || !Array.isArray(currentData) || currentData.length === 0) {
-            if (container) container.innerHTML = '<p class="helper-text">No hay datos cargados</p>';
+            if (container) container.innerHTML = `<p class="helper-text">${tr('No hay datos cargados', 'No data loaded')}</p>`;
             return;
         }
 
         const dataApi = getDataApi();
         if (!dataApi) {
-            console.warn('⚠️ RecuEduData no está disponible');
-            container.innerHTML = '<p class="helper-text">Error: biblioteca no cargada</p>';
+            console.warn('⚠️ RecuEduData not available');
+            container.innerHTML = `<p class="helper-text">${tr('Error: biblioteca no cargada', 'Error: library not loaded')}</p>`;
             return;
         }
 
@@ -197,19 +345,19 @@
                     <h4 style="font-size: 0.9rem; color: #0f172a; margin-bottom: 6px; font-weight: 600;">${escapeHtml(col)}</h4>
                     <div style="font-size: 0.75rem; color: #64748b; line-height: 1.6;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                            <span>Tipo:</span>
-                            <strong style="color: #0f172a;">${isNumeric ? 'Numérico' : 'Texto'}</strong>
+                            <span>${tr('Tipo', 'Type')}:</span>
+                            <strong style="color: #0f172a;">${isNumeric ? tr('Numérico', 'Numeric') : tr('Texto', 'Text')}</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                            <span>Únicos:</span>
+                            <span>${tr('Únicos', 'Unique')}:</span>
                             <strong style="color: #0f172a;">${uniqueCount}</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                            <span>Vacíos:</span>
+                            <span>${tr('Vacíos', 'Empty')}:</span>
                             <strong style="color: ${nullCount > 0 ? '#ef4444' : '#10b981'};">${nullCount}</strong>
                         </div>
                         <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0;">
-                            <span>Ejemplo:</span>
+                            <span>${tr('Ejemplo', 'Sample')}:</span>
                             <div style="background: white; padding: 4px 6px; border-radius: 4px; margin-top: 4px; word-break: break-word; font-family: monospace; font-size: 0.7rem;">
                                 ${escapeHtml(String(sampleValue).substring(0, 50))}${String(sampleValue).length > 50 ? '...' : ''}
                             </div>
@@ -223,6 +371,19 @@
     }
 
     function attachEventListeners() {
+        window.addEventListener('message', (event) => {
+            const data = event?.data;
+            if (!data || typeof data !== 'object') return;
+            if (data.type === 'survey-suite-set-language' && (data.lang === 'en' || data.lang === 'es')) {
+                localStorage.setItem('survey_suite_language', data.lang);
+                if (data.lang === 'en') {
+                    applyLanguage('en');
+                } else {
+                    window.location.reload();
+                }
+            }
+        });
+
         // Upload
         if (elements.btnUploadTrigger && elements.fileUpload) {
             elements.btnUploadTrigger.addEventListener('click', () => elements.fileUpload.click());
@@ -322,7 +483,7 @@
         if (extension === 'xlsx' || extension === 'xls') {
             // Verificar si SheetJS está disponible
             if (typeof XLSX === 'undefined') {
-                showStatus('⚠️ Para archivos Excel, incluye SheetJS. Ver consola para instrucciones.', 'warning');
+                showStatus(tr('⚠️ Para archivos Excel, incluye SheetJS. Ver consola para instrucciones.', '⚠️ For Excel files, include SheetJS. See console for instructions.'), 'warning');
                 console.error(`
 ❌ SheetJS no está cargado
 
@@ -347,12 +508,12 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
                         const jsonData = JSON.parse(content);
                         loadData(jsonData, 'json', file.name);
                     } catch (err) {
-                        showStatus('❌ Error: archivo JSON inválido', 'error');
+                        showStatus(tr('❌ Error: archivo JSON inválido', '❌ Error: invalid JSON file'), 'error');
                     }
                 } else if (extension === 'csv') {
                     processCSVContent(content, file.name);
                 } else {
-                    showStatus('❌ Formato no soportado. Usa CSV, JSON o XLSX', 'error');
+                    showStatus(tr('❌ Formato no soportado. Usa CSV, JSON o XLSX', '❌ Unsupported format. Use CSV, JSON, or XLSX'), 'error');
                 }
             };
             reader.readAsText(file);
@@ -376,16 +537,16 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
                 const jsonData = XLSX.utils.sheet_to_json(worksheet);
                 
                 if (jsonData.length === 0) {
-                    showStatus('❌ El archivo Excel está vacío', 'error');
+                    showStatus(tr('❌ El archivo Excel está vacío', '❌ Excel file is empty'), 'error');
                     return;
                 }
                 
                 loadData(jsonData, 'ms_forms_xlsx', file.name);
-                showStatus(`✅ Archivo Excel cargado: ${jsonData.length} filas`, 'success');
+                showStatus(tr(`✅ Archivo Excel cargado: ${jsonData.length} filas`, `✅ Excel file loaded: ${jsonData.length} rows`), 'success');
                 
             } catch (err) {
                 console.error(err);
-                showStatus('❌ Error al leer archivo Excel: ' + err.message, 'error');
+                showStatus(tr('❌ Error al leer archivo Excel: ', '❌ Error reading Excel file: ') + err.message, 'error');
             }
         };
         reader.readAsArrayBuffer(file);
@@ -394,7 +555,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function handleCSVInput() {
         const content = elements.csvInput.value.trim();
         if (!content) {
-            showStatus('⚠️ Pega datos CSV primero', 'warning');
+            showStatus(tr('⚠️ Pega datos CSV primero', '⚠️ Paste CSV data first'), 'warning');
             return;
         }
         processCSVContent(content);
@@ -403,7 +564,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function processCSVContent(content, filename = 'manual input') {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
@@ -446,16 +607,16 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
 
             // Añadir info sobre el delimitador al mensaje de carga
             const delimiterName = {
-                ',': 'coma',
-                ';': 'punto y coma',
-                '\t': 'tabulador',
-                '|': 'barra vertical'
+                ',': tr('coma', 'comma'),
+                ';': tr('punto y coma', 'semicolon'),
+                '\t': tr('tabulador', 'tab'),
+                '|': tr('barra vertical', 'pipe')
             }[detectedDelimiter] || detectedDelimiter;
 
             loadData(parsedData, detectedSource, filename, delimiterName);
         } catch (err) {
             console.error(err);
-            showStatus('❌ Error al parsear datos: ' + err.message, 'error');
+            showStatus(tr('❌ Error parsing data: ', '❌ Error parsing data: ') + err.message, 'error');
         }
     }
 
@@ -463,7 +624,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         console.log('📥 Cargando datos...', { rows: data.length, source, filename });
         
         if (!Array.isArray(data) || data.length === 0) {
-            showStatus('❌ Datos vacíos o formato inválido', 'error');
+            showStatus(tr('❌ Datos vacíos o formato inválido', '❌ Empty data or invalid format'), 'error');
             return;
         }
 
@@ -485,15 +646,15 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
             'google_forms': 'Google Forms',
             'ms_forms': 'Microsoft Forms',
             'ms_forms_xlsx': 'Microsoft Forms (Excel)',
-            'generic_csv': 'CSV Genérico',
+            'generic_csv': tr('CSV Genérico', 'Generic CSV'),
             'json': 'JSON'
         };
 
         const sourceName = sourceNames[source] || source;
-        let statusMsg = `✅ ${data.length} filas cargadas desde ${sourceName}`;
+        let statusMsg = tr(`✅ ${data.length} filas cargadas desde ${sourceName}`, `✅ ${data.length} rows loaded from ${sourceName}`);
         
         if (delimiter) {
-            statusMsg += ` (delimitador: ${delimiter})`;
+            statusMsg += tr(` (delimitador: ${delimiter})`, ` (delimiter: ${delimiter})`);
         }
         
         showStatus(statusMsg, 'success');
@@ -522,7 +683,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         ).join('');
 
         if (currentData.length > 100) {
-            tbody.innerHTML += `<tr><td colspan="${headers.length}" style="text-align: center; color: var(--text-secondary); font-style: italic;">Mostrando primeras 100 filas de ${currentData.length}</td></tr>`;
+            tbody.innerHTML += `<tr><td colspan="${headers.length}" style="text-align: center; color: var(--text-secondary); font-style: italic;">${tr(`Mostrando primeras 100 filas de ${currentData.length}`, `Showing first 100 rows of ${currentData.length}`)}</td></tr>`;
         }
 
         // Update JSON view
@@ -536,7 +697,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         document.getElementById('stat-rows').textContent = currentData.length;
         document.getElementById('stat-columns').textContent = Object.keys(currentData[0]).length;
         document.getElementById('stat-source').textContent = dataSource || '-';
-        document.getElementById('stat-modified').textContent = modifiedTime ? formatTime(modifiedTime) : 'Ahora';
+        document.getElementById('stat-modified').textContent = modifiedTime ? formatTime(modifiedTime) : tr('Ahora', 'Now');
     }
 
     function updateColumnInfo() {
@@ -565,24 +726,24 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
                     ${stats.isNumeric ? '<span class="badge-numeric">NUM</span>' : ''}
                 </h4>
                 <div class="stat-row">
-                    <span>Valores:</span>
+                    <span>${tr('Valores', 'Values')}:</span>
                     <strong>${stats.totalValues} / ${currentData.length}</strong>
                 </div>
                 <div class="stat-row">
-                    <span>Faltantes:</span>
+                    <span>${tr('Faltantes', 'Missing')}:</span>
                     <strong>${stats.missingValues}</strong>
                 </div>
                 <div class="stat-row">
-                    <span>Únicos:</span>
+                    <span>${tr('Únicos', 'Unique')}:</span>
                     <strong>${stats.uniqueValues}</strong>
                 </div>
                 ${stats.isNumeric ? `
                     <div class="stat-row">
-                        <span>Rango:</span>
+                        <span>${tr('Rango', 'Range')}:</span>
                         <strong>${stats.min} - ${stats.max}</strong>
                     </div>
                     <div class="stat-row">
-                        <span>Promedio:</span>
+                        <span>${tr('Promedio', 'Average')}:</span>
                         <strong>${stats.avg}</strong>
                     </div>
                 ` : ''}
@@ -614,7 +775,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
             <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px; align-items: center; margin-bottom: 8px;">
                 <input type="text" class="input-field" value="${escapeHtml(col)}" readonly style="background: #f1f5f9; font-size: 0.8rem;">
                 <i class="ph ph-arrow-right" style="color: var(--text-secondary);"></i>
-                <input type="text" class="input-field rename-target" data-original="${escapeHtml(col)}" placeholder="Nuevo nombre" style="font-size: 0.8rem;">
+                <input type="text" class="input-field rename-target" data-original="${escapeHtml(col)}" placeholder="${tr('Nuevo nombre', 'New name')}" style="font-size: 0.8rem;">
             </div>
         `).join('');
 
@@ -636,15 +797,15 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         
         if (elements.btnExportJSON) {
             elements.btnExportJSON.disabled = false;
-            elements.btnExportJSON.title = 'Descargar datos en formato JSON';
+            elements.btnExportJSON.title = tr('Descargar datos en formato JSON', 'Download data as JSON');
         }
         if (elements.btnExportCSV) {
             elements.btnExportCSV.disabled = false;
-            elements.btnExportCSV.title = 'Descargar datos en formato CSV';
+            elements.btnExportCSV.title = tr('Descargar datos en formato CSV', 'Download data as CSV');
         }
         if (elements.btnSaveDataset) {
             elements.btnSaveDataset.disabled = false;
-            elements.btnSaveDataset.title = 'Guardar en localStorage compartido';
+            elements.btnSaveDataset.title = tr('Guardar en localStorage compartido', 'Save to shared localStorage');
         }
         console.log('✅ Controles activados');
     }
@@ -669,13 +830,13 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function applyNormalizeLikert() {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
         const columns = getSelectedColumns(elements.likertColumns);
         if (columns.length === 0) {
-            showStatus('⚠️ Selecciona al menos una columna', 'warning');
+            showStatus(tr('⚠️ Selecciona al menos una columna', '⚠️ Select at least one column'), 'warning');
             return;
         }
 
@@ -700,7 +861,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateColumnInfo();
         
         const totalNumeric = numericCheck.reduce((sum, c) => sum + c.count, 0);
-        showStatus(`✅ Escalas normalizadas ${min}-${max} (${columns.length} columnas, ${totalNumeric} valores procesados)`, 'success');
+        showStatus(tr(`✅ Escalas normalizadas ${min}-${max} (${columns.length} columnas, ${totalNumeric} valores procesados)`, `✅ Scales normalized ${min}-${max} (${columns.length} columns, ${totalNumeric} values processed)`), 'success');
         
         console.log('Datos normalizados (primeras 5 filas):', currentData.slice(0, 5));
     }
@@ -708,13 +869,13 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function applyTextToNumber() {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
         const columns = getSelectedColumns(elements.textLikertColumns);
         if (columns.length === 0) {
-            showStatus('⚠️ Selecciona al menos una columna', 'warning');
+            showStatus(tr('⚠️ Selecciona al menos una columna', '⚠️ Select at least one column'), 'warning');
             return;
         }
         
@@ -740,9 +901,9 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateColumnInfo();
         
         if (convertedCount > 0) {
-            showStatus(`✅ ${convertedCount} valores convertidos de texto a números`, 'success');
+            showStatus(tr(`✅ ${convertedCount} valores convertidos de texto a números`, `✅ ${convertedCount} values converted from text to numbers`), 'success');
         } else {
-            showStatus('⚠️ No se encontraron valores de texto Likert para convertir', 'warning');
+            showStatus(tr('⚠️ No se encontraron valores de texto Likert para convertir', '⚠️ No Likert text values found to convert'), 'warning');
         }
         
         console.log('Conversión completada:', { columnas: columns, convertidos: convertedCount });
@@ -751,7 +912,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function applyCalculateAverage() {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
@@ -759,12 +920,12 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         const newColName = elements.avgColumnName.value.trim();
 
         if (columns.length === 0) {
-            showStatus('⚠️ Selecciona columnas para promediar', 'warning');
+            showStatus(tr('⚠️ Selecciona columnas para promediar', '⚠️ Select columns to average'), 'warning');
             return;
         }
 
         if (!newColName) {
-            showStatus('⚠️ Ingresa un nombre para la nueva columna', 'warning');
+            showStatus(tr('⚠️ Ingresa un nombre para la nueva columna', '⚠️ Enter a name for the new column'), 'warning');
             return;
         }
 
@@ -776,13 +937,13 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateStats();
         updateColumnInfo();
         elements.avgColumnName.value = '';
-        showStatus(`✅ Promedio calculado: "${newColName}"`, 'success');
+        showStatus(tr(`✅ Promedio calculado: "${newColName}"`, `✅ Average calculated: "${newColName}"`), 'success');
     }
 
     function applyRenameColumns() {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
@@ -800,7 +961,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         });
 
         if (!hasChanges) {
-            showStatus('⚠️ No hay cambios para aplicar', 'warning');
+            showStatus(tr('⚠️ No hay cambios para aplicar', '⚠️ No changes to apply'), 'warning');
             return;
         }
 
@@ -811,19 +972,19 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateTable();
         updateStats();
         updateColumnInfo();
-        showStatus(`✅ ${Object.keys(mapping).length} columnas renombradas`, 'success');
+        showStatus(tr(`✅ ${Object.keys(mapping).length} columnas renombradas`, `✅ ${Object.keys(mapping).length} columns renamed`), 'success');
     }
 
     function applySelectColumns() {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
         const columns = getSelectedColumns(elements.selectColumns);
         if (columns.length === 0) {
-            showStatus('⚠️ Selecciona al menos una columna', 'warning');
+            showStatus(tr('⚠️ Selecciona al menos una columna', '⚠️ Select at least one column'), 'warning');
             return;
         }
 
@@ -834,14 +995,14 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateTable();
         updateStats();
         updateColumnInfo();
-        showStatus(`✅ ${columns.length} columnas seleccionadas`, 'success');
+        showStatus(tr(`✅ ${columns.length} columnas seleccionadas`, `✅ ${columns.length} columns selected`), 'success');
     }
 
     // ==================== CLEANING ====================
     function applyClean(operation) {
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
 
@@ -870,10 +1031,10 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         updateColumnInfo();
         
         const messages = {
-            removeNulls: `✅ ${rowsAffected} filas eliminadas`,
-            fillNA: '✅ Valores vacíos rellenados con 0',
-            removeDuplicates: `✅ ${rowsAffected} duplicados eliminados`,
-            trim: '✅ Espacios limpiados'
+            removeNulls: tr(`✅ ${rowsAffected} filas eliminadas`, `✅ ${rowsAffected} rows removed`),
+            fillNA: tr('✅ Valores vacíos rellenados con 0', '✅ Empty values filled with 0'),
+            removeDuplicates: tr(`✅ ${rowsAffected} duplicados eliminados`, `✅ ${rowsAffected} duplicates removed`),
+            trim: tr('✅ Espacios limpiados', '✅ Spaces trimmed')
         };
         
         showStatus(messages[operation], 'success');
@@ -882,14 +1043,14 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function resetData() {
         if (!originalData) return;
         
-        if (confirm('¿Restaurar los datos originales? Se perderán todos los cambios.')) {
+        if (confirm(tr('¿Restaurar los datos originales? Se perderán todos los cambios.', 'Restore original data? All changes will be lost.'))) {
             currentData = JSON.parse(JSON.stringify(originalData));
             modifiedTime = new Date();
             
             updateTable();
             updateStats();
             updateColumnInfo();
-            showStatus('🔄 Datos restaurados al original', 'info');
+            showStatus(tr('🔄 Datos restaurados al original', '🔄 Data restored to original'), 'info');
         }
     }
 
@@ -898,26 +1059,26 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         if (!currentData) return;
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
         
         const filename = `data_${Date.now()}.json`;
         dataApi.exportJSON(currentData, filename);
-        showStatus('📥 JSON descargado', 'success');
+        showStatus(tr('📥 JSON descargado', '📥 JSON downloaded'), 'success');
     }
 
     function exportCSV() {
         if (!currentData) return;
         const dataApi = getDataApi();
         if (!dataApi) {
-            showStatus('⚠️ Biblioteca de procesamiento no cargada todavía', 'warning');
+            showStatus(tr('⚠️ Biblioteca de procesamiento no cargada todavía', '⚠️ Processing library not loaded yet'), 'warning');
             return;
         }
         
         const filename = `data_${Date.now()}.csv`;
         dataApi.exportCSV(currentData, filename);
-        showStatus('📥 CSV descargado', 'success');
+        showStatus(tr('📥 CSV descargado', '📥 CSV downloaded'), 'success');
     }
 
     // ==================== STORAGE ====================
@@ -927,14 +1088,14 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
 
         const dataApi = getDataApi();
         if (!dataApi || !dataApi.storage) {
-            container.innerHTML = '<p class="helper-text">Storage no disponible</p>';
+            container.innerHTML = `<p class="helper-text">${tr('Storage no disponible', 'Storage not available')}</p>`;
             return;
         }
 
         const datasets = dataApi.storage.getDatasetsInfo();
 
         if (datasets.length === 0) {
-            container.innerHTML = '<p class="helper-text">No hay datasets guardados</p>';
+            container.innerHTML = `<p class="helper-text">${tr('No hay datasets guardados', 'No saved datasets')}</p>`;
             return;
         }
 
@@ -944,14 +1105,14 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
                     <i class="ph ph-database"></i>
                     ${escapeHtml(ds.name)}
                 </h4>
-                <p>${ds.rowCount} filas • ${ds.source || 'Desconocido'}</p>
-                <p style="font-size: 0.7rem;">Guardado: ${formatTime(new Date(ds.savedAt))}</p>
+                <p>${ds.rowCount} ${tr('filas', 'rows')} • ${ds.source || tr('Desconocido', 'Unknown')}</p>
+                <p style="font-size: 0.7rem;">${tr('Guardado', 'Saved')}: ${formatTime(new Date(ds.savedAt))}</p>
                 <div class="dataset-actions">
-                    <button class="btn-icon btn-load" title="Cargar dataset">
-                        <i class="ph ph-upload"></i> Cargar
+                    <button class="btn-icon btn-load" title="${tr('Cargar dataset', 'Load dataset')}">
+                        <i class="ph ph-upload"></i> ${tr('Cargar', 'Load')}
                     </button>
-                    <button class="btn-icon btn-delete" title="Eliminar">
-                        <i class="ph ph-trash"></i> Eliminar
+                    <button class="btn-icon btn-delete" title="${tr('Eliminar', 'Delete')}">
+                        <i class="ph ph-trash"></i> ${tr('Eliminar', 'Delete')}
                     </button>
                 </div>
             </div>
@@ -978,31 +1139,31 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function loadDatasetFromStorage(name) {
         const dataApi = getDataApi();
         if (!dataApi || !dataApi.storage) {
-            showStatus('⚠️ Storage no disponible', 'warning');
+            showStatus(tr('⚠️ Storage no disponible', '⚠️ Storage not available'), 'warning');
             return;
         }
 
         const dataset = dataApi.storage.loadDataset(name);
         if (!dataset) {
-            showStatus('❌ Dataset no encontrado', 'error');
+            showStatus(tr('❌ Dataset no encontrado', '❌ Dataset not found'), 'error');
             return;
         }
 
         loadData(dataset.data, dataset.metadata?.source || 'storage', name);
-        showStatus(`✅ Dataset "${name}" cargado desde storage`, 'success');
+        showStatus(tr(`✅ Dataset "${name}" cargado desde storage`, `✅ Dataset "${name}" loaded from storage`), 'success');
     }
 
     function deleteDatasetFromStorage(name) {
         const dataApi = getDataApi();
         if (!dataApi || !dataApi.storage) {
-            showStatus('⚠️ Storage no disponible', 'warning');
+            showStatus(tr('⚠️ Storage no disponible', '⚠️ Storage not available'), 'warning');
             return;
         }
 
-        if (confirm(`¿Eliminar el dataset "${name}"?`)) {
+        if (confirm(tr(`¿Eliminar el dataset "${name}"?`, `Delete dataset "${name}"?`))) {
             dataApi.storage.deleteDataset(name);
             refreshSavedDatasets();
-            showStatus(`🗑️ Dataset "${name}" eliminado`, 'info');
+            showStatus(tr(`🗑️ Dataset "${name}" eliminado`, `🗑️ Dataset "${name}" deleted`), 'info');
         }
     }
 
@@ -1017,13 +1178,13 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
     function saveDatasetConfirm() {
         const dataApi = getDataApi();
         if (!dataApi || !dataApi.storage) {
-            showStatus('⚠️ Storage no disponible', 'warning');
+            showStatus(tr('⚠️ Storage no disponible', '⚠️ Storage not available'), 'warning');
             return;
         }
 
         const name = elements.datasetName.value.trim();
         if (!name) {
-            alert('Ingresa un nombre para el dataset');
+            alert(tr('Ingresa un nombre para el dataset', 'Enter a dataset name'));
             return;
         }
 
@@ -1038,7 +1199,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
 
         closeModal(elements.saveModal);
         refreshSavedDatasets();
-        showStatus(`💾 Dataset "${name}" guardado en storage compartido`, 'success');
+        showStatus(tr(`💾 Dataset "${name}" guardado en storage compartido`, `💾 Dataset "${name}" saved to shared storage`), 'success');
     }
 
     // ==================== MODALS ====================
@@ -1081,12 +1242,12 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
 
-        if (seconds < 60) return 'Ahora';
-        if (minutes < 60) return `Hace ${minutes} min`;
-        if (hours < 24) return `Hace ${hours}h`;
-        if (days < 7) return `Hace ${days}d`;
+        if (seconds < 60) return tr('Ahora', 'Now');
+        if (minutes < 60) return tr(`Hace ${minutes} min`, `${minutes} min ago`);
+        if (hours < 24) return tr(`Hace ${hours}h`, `${hours}h ago`);
+        if (days < 7) return tr(`Hace ${days}d`, `${days}d ago`);
         
-        return date.toLocaleDateString('es-ES', { 
+        return date.toLocaleDateString(isEnglish ? 'en-US' : 'es-ES', { 
             day: 'numeric', 
             month: 'short',
             year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined

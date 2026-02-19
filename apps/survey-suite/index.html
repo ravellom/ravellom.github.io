@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Suite | RecuEdu Labs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
+</head>
+<body>
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <i class="fa-solid fa-flask-vial"></i>
+                <span>RecuEdu Labs</span>
+            </a>
+            <div class="topbar-links">
+                <a href="../../index.html">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="https://github.com/ravellom" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <header class="app-header">
+        <div class="brand">
+            <i class="ph ph-circles-three-plus"></i>
+            <div>
+                <h1>Survey Suite <span class="badge">beta</span></h1>
+                <p class="subtitle">Unified workflow: process survey data and visualize Likert charts</p>
+            </div>
+        </div>
+        <nav class="module-links">
+            <a class="suite-tab active" data-view="processor" href="?view=processor">
+                <i class="ph ph-database"></i>
+                <span>Data Processor</span>
+            </a>
+            <a class="suite-tab" data-view="likert" href="?view=likert">
+                <i class="ph ph-chart-bar"></i>
+                <span>Likert Charts</span>
+            </a>
+            <a class="suite-tab" data-view="wordcloud" href="?view=wordcloud">
+                <i class="ph ph-cloud"></i>
+                <span>Word Cloud</span>
+            </a>
+        </nav>
+        <div class="actions">
+            <button class="btn btn-outline" id="btn-refresh-active">
+                <i class="ph ph-arrow-clockwise"></i> Refresh Active View
+            </button>
+            <a class="btn btn-primary" href="../likert-charts/?standalone=1" target="_blank">
+                <i class="ph ph-chart-line-up"></i> Open Likert Standalone
+            </a>
+        </div>
+    </header>
+
+    <main class="suite-shell">
+        <section class="global-controls">
+            <div class="hint">
+                <i class="ph ph-info"></i>
+                <span>Active dataset and language are centralized here for all modules.</span>
+            </div>
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="suite-dataset-select">Active Dataset</label>
+                    <select id="suite-dataset-select" class="suite-select">
+                        <option value="">Select saved dataset...</option>
+                    </select>
+                    <button id="btn-suite-refresh-datasets" class="btn btn-outline">
+                        <i class="ph ph-arrow-clockwise"></i> Refresh
+                    </button>
+                </div>
+                <div class="control-group">
+                    <label for="suite-language-select">Language</label>
+                    <select id="suite-language-select" class="suite-select">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="suite-content">
+            <div class="view-single active" id="view-processor">
+                <iframe id="frame-processor" title="Data Processor" src="../data-processor/?embed=1"></iframe>
+            </div>
+
+            <div class="view-single" id="view-likert">
+                <iframe id="frame-likert" title="Likert Charts" src="../likert-charts/?embed=1&storageOnly=1"></iframe>
+            </div>
+
+            <div class="view-single" id="view-wordcloud">
+                <iframe id="frame-wordcloud" title="Word Cloud" src="../word-cloud/?embed=1"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

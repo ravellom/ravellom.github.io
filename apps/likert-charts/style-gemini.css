@@ -283,34 +283,36 @@
 
 .btn-primary,
 .btn-secondary {
-    padding: 12px 24px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primary-color, #3b82f6);
     color: white;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    background: var(--primary-dark, #2563eb);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary {
     background: white;
-    color: #64748b;
+    color: #0f172a;
     border: 2px solid #e2e8f0;
 }
 
 .btn-secondary:hover {
     background: #f8fafc;
-    border-color: #cbd5e1;
+    border-color: var(--primary-color, #3b82f6);
+    color: var(--primary-color, #3b82f6);
 }
 
 /* ========================================

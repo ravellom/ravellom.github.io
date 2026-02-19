@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const isEmbed = params.get('embed') === '1';
+            const isStandalone = params.get('standalone') === '1';
+            if (!isEmbed && !isStandalone) {
+                window.location.replace('../survey-suite/?view=distribution');
+                return;
+            }
+            if (isEmbed) {
+                document.documentElement.classList.add('embed-mode');
+            }
+        })();
+    </script>
+    <title>Distribution Lab | RecuEdu Labs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="style-dashboard.css">
+</head>
+<body>
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <i class="fa-solid fa-flask-vial"></i>
+                <span>RecuEdu Labs</span>
+            </a>
+            <div class="topbar-links">
+                <a href="../../index.html">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="https://github.com/ravellom" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <header class="app-header">
+        <div class="brand">
+            <i class="ph ph-chart-scatter"></i>
+            <div>
+                <h1>Distribution Lab <span class="badge">alpha</span></h1>
+                <p class="subtitle" data-i18n="subtitle">Advanced boxplot and violin analysis for survey datasets</p>
+            </div>
+        </div>
+        <div class="actions">
+            <select id="language-select" class="language-select">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <nav class="nav-sidebar">
+            <div class="nav-menu">
+                <button class="nav-item active" data-panel="data">
+                    <span class="nav-icon"><i class="ph ph-folder-simple"></i></span>
+                    <span class="nav-label" data-i18n="nav_data">Data</span>
+                </button>
+                <button class="nav-item" data-panel="groups">
+                    <span class="nav-icon"><i class="ph ph-users-three"></i></span>
+                    <span class="nav-label" data-i18n="nav_groups">Groups</span>
+                </button>
+                <button class="nav-item" data-panel="chart">
+                    <span class="nav-icon"><i class="ph ph-chart-line"></i></span>
+                    <span class="nav-label" data-i18n="nav_chart">Chart</span>
+                </button>
+                <button class="nav-item" data-panel="style">
+                    <span class="nav-icon"><i class="ph ph-palette"></i></span>
+                    <span class="nav-label" data-i18n="nav_style">Style</span>
+                </button>
+                <button class="nav-item" data-panel="export">
+                    <span class="nav-icon"><i class="ph ph-download-simple"></i></span>
+                    <span class="nav-label" data-i18n="nav_export">Export</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="chart-main">
+            <div class="chart-header">
+                <h2 data-i18n="preview_title">Preview</h2>
+                <div class="dataset-chip">
+                    <span data-i18n="active_dataset">Active dataset</span>:
+                    <strong id="active-dataset-name">-</strong>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-placeholder" id="chart-placeholder">
+                    <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 18h16"></path>
+                        <path d="M8 14V8"></path>
+                        <path d="M16 16V6"></path>
+                        <rect x="6" y="10" width="4" height="6"></rect>
+                        <rect x="14" y="8" width="4" height="8"></rect>
+                    </svg>
+                    <p data-i18n="placeholder">Select a dataset and numeric column to start</p>
+                </div>
+                <canvas id="chart-canvas" class="hidden"></canvas>
+            </div>
+        </main>
+
+        <aside class="options-sidebar">
+            <div class="options-panel active" id="panel-data">
+                <h3 class="options-title" data-i18n="panel_data">Data</h3>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="dataset_source">Dataset source</label>
+                    <input id="dataset-source" class="text-input" value="Survey Suite Active Dataset" readonly>
+                </div>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="numeric_variable">Numeric variable (Y)</label>
+                    <select id="numeric-column" class="select-input"></select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="category_variable">Category variable (X, optional)</label>
+                    <select id="category-column" class="select-input"></select>
+                </div>
+                <div class="option-group">
+                    <button id="btn-refresh-dataset" class="btn-primary btn-block">
+                        <i class="ph ph-arrow-clockwise"></i> <span data-i18n="refresh_dataset">Refresh Dataset</span>
+                    </button>
+                </div>
+                <div class="option-group">
+                    <div id="data-summary" class="data-summary"></div>
+                </div>
+            </div>
+
+            <div class="options-panel" id="panel-groups">
+                <h3 class="options-title" data-i18n="panel_groups">Groups</h3>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="group_order">Group order</label>
+                    <select id="group-order" class="select-input">
+                        <option value="original">Original</option>
+                        <option value="alphabetical">Alphabetical</option>
+                        <option value="median_desc">Median desc</option>
+                        <option value="median_asc">Median asc</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="top_n_groups">Top N groups</label>
+                    <input id="top-n-groups" type="number" min="1" max="100" value="15" class="number-input">
+                </div>
+            </div>
+
+            <div class="options-panel" id="panel-chart">
+                <h3 class="options-title" data-i18n="panel_chart">Chart</h3>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="chart_type">Chart type</label>
+                    <select id="chart-type" class="select-input">
+                        <option value="boxplot">Boxplot</option>
+                        <option value="violin">Violin</option>
+                        <option value="boxviolin">Box + Violin</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input id="show-outliers" type="checkbox" checked>
+                        <span data-i18n="show_outliers">Show outliers</span>
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input id="show-jitter" type="checkbox">
+                        <span data-i18n="show_jitter">Show jitter points</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="options-panel" id="panel-style">
+                <h3 class="options-title" data-i18n="panel_style">Style</h3>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="color_scheme">Color scheme</label>
+                    <select id="color-scheme" class="select-input">
+                        <option value="blue_orange">Blue/Orange</option>
+                        <option value="cool">Cool</option>
+                        <option value="warm">Warm</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="chart_title">Chart title</label>
+                    <input id="chart-title-input" class="text-input" placeholder="Distribution analysis">
+                </div>
+            </div>
+
+            <div class="options-panel" id="panel-export">
+                <h3 class="options-title" data-i18n="panel_export">Export</h3>
+                <div class="option-group">
+                    <button id="btn-export-png" class="btn-primary btn-block">
+                        <i class="ph ph-download-simple"></i> PNG
+                    </button>
+                </div>
+                <div class="option-group">
+                    <button id="btn-export-svg" class="btn-secondary btn-block">
+                        <i class="ph ph-file-svg"></i> SVG
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
+    <script type="module" src="app-dashboard.js?v=20260219001"></script>
+</body>
+</html>
+

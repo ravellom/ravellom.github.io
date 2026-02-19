@@ -1,419 +1,432 @@
 /**
- * SPLIT CHART (CENTERED DIVERGING WITH SEPARATED NEUTRALS)
- * 
- * Visualiza respuestas Likert separando:
- * - Negativas (izquierda del centro)
- * - Positivas (derecha del centro) 
- * - Neutrales (columna separada a la derecha)
+ * SplitChart
+ * Centered diverging bars with a separate neutral column.
  */
-
 export default {
     id: 'split',
-    name: 'Split Chart',
-    nameES: 'Gráfico Dividido',
-    
-    /**
-     * Renderiza el gráfico
-     * @param {HTMLCanvasElement} canvas
-     * @param {Array} items - Lista de ítems
-     * @param {Object} stats - Estadísticas por ítem
-     * @param {Object} chartConfig - Configuración del gráfico
-     * @param {Object} scaleConfig - Configuración de la escala
-     * @param {Function} getColors - Función para obtener colores
-     * @param {Function} t - Función de traducción
-     */
-    render(canvas, items, stats, chartConfig, scaleConfig, getColors, t) {
+    name: {
+        en: 'Split Chart',
+        es: 'Grafico Dividido'
+    },
+    description: {
+        en: 'Centered diverging bars with a separate column for neutral responses',
+        es: 'Barras divergentes centradas con una columna separada para respuestas neutrales'
+    },
+
+    render(canvas, items, stats, config, scaleConfig, getColors, t) {
         const ctx = canvas.getContext('2d');
-        
-        // Configuración
-        const barHeight = chartConfig.barHeight || 40;
-        const barSpacing = chartConfig.barSpacing || 10;
-        const leftMargin = 250;
-        const rightMargin = 150; // Espacio para la columna de neutrales
-        const topMargin = 80;
-        const bottomMargin = 60;
-        const neutralColumnWidth = 60; // Reducido de 100 a 60
-        const neutralColumnGap = 5; // Reducido de 20 a 5
-        
-        // Calcular dimensiones
-        const chartHeight = (barHeight + barSpacing) * items.length + topMargin + bottomMargin;
-        const availableWidth = 1200;
-        const chartWidth = availableWidth - neutralColumnWidth - neutralColumnGap;
-        
-        canvas.width = availableWidth;
+        const colors = getColors();
+
+        const margin = {
+            top: config.marginTop || 60,
+            right: config.marginRight || 150,
+            bottom: config.marginBottom || 80,
+            left: config.marginLeft || 200
+        };
+        const chartWidth = config.chartWidth || 1200;
+        const barHeight = config.barHeight || 40;
+        const barSpacing = config.barSpacing || 10;
+        const chartHeight = margin.top + margin.bottom + items.length * (barHeight + barSpacing);
+
+        const neutralColumnWidth = Math.max(44, Math.min(96, Math.round(chartWidth * 0.06)));
+        const neutralColumnGap = 8;
+        const mainAreaWidth = chartWidth - margin.left - margin.right - neutralColumnWidth - neutralColumnGap;
+        const mainStartX = margin.left;
+        const centerX = mainStartX + mainAreaWidth / 2;
+        const neutralX = mainStartX + mainAreaWidth + neutralColumnGap;
+
+        canvas.width = chartWidth;
         canvas.height = chartHeight;
-        
-        // Fondo
-        if (!chartConfig.transparentBackground) {
-            ctx.fillStyle = chartConfig.backgroundColor || '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (!config.transparentBackground) {
+            ctx.fillStyle = config.backgroundColor || '#ffffff';
+            ctx.fillRect(0, 0, chartWidth, chartHeight);
+        } else {
+            ctx.clearRect(0, 0, chartWidth, chartHeight);
         }
-        
-        // Obtener colores
-        const allColors = getColors();
-        const midpoint = Math.ceil(scaleConfig.points / 2);
-        
-        // Colores para cada categoría (ajustados para coincidir con la imagen)
-        // Negativos: grises oscuros, Positivos: naranjas/amarillos
-        const negativeColors = ['#78716c', '#57534e']; // Gris claro, Gris oscuro
-        const positiveColors = ['#fb923c', '#f97316']; // Naranja claro, Naranja oscuro  
-        const neutralColor = '#9ca3af'; // Gris para neutral
-        
-        // Título
-        ctx.fillStyle = '#1f2937';
-        ctx.font = `bold ${chartConfig.fontSizeLabels + 4}px ${chartConfig.fontFamily}`;
-        ctx.textAlign = 'left';
-        ctx.fillText(chartConfig.chartTitle || chartConfig.watermark || 'Survey Report', 20, 30);
-        
-        // Calcular posiciones
-        const barAreaWidth = chartWidth - leftMargin - 40;
-        const centerX = leftMargin + barAreaWidth / 2;
-        
-        // Etiquetas de categoría en la parte superior
-        ctx.fillStyle = '#64748b';
-        ctx.font = `${chartConfig.fontSizeLabels}px ${chartConfig.fontFamily}`;
-        ctx.textAlign = 'center';
-        
-        const categoryY = topMargin - 10;
-        
-        // Disagree label (lado izquierdo)
-        ctx.fillText('disagree', centerX - barAreaWidth / 4, categoryY);
-        
-        // Agree label (lado derecho)
-        ctx.fillText('agree', centerX + barAreaWidth / 4, categoryY);
-        
-        // Neutral label (sobre la columna de neutrales)
-        const neutralX = chartWidth + neutralColumnGap + neutralColumnWidth / 2;
-        ctx.fillText('neutral', neutralX, categoryY);
-        
-        // Dibujar línea central
-        ctx.strokeStyle = '#d1d5db';
-        ctx.lineWidth = 1;
+
+        if (config.showTitle !== false) {
+            const titleText = config.chartTitle || t('chart_split') || 'Split Chart';
+            ctx.font = `bold ${config.fontSizeTitle || (config.fontSizeLabels + 4)}px ${config.fontFamily}`;
+            ctx.fillStyle = '#1e293b';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(titleText, chartWidth / 2, margin.top / 2);
+        }
+
+        if (config.showGrid) {
+            this.drawGrid(ctx, centerX, mainAreaWidth, margin.top, chartHeight - margin.bottom, config, barHeight, barSpacing);
+        }
+
+        ctx.strokeStyle = config.axisColor || '#cbd5e1';
+        ctx.lineWidth = config.axisWidth || 2;
         ctx.beginPath();
-        ctx.moveTo(centerX, topMargin);
-        ctx.lineTo(centerX, chartHeight - bottomMargin);
+        ctx.moveTo(centerX, margin.top);
+        ctx.lineTo(centerX, chartHeight - margin.bottom);
         ctx.stroke();
-        
-        // Renderizar cada ítem
+
+        const midpoint = Math.ceil(scaleConfig.points / 2);
+        const labels = scaleConfig.labels || [];
+        const disagreeLabel = labels[0] || t('disagree') || 'Disagree';
+        const agreeLabel = labels[scaleConfig.points - 1] || t('agree') || 'Agree';
+        const neutralLabel = labels[midpoint - 1] || t('neutral') || 'Neutral';
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        const categoryY = margin.top - 6;
+        ctx.fillText(disagreeLabel, centerX - mainAreaWidth / 4, categoryY);
+        ctx.fillText(agreeLabel, centerX + mainAreaWidth / 4, categoryY);
+        ctx.fillText(neutralLabel, neutralX + neutralColumnWidth / 2, categoryY);
+
+        const hasNeutral = scaleConfig.points % 2 === 1;
+        const negativeColors = colors.slice(0, midpoint - 1).reverse();
+        const positiveColors = colors.slice(hasNeutral ? midpoint : midpoint - 1);
+        const neutralColor = hasNeutral ? colors[midpoint - 1] : '#9ca3af';
+
         items.forEach((item, index) => {
-            const y = topMargin + index * (barHeight + barSpacing);
+            const y = margin.top + index * (barHeight + barSpacing);
             this.drawItem(
-                ctx, 
-                item, 
-                stats[item], 
-                y, 
-                barHeight, 
-                leftMargin,
+                ctx,
+                item,
+                stats[item],
+                y,
+                barHeight,
+                mainStartX,
                 centerX,
-                barAreaWidth,
-                chartConfig,
+                mainAreaWidth,
+                neutralX,
+                neutralColumnWidth,
+                config,
                 scaleConfig,
                 negativeColors,
                 positiveColors,
-                neutralColor,
-                neutralColumnWidth,
-                neutralColumnGap,
-                chartWidth
+                neutralColor
             );
         });
-        
-        // Dibujar leyenda en la parte inferior
-        this.drawBottomLegend(ctx, chartConfig, scaleConfig, negativeColors, positiveColors, neutralColor, chartHeight - bottomMargin + 30);
-        
-        // Grid (opcional)
-        if (chartConfig.showGrid) {
-            this.drawGrid(ctx, centerX, barAreaWidth, topMargin, chartHeight - bottomMargin, chartConfig);
+
+        if (config.showAxisLabels !== false) {
+            this.drawAxisFrame(
+                ctx,
+                mainStartX,
+                mainAreaWidth,
+                neutralX,
+                neutralColumnWidth,
+                margin.top,
+                chartHeight - margin.bottom,
+                config
+            );
+        }
+
+        if (config.showLegend) {
+            this.drawLegend(ctx, colors, scaleConfig, config, chartWidth, chartHeight, margin);
+        }
+
+        if (config.watermark) {
+            ctx.font = `${config.fontSizeLegend}px ${config.fontFamily}`;
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(config.watermark, chartWidth / 2, chartHeight - 20);
         }
     },
-    
-    /**
-     * Dibuja la leyenda en la parte inferior con las categorías
-     */
-    drawBottomLegend(ctx, chartConfig, scaleConfig, negativeColors, positiveColors, neutralColor, y) {
-        let legendX = 200;
-        const boxSize = 14;
-        const spacing = 25;
-        
-        ctx.font = `${chartConfig.fontSizeLegend || 10}px ${chartConfig.fontFamily}`;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        
-        // Obtener etiquetas
-        const labels = scaleConfig.labels || [];
-        
-        // Strongly disagree (primer valor - gris oscuro)
-        if (labels[0]) {
-            ctx.fillStyle = '#57534e';
-            ctx.fillRect(legendX, y - boxSize/2, boxSize, boxSize);
-            ctx.fillStyle = '#374151';
-            ctx.fillText(labels[0], legendX + boxSize + 5, y);
-            legendX += ctx.measureText(labels[0]).width + boxSize + spacing;
-        }
-        
-        // Disagree (segundo valor - gris claro)
-        if (labels[1] && scaleConfig.points > 3) {
-            ctx.fillStyle = '#78716c';
-            ctx.fillRect(legendX, y - boxSize/2, boxSize, boxSize);
-            ctx.fillStyle = '#374151';
-            ctx.fillText(labels[1], legendX + boxSize + 5, y);
-            legendX += ctx.measureText(labels[1]).width + boxSize + spacing;
-        }
-        
-        // Agree (primer valor positivo - naranja claro)
-        const agreeIndex = scaleConfig.points > 3 ? scaleConfig.points - 2 : scaleConfig.points - 1;
-        if (labels[agreeIndex]) {
-            ctx.fillStyle = '#fb923c';
-            ctx.fillRect(legendX, y - boxSize/2, boxSize, boxSize);
-            ctx.fillStyle = '#374151';
-            ctx.fillText(labels[agreeIndex], legendX + boxSize + 5, y);
-            legendX += ctx.measureText(labels[agreeIndex]).width + boxSize + spacing;
-        }
-        
-        // Strongly agree (último valor - naranja oscuro)
-        if (labels[scaleConfig.points - 1] && scaleConfig.points > 3) {
-            ctx.fillStyle = '#f97316';
-            ctx.fillRect(legendX, y - boxSize/2, boxSize, boxSize);
-            ctx.fillStyle = '#374151';
-            ctx.fillText(labels[scaleConfig.points - 1], legendX + boxSize + 5, y);
-        }
-    },
-    
-    /**
-     * Dibuja un ítem individual
-     */
-    drawItem(ctx, item, itemStats, y, barHeight, leftMargin, centerX, barAreaWidth, 
-             chartConfig, scaleConfig, negativeColors, positiveColors, neutralColor,
-             neutralColumnWidth, neutralColumnGap, chartWidth) {
-        
-        const frequencies = itemStats.frequencies;
-        const total = itemStats.total;
+
+    drawItem(
+        ctx,
+        item,
+        itemStats,
+        y,
+        barHeight,
+        mainStartX,
+        centerX,
+        mainAreaWidth,
+        neutralX,
+        neutralColumnWidth,
+        config,
+        scaleConfig,
+        negativeColors,
+        positiveColors,
+        neutralColor
+    ) {
+        const frequencies = itemStats.frequencies || {};
+        const safeTotal = Math.max(1, itemStats.total || 0);
         const midpoint = Math.ceil(scaleConfig.points / 2);
-        
-        // Calcular porcentajes para cada categoría
+
         let negativePercent = 0;
         let positivePercent = 0;
         let neutralPercent = 0;
-        
         const negativeBreakdown = [];
         const positiveBreakdown = [];
-        
-        // Calcular negativos (valores < midpoint)
+
         for (let i = 1; i < midpoint; i++) {
             const count = frequencies[i] || 0;
-            const percent = (count / total) * 100;
+            const percent = (count / safeTotal) * 100;
             negativePercent += percent;
             negativeBreakdown.push({ value: i, percent, count });
         }
-        
-        // Calcular neutral (valor = midpoint)
+
         const neutralCount = frequencies[midpoint] || 0;
-        neutralPercent = (neutralCount / total) * 100;
-        
-        // Calcular positivos (valores > midpoint)
+        neutralPercent = (neutralCount / safeTotal) * 100;
+
         for (let i = midpoint + 1; i <= scaleConfig.points; i++) {
             const count = frequencies[i] || 0;
-            const percent = (count / total) * 100;
+            const percent = (count / safeTotal) * 100;
             positivePercent += percent;
             positiveBreakdown.push({ value: i, percent, count });
         }
-        
-        // Dibujar etiqueta del ítem (con ajuste de texto largo)
-        ctx.fillStyle = '#1f2937';
-        ctx.font = `${chartConfig.fontSizeLabels}px ${chartConfig.fontFamily}`;
+
+        ctx.fillStyle = '#1e293b';
+        ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
         ctx.textAlign = 'right';
-        const maxLabelWidth = leftMargin - 20;
-        const lines = this.wrapText(ctx, item, maxLabelWidth, chartConfig.labelMaxLines || 2);
-        const lineHeight = chartConfig.fontSizeLabels * 1.2;
-        const totalHeight = lines.length * lineHeight;
-        const startY = y + barHeight / 2 - totalHeight / 2 + lineHeight / 2;
-        
+        ctx.textBaseline = 'middle';
+        const maxLabelWidth = mainStartX - 20;
+        const lines = this.wrapText(ctx, item, maxLabelWidth, config.labelMaxLines || 2);
+        const lineHeight = config.fontSizeLabels * 1.2;
+        const startY = y + barHeight / 2 - ((lines.length - 1) * lineHeight) / 2;
         lines.forEach((line, i) => {
-            ctx.fillText(line, leftMargin - 10, startY + i * lineHeight);
+            ctx.fillText(line, mainStartX - 10, startY + i * lineHeight);
         });
-        
-        // Calcular anchos de las barras
-        const pixelsPerPercent = barAreaWidth / 200; // 100% a cada lado del centro
-        
+
+        const pixelsPerPercent = mainAreaWidth / 200;
         const negativeWidth = negativePercent * pixelsPerPercent;
         const positiveWidth = positivePercent * pixelsPerPercent;
-        
-        // Dibujar barras negativas (desde el centro hacia la izquierda)
+
         let currentX = centerX;
         negativeBreakdown.reverse().forEach((seg, idx) => {
             const segWidth = seg.percent * pixelsPerPercent;
-            const color = negativeColors[idx % negativeColors.length];
-            
-            ctx.fillStyle = color;
+            if (segWidth <= 0) return;
+            ctx.fillStyle = negativeColors[idx % Math.max(1, negativeColors.length)];
             ctx.fillRect(currentX - segWidth, y, segWidth, barHeight);
-            
-            // Dibujar porcentaje si hay espacio
-            if (chartConfig.showValues && segWidth > 30) {
-                ctx.fillStyle = '#ffffff';
-                ctx.font = `${chartConfig.fontSizeValues}px ${chartConfig.fontFamily}`;
-                ctx.textAlign = 'center';
-                ctx.fillText(
-                    `${seg.percent.toFixed(chartConfig.decimalPlaces)}%`,
-                    currentX - segWidth / 2,
-                    y + barHeight / 2 + 4
-                );
+
+            if (config.showBarBorders) {
+                ctx.strokeStyle = config.barBorderColor || '#ffffff';
+                ctx.lineWidth = config.barBorderWidth || 1;
+                ctx.strokeRect(currentX - segWidth, y, segWidth, barHeight);
             }
-            
+
+            if (config.showValues && segWidth > 30) {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = `${config.fontSizeValues}px ${config.fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(`${seg.percent.toFixed(config.decimalPlaces)}%`, currentX - segWidth / 2, y + barHeight / 2);
+            }
             currentX -= segWidth;
         });
-        
-        // Dibujar barras positivas (desde el centro hacia la derecha)
+
         currentX = centerX;
         positiveBreakdown.forEach((seg, idx) => {
             const segWidth = seg.percent * pixelsPerPercent;
-            const color = positiveColors[idx % positiveColors.length];
-            
-            ctx.fillStyle = color;
+            if (segWidth <= 0) return;
+            ctx.fillStyle = positiveColors[idx % Math.max(1, positiveColors.length)];
             ctx.fillRect(currentX, y, segWidth, barHeight);
-            
-            // Dibujar porcentaje si hay espacio
-            if (chartConfig.showValues && segWidth > 30) {
-                ctx.fillStyle = '#ffffff';
-                ctx.font = `${chartConfig.fontSizeValues}px ${chartConfig.fontFamily}`;
-                ctx.textAlign = 'center';
-                ctx.fillText(
-                    `${seg.percent.toFixed(chartConfig.decimalPlaces)}%`,
-                    currentX + segWidth / 2,
-                    y + barHeight / 2 + 4
-                );
+
+            if (config.showBarBorders) {
+                ctx.strokeStyle = config.barBorderColor || '#ffffff';
+                ctx.lineWidth = config.barBorderWidth || 1;
+                ctx.strokeRect(currentX, y, segWidth, barHeight);
             }
-            
+
+            if (config.showValues && segWidth > 30) {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = `${config.fontSizeValues}px ${config.fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(`${seg.percent.toFixed(config.decimalPlaces)}%`, currentX + segWidth / 2, y + barHeight / 2);
+            }
             currentX += segWidth;
         });
-        
-        // Dibujar columna de neutrales (a la derecha, con fondo gris claro que muestra la escala completa)
-        const neutralX = chartWidth + neutralColumnGap;
-        
-        // Fondo gris claro para mostrar el 100% de la escala
+
         ctx.fillStyle = '#e5e7eb';
         ctx.fillRect(neutralX, y, neutralColumnWidth, barHeight);
-        
-        // Barra de neutral proporcional al porcentaje
         const neutralBarWidth = (neutralPercent / 100) * neutralColumnWidth;
         ctx.fillStyle = neutralColor;
         ctx.fillRect(neutralX, y, neutralBarWidth, barHeight);
-        
-        // Porcentaje de neutrales
-        if (chartConfig.showValues && neutralPercent > 5) {
-            ctx.fillStyle = '#ffffff';
-            ctx.font = `bold ${chartConfig.fontSizeValues}px ${chartConfig.fontFamily}`;
-            ctx.textAlign = 'center';
-            ctx.fillText(
-                `${neutralPercent.toFixed(0)}%`,
-                neutralX + neutralBarWidth / 2,
-                y + barHeight / 2 + 4
-            );
-        }
-        
-        // Borde de la columna neutral completa
-        ctx.strokeStyle = '#d1d5db';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(neutralX, y, neutralColumnWidth, barHeight);
-        
-        // Bordes
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(centerX - negativeWidth, y, negativeWidth, barHeight);
-        ctx.strokeRect(centerX, y, positiveWidth, barHeight);
-        ctx.strokeRect(neutralX, y, neutralColumnWidth, barHeight);
-    },
-    
-    /**
-     * Trunca texto si es muy largo
-     */
-    truncateText(ctx, text, maxWidth) {
-        const width = ctx.measureText(text).width;
-        if (width <= maxWidth) return text;
-        
-        let truncated = text;
-        while (ctx.measureText(truncated + '...').width > maxWidth && truncated.length > 0) {
-            truncated = truncated.slice(0, -1);
-        }
-        return truncated + '...';
-    },
-    
-    /**
-     * Divide texto en múltiples líneas
-     */
-    wrapText(ctx, text, maxWidth, maxLines) {
-        const words = text.split(' ');
-        const lines = [];
-        let currentLine = '';
 
-        for (let i = 0; i < words.length; i++) {
-            const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
-            const metrics = ctx.measureText(testLine);
-            
-            if (metrics.width > maxWidth && currentLine) {
-                lines.push(currentLine);
-                currentLine = words[i];
-                
-                if (lines.length >= maxLines - 1) {
-                    const remaining = words.slice(i).join(' ');
-                    currentLine = this.truncateText(ctx, remaining, maxWidth);
-                    break;
-                }
-            } else {
-                currentLine = testLine;
+        if (config.showValues && neutralPercent > 5) {
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `${config.fontSizeValues}px ${config.fontFamily}`;
+            ctx.textAlign = 'center';
+            ctx.fillText(`${neutralPercent.toFixed(config.decimalPlaces)}%`, neutralX + neutralBarWidth / 2, y + barHeight / 2);
+        }
+
+        if (config.showGridBorder) {
+            ctx.strokeStyle = '#d1d5db';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(centerX - negativeWidth, y, negativeWidth, barHeight);
+            ctx.strokeRect(centerX, y, positiveWidth, barHeight);
+            ctx.strokeRect(neutralX, y, neutralColumnWidth, barHeight);
+        }
+    },
+
+    drawLegend(ctx, colors, scaleConfig, config, chartWidth, chartHeight, margin) {
+        const boxSize = 15;
+        const spacing = 5;
+        const position = config.legendPosition || 'right';
+
+        ctx.font = `${config.fontSizeLegend}px ${config.fontFamily}`;
+
+        let x;
+        let y;
+        let orientation;
+
+        switch (position) {
+            case 'left':
+                x = 10;
+                y = margin.top + 25;
+                orientation = 'vertical';
+                break;
+            case 'top':
+                x = margin.left;
+                y = 30;
+                orientation = 'horizontal';
+                break;
+            case 'bottom':
+                x = margin.left;
+                y = chartHeight - 30;
+                orientation = 'horizontal';
+                break;
+            case 'right':
+            default:
+                x = chartWidth - margin.right + 10;
+                y = margin.top + 25;
+                orientation = 'vertical';
+                break;
+        }
+
+        if (orientation === 'vertical') {
+            ctx.textBaseline = 'middle';
+            for (let i = 0; i < scaleConfig.points; i++) {
+                const yPos = y + i * (boxSize + spacing);
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, yPos, boxSize, boxSize);
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.strokeRect(x, yPos, boxSize, boxSize);
+                ctx.fillStyle = '#1e293b';
+                ctx.textAlign = 'left';
+                const label = scaleConfig.labels[i] || `${i + 1}`;
+                ctx.fillText(label, x + boxSize + 5, yPos + boxSize / 2);
+            }
+        } else {
+            ctx.textBaseline = 'middle';
+            let xOffset = x;
+            for (let i = 0; i < scaleConfig.points; i++) {
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(xOffset, y, boxSize, boxSize);
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.strokeRect(xOffset, y, boxSize, boxSize);
+                ctx.fillStyle = '#1e293b';
+                ctx.textAlign = 'left';
+                const label = scaleConfig.labels[i] || `${i + 1}`;
+                const labelWidth = ctx.measureText(label).width;
+                ctx.fillText(label, xOffset + boxSize + 5, y + boxSize / 2);
+                xOffset += boxSize + labelWidth + 15;
             }
         }
-        
-        if (currentLine) {
-            lines.push(currentLine);
-        }
-        
-        return lines.slice(0, maxLines);
     },
-    
-    /**
-     * Dibuja la cuadrícula de fondo
-     */
-    drawGrid(ctx, centerX, barAreaWidth, top, bottom, chartConfig) {
+
+    drawAxisFrame(ctx, startX, mainWidth, neutralX, neutralWidth, top, bottom, config) {
         ctx.save();
-        ctx.strokeStyle = chartConfig.gridColor || '#e5e7eb';
-        ctx.lineWidth = chartConfig.gridLineWidth || 1;
-        
-        if (chartConfig.gridDashed) {
+
+        if (config.showGridBorder) {
+            ctx.strokeStyle = config.axisColor || '#333333';
+            ctx.lineWidth = config.axisWidth || 2;
+            ctx.strokeRect(startX, top, mainWidth, bottom - top);
+            ctx.strokeRect(neutralX, top, neutralWidth, bottom - top);
+        }
+
+        if (config.showAxisLabels) {
+            ctx.fillStyle = config.axisColor || '#333333';
+            ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+
+            const labelY = bottom + 10;
+            ctx.fillText('100%', startX, labelY);
+            ctx.fillText('50%', startX + mainWidth * 0.25, labelY);
+            ctx.fillText('0%', startX + mainWidth * 0.5, labelY);
+            ctx.fillText('50%', startX + mainWidth * 0.75, labelY);
+            ctx.fillText('100%', startX + mainWidth, labelY);
+            ctx.fillText('100%', neutralX + neutralWidth / 2, labelY);
+        }
+
+        ctx.restore();
+    },
+
+    drawGrid(ctx, centerX, mainAreaWidth, top, bottom, config, barHeight, barSpacing) {
+        ctx.save();
+        ctx.strokeStyle = config.gridColor || '#e5e7eb';
+        ctx.lineWidth = config.gridLineWidth || 1;
+
+        if (config.gridDashed) {
             ctx.setLineDash([5, 5]);
         }
-        
-        const pixelsPerPercent = barAreaWidth / 200;
-        
-        // Líneas verticales
-        if (chartConfig.gridVertical) {
+
+        const pixelsPerPercent = mainAreaWidth / 200;
+
+        if (config.gridVertical) {
             for (let percent = 10; percent <= 100; percent += 10) {
-                // Lado negativo
-                const xNeg = centerX - (percent * pixelsPerPercent);
+                const xNeg = centerX - percent * pixelsPerPercent;
                 ctx.beginPath();
                 ctx.moveTo(xNeg, top);
                 ctx.lineTo(xNeg, bottom);
                 ctx.stroke();
-                
-                // Lado positivo
-                const xPos = centerX + (percent * pixelsPerPercent);
+
+                const xPos = centerX + percent * pixelsPerPercent;
                 ctx.beginPath();
                 ctx.moveTo(xPos, top);
                 ctx.lineTo(xPos, bottom);
                 ctx.stroke();
             }
         }
-        
-        // Líneas horizontales
-        if (chartConfig.gridHorizontal) {
-            const numItems = Math.floor((bottom - top) / (chartConfig.barHeight + chartConfig.barSpacing));
+
+        if (config.gridHorizontal) {
+            const numItems = Math.floor((bottom - top) / (barHeight + barSpacing));
             for (let i = 0; i <= numItems; i++) {
-                const y = top + i * (chartConfig.barHeight + chartConfig.barSpacing);
+                const y = top + i * (barHeight + barSpacing);
                 ctx.beginPath();
-                ctx.moveTo(centerX - barAreaWidth / 2, y);
-                ctx.lineTo(centerX + barAreaWidth / 2, y);
+                ctx.moveTo(centerX - mainAreaWidth / 2, y);
+                ctx.lineTo(centerX + mainAreaWidth / 2, y);
                 ctx.stroke();
             }
         }
-        
+
         ctx.restore();
+    },
+
+    truncateText(ctx, text, maxWidth) {
+        if (ctx.measureText(text).width <= maxWidth) return text;
+        let truncated = text;
+        while (ctx.measureText(`${truncated}...`).width > maxWidth && truncated.length > 0) {
+            truncated = truncated.slice(0, -1);
+        }
+        return `${truncated}...`;
+    },
+
+    wrapText(ctx, text, maxWidth, maxLines) {
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+
+        for (let i = 0; i < words.length; i++) {
+            const testLine = `${currentLine}${currentLine ? ' ' : ''}${words[i]}`;
+            if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+                lines.push(currentLine);
+                currentLine = words[i];
+                if (lines.length >= maxLines - 1) {
+                    currentLine = this.truncateText(ctx, words.slice(i).join(' '), maxWidth);
+                    break;
+                }
+            } else {
+                currentLine = testLine;
+            }
+        }
+
+        if (currentLine) lines.push(currentLine);
+        return lines.slice(0, maxLines);
+    },
+
+    canRender(items, stats, scaleConfig) {
+        return items && items.length > 0 && stats && scaleConfig;
     }
 };
+

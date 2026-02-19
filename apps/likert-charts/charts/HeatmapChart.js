@@ -22,6 +22,7 @@ export default {
      */
     render(canvas, items, stats, config, scaleConfig, getColors, t) {
         const ctx = canvas.getContext('2d');
+        const colors = getColors();
         
         // Dimensiones
         const margin = { top: 60, right: 100, bottom: 60, left: 200 };
@@ -68,14 +69,14 @@ export default {
                 const percentage = (count / stat.total) * 100;
                 const intensity = count / maxFrequency;
                 
-                // Color basado en intensidad
-                const hue = this._getHue(value, scaleConfig.points);
-                const saturation = 70;
-                const lightness = 90 - (intensity * 40); // 90% (claro) a 50% (oscuro)
-                ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                // Usar el color de la escala pero aplicar opacidad según intensidad
+                const baseColor = colors[value - 1] || '#cbd5e1';
+                ctx.globalAlpha = 0.2 + (intensity * 0.8); // Mínimo 20% de opacidad
+                ctx.fillStyle = baseColor;
                 
                 // Dibujar celda
                 ctx.fillRect(x, y, cellWidth - 2, cellHeight - 2);
+                ctx.globalAlpha = 1.0;
                 
                 // Borde
                 ctx.strokeStyle = '#e2e8f0';
@@ -122,7 +123,7 @@ export default {
         
         // Leyenda de intensidad
         if (config.showLegend) {
-            this.drawIntensityLegend(ctx, config, chartWidth - margin.right + 20, margin.top);
+            this.drawIntensityLegend(ctx, config, chartWidth - margin.right + 20, margin.top, colors[Math.floor(colors.length/2)]);
         }
         
         // Marca de agua
@@ -137,7 +138,7 @@ export default {
     /**
      * Dibuja la leyenda de intensidad
      */
-    drawIntensityLegend(ctx, config, x, y) {
+    drawIntensityLegend(ctx, config, x, y, baseColor) {
         const width = 20;
         const height = 150;
         const steps = 10;
@@ -150,8 +151,8 @@ export default {
         // Gradiente de intensidad
         for (let i = 0; i < steps; i++) {
             const intensity = i / steps;
-            const lightness = 90 - (intensity * 40);
-            ctx.fillStyle = `hsl(200, 70%, ${lightness}%)`;
+            ctx.globalAlpha = 0.2 + (intensity * 0.8);
+            ctx.fillStyle = baseColor;
             
             const cellY = y + (i * height / steps);
             ctx.fillRect(x, cellY, width, height / steps);
@@ -159,22 +160,13 @@ export default {
             ctx.strokeStyle = '#e2e8f0';
             ctx.strokeRect(x, cellY, width, height / steps);
         }
+        ctx.globalAlpha = 1.0;
         
         // Etiquetas
         ctx.fillStyle = '#64748b';
         ctx.textAlign = 'left';
         ctx.fillText('Más', x + width + 5, y + 10);
         ctx.fillText('Menos', x + width + 5, y + height);
-    },
-
-    /**
-     * Calcula el tono de color basado en el valor
-     */
-    _getHue(value, totalPoints) {
-        // Gradiente de rojo (0°) a verde (120°)
-        // Para escalas Likert: bajo = rojo, alto = verde
-        const range = 120; // 0° (rojo) a 120° (verde)
-        return (value - 1) / (totalPoints - 1) * range;
     },
 
     /**

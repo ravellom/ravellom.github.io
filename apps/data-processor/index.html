@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const isEmbed = params.get('embed') === '1';
+            const isStandalone = params.get('standalone') === '1';
+            if (!isEmbed && !isStandalone) {
+                window.location.replace('../survey-suite/?view=processor');
+                return;
+            }
+            if (isEmbed) {
+                document.documentElement.classList.add('embed-mode');
+            }
+        })();
+    </script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">

@@ -4,6 +4,7 @@
 // ========================================
 
 import { chartRegistry } from './core/ChartRegistry.js';
+import { ChartOptionsAdapter } from './core/ChartOptionsAdapter.js';
 import { GeminiProcessor, GeminiConfirmationUI } from './ai/GeminiProcessor.js';
 
 /**
@@ -12,7 +13,7 @@ import { GeminiProcessor, GeminiConfirmationUI } from './ai/GeminiProcessor.js';
 const AppState = {
     data: null,
     longData: null,
-    currentLanguage: 'es',
+    currentLanguage: 'en',
     translations: {},
     config: null,
     geminiApiKey: '',
@@ -66,7 +67,9 @@ const AppState = {
     },
     filteredItems: new Set(),
     currentPanel: 'data',
-    zoom: 1
+    zoom: 1,
+    embedMode: false,
+    storageOnlyMode: false
 };
 
 window.AppState = AppState;
@@ -587,13 +590,18 @@ const ChartRenderer = {
 
         const stats = DataTransformer.calculateStatistics(AppState.longData, items);
         const sortedItems = DataTransformer.sortItems(items, stats, AppState.chartConfig.sortBy);
+        const normalizedConfig = ChartOptionsAdapter.normalize(
+            AppState.chartConfig,
+            AppState.scaleConfig,
+            chartType
+        );
 
         try {
             if (chartType === 'distribution') {
                 chartModule.render(
                     canvas,
                     AppState.longData,
-                    AppState.chartConfig,
+                    normalizedConfig,
                     AppState.scaleConfig,
                     this.getColors.bind(this),
                     I18n.t.bind(I18n)
@@ -603,7 +611,7 @@ const ChartRenderer = {
                     canvas,
                     sortedItems,
                     stats,
-                    AppState.chartConfig,
+                    normalizedConfig,
                     AppState.scaleConfig,
                     this.getColors.bind(this),
                     I18n.t.bind(I18n)
@@ -696,14 +704,17 @@ const ChartRenderer = {
  */
 const UI = {
     async init() {
+        this.detectModes();
         await ConfigLoader.loadConfig();
-        await I18n.loadLanguage('es');
+        await I18n.loadLanguage('en');
         
         Navigation.init();
         this.setupEventListeners();
+        this.setupLayoutSubsections();
         this.setupReactiveControls();
         this.setupColorInputs();
         this.setupZoomControls();
+        this.applyRuntimeModes();
         this.populatePresetScales();
         this.populateColorSchemes();
         this.populateChartTypes();
@@ -761,6 +772,11 @@ const UI = {
             ChartRenderer.downloadChart();
         });
 
+        // Quick access from app header
+        document.getElementById('btn-open-export-panel')?.addEventListener('click', () => {
+            Navigation.switchPanel('export');
+        });
+
         // Reset upload button
         document.getElementById('reset-upload-btn')?.addEventListener('click', () => {
             this.resetDataUpload();
@@ -783,6 +799,63 @@ const UI = {
         document.getElementById('deselect-all-btn')?.addEventListener('click', () => {
             this.selectAllItems(false);
         });
+
+        // Message bridge from survey-suite
+        window.addEventListener('message', (event) => {
+            const data = event?.data;
+            if (!data || typeof data !== 'object') return;
+            if (data.type === 'survey-suite-load-dataset' && data.datasetName) {
+                this.loadDatasetByName(data.datasetName);
+            }
+            if (data.type === 'survey-suite-set-language' && (data.lang === 'en' || data.lang === 'es')) {
+                I18n.loadLanguage(data.lang);
+            }
+        });
+    },
+
+    detectModes() {
+        const params = new URLSearchParams(window.location.search);
+        AppState.embedMode = params.get('embed') === '1';
+        AppState.storageOnlyMode = params.get('storageOnly') === '1';
+    },
+
+    applyRuntimeModes() {
+        if (!AppState.storageOnlyMode) return;
+
+        const dataNavItem = document.querySelector('.nav-item[data-panel="data"]');
+        if (dataNavItem) dataNavItem.style.display = 'none';
+
+        const dataPanel = document.getElementById('panel-data');
+        if (dataPanel) dataPanel.classList.remove('active');
+
+        Navigation.switchPanel('chart');
+        this.tryAutoLoadSharedDataset();
+    },
+
+    setupLayoutSubsections() {
+        const tabs = document.querySelectorAll('.layout-tab');
+        const sections = document.querySelectorAll('.layout-section');
+        if (!tabs.length || !sections.length) return;
+
+        const activateSection = (sectionId) => {
+            tabs.forEach(tab => {
+                const isActive = tab.dataset.layoutTab === sectionId;
+                tab.classList.toggle('active', isActive);
+                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            sections.forEach(section => {
+                section.classList.toggle('active', section.id === sectionId);
+            });
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                activateSection(tab.dataset.layoutTab);
+            });
+        });
+
+        activateSection(tabs[0].dataset.layoutTab);
     },
 
     getSharedDataApi() {
@@ -793,53 +866,71 @@ const UI = {
     },
 
     refreshStorageDatasets() {
-        const select = document.getElementById('storage-dataset-select');
-        if (!select) return;
+        const selects = [
+            document.getElementById('storage-dataset-select')
+        ].filter(Boolean);
+        if (!selects.length) return;
 
         const dataApi = this.getSharedDataApi();
         if (!dataApi || !dataApi.storage) {
-            select.innerHTML = '<option value="">Storage no disponible</option>';
+            selects.forEach(select => {
+                select.innerHTML = '<option value="">Storage not available</option>';
+            });
             return;
         }
 
         try {
             const datasets = dataApi.storage.getDatasetsInfo();
-            select.innerHTML = '<option value="">Selecciona un dataset guardado...</option>';
+            selects.forEach(select => {
+                select.innerHTML = '<option value="">Select a saved dataset...</option>';
+            });
 
             if (!Array.isArray(datasets) || datasets.length === 0) {
-                select.innerHTML = '<option value="">No hay datasets guardados</option>';
+                selects.forEach(select => {
+                    select.innerHTML = '<option value="">No saved datasets</option>';
+                });
                 return;
             }
 
             datasets.forEach(ds => {
-                const option = document.createElement('option');
-                option.value = ds.name;
-                option.textContent = `${ds.name} (${ds.rowCount || 0} filas)`;
-                select.appendChild(option);
+                selects.forEach(select => {
+                    const option = document.createElement('option');
+                    option.value = ds.name;
+                    option.textContent = `${ds.name} (${ds.rowCount || 0} rows)`;
+                    select.appendChild(option);
+                });
             });
         } catch (error) {
             console.error('Error al listar datasets del storage:', error);
-            select.innerHTML = '<option value="">Error al cargar datasets</option>';
+            selects.forEach(select => {
+                select.innerHTML = '<option value="">Error loading datasets</option>';
+            });
         }
     },
 
-    loadDatasetFromStorage() {
-        const select = document.getElementById('storage-dataset-select');
+    loadDatasetFromStorage(selectId = 'storage-dataset-select') {
+        const select = document.getElementById(selectId);
         if (!select || !select.value) {
-            alert('Selecciona un dataset guardado primero.');
+            alert('Select a saved dataset first.');
             return;
         }
 
+        this.loadDatasetByName(select.value);
+    },
+
+    loadDatasetByName(datasetName) {
+        if (!datasetName) return;
+
         const dataApi = this.getSharedDataApi();
         if (!dataApi || !dataApi.storage) {
-            alert('Storage global no disponible. Abre primero Data Processor para inicializar la biblioteca compartida.');
+            alert('Shared storage is not available yet. Open Data Processor first to initialize shared data library.');
             return;
         }
 
         try {
-            const dataset = dataApi.storage.loadDataset(select.value);
+            const dataset = dataApi.storage.loadDataset(datasetName);
             if (!dataset || !Array.isArray(dataset.data) || dataset.data.length === 0) {
-                alert('El dataset seleccionado está vacío o no es válido.');
+                alert('Selected dataset is empty or invalid.');
                 return;
             }
 
@@ -873,10 +964,22 @@ const UI = {
                 rows: normalizedRows
             };
 
-            this.applyParsedData(parsedData, `storage: ${select.value}`);
+            this.applyParsedData(parsedData, `storage: ${datasetName}`);
         } catch (error) {
             console.error('Error al cargar dataset desde storage:', error);
-            alert('No se pudo cargar el dataset guardado: ' + error.message);
+            alert('Could not load saved dataset: ' + error.message);
+        }
+    },
+
+    tryAutoLoadSharedDataset() {
+        const datasetName = localStorage.getItem('survey_suite_active_dataset');
+        if (!datasetName) return;
+
+        // Try loading once on startup in storage-only mode.
+        try {
+            this.loadDatasetByName(datasetName);
+        } catch (error) {
+            console.warn('Auto-load from survey suite failed:', error);
         }
     },
 

@@ -188,5 +188,10 @@
   "normal_upload": "O carga manual tradicional",
   "gemini_model": "Modelo de Gemini",
   "reset_upload": "Reiniciar carga",
-  "reset_upload_confirm": "¿Limpiar todos los datos cargados y reiniciar?"
+  "reset_upload_confirm": "¿Limpiar todos los datos cargados y reiniciar?",
+  "stats_reliability": "Fiabilidad (Alfa de Cronbach)",
+  "stats_export": "Exportar Estadísticos (CSV)",
+  "chart_comparison": "Comparativa de Grupos",
+  "group_by": "Agrupar por columna",
+  "accessibility_table": "Resumen de datos para lectores de pantalla"
 }

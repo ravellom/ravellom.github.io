@@ -86,10 +86,12 @@ export default {
         items.forEach((item, index) => {
             const y = margin.top + index * (barHeight + barSpacing);
             const stat = stats[item];
+            const safeTotal = Math.max(1, stat.total || 0);
             
             // Draw item label
             ctx.fillStyle = '#1e293b';
             ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
             const maxLabelWidth = margin.left - 20;
             const lines = this.wrapText(ctx, item, maxLabelWidth, config.labelMaxLines || 2);
             const lineHeight = config.fontSizeLabels * 1.2;
@@ -104,7 +106,7 @@ export default {
             const percentages = {};
             for (let value = 1; value <= scaleConfig.points; value++) {
                 const count = stat.frequencies[value] || 0;
-                percentages[value] = (count / stat.total) * 100;
+                percentages[value] = (count / safeTotal) * 100;
             }
             
             // Draw neutral (center) if exists
@@ -173,11 +175,12 @@ export default {
         items.forEach((item, index) => {
             const y = margin.top + index * (barHeight + barSpacing);
             const stat = stats[item];
+            const safeTotal = Math.max(1, stat.total || 0);
             
             const percentages = {};
             for (let value = 1; value <= scaleConfig.points; value++) {
                 const count = stat.frequencies[value] || 0;
-                percentages[value] = (count / stat.total) * 100;
+                percentages[value] = (count / safeTotal) * 100;
             }
             
             // Calcular offset inicial (mitad del neutral si existe)

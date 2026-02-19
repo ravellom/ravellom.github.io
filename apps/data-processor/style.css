@@ -27,6 +27,22 @@ body {
     padding-top: 50px;
 }
 
+html.embed-mode body {
+    padding-top: 0;
+}
+
+html.embed-mode .recuedu-topbar {
+    display: none;
+}
+
+html.embed-mode .app-header {
+    top: 0;
+}
+
+html.embed-mode .workspace-new {
+    height: calc(100vh - 112px);
+}
+
 /* ==================== HEADER ==================== */
 .app-header {
     background: white;

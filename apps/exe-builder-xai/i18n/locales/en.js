@@ -41,7 +41,6 @@ export default {
         generating: 'Generating...'
     },
     insights: {
-            tabLabel: 'XAI Insights (Why?)',
             title: 'Transparency report',
             desc: 'Quick summary of the quality, traceability, and human oversight status of the generated set.',
             kpi_exercises: 'Exercises',
@@ -52,19 +51,19 @@ export default {
             pedagogy_title: 'Pedagogical alignment',
             compliance_title: 'Compliance status',
             human_review_title: 'Human review required',
-            human_review_desc: 'Before publishing or using in class, review disciplinary accuracy, ethical adequacy, and relevance for your educational context.',
-            rationale_default: 'Design logic will update when you generate or validate a set of exercises.',
-            bias_default: 'Recommendation: review inclusive language, context diversity, and accessibility in statements.',
-            pedagogy_default: 'Align objectives, criteria, and differentiated supports before exporting to the viewer.',
-            compliance_default: 'No data yet. Generate or validate to estimate initial technical compliance.',
-            rationale_valid: 'Bundle is valid with {count} exercises. You can focus review on pedagogical quality and contextual adjustments.',
-            rationale_invalid: '{count} critical errors detected. Prioritize structural corrections before exporting or implementing.',
-            bias_warnings: '{count} warnings to review: potential bias, incomplete formulation or supports.',
-            bias_nowarnings: 'No warnings detected in this automatic review. Maintain final teacher audit.',
-            pedagogy_types: '{count} exercise types identified. Check for methodological variety and alignment with learning objectives.',
-            compliance_high: 'High technical compliance: no errors or warnings. Still requires final human review.',
-            compliance_ok: 'Acceptable technical compliance: no critical errors, but pending warnings.',
-            compliance_low: 'Insufficient technical compliance: fix critical errors before classroom use or publication.'
+            human_review_desc: 'Before publishing or using in class, review disciplinary accuracy, ethical adequacy, and relevance for your educational context.'
+        rationale_default: 'Design logic will update when you generate or validate a set of exercises.',
+        bias_default: 'Recommendation: review inclusive language, context diversity, and accessibility in statements.',
+        pedagogy_default: 'Align objectives, criteria, and differentiated supports before exporting to the viewer.',
+        compliance_default: 'No data yet. Generate or validate to estimate initial technical compliance.',
+        rationale_valid: 'Bundle is valid with {count} exercises. You can focus review on pedagogical quality and contextual adjustments.',
+        rationale_invalid: '{count} critical errors detected. Prioritize structural corrections before exporting or implementing.',
+        bias_warnings: '{count} warnings to review: potential bias, incomplete formulation or supports.',
+        bias_nowarnings: 'No warnings detected in this automatic review. Maintain final teacher audit.',
+        pedagogy_types: '{count} exercise types identified. Check for methodological variety and alignment with learning objectives.',
+        compliance_high: 'High technical compliance: no errors or warnings. Still requires final human review.',
+        compliance_ok: 'Acceptable technical compliance: no critical errors, but pending warnings.',
+        compliance_low: 'Insufficient technical compliance: fix critical errors before classroom use or publication.'
     },
     types: {
         multiple_choice: 'Multiple choice',

@@ -27,131 +27,116 @@ export default {
      * @param {Function} t - Función de traducción
      */
     render(canvas, items, stats, config, scaleConfig, getColors, t) {
+        if (canvas._chartInstance) {
+            canvas._chartInstance.destroy();
+        }
+
         const ctx = canvas.getContext('2d');
-        
-        // Calculate dimensions using config values
-        const margin = { 
-            top: config.marginTop || 60, 
-            right: config.marginRight || 150, 
-            bottom: config.marginBottom || 80, 
-            left: config.marginLeft || 200 
+        const colors = getColors();
+        const margin = {
+            top: config.marginTop || 60,
+            right: config.marginRight || 150,
+            bottom: config.marginBottom || 80,
+            left: config.marginLeft || 200
         };
-        const barHeight = config.barHeight;
-        const barSpacing = config.barSpacing;
-        const chartHeight = items.length * (barHeight + barSpacing) + margin.top + margin.bottom;
+        const barHeight = config.barHeight || 40;
+        const barSpacing = config.barSpacing || 10;
         const chartWidth = config.chartWidth || 1200;
-        
-        // Set canvas size
+        const chartHeight = margin.top + margin.bottom + (items.length * (barHeight + barSpacing));
+        const barAreaWidth = chartWidth - margin.left - margin.right;
+
         canvas.width = chartWidth;
         canvas.height = chartHeight;
-        
-        // Clear canvas and apply background
+
         if (!config.transparentBackground) {
             ctx.fillStyle = config.backgroundColor || '#ffffff';
             ctx.fillRect(0, 0, chartWidth, chartHeight);
         } else {
             ctx.clearRect(0, 0, chartWidth, chartHeight);
         }
-        
-        // Set font for labels
-        ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        
-        const colors = getColors();
-        const barWidth = chartWidth - margin.left - margin.right;
-        
-        // Draw title if enabled
+
         if (config.showTitle !== false) {
             const titleText = config.chartTitle || t('chart_stacked');
             ctx.font = `bold ${config.fontSizeTitle || (config.fontSizeLabels + 4)}px ${config.fontFamily}`;
             ctx.fillStyle = '#1e293b';
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             ctx.fillText(titleText, chartWidth / 2, margin.top / 2);
         }
-        
-        // Reset font for chart
-        ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
-        
-        // Draw grid if enabled
+
         if (config.showGrid) {
-            this.drawGrid(ctx, margin.left, barWidth, margin.top, chartHeight - margin.bottom, config);
+            this.drawGrid(ctx, margin.left, barAreaWidth, margin.top, chartHeight - margin.bottom, config);
         }
-        
-        // Draw bars for each item
+
         items.forEach((item, index) => {
             const y = margin.top + index * (barHeight + barSpacing);
             const stat = stats[item];
-            
-            // Draw item label
+            const safeTotal = Math.max(1, stat.total || 0);
+
+            // item label
+            ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
             ctx.fillStyle = '#1e293b';
             ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
             const maxLabelWidth = margin.left - 20;
             const lines = this.wrapText(ctx, item, maxLabelWidth, config.labelMaxLines || 2);
             const lineHeight = config.fontSizeLabels * 1.2;
-            const totalHeight = lines.length * lineHeight;
-            const startY = y + barHeight / 2 - totalHeight / 2 + lineHeight / 2;
-            
+            const labelStartY = y + barHeight / 2 - ((lines.length - 1) * lineHeight) / 2;
             lines.forEach((line, i) => {
-                ctx.fillText(line, margin.left - 10, startY + i * lineHeight);
+                ctx.fillText(line, margin.left - 10, labelStartY + i * lineHeight);
             });
-            
-            // Draw stacked bars
-            let xOffset = margin.left;
-            
+
+            // stacked segments (100%)
+            let currentX = margin.left;
             for (let value = 1; value <= scaleConfig.points; value++) {
                 const count = stat.frequencies[value] || 0;
-                const percentage = (count / stat.total) * 100;
-                const width = (percentage / 100) * barWidth;
-                
-                if (width > 0) {
-                    // Draw bar segment
-                    ctx.fillStyle = colors[value - 1];
-                    ctx.fillRect(xOffset, y, width, barHeight);
-                    
-                    // Draw bar border if enabled
-                    if (config.showBarBorders) {
-                        ctx.strokeStyle = config.barBorderColor || '#ffffff';
-                        ctx.lineWidth = config.barBorderWidth || 1;
-                        ctx.strokeRect(xOffset, y, width, barHeight);
-                    }
-                    
-                    // Draw value label if enabled and width is sufficient
-                    if (config.showValues && width > 30) {
-                        ctx.font = `${config.fontSizeValues}px ${config.fontFamily}`;
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign = 'center';
-                        const displayValue = config.valueType === 'percentage' 
-                            ? percentage.toFixed(config.decimalPlaces) + '%'
-                            : count;
-                        ctx.fillText(displayValue, xOffset + width / 2, y + barHeight / 2);
-                        ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
-                    }
-                    
-                    xOffset += width;
+                const percentage = (count / safeTotal) * 100;
+                const segmentWidth = (percentage / 100) * barAreaWidth;
+                if (segmentWidth <= 0) continue;
+
+                ctx.fillStyle = colors[value - 1];
+                ctx.fillRect(currentX, y, segmentWidth, barHeight);
+
+                if (config.showBarBorders) {
+                    ctx.strokeStyle = config.barBorderColor || '#ffffff';
+                    ctx.lineWidth = config.barBorderWidth || 1;
+                    ctx.strokeRect(currentX, y, segmentWidth, barHeight);
                 }
+
+                if (config.showValues && segmentWidth > 30) {
+                    const displayValue = config.valueType === 'percentage'
+                        ? `${percentage.toFixed(config.decimalPlaces)}%`
+                        : String(count);
+                    ctx.font = `${config.fontSizeValues}px ${config.fontFamily}`;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(displayValue, currentX + segmentWidth / 2, y + barHeight / 2);
+                    ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
+                }
+
+                currentX += segmentWidth;
             }
-            
-            // Draw border
-            ctx.strokeStyle = '#cbd5e1';
-            ctx.strokeRect(margin.left, y, barWidth, barHeight);
+
+            if (config.showGridBorder) {
+                ctx.strokeStyle = config.axisColor || '#cbd5e1';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(margin.left, y, barAreaWidth, barHeight);
+            }
         });
-        
-        // Draw axis frame and labels if enabled
+
         if (config.showAxisLabels !== false) {
-            this.drawAxisFrame(ctx, margin.left, barWidth, margin.top, chartHeight - margin.bottom, config);
+            this.drawAxisFrame(ctx, margin.left, barAreaWidth, margin.top, chartHeight - margin.bottom, config);
         }
-        
-        // Draw legend if enabled
+
         if (config.showLegend) {
             this.drawLegend(ctx, colors, scaleConfig, config, chartWidth, chartHeight, margin);
         }
-        
-        // Draw watermark if specified
+
         if (config.watermark) {
             ctx.font = `${config.fontSizeLegend}px ${config.fontFamily}`;
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             ctx.fillText(config.watermark, chartWidth / 2, chartHeight - 20);
         }
     },

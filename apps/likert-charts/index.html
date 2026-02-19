@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador de Escalas Likert - Dashboard</title>
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const isEmbed = params.get('embed') === '1';
+            const isStandalone = params.get('standalone') === '1';
+            if (!isEmbed && !isStandalone) {
+                window.location.replace('../survey-suite/?view=likert');
+                return;
+            }
+            if (isEmbed) {
+                document.documentElement.classList.add('embed-mode');
+            }
+            if (params.get('storageOnly') === '1') {
+                document.documentElement.classList.add('storage-only');
+            }
+        })();
+    </script>
+    <title>Likert Chart Visualizer - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
     <link rel="stylesheet" href="style-dashboard.css">
     <link rel="stylesheet" href="style-gemini.css">
@@ -50,61 +69,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </a>
     </div>
 
+    <header class="app-header">
+        <div class="brand">
+            <i class="ph ph-chart-bar"></i>
+            <div>
+                <h1>Likert Charts <span class="badge">v3.0</span></h1>
+                <p class="subtitle">Survey visualization workspace connected to shared data storage</p>
+            </div>
+        </div>
+        <div class="actions">
+            <a href="../data-processor/" class="btn btn-outline" title="Open Data Processor">
+                <i class="ph ph-database"></i> Data Processor
+            </a>
+            <button id="btn-open-export-panel" class="btn btn-primary" title="Go to Export panel">
+                <i class="ph ph-download-simple"></i> Export
+            </button>
+        </div>
+    </header>
+
     <div class="dashboard-layout">
         <!-- Columna 1: Navegación de Grupos -->
         <nav class="nav-sidebar">
             <div class="nav-header">
-                <h1>Likert Charts</h1>
+                <h1>Workspace</h1>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <select id="language-select" class="language-selector">
+                        <option value="en" selected>English</option>
                         <option value="es">Español</option>
-                        <option value="en">English</option>
                     </select>
-                    <a href="help.html" target="_blank" title="Ayuda" style="color: white; font-size: 1.5rem; text-decoration: none;">❓</a>
+                    <a href="help.html" target="_blank" title="Help" style="color: inherit; font-size: 1.25rem; text-decoration: none;">
+                        <i class="ph ph-question"></i>
+                    </a>
                 </div>
             </div>
 
             <div class="nav-menu">
                 <button class="nav-item active" data-panel="data">
-                    <span class="nav-icon">📁</span>
-                    <span class="nav-label" data-i18n="nav_data">Datos</span>
+                    <span class="nav-icon"><i class="ph ph-folder-simple"></i></span>
+                    <span class="nav-label" data-i18n="nav_data">Data</span>
                 </button>
 
                 <button class="nav-item" data-panel="scale">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-label" data-i18n="nav_scale">Escala</span>
+                    <span class="nav-icon"><i class="ph ph-chart-bar"></i></span>
+                    <span class="nav-label" data-i18n="nav_scale">Scale</span>
                 </button>
 
                 <button class="nav-item" data-panel="chart">
-                    <span class="nav-icon">📈</span>
-                    <span class="nav-label" data-i18n="nav_chart">Gráfico</span>
+                    <span class="nav-icon"><i class="ph ph-chart-line-up"></i></span>
+                    <span class="nav-label" data-i18n="nav_chart">Chart</span>
                 </button>
 
-                <button class="nav-item" data-panel="appearance">
-                    <span class="nav-icon">🎨</span>
-                    <span class="nav-label" data-i18n="nav_appearance">Apariencia</span>
-                </button>
-
-                <button class="nav-item" data-panel="layout">
-                    <span class="nav-icon">📐</span>
-                    <span class="nav-label" data-i18n="nav_layout">Diseño</span>
-                </button>
-
-                <button class="nav-item" data-panel="filters">
-                    <span class="nav-icon">🔍</span>
-                    <span class="nav-label" data-i18n="nav_filters">Filtros</span>
+                <button class="nav-item" data-panel="style">
+                    <span class="nav-icon"><i class="ph ph-palette"></i></span>
+                    <span class="nav-label">Style</span>
                 </button>
 
                 <button class="nav-item" data-panel="export">
-                    <span class="nav-icon">💾</span>
-                    <span class="nav-label" data-i18n="nav_export">Exportar</span>
+                    <span class="nav-icon"><i class="ph ph-download-simple"></i></span>
+                    <span class="nav-label" data-i18n="nav_export">Export</span>
                 </button>
             </div>
 
             <div class="nav-footer">
                 <div class="status-indicator">
                     <span class="status-dot"></span>
-                    <span id="status-text">Sin datos</span>
+                    <span id="status-text">No data</span>
                 </div>
             </div>
         </nav>
@@ -112,12 +141,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- Columna 2: Área del Gráfico (Centro) -->
         <main class="chart-main">
             <div class="chart-header">
-                <h2 id="chart-title" data-i18n="chart_title">Visualización</h2>
+                <h2 id="chart-main-title" data-i18n="chart_title">Visualization</h2>
                 <div class="chart-actions">
-                    <button id="zoom-in-btn" class="icon-btn" title="Acercar">🔍+</button>
-                    <button id="zoom-out-btn" class="icon-btn" title="Alejar">🔍-</button>
-                    <button id="reset-zoom-btn" class="icon-btn" title="Restablecer zoom">⟲</button>
-                    <button id="fullscreen-btn" class="icon-btn" title="Pantalla completa">⛶</button>
+                    <button id="zoom-in-btn" class="icon-btn" title="Zoom in"><i class="ph ph-magnifying-glass-plus"></i></button>
+                    <button id="zoom-out-btn" class="icon-btn" title="Zoom out"><i class="ph ph-magnifying-glass-minus"></i></button>
+                    <button id="reset-zoom-btn" class="icon-btn" title="Reset zoom"><i class="ph ph-arrow-counter-clockwise"></i></button>
+                    <button id="fullscreen-btn" class="icon-btn" title="Fullscreen"><i class="ph ph-arrows-out-simple"></i></button>
                 </div>
             </div>
 
@@ -190,7 +219,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div style="display: flex; gap: 8px; align-items: flex-start;">
                         <input type="file" id="csv-file" accept=".csv,.xlsx,.xls" class="file-input" style="flex: 1;">
                         <button id="reset-upload-btn" class="btn-secondary" style="padding: 8px 12px; white-space: nowrap;" title="Limpiar y reiniciar carga de datos">
-                            🔄 Reiniciar
+                            <i class="ph ph-arrow-counter-clockwise"></i> Reset
                         </button>
                     </div>
                     <p class="help-text" data-i18n="file_format_help">
@@ -206,10 +235,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </select>
                         <div style="display: flex; gap: 8px;">
                             <button id="refresh-storage-datasets" class="btn-secondary" style="flex: 1;">
-                                🔄 Actualizar
+                                <i class="ph ph-arrow-clockwise"></i> Refresh
                             </button>
                             <button id="load-storage-dataset" class="btn-primary" style="flex: 1;">
-                                📥 Cargar
+                                <i class="ph ph-download-simple"></i> Load
                             </button>
                         </div>
                         <label class="checkbox-label" style="margin-top: 4px;">
@@ -292,249 +321,252 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <label class="option-label" data-i18n="decimal_places">Decimales:</label>
                     <input type="number" id="decimal-places" min="0" max="3" value="1" class="number-input reactive-control">
                 </div>
-            </div>
 
-            <!-- Panel: Apariencia -->
-            <div class="options-panel" id="panel-appearance">
-                <h3 class="options-title" data-i18n="panel_appearance_title">Colores y Fuentes</h3>
-                
-                <div class="option-group">
-                    <label class="option-label" data-i18n="color_scheme">Esquema de colores:</label>
-                    <select id="color-scheme" class="select-input reactive-control">
-                        <option value="blue_orange">Azul-Naranja</option>
-                    </select>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="background_color">Color de fondo:</label>
-                    <div class="color-input-group">
-                        <input type="color" id="background-color" value="#ffffff" class="color-input reactive-control">
-                        <input type="text" id="background-color-text" value="#ffffff" class="text-input-sm">
-                    </div>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="transparent-background" class="reactive-control">
-                        <span data-i18n="transparent_bg">Fondo transparente</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="font_family">Familia de fuente:</label>
-                    <select id="font-family" class="select-input reactive-control">
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
-                        <option value="Georgia, serif">Georgia</option>
-                        <option value="'Courier New', monospace">Courier</option>
-                        <option value="Verdana, sans-serif">Verdana</option>
-                    </select>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="font_size_labels">Tamaño etiquetas:</label>
-                    <input type="number" id="font-size-labels" min="8" max="32" value="12" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="font_size_values">Tamaño valores:</label>
-                    <input type="number" id="font-size-values" min="8" max="32" value="11" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="font_size_legend">Tamaño leyenda:</label>
-                    <input type="number" id="font-size-legend" min="8" max="32" value="10" class="number-input reactive-control">
-                </div>
-            </div>
-
-            <!-- Panel: Diseño -->
-            <div class="options-panel" id="panel-layout">
-                <h3 class="options-title" data-i18n="panel_layout_title">Diseño y Dimensiones</h3>
-                
-                <div class="option-group">
-                    <label class="option-label" data-i18n="bar_height">Alto de barras (px):</label>
-                    <input type="number" id="bar-height" min="20" max="100" value="40" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="bar_spacing">Espaciado de barras (px):</label>
-                    <input type="number" id="bar-spacing" min="0" max="50" value="10" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-grid" class="reactive-control">
-                        <span data-i18n="show_grid">Mostrar cuadrícula</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="grid_color">Color de cuadrícula:</label>
-                    <div class="color-input-group">
-                        <input type="color" id="grid-color" value="#e2e8f0" class="color-input reactive-control">
-                        <input type="text" id="grid-color-text" value="#e2e8f0" class="text-input-sm">
-                    </div>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="grid_line_width">Grosor de líneas:</label>
-                    <input type="number" id="grid-line-width" min="1" max="5" value="1" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="grid-dashed" class="reactive-control" checked>
-                        <span data-i18n="grid_dashed">Líneas discontinuas</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="grid-vertical" class="reactive-control" checked>
-                        <span data-i18n="grid_vertical">Líneas verticales</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="grid-horizontal" class="reactive-control">
-                        <span data-i18n="grid_horizontal">Líneas horizontales</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-bar-borders" class="reactive-control">
-                        <span data-i18n="show_bar_borders">Mostrar bordes de barras</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="bar_border_color">Color de bordes:</label>
-                    <input type="color" id="bar-border-color" value="#ffffff" class="color-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="bar_border_width">Grosor de bordes:</label>
-                    <input type="number" id="bar-border-width" min="1" max="5" value="1" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="label_max_lines">Líneas máx. en etiquetas:</label>
-                    <input type="number" id="label-max-lines" min="1" max="3" value="2" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-legend" class="reactive-control" checked>
-                        <span data-i18n="show_legend">Mostrar leyenda</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="legend_position">Posición de leyenda:</label>
-                    <select id="legend-position" class="select-input reactive-control">
-                        <option value="right" data-i18n="legend_right">Derecha</option>
-                        <option value="left" data-i18n="legend_left">Izquierda</option>
-                        <option value="top" data-i18n="legend_top">Arriba</option>
-                        <option value="bottom" data-i18n="legend_bottom">Abajo</option>
-                    </select>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label" data-i18n="watermark">Marca de agua:</label>
-                    <input type="text" id="watermark" class="text-input reactive-control" placeholder="Texto opcional">
-                </div>
-
-                <!-- Nuevos controles para márgenes y área del gráfico -->
-                <div class="option-group" style="border-top: 2px solid #e2e8f0; margin-top: 1.5rem; padding-top: 1.5rem;">
-                    <h4 style="color: #667eea; margin-bottom: 0.75rem;">Márgenes y Área</h4>
-                    
-                    <label class="option-label">Margen superior (px):</label>
-                    <input type="number" id="margin-top" min="20" max="200" value="60" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Margen inferior (px):</label>
-                    <input type="number" id="margin-bottom" min="20" max="200" value="80" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Margen izquierdo (px):</label>
-                    <input type="number" id="margin-left" min="50" max="400" value="200" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Margen derecho (px):</label>
-                    <input type="number" id="margin-right" min="50" max="400" value="150" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Ancho del gráfico (px):</label>
-                    <input type="number" id="chart-width" min="600" max="2000" value="1200" class="number-input reactive-control">
-                </div>
-
-                <!-- Controles para títulos y ejes -->
-                <div class="option-group" style="border-top: 2px solid #e2e8f0; margin-top: 1.5rem; padding-top: 1.5rem;">
-                    <h4 style="color: #667eea; margin-bottom: 0.75rem;">Títulos y Ejes</h4>
-                    
-                    <label class="option-label">Título principal:</label>
-                    <input type="text" id="chart-title" class="text-input reactive-control" placeholder="Título del gráfico">
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Tamaño fuente título:</label>
-                    <input type="number" id="font-size-title" min="12" max="48" value="18" class="number-input reactive-control">
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-title" class="reactive-control" checked>
-                        <span>Mostrar título</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-grid-border" class="reactive-control" checked>
-                        <span>Mostrar borde del grid</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="show-axis-labels" class="reactive-control" checked>
-                        <span>Mostrar etiquetas de ejes (%)</span>
-                    </label>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Color líneas de ejes:</label>
-                    <div class="color-input-group">
-                        <input type="color" id="axis-color" value="#333333" class="color-input reactive-control">
-                        <input type="text" id="axis-color-text" value="#333333" class="text-input-sm">
-                    </div>
-                </div>
-
-                <div class="option-group">
-                    <label class="option-label">Grosor líneas de ejes:</label>
-                    <input type="number" id="axis-width" min="1" max="5" value="2" class="number-input reactive-control">
-                </div>
-            </div>
-
-            <!-- Panel: Filtros -->
-            <div class="options-panel" id="panel-filters">
-                <h3 class="options-title" data-i18n="panel_filters_title">Filtrar Ítems</h3>
-                
-                <div class="option-group">
+                <div class="option-group" style="border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                    <label class="option-label">Item filters:</label>
                     <div class="filter-actions">
-                        <button id="select-all-btn" class="btn-sm" data-i18n="select_all">Seleccionar todo</button>
-                        <button id="deselect-all-btn" class="btn-sm" data-i18n="deselect_all">Deseleccionar todo</button>
+                        <button id="select-all-btn" class="btn-sm">Select all</button>
+                        <button id="deselect-all-btn" class="btn-sm">Deselect all</button>
+                    </div>
+                    <div id="item-filter-container" class="filter-list" style="margin-top: 8px;"></div>
+                </div>
+            </div>
+
+            <!-- Panel: Style -->
+            <div class="options-panel" id="panel-style">
+                <h3 class="options-title">Style</h3>
+
+                <div class="layout-subnav" role="tablist" aria-label="Style groups">
+                    <button type="button" class="layout-tab active" data-layout-tab="layout-colors" aria-selected="true">Colors</button>
+                    <button type="button" class="layout-tab" data-layout-tab="layout-typography" aria-selected="false">Typography</button>
+                    <button type="button" class="layout-tab" data-layout-tab="layout-bars" aria-selected="false">Bars</button>
+                    <button type="button" class="layout-tab" data-layout-tab="layout-legend" aria-selected="false">Legend</button>
+                    <button type="button" class="layout-tab" data-layout-tab="layout-axes-grid" aria-selected="false">Axes & Grid</button>
+                    <button type="button" class="layout-tab" data-layout-tab="layout-canvas" aria-selected="false">Canvas</button>
+                </div>
+                
+                <div class="layout-section active" id="layout-colors">
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="color_scheme">Esquema de colores:</label>
+                        <select id="color-scheme" class="select-input reactive-control">
+                            <option value="blue_orange">Azul-Naranja</option>
+                        </select>
+                    </div>
+    
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="background_color">Color de fondo:</label>
+                        <div class="color-input-group">
+                            <input type="color" id="background-color" value="#ffffff" class="color-input reactive-control">
+                            <input type="text" id="background-color-text" value="#ffffff" class="text-input-sm">
+                        </div>
+                    </div>
+    
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="transparent-background" class="reactive-control">
+                            <span data-i18n="transparent_bg">Fondo transparente</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="grid_color">Color de cuadrícula:</label>
+                        <div class="color-input-group">
+                            <input type="color" id="grid-color" value="#e2e8f0" class="color-input reactive-control">
+                            <input type="text" id="grid-color-text" value="#e2e8f0" class="text-input-sm">
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="bar_border_color">Color de bordes:</label>
+                        <input type="color" id="bar-border-color" value="#ffffff" class="color-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Color líneas de ejes:</label>
+                        <div class="color-input-group">
+                            <input type="color" id="axis-color" value="#333333" class="color-input reactive-control">
+                            <input type="text" id="axis-color-text" value="#333333" class="text-input-sm">
+                        </div>
                     </div>
                 </div>
 
-                <div class="option-group">
-                    <div id="item-filter-container" class="filter-list"></div>
+                <div class="layout-section" id="layout-typography">
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="font_family">Familia de fuente:</label>
+                        <select id="font-family" class="select-input reactive-control">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier</option>
+                            <option value="Verdana, sans-serif">Verdana</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="font_size_labels">Tamaño etiquetas:</label>
+                        <input type="number" id="font-size-labels" min="8" max="32" value="12" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="font_size_values">Tamaño valores:</label>
+                        <input type="number" id="font-size-values" min="8" max="32" value="11" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="font_size_legend">Tamaño leyenda:</label>
+                        <input type="number" id="font-size-legend" min="8" max="32" value="10" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Tamaño fuente título:</label>
+                        <input type="number" id="font-size-title" min="12" max="48" value="18" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="label_max_lines">Líneas máx. en etiquetas:</label>
+                        <input type="number" id="label-max-lines" min="1" max="3" value="2" class="number-input reactive-control">
+                    </div>
+                </div>
+
+                <div class="layout-section" id="layout-bars">
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="bar_height">Alto de barras (px):</label>
+                        <input type="number" id="bar-height" min="20" max="100" value="40" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="bar_spacing">Espaciado de barras (px):</label>
+                        <input type="number" id="bar-spacing" min="0" max="50" value="10" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-bar-borders" class="reactive-control">
+                            <span data-i18n="show_bar_borders">Mostrar bordes de barras</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="bar_border_width">Grosor de bordes:</label>
+                        <input type="number" id="bar-border-width" min="1" max="5" value="1" class="number-input reactive-control">
+                    </div>
+                </div>
+
+                <div class="layout-section" id="layout-legend">
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-legend" class="reactive-control" checked>
+                            <span data-i18n="show_legend">Mostrar leyenda</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="legend_position">Posición de leyenda:</label>
+                        <select id="legend-position" class="select-input reactive-control">
+                            <option value="right" data-i18n="legend_right">Derecha</option>
+                            <option value="left" data-i18n="legend_left">Izquierda</option>
+                            <option value="top" data-i18n="legend_top">Arriba</option>
+                            <option value="bottom" data-i18n="legend_bottom">Abajo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layout-section" id="layout-axes-grid">
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-grid" class="reactive-control">
+                            <span data-i18n="show_grid">Mostrar cuadrícula</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="grid_line_width">Grosor de líneas:</label>
+                        <input type="number" id="grid-line-width" min="1" max="5" value="1" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="grid-dashed" class="reactive-control" checked>
+                            <span data-i18n="grid_dashed">Líneas discontinuas</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="grid-vertical" class="reactive-control" checked>
+                            <span data-i18n="grid_vertical">Líneas verticales</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="grid-horizontal" class="reactive-control">
+                            <span data-i18n="grid_horizontal">Líneas horizontales</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-grid-border" class="reactive-control" checked>
+                            <span>Mostrar borde del grid</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-axis-labels" class="reactive-control" checked>
+                            <span>Mostrar etiquetas de ejes (%)</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Grosor líneas de ejes:</label>
+                        <input type="number" id="axis-width" min="1" max="5" value="2" class="number-input reactive-control">
+                    </div>
+                </div>
+
+                <div class="layout-section" id="layout-canvas">
+                    <div class="option-group">
+                        <label class="option-label">Margen superior (px):</label>
+                        <input type="number" id="margin-top" min="20" max="200" value="60" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Margen inferior (px):</label>
+                        <input type="number" id="margin-bottom" min="20" max="200" value="80" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Margen izquierdo (px):</label>
+                        <input type="number" id="margin-left" min="50" max="400" value="200" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Margen derecho (px):</label>
+                        <input type="number" id="margin-right" min="50" max="400" value="150" class="number-input reactive-control">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">Ancho del gráfico (px):</label>
+                        <input type="number" id="chart-width" min="600" max="2000" value="1200" class="number-input reactive-control">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label class="option-label">Título principal:</label>
+                        <input type="text" id="chart-title" class="text-input reactive-control" placeholder="Título del gráfico">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-title" class="reactive-control" checked>
+                            <span>Mostrar título</span>
+                        </label>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="watermark">Marca de agua:</label>
+                        <input type="text" id="watermark" class="text-input reactive-control" placeholder="Texto opcional">
+                    </div>
                 </div>
             </div>
 
@@ -563,7 +595,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <div class="option-group">
                     <button id="download-btn" class="btn-primary btn-block" data-i18n="download_chart">
-                        💾 Descargar Gráfico
+                        <i class="ph ph-download-simple"></i> Download Chart
                     </button>
                 </div>
             </div>
