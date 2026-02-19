@@ -1,9 +1,22 @@
+import { StatsEngine } from './core/StatsEngine.js';
+import BoxPlotChart from './charts/BoxPlotChart.js';
+import ViolinChart from './charts/ViolinChart.js';
+import BoxViolinChart from './charts/BoxViolinChart.js';
+import { ExportUtils } from './utils/ExportUtils.js';
+
+const COLOR_SCHEMES = {
+    blue_orange: ['#2563eb', '#3b82f6', '#38bdf8', '#fb923c', '#f97316'],
+    cool: ['#0ea5e9', '#06b6d4', '#14b8a6', '#22c55e', '#84cc16'],
+    warm: ['#ef4444', '#f97316', '#f59e0b', '#fbbf24', '#fb7185']
+};
+
 const AppState = {
     currentLanguage: localStorage.getItem('survey_suite_language') || 'en',
     translations: {},
     dataRows: [],
     activeDatasetName: '',
-    activePanel: 'data'
+    activePanel: 'data',
+    lastRender: null
 };
 
 const I18n = {
@@ -72,8 +85,7 @@ const Navigation = {
 
 const DataBridge = {
     getDataApi() {
-        if (window.RecuEduData) return window.RecuEduData;
-        return null;
+        return window.RecuEduData || null;
     },
 
     refreshFromStorage() {
@@ -97,6 +109,7 @@ const DataBridge = {
 
         this.populateColumnSelects(dataset.data);
         I18n.renderDataSummary();
+        ChartController.render();
     },
 
     populateColumnSelects(rows) {
@@ -136,6 +149,244 @@ const DataBridge = {
     }
 };
 
+const ChartController = {
+    parseNumber(id, fallback, min = null, max = null) {
+        const raw = Number(document.getElementById(id)?.value);
+        if (!Number.isFinite(raw)) return fallback;
+        let value = raw;
+        if (Number.isFinite(min)) value = Math.max(min, value);
+        if (Number.isFinite(max)) value = Math.min(max, value);
+        return value;
+    },
+
+    getSelectedConfig() {
+        return {
+            numericColumn: document.getElementById('numeric-column')?.value || '',
+            categoryColumn: document.getElementById('category-column')?.value || '',
+            chartType: document.getElementById('chart-type')?.value || 'boxplot',
+            orientation: document.getElementById('chart-orientation')?.value || 'horizontal',
+            showOutliers: document.getElementById('show-outliers')?.checked !== false,
+            showJitter: document.getElementById('show-jitter')?.checked === true,
+            showGrid: document.getElementById('show-grid')?.checked !== false,
+            groupOrder: document.getElementById('group-order')?.value || 'original',
+            topN: this.parseNumber('top-n-groups', 15, 1, 200),
+            whiskerMultiplier: this.parseNumber('whisker-multiplier', 1.5, 0.5, 4),
+            kdeBandwidthFactor: this.parseNumber('kde-bandwidth-factor', 1, 0.2, 4),
+            kdeSteps: this.parseNumber('kde-steps', 70, 30, 260),
+            colorScheme: document.getElementById('color-scheme')?.value || 'blue_orange',
+            fontFamily: document.getElementById('font-family')?.value || 'Arial, sans-serif',
+            titleFontSize: this.parseNumber('title-font-size', 20, 12, 42),
+            labelFontSize: this.parseNumber('label-font-size', 12, 10, 24),
+            lineWidth: this.parseNumber('line-width', 2, 1, 6),
+            violinOpacity: this.parseNumber('violin-opacity', 0.55, 0.1, 1),
+            jitterSize: this.parseNumber('jitter-size', 1.6, 1, 8),
+            jitterAlpha: this.parseNumber('jitter-alpha', 0.4, 0.1, 1),
+            outlierSize: this.parseNumber('outlier-size', 2.2, 1, 10),
+            outlierColor: document.getElementById('outlier-color')?.value || '#ef4444',
+            groupThickness: this.parseNumber('group-thickness', 34, 20, 80),
+            groupGap: this.parseNumber('group-gap', 16, 4, 50),
+            chartWidth: this.parseNumber('chart-width', 1200, 800, 2600),
+            chartMinHeight: this.parseNumber('chart-min-height', 420, 360, 1600),
+            marginLeft: this.parseNumber('margin-left', 220, 50, 600),
+            marginRight: this.parseNumber('margin-right', 80, 30, 400),
+            marginTop: this.parseNumber('margin-top', 60, 30, 300),
+            marginBottom: this.parseNumber('margin-bottom', 70, 30, 300),
+            showMeanLine: document.getElementById('show-mean-line')?.checked === true,
+            meanLineColor: document.getElementById('mean-line-color')?.value || '#0f172a',
+            meanLineWidth: this.parseNumber('mean-line-width', 1.6, 1, 8),
+            meanLineDash: this.parseNumber('mean-line-dash', 8, 2, 40),
+            meanLineGap: this.parseNumber('mean-line-gap', 6, 2, 40),
+            showMeanLabel: document.getElementById('show-mean-label')?.checked !== false,
+            showStats: document.getElementById('show-stats-panel')?.checked === true,
+            statsPosition: document.getElementById('stats-position')?.value || 'top_right',
+            statsFields: {
+                n: document.getElementById('stats-show-n')?.checked !== false,
+                mean: document.getElementById('stats-show-mean')?.checked !== false,
+                median: document.getElementById('stats-show-median')?.checked !== false,
+                sd: document.getElementById('stats-show-sd')?.checked !== false,
+                iqr: document.getElementById('stats-show-iqr')?.checked !== false
+            },
+            showGroupMarker: document.getElementById('show-group-marker')?.checked === true,
+            groupMetric: document.getElementById('group-metric')?.value || 'median',
+            groupMarkerStyle: document.getElementById('group-marker-style')?.value || 'point',
+            groupMarkerColor: document.getElementById('group-marker-color')?.value || '#7c3aed',
+            groupMarkerSize: this.parseNumber('group-marker-size', 5, 2, 20),
+            annotationText: (document.getElementById('annotation-text')?.value || '').trim(),
+            annotationX: this.parseNumber('annotation-x', 80, 0, 100),
+            annotationY: this.parseNumber('annotation-y', 12, 0, 100),
+            annotationColor: document.getElementById('annotation-color')?.value || '#111827',
+            annotationSize: this.parseNumber('annotation-size', 13, 10, 40),
+            chartTitle: (document.getElementById('chart-title-input')?.value || '').trim()
+        };
+    },
+
+    computeOverallStats(groups) {
+        const values = groups.flatMap((g) => g.values || []).filter((v) => Number.isFinite(Number(v))).map(Number);
+        if (!values.length) {
+            return {
+                n: 0,
+                mean: NaN,
+                median: NaN,
+                sd: NaN,
+                iqr: NaN
+            };
+        }
+        const summary = StatsEngine.summarize(values);
+        const mean = summary.mean;
+        const variance = values.reduce((acc, value) => acc + (value - mean) ** 2, 0) / Math.max(1, values.length - 1);
+        return {
+            n: values.length,
+            mean,
+            median: summary.median,
+            sd: Math.sqrt(variance),
+            iqr: summary.iqr
+        };
+    },
+
+    sortGroups(groups, order) {
+        const sorted = [...groups];
+        switch (order) {
+            case 'alphabetical':
+                sorted.sort((a, b) => a.label.localeCompare(b.label));
+                break;
+            case 'median_desc':
+                sorted.sort((a, b) => (b.summary.median || 0) - (a.summary.median || 0));
+                break;
+            case 'median_asc':
+                sorted.sort((a, b) => (a.summary.median || 0) - (b.summary.median || 0));
+                break;
+            default:
+                break;
+        }
+        return sorted;
+    },
+
+    renderMessage(message) {
+        const placeholder = document.getElementById('chart-placeholder');
+        const canvas = document.getElementById('chart-canvas');
+        if (!placeholder || !canvas) return;
+        placeholder.classList.remove('hidden');
+        canvas.classList.add('hidden');
+        const text = placeholder.querySelector('p');
+        if (text) text.textContent = message;
+    },
+
+    render() {
+        const canvas = document.getElementById('chart-canvas');
+        const placeholder = document.getElementById('chart-placeholder');
+        if (!canvas || !placeholder) return;
+
+        if (!Array.isArray(AppState.dataRows) || AppState.dataRows.length === 0) {
+            this.renderMessage(I18n.t('placeholder'));
+            return;
+        }
+
+        const cfg = this.getSelectedConfig();
+        if (!cfg.numericColumn) {
+            this.renderMessage(I18n.t('select_numeric'));
+            return;
+        }
+
+        let groups = StatsEngine.groupNumeric(
+            AppState.dataRows,
+            cfg.numericColumn,
+            cfg.categoryColumn,
+            cfg.whiskerMultiplier
+        );
+        groups = this.sortGroups(groups, cfg.groupOrder).slice(0, cfg.topN);
+
+        if (!groups.length) {
+            this.renderMessage(I18n.t('no_valid_numeric'));
+            return;
+        }
+
+        placeholder.classList.add('hidden');
+        canvas.classList.remove('hidden');
+
+        const title = cfg.chartTitle || `${cfg.numericColumn} ${cfg.categoryColumn ? `by ${cfg.categoryColumn}` : ''}`.trim();
+        const palette = COLOR_SCHEMES[cfg.colorScheme] || COLOR_SCHEMES.blue_orange;
+        const overallStats = this.computeOverallStats(groups);
+
+        const renderOptions = {
+            orientation: cfg.orientation,
+            showOutliers: cfg.showOutliers,
+            showJitter: cfg.showJitter,
+            showGrid: cfg.showGrid,
+            title,
+            palette,
+            fontFamily: cfg.fontFamily,
+            titleFontSize: cfg.titleFontSize,
+            labelFontSize: cfg.labelFontSize,
+            lineWidth: cfg.lineWidth,
+            violinOpacity: cfg.violinOpacity,
+            jitterSize: cfg.jitterSize,
+            jitterAlpha: cfg.jitterAlpha,
+            outlierSize: cfg.outlierSize,
+            outlierColor: cfg.outlierColor,
+            groupHeight: cfg.groupThickness,
+            groupGap: cfg.groupGap,
+            width: cfg.chartWidth,
+            minCanvasHeight: cfg.chartMinHeight,
+            marginLeft: cfg.marginLeft,
+            marginRight: cfg.marginRight,
+            marginTop: cfg.marginTop,
+            marginBottom: cfg.marginBottom,
+            kdeBandwidthFactor: cfg.kdeBandwidthFactor,
+            kdeSteps: cfg.kdeSteps,
+            annotations: {
+                showMeanLine: cfg.showMeanLine,
+                meanValue: overallStats.mean,
+                meanLineColor: cfg.meanLineColor,
+                meanLineWidth: cfg.meanLineWidth,
+                meanLineDash: cfg.meanLineDash,
+                meanLineGap: cfg.meanLineGap,
+                showMeanLabel: cfg.showMeanLabel,
+                showStats: cfg.showStats,
+                statsPosition: cfg.statsPosition,
+                statsFields: cfg.statsFields,
+                stats: overallStats,
+                showGroupMarker: cfg.showGroupMarker,
+                groupMetric: cfg.groupMetric,
+                groupMarkerStyle: cfg.groupMarkerStyle,
+                groupMarkerColor: cfg.groupMarkerColor,
+                groupMarkerSize: cfg.groupMarkerSize,
+                annotationText: cfg.annotationText,
+                annotationX: cfg.annotationX,
+                annotationY: cfg.annotationY,
+                annotationColor: cfg.annotationColor,
+                annotationSize: cfg.annotationSize
+            }
+        };
+
+        AppState.lastRender = {
+            timestamp: new Date().toISOString(),
+            dataset: AppState.activeDatasetName || '',
+            numericColumn: cfg.numericColumn,
+            categoryColumn: cfg.categoryColumn,
+            chartType: cfg.chartType,
+            config: cfg,
+            overallStats,
+            groups: groups.map((g) => ({
+                label: g.label,
+                summary: g.summary
+            }))
+        };
+
+        switch (cfg.chartType) {
+            case 'violin':
+                ViolinChart.render(canvas, groups, renderOptions);
+                break;
+            case 'boxviolin':
+                BoxViolinChart.render(canvas, groups, renderOptions);
+                break;
+            case 'boxplot':
+            default:
+                BoxPlotChart.render(canvas, groups, renderOptions);
+                break;
+        }
+    }
+};
+
 function bindMessages() {
     window.addEventListener('message', (event) => {
         const data = event?.data;
@@ -159,6 +410,106 @@ function bindUI() {
     document.getElementById('btn-refresh-dataset')?.addEventListener('click', () => {
         DataBridge.refreshFromStorage();
     });
+    document.getElementById('btn-export-png')?.addEventListener('click', () => {
+        const canvas = document.getElementById('chart-canvas');
+        if (!canvas || canvas.classList.contains('hidden')) return;
+        const chartType = document.getElementById('chart-type')?.value || 'chart';
+        ExportUtils.exportCanvasPNG(canvas, `distribution-${chartType}-${Date.now()}.png`);
+    });
+    document.getElementById('btn-export-svg')?.addEventListener('click', () => {
+        const canvas = document.getElementById('chart-canvas');
+        if (!canvas || canvas.classList.contains('hidden')) {
+            alert(I18n.t('export_no_chart'));
+            return;
+        }
+        const chartType = document.getElementById('chart-type')?.value || 'chart';
+        const context = AppState.lastRender;
+        const title = context?.config?.chartTitle
+            || `${context?.numericColumn || 'distribution'} ${context?.categoryColumn ? `by ${context.categoryColumn}` : ''}`.trim();
+        ExportUtils.exportCanvasSVG(canvas, `distribution-${chartType}-${Date.now()}.svg`, {
+            title,
+            description: `Dataset: ${AppState.activeDatasetName || '-'}`
+        });
+    });
+    document.getElementById('btn-export-config')?.addEventListener('click', () => {
+        if (!AppState.lastRender) {
+            alert(I18n.t('export_no_data'));
+            return;
+        }
+        const chartType = AppState.lastRender.chartType || 'chart';
+        ExportUtils.exportJSON(AppState.lastRender, `distribution-${chartType}-config-${Date.now()}.json`);
+    });
+    document.getElementById('btn-export-summary')?.addEventListener('click', () => {
+        const context = AppState.lastRender;
+        if (!context || !Array.isArray(context.groups) || !context.groups.length) {
+            alert(I18n.t('export_no_data'));
+            return;
+        }
+        const chartType = context.chartType || 'chart';
+        ExportUtils.exportGroupSummaryCSV(context.groups, `distribution-${chartType}-summary-${Date.now()}.csv`);
+    });
+
+    [
+        'numeric-column',
+        'category-column',
+        'chart-type',
+        'chart-orientation',
+        'show-outliers',
+        'show-jitter',
+        'show-grid',
+        'group-order',
+        'top-n-groups',
+        'whisker-multiplier',
+        'kde-bandwidth-factor',
+        'kde-steps',
+        'color-scheme',
+        'font-family',
+        'title-font-size',
+        'label-font-size',
+        'line-width',
+        'violin-opacity',
+        'jitter-size',
+        'jitter-alpha',
+        'outlier-size',
+        'outlier-color',
+        'group-thickness',
+        'group-gap',
+        'chart-width',
+        'chart-min-height',
+        'margin-left',
+        'margin-right',
+        'margin-top',
+        'margin-bottom',
+        'show-mean-line',
+        'mean-line-color',
+        'mean-line-width',
+        'mean-line-dash',
+        'mean-line-gap',
+        'show-mean-label',
+        'show-stats-panel',
+        'stats-show-n',
+        'stats-show-mean',
+        'stats-show-median',
+        'stats-show-sd',
+        'stats-show-iqr',
+        'stats-position',
+        'show-group-marker',
+        'group-metric',
+        'group-marker-style',
+        'group-marker-color',
+        'group-marker-size',
+        'annotation-text',
+        'annotation-x',
+        'annotation-y',
+        'annotation-color',
+        'annotation-size',
+        'chart-title-input'
+    ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('change', () => ChartController.render());
+        el.addEventListener('input', () => ChartController.render());
+    });
 }
 
 async function init() {
@@ -171,4 +522,3 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-

@@ -1,0 +1,16 @@
+ID,Start time,Completion time,Email,Name,¿Qué tan satisfecho está con el servicio?,¿Recomendaría nuestro producto?,¿La calidad cumple sus expectativas?,¿El precio es razonable?
+1,2/10/2026 9:00,2/10/2026 9:05,juan@example.com,Juan Pérez,Muy satisfecho,Definitivamente sí,Supera expectativas,Totalmente de acuerdo
+2,2/10/2026 9:30,2/10/2026 9:33,maria@example.com,María García,Satisfecho,Probablemente sí,Cumple expectativas,De acuerdo
+3,2/10/2026 10:15,2/10/2026 10:18,carlos@example.com,Carlos López,Neutral,No estoy seguro,Cumple expectativas,Neutral
+4,2/10/2026 11:00,2/10/2026 11:03,ana@example.com,Ana Martínez,Insatisfecho,Probablemente no,Por debajo de expectativas,En desacuerdo
+5,2/10/2026 11:45,2/10/2026 11:48,pedro@example.com,Pedro Sánchez,Muy insatisfecho,Definitivamente no,Muy por debajo,Totalmente en desacuerdo
+6,2/10/2026 12:30,2/10/2026 12:33,laura@example.com,Laura Fernández,Satisfecho,Probablemente sí,Cumple expectativas,De acuerdo
+7,2/10/2026 13:15,2/10/2026 13:18,jose@example.com,José Rodríguez,Muy satisfecho,Definitivamente sí,Supera expectativas,Totalmente de acuerdo
+8,2/10/2026 14:00,2/10/2026 14:03,sofia@example.com,Sofía González,Satisfecho,Probablemente sí,Cumple expectativas,De acuerdo
+9,2/10/2026 14:45,2/10/2026 14:48,miguel@example.com,Miguel Torres,Neutral,No estoy seguro,Cumple expectativas,Neutral
+10,2/10/2026 15:30,2/10/2026 15:33,isabel@example.com,Isabel Ruiz,Satisfecho,Definitivamente sí,Supera expectativas,De acuerdo
+11,2/10/2026 16:15,2/10/2026 16:18,david@example.com,David Moreno,Muy satisfecho,Definitivamente sí,Supera expectativas,Totalmente de acuerdo
+12,2/10/2026 17:00,2/10/2026 17:03,carmen@example.com,Carmen Jiménez,Insatisfecho,Probablemente no,Por debajo de expectativas,En desacuerdo
+13,2/10/2026 17:45,2/10/2026 17:48,javier@example.com,Javier Díaz,Neutral,No estoy seguro,Cumple expectativas,Neutral
+14,2/10/2026 18:30,2/10/2026 18:33,elena@example.com,Elena Álvarez,Satisfecho,Probablemente sí,Cumple expectativas,De acuerdo
+15,2/10/2026 19:15,2/10/2026 19:18,antonio@example.com,Antonio Romero,Muy satisfecho,Definitivamente sí,Supera expectativas,Totalmente de acuerdo

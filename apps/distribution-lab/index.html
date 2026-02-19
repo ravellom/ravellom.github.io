@@ -78,6 +78,10 @@
                     <span class="nav-icon"><i class="ph ph-palette"></i></span>
                     <span class="nav-label" data-i18n="nav_style">Style</span>
                 </button>
+                <button class="nav-item" data-panel="annotations">
+                    <span class="nav-icon"><i class="ph ph-note-pencil"></i></span>
+                    <span class="nav-label" data-i18n="nav_annotations">Notes</span>
+                </button>
                 <button class="nav-item" data-panel="export">
                     <span class="nav-icon"><i class="ph ph-download-simple"></i></span>
                     <span class="nav-label" data-i18n="nav_export">Export</span>
@@ -153,42 +157,323 @@
 
             <div class="options-panel" id="panel-chart">
                 <h3 class="options-title" data-i18n="panel_chart">Chart</h3>
-                <div class="option-group">
-                    <label class="option-label" data-i18n="chart_type">Chart type</label>
-                    <select id="chart-type" class="select-input">
-                        <option value="boxplot">Boxplot</option>
-                        <option value="violin">Violin</option>
-                        <option value="boxviolin">Box + Violin</option>
-                    </select>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input id="show-outliers" type="checkbox" checked>
-                        <span data-i18n="show_outliers">Show outliers</span>
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input id="show-jitter" type="checkbox">
-                        <span data-i18n="show_jitter">Show jitter points</span>
-                    </label>
-                </div>
+                <details class="settings-section" open>
+                    <summary data-i18n="chart_group_basics">Basics</summary>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="chart_type">Chart type</label>
+                        <select id="chart-type" class="select-input">
+                            <option value="boxplot">Boxplot</option>
+                            <option value="violin">Violin</option>
+                            <option value="boxviolin">Box + Violin</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="orientation">Orientation</label>
+                        <select id="chart-orientation" class="select-input">
+                            <option value="horizontal" data-i18n="horizontal">Horizontal</option>
+                            <option value="vertical" data-i18n="vertical">Vertical</option>
+                        </select>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="chart_group_distribution">Distribution Model</summary>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="whisker_multiplier">Whisker multiplier (IQR)</label>
+                        <input id="whisker-multiplier" type="number" min="0.5" max="4" step="0.1" value="1.5" class="number-input">
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="kde_bandwidth">KDE bandwidth factor</label>
+                        <input id="kde-bandwidth-factor" type="number" min="0.2" max="3" step="0.1" value="1.0" class="number-input">
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="kde_steps">KDE steps</label>
+                        <input id="kde-steps" type="number" min="30" max="200" step="5" value="70" class="number-input">
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="chart_group_points">Points and Outliers</summary>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-outliers" type="checkbox" checked>
+                            <span data-i18n="show_outliers">Show outliers</span>
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-jitter" type="checkbox">
+                            <span data-i18n="show_jitter">Show jitter points</span>
+                        </label>
+                    </div>
+                </details>
             </div>
 
             <div class="options-panel" id="panel-style">
                 <h3 class="options-title" data-i18n="panel_style">Style</h3>
-                <div class="option-group">
-                    <label class="option-label" data-i18n="color_scheme">Color scheme</label>
-                    <select id="color-scheme" class="select-input">
-                        <option value="blue_orange">Blue/Orange</option>
-                        <option value="cool">Cool</option>
-                        <option value="warm">Warm</option>
-                    </select>
-                </div>
-                <div class="option-group">
-                    <label class="option-label" data-i18n="chart_title">Chart title</label>
-                    <input id="chart-title-input" class="text-input" placeholder="Distribution analysis">
-                </div>
+                <details class="settings-section" open>
+                    <summary data-i18n="style_group_theme">Theme and Typography</summary>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="color_scheme">Color scheme</label>
+                        <select id="color-scheme" class="select-input">
+                            <option value="blue_orange">Blue/Orange</option>
+                            <option value="cool">Cool</option>
+                            <option value="warm">Warm</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="font_family">Font family</label>
+                        <select id="font-family" class="select-input">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                        </select>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="title_size">Title size</label>
+                            <input id="title-font-size" type="number" min="12" max="42" value="20" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="label_size">Label size</label>
+                            <input id="label-font-size" type="number" min="10" max="24" value="12" class="number-input">
+                        </div>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="style_group_marks">Marks and Visual Elements</summary>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="line_width">Line width</label>
+                            <input id="line-width" type="number" min="1" max="5" value="2" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="violin_opacity">Violin opacity</label>
+                            <input id="violin-opacity" type="number" min="0.1" max="1" step="0.05" value="0.55" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="jitter_size">Jitter size</label>
+                            <input id="jitter-size" type="number" min="1" max="6" step="0.2" value="1.6" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="jitter_alpha">Jitter alpha</label>
+                            <input id="jitter-alpha" type="number" min="0.1" max="1" step="0.05" value="0.4" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="outlier_size">Outlier size</label>
+                            <input id="outlier-size" type="number" min="1" max="8" step="0.2" value="2.2" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="outlier_color">Outlier color</label>
+                            <input id="outlier-color" type="color" value="#ef4444" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-grid" type="checkbox" checked>
+                            <span data-i18n="show_grid">Show grid</span>
+                        </label>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="style_group_layout">Layout and Dimensions</summary>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="group_thickness">Group thickness</label>
+                            <input id="group-thickness" type="number" min="20" max="80" value="34" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="group_gap">Group gap</label>
+                            <input id="group-gap" type="number" min="4" max="40" value="16" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="chart_width">Chart width</label>
+                            <input id="chart-width" type="number" min="800" max="2600" value="1200" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="chart_height">Chart min height</label>
+                            <input id="chart-min-height" type="number" min="360" max="1400" value="420" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="margin_left">Margin left</label>
+                            <input id="margin-left" type="number" min="80" max="500" value="220" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="margin_right">Margin right</label>
+                            <input id="margin-right" type="number" min="40" max="300" value="80" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="margin_top">Margin top</label>
+                            <input id="margin-top" type="number" min="40" max="220" value="60" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="margin_bottom">Margin bottom</label>
+                            <input id="margin-bottom" type="number" min="40" max="220" value="70" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="chart_title">Chart title</label>
+                        <input id="chart-title-input" class="text-input" placeholder="Distribution analysis">
+                    </div>
+                </details>
+            </div>
+
+            <div class="options-panel" id="panel-annotations">
+                <h3 class="options-title" data-i18n="panel_annotations">Annotations</h3>
+                <details class="settings-section" open>
+                    <summary data-i18n="anno_group_reference">Reference Line</summary>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-mean-line" type="checkbox">
+                            <span data-i18n="show_mean_line">Show overall mean line</span>
+                        </label>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="mean_line_color">Mean line color</label>
+                            <input id="mean-line-color" type="color" value="#0f172a" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="mean_line_width">Mean line width</label>
+                            <input id="mean-line-width" type="number" min="1" max="8" step="0.1" value="1.6" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="mean_line_dash">Dash length</label>
+                            <input id="mean-line-dash" type="number" min="2" max="40" step="1" value="8" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="mean_line_gap">Dash gap</label>
+                            <input id="mean-line-gap" type="number" min="2" max="40" step="1" value="6" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-mean-label" type="checkbox" checked>
+                            <span data-i18n="show_mean_label">Show mean label</span>
+                        </label>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="anno_group_stats">Stats Panel</summary>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-stats-panel" type="checkbox">
+                            <span data-i18n="show_stats_panel">Show stats panel</span>
+                        </label>
+                    </div>
+                    <div class="option-group" id="stats-fields-group">
+                        <label class="option-label" data-i18n="stats_fields">Stats fields</label>
+                        <div class="option-group two-col">
+                            <label class="checkbox-label">
+                                <input id="stats-show-n" type="checkbox" checked>
+                                <span data-i18n="stat_n">n</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input id="stats-show-mean" type="checkbox" checked>
+                                <span data-i18n="stat_mean">mean</span>
+                            </label>
+                        </div>
+                        <div class="option-group two-col">
+                            <label class="checkbox-label">
+                                <input id="stats-show-median" type="checkbox" checked>
+                                <span data-i18n="stat_median">median</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input id="stats-show-sd" type="checkbox" checked>
+                                <span data-i18n="stat_sd">sd</span>
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input id="stats-show-iqr" type="checkbox" checked>
+                                <span data-i18n="stat_iqr">iqr</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="stats_position">Stats position</label>
+                        <select id="stats-position" class="select-input">
+                            <option value="top_right" data-i18n="top_right">Top right</option>
+                            <option value="top_left" data-i18n="top_left">Top left</option>
+                            <option value="bottom_right" data-i18n="bottom_right">Bottom right</option>
+                            <option value="bottom_left" data-i18n="bottom_left">Bottom left</option>
+                        </select>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="anno_group_groupcenter">Group Center Marker</summary>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-group-marker" type="checkbox">
+                            <span data-i18n="show_group_marker">Highlight center by group</span>
+                        </label>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="group_metric">Group metric</label>
+                            <select id="group-metric" class="select-input">
+                                <option value="median" data-i18n="median">Median</option>
+                                <option value="mean" data-i18n="mean">Mean</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="group_marker_style">Marker style</label>
+                            <select id="group-marker-style" class="select-input">
+                                <option value="point" data-i18n="point">Point</option>
+                                <option value="square" data-i18n="square">Square</option>
+                                <option value="line" data-i18n="line">Line</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="group_marker_color">Marker color</label>
+                            <input id="group-marker-color" type="color" value="#7c3aed" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="group_marker_size">Marker size</label>
+                            <input id="group-marker-size" type="number" min="2" max="20" step="1" value="5" class="number-input">
+                        </div>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="anno_group_text">Custom Text</summary>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="annotation_text">Annotation text</label>
+                        <input id="annotation-text" class="text-input" placeholder="p < 0.05, t-test">
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="annotation_x">Text X (%)</label>
+                            <input id="annotation-x" type="number" min="0" max="100" step="1" value="80" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="annotation_y">Text Y (%)</label>
+                            <input id="annotation-y" type="number" min="0" max="100" step="1" value="12" class="number-input">
+                        </div>
+                    </div>
+                    <div class="option-group two-col">
+                        <div>
+                            <label class="option-label" data-i18n="annotation_color">Text color</label>
+                            <input id="annotation-color" type="color" value="#111827" class="number-input">
+                        </div>
+                        <div>
+                            <label class="option-label" data-i18n="annotation_size">Text size</label>
+                            <input id="annotation-size" type="number" min="10" max="40" value="13" class="number-input">
+                        </div>
+                    </div>
+                </details>
             </div>
 
             <div class="options-panel" id="panel-export">
@@ -203,12 +488,21 @@
                         <i class="ph ph-file-svg"></i> SVG
                     </button>
                 </div>
+                <div class="option-group">
+                    <button id="btn-export-summary" class="btn-secondary btn-block">
+                        <i class="ph ph-file-csv"></i> <span data-i18n="export_summary_csv">Summary CSV</span>
+                    </button>
+                </div>
+                <div class="option-group">
+                    <button id="btn-export-config" class="btn-secondary btn-block">
+                        <i class="ph ph-file-json"></i> <span data-i18n="export_config_json">Config JSON</span>
+                    </button>
+                </div>
             </div>
         </aside>
     </div>
 
     <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
-    <script type="module" src="app-dashboard.js?v=20260219001"></script>
+    <script type="module" src="app-dashboard.js?v=20260219007"></script>
 </body>
 </html>
-

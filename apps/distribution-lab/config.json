@@ -1,0 +1,32 @@
+{
+  "chartTypes": [
+    {
+      "id": "boxplot",
+      "module": "charts/BoxPlotChart.js",
+      "enabled": true
+    },
+    {
+      "id": "violin",
+      "module": "charts/ViolinChart.js",
+      "enabled": true
+    },
+    {
+      "id": "boxviolin",
+      "module": "charts/BoxViolinChart.js",
+      "enabled": true
+    },
+    {
+      "id": "raincloud",
+      "module": "charts/RaincloudChart.js",
+      "enabled": false
+    }
+  ],
+  "defaultSettings": {
+    "chartType": "boxplot",
+    "colorScheme": "blue_orange",
+    "fontFamily": "Arial, sans-serif",
+    "showOutliers": true,
+    "showJitter": false
+  }
+}
+

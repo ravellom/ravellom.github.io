@@ -16,6 +16,12 @@ function getWordCloudFrames() {
     ].filter(Boolean);
 }
 
+function getDistributionFrames() {
+    return [
+        document.getElementById('frame-distribution')
+    ].filter(Boolean);
+}
+
 function getProcessorFrames() {
     return [document.getElementById('frame-processor')].filter(Boolean);
 }
@@ -43,13 +49,17 @@ function setActiveView(viewId) {
     if (viewId === 'wordcloud') {
         applySharedStateToWordCloud();
     }
+    if (viewId === 'distribution') {
+        applySharedStateToDistribution();
+    }
 }
 
 function refreshActiveView() {
     const activeMap = {
         processor: ['frame-processor'],
         likert: ['frame-likert'],
-        wordcloud: ['frame-wordcloud']
+        wordcloud: ['frame-wordcloud'],
+        distribution: ['frame-distribution']
     };
 
     const targets = activeMap[SuiteState.currentView] || [];
@@ -98,6 +108,7 @@ function setActiveDataset(datasetName) {
     localStorage.setItem('survey_suite_active_dataset', SuiteState.activeDataset);
     applySharedStateToLikert();
     applySharedStateToWordCloud();
+    applySharedStateToDistribution();
 }
 
 function setLanguage(lang) {
@@ -107,6 +118,7 @@ function setLanguage(lang) {
     applySharedStateToLikert();
     applySharedStateToProcessor();
     applySharedStateToWordCloud();
+    applySharedStateToDistribution();
 }
 
 function applySharedStateToLikert() {
@@ -155,6 +167,24 @@ function applySharedStateToWordCloud() {
     });
 }
 
+function applySharedStateToDistribution() {
+    getDistributionFrames().forEach(frame => {
+        if (!frame?.contentWindow) return;
+
+        frame.contentWindow.postMessage({
+            type: 'survey-suite-set-language',
+            lang: SuiteState.language
+        }, '*');
+
+        if (SuiteState.activeDataset) {
+            frame.contentWindow.postMessage({
+                type: 'survey-suite-load-dataset',
+                datasetName: SuiteState.activeDataset
+            }, '*');
+        }
+    });
+}
+
 function bindIframeLoads() {
     [document.getElementById('frame-likert')].filter(Boolean).forEach(frame => {
         frame.addEventListener('load', () => {
@@ -166,12 +196,17 @@ function bindIframeLoads() {
             applySharedStateToWordCloud();
         });
     });
+    [document.getElementById('frame-distribution')].filter(Boolean).forEach(frame => {
+        frame.addEventListener('load', () => {
+            applySharedStateToDistribution();
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const initialView = params.get('view');
-    if (initialView && ['processor', 'likert', 'wordcloud'].includes(initialView)) {
+    if (initialView && ['processor', 'likert', 'wordcloud', 'distribution'].includes(initialView)) {
         setActiveView(initialView);
     }
 
@@ -209,4 +244,5 @@ document.addEventListener('DOMContentLoaded', () => {
     applySharedStateToLikert();
     applySharedStateToProcessor();
     applySharedStateToWordCloud();
+    applySharedStateToDistribution();
 });

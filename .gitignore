@@ -1,7 +1,5 @@
 # Ignorar archivos y carpetas no rastreados
 apps/ia-apps/eco-map.html
-apps/likert-Charts.js/
-apps/likert-charts/examples/
 server.js
 temp-origin-index.html
 test-render.html
