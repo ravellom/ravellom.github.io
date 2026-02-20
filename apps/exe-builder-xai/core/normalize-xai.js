@@ -1,3 +1,5 @@
+import { normalizeOrderingEntries, replaceGenericBracketTokens } from './interaction-utils.js';
+
 function asString(value, fallback = '') {
     if (typeof value === 'string') {
         return value.trim();
@@ -23,11 +25,6 @@ function asArray(value) {
 
 function asObject(value) {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
-}
-
-function isGenericGapToken(value) {
-    const token = asString(value).toLowerCase();
-    return token === 'answer' || token === 'answers' || token === 'respuesta' || token === 'respuestas' || token === 'blank' || token === 'gap';
 }
 
 function normalizeChoiceOptions(interaction, forceBoolean = false) {
@@ -90,21 +87,7 @@ function normalizeFillGapsInteraction(interaction, promptText = '') {
     const correctAnswers = asArray(source.correct_answers);
     const distractors = asArray(source.distractors);
     const templateBase = asString(source.template, asString(promptText, ''));
-    const parts = templateBase.split(/(\[[^\]]+\])/g);
-
-    let answerIndex = 0;
-    const template = parts.map((part) => {
-        if (!part || !part.startsWith('[') || !part.endsWith(']')) {
-            return part;
-        }
-        const rawToken = part.slice(1, -1);
-        if (!isGenericGapToken(rawToken)) {
-            return part;
-        }
-        const replacement = asString(correctAnswers[answerIndex]);
-        answerIndex += 1;
-        return replacement ? `[${replacement}]` : part;
-    }).join('');
+    const template = replaceGenericBracketTokens(templateBase, correctAnswers);
 
     return {
         ...source,
@@ -116,56 +99,7 @@ function normalizeFillGapsInteraction(interaction, promptText = '') {
 
 function normalizeOrderingInteraction(interaction) {
     const source = asObject(interaction);
-
-    const normalizeEntries = (value) => {
-        if (!Array.isArray(value)) {
-            return [];
-        }
-
-        return value
-            .map((item, index) => {
-                if (typeof item === 'string') {
-                    const text = item.trim();
-                    return text ? { text, order: index + 1 } : null;
-                }
-                const asItem = asObject(item);
-                const text = asString(asItem.text ?? asItem.label ?? asItem.value);
-                if (!text) {
-                    return null;
-                }
-                const parsedOrder = Number(asItem.order ?? asItem.position ?? asItem.index);
-                return {
-                    text,
-                    order: Number.isFinite(parsedOrder) && parsedOrder > 0 ? parsedOrder : index + 1
-                };
-            })
-            .filter(Boolean)
-            .sort((left, right) => left.order - right.order)
-            .map((item, index) => ({ text: item.text, order: index + 1 }));
-    };
-
-    const candidates = [
-        source.sequence,
-        source.steps,
-        source.items,
-        source.lines,
-        source.correct_order,
-        source.fragments,
-        source.blocks,
-        source.snippets,
-        source.parts,
-        source.elements,
-        source.chunks
-    ];
-
-    let sequence = [];
-    for (const candidate of candidates) {
-        const normalized = normalizeEntries(candidate);
-        if (normalized.length > 0) {
-            sequence = normalized;
-            break;
-        }
-    }
+    const sequence = normalizeOrderingEntries(source);
 
     return {
         ...source,

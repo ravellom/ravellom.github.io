@@ -43,6 +43,7 @@ export default {
     insights: {
             title: 'Informe de transparencia',
             desc: 'Resumen rápido del estado de calidad, trazabilidad y supervisión humana del set generado.',
+            tabLabel: 'XAI Insights (¿Por qué?)',
             kpi_exercises: 'Ejercicios',
             kpi_errors: 'Errores críticos',
             kpi_warnings: 'Advertencias',

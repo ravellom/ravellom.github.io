@@ -1,4 +1,5 @@
 import { buildXaiContract } from './ai-contract.js';
+import { EXERCISE_TYPES } from '../core/exercise-types.js';
 
 function buildInstruction() {
     return `You are an instructional designer and XAI specialist.
@@ -36,6 +37,8 @@ ${JSON.stringify(normalizedTypePlan, null, 2)}
 `
         : '\nTYPE DISTRIBUTION: No fixed distribution was requested. Prioritize variety and pedagogical fit.';
 
+    const exerciseTypeUnion = EXERCISE_TYPES.join('|');
+
     return `${instruction}
 
 XAI CONTRACT (mandatory):
@@ -67,7 +70,7 @@ ADDITIONAL REQUIREMENTS:
 MANDATORY PER-EXERCISE TEMPLATE (respect types):
 {
     "id": "ex_...",
-    "type": "multiple_choice|true_false|fill_gaps|ordering|matching|grouping|short_answer|hotspot|slider",
+    "type": "${exerciseTypeUnion}",
     "content": { "prompt_text": "..." },
     "interaction": {},
     "scaffolding": { "hint_1": "...", "explanation": "...", "learn_more": "..." },

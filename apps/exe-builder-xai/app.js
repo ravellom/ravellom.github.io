@@ -1,6 +1,7 @@
 import { appState, setState, subscribe } from './core/state.js';
 import { normalizeXaiBundle } from './core/normalize-xai.js';
 import { validateXaiBundle } from './core/validators.js';
+import { EXERCISE_TYPES } from './core/exercise-types.js';
 import { exportTeacherProject, exportVisorPackage } from './core/exporters.js';
 import { setLocale, t } from './i18n/index.js';
 import { getDomElements } from './ui/dom.js';
@@ -10,18 +11,6 @@ import exampleXaiBundle from './examples/example-xai.js';
 import { buildXaiPrompt } from './services/prompt-builder.js';
 import { generateWithGemini } from './services/gemini.js';
 import { importSummaryFile } from './services/file-import.js';
-
-const EXERCISE_TYPES = [
-    'multiple_choice',
-    'true_false',
-    'fill_gaps',
-    'ordering',
-    'matching',
-    'grouping',
-    'short_answer',
-    'hotspot',
-    'slider'
-];
 
 const PROMPT_TRACE_SESSION_KEY = 'exe_builder_xai_prompt_trace';
 
@@ -164,6 +153,23 @@ function chunkArray(array, size) {
         result.push(source.slice(index, index + chunkSize));
     }
     return result;
+}
+
+function buildGenerationBatchSpecs({ useTypePlan, typePlan, exerciseCount, chunkSize }) {
+    if (useTypePlan) {
+        const typeChunks = chunkArray(expandTypePlan(typePlan), chunkSize);
+        return typeChunks.map((chunk) => ({
+            count: chunk.length,
+            typePlan: countTypesFromArray(chunk),
+            strictTypeCounts: true
+        }));
+    }
+
+    return buildBatchCounts(exerciseCount, chunkSize).map((count) => ({
+        count,
+        typePlan: null,
+        strictTypeCounts: false
+    }));
 }
 
 function buildTypePlanFromInputs(elements) {
@@ -482,8 +488,7 @@ async function handleGenerate(elements) {
     const locale = appState.locale || 'es';
     const isPreviewModel = /preview/i.test(model);
     const chunkSize = exerciseCount >= 7 ? (isPreviewModel ? 3 : 4) : exerciseCount;
-    const batchCounts = useTypePlan ? [] : buildBatchCounts(exerciseCount, chunkSize);
-    const typeChunks = useTypePlan ? chunkArray(expandTypePlan(typePlan), chunkSize) : [];
+    const batchSpecs = buildGenerationBatchSpecs({ useTypePlan, typePlan, exerciseCount, chunkSize });
 
     localStorage.setItem('exe_builder_xai_api_key', apiKey);
     localStorage.setItem('exe_builder_xai_model', model);
@@ -499,53 +504,30 @@ async function handleGenerate(elements) {
         const parsedBundles = [];
         const promptTraceEntries = [];
 
-        if (useTypePlan) {
-            for (let index = 0; index < typeChunks.length; index += 1) {
-                const batchTypePlan = countTypesFromArray(typeChunks[index]);
-                const batchCount = typeChunks[index].length;
-                const batchPrompt = buildXaiPrompt({
-                    locale,
-                    content,
-                    exerciseCount: batchCount,
-                    typePlan: batchTypePlan,
-                    strictTypeCounts: true
-                });
-                promptTraceEntries.push(
-                    formatPromptTraceEntry(batchPrompt, index + 1, typeChunks.length, batchCount, batchTypePlan)
-                );
-                savePromptTraceToSession(promptTraceEntries.join('\n\n'));
-                if (typeChunks.length > 1) {
-                    setStatus(elements, `${t('status.generating')} (${index + 1}/${typeChunks.length})`, 'info');
-                }
-
-                const result = await generateWithGemini({
-                    apiKey,
-                    model,
-                    prompt: batchPrompt,
-                    maxOutputTokens: isPreviewModel ? 12288 : 16384
-                });
-                parsedBundles.push(result.parsed);
+        for (let index = 0; index < batchSpecs.length; index += 1) {
+            const spec = batchSpecs[index];
+            const batchPrompt = buildXaiPrompt({
+                locale,
+                content,
+                exerciseCount: spec.count,
+                typePlan: spec.typePlan,
+                strictTypeCounts: spec.strictTypeCounts
+            });
+            promptTraceEntries.push(
+                formatPromptTraceEntry(batchPrompt, index + 1, batchSpecs.length, spec.count, spec.typePlan)
+            );
+            savePromptTraceToSession(promptTraceEntries.join('\n\n'));
+            if (batchSpecs.length > 1) {
+                setStatus(elements, `${t('status.generating')} (${index + 1}/${batchSpecs.length})`, 'info');
             }
-        } else {
-            for (let index = 0; index < batchCounts.length; index += 1) {
-                const batchCount = batchCounts[index];
-                const batchPrompt = buildXaiPrompt({ locale, content, exerciseCount: batchCount });
-                promptTraceEntries.push(
-                    formatPromptTraceEntry(batchPrompt, index + 1, batchCounts.length, batchCount)
-                );
-                savePromptTraceToSession(promptTraceEntries.join('\n\n'));
-                if (batchCounts.length > 1) {
-                    setStatus(elements, `${t('status.generating')} (${index + 1}/${batchCounts.length})`, 'info');
-                }
 
-                const result = await generateWithGemini({
-                    apiKey,
-                    model,
-                    prompt: batchPrompt,
-                    maxOutputTokens: isPreviewModel ? 12288 : 16384
-                });
-                parsedBundles.push(result.parsed);
-            }
+            const result = await generateWithGemini({
+                apiKey,
+                model,
+                prompt: batchPrompt,
+                maxOutputTokens: isPreviewModel ? 12288 : 16384
+            });
+            parsedBundles.push(result.parsed);
         }
 
         const mergedBundle = enforceRequestedExerciseCount(mergeGeneratedBundles(parsedBundles), exerciseCount);

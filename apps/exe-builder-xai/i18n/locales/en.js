@@ -43,6 +43,7 @@ export default {
     insights: {
             title: 'Transparency report',
             desc: 'Quick summary of the quality, traceability, and human oversight status of the generated set.',
+            tabLabel: 'XAI Insights (Why?)',
             kpi_exercises: 'Exercises',
             kpi_errors: 'Critical errors',
             kpi_warnings: 'Warnings',
@@ -51,7 +52,7 @@ export default {
             pedagogy_title: 'Pedagogical alignment',
             compliance_title: 'Compliance status',
             human_review_title: 'Human review required',
-            human_review_desc: 'Before publishing or using in class, review disciplinary accuracy, ethical adequacy, and relevance for your educational context.'
+            human_review_desc: 'Before publishing or using in class, review disciplinary accuracy, ethical adequacy, and relevance for your educational context.',
         rationale_default: 'Design logic will update when you generate or validate a set of exercises.',
         bias_default: 'Recommendation: review inclusive language, context diversity, and accessibility in statements.',
         pedagogy_default: 'Align objectives, criteria, and differentiated supports before exporting to the viewer.',

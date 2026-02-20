@@ -1,4 +1,5 @@
 import { t } from '../i18n/index.js';
+import { buildFillGapsAnswerMapping, normalizeOrderingEntries } from '../core/interaction-utils.js';
 
 let selectedExerciseId = null;
 let searchTerm = '';
@@ -169,98 +170,11 @@ function ensureInteraction(exercise) {
 }
 
 function buildFillGapsMapping(interaction) {
-    const template = String(interaction?.template || '');
-    const correctAnswers = Array.isArray(interaction?.correct_answers) ? interaction.correct_answers : [];
-    const parts = template.split(/(\[[^\]]+\]|\{_+\}|_{3,})/g);
-    const mapping = [];
-    let answerIndex = 0;
-
-    const isGenericToken = (value) => /^(answer|answers|respuesta|respuestas|blank|gap)$/i.test(String(value || '').trim());
-
-    parts.forEach((part) => {
-        if (!part) return;
-
-        if (part.startsWith('[') && part.endsWith(']')) {
-            const token = part.slice(1, -1).trim();
-            if (isGenericToken(token)) {
-                mapping.push(String(correctAnswers[answerIndex] || '').trim());
-                answerIndex += 1;
-            } else {
-                mapping.push(token);
-            }
-            return;
-        }
-
-        if (/^\{_+\}$/.test(part) || /^_{3,}$/.test(part)) {
-            mapping.push(String(correctAnswers[answerIndex] || '').trim());
-            answerIndex += 1;
-        }
-    });
-
-    if (mapping.length === 0 && correctAnswers.length > 0) {
-        return correctAnswers.map((answer) => String(answer || '').trim());
-    }
-
-    return mapping;
+    return buildFillGapsAnswerMapping(interaction);
 }
 
 function resolveOrderingSequence(interaction) {
-    const source = interaction && typeof interaction === 'object' ? interaction : {};
-
-    const normalizeEntries = (value) => {
-        if (!Array.isArray(value)) {
-            return [];
-        }
-
-        return value
-            .map((item, index) => {
-                if (typeof item === 'string') {
-                    const text = item.trim();
-                    return text ? { text, order: index + 1 } : null;
-                }
-
-                if (!item || typeof item !== 'object') {
-                    return null;
-                }
-
-                const text = String(item.text ?? item.label ?? item.value ?? '').trim();
-                if (!text) {
-                    return null;
-                }
-
-                const rawOrder = Number(item.order ?? item.position ?? item.index);
-                return {
-                    text,
-                    order: Number.isFinite(rawOrder) && rawOrder > 0 ? rawOrder : index + 1
-                };
-            })
-            .filter(Boolean)
-            .sort((left, right) => left.order - right.order)
-            .map((item, index) => ({ text: item.text, order: index + 1 }));
-    };
-
-    const candidates = [
-        source.sequence,
-        source.steps,
-        source.items,
-        source.lines,
-        source.correct_order,
-        source.fragments,
-        source.blocks,
-        source.snippets,
-        source.parts,
-        source.elements,
-        source.chunks
-    ];
-
-    for (const candidate of candidates) {
-        const normalized = normalizeEntries(candidate);
-        if (normalized.length > 0) {
-            return normalized;
-        }
-    }
-
-    return [];
+    return normalizeOrderingEntries(interaction);
 }
 
 function setupPreviewChoiceInteractions(shell) {

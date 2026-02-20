@@ -1,10 +1,19 @@
+import { EXERCISE_TYPES } from './exercise-types.js';
+
 export const BLOOM_LEVELS = ['recordar', 'comprender', 'aplicar', 'analizar', 'evaluar', 'crear'];
 export const DIFFICULTY_LEVELS = ['bajo', 'medio', 'alto'];
 export const CLARITY_LEVELS = ['baja', 'media', 'alta'];
 export const TARGET_AUDIENCE_LEVELS = ['docente', 'estudiante', 'mixta'];
+export const LANGUAGE_LEVELS = ['es', 'en'];
+export const COGNITIVE_LOAD_LEVELS = ['baja', 'media', 'alta'];
+export const SCHEMA_VERSION = 'xai-exercises/2.0.0';
 
 function hasText(value, min = 1) {
     return typeof value === 'string' && value.trim().length >= min;
+}
+
+function isObject(value) {
+    return value && typeof value === 'object' && !Array.isArray(value);
 }
 
 function addError(errors, criticalErrors, message, isCritical = true) {
@@ -12,6 +21,13 @@ function addError(errors, criticalErrors, message, isCritical = true) {
     if (isCritical) {
         criticalErrors.push(message);
     }
+}
+
+function isValidDateTime(value) {
+    if (!hasText(value)) {
+        return false;
+    }
+    return Number.isFinite(Date.parse(value));
 }
 
 function isGenericOptionText(value) {
@@ -22,18 +38,62 @@ function isGenericStepText(value) {
     return /^(paso|step)\s*\d+$/i.test(String(value || '').trim());
 }
 
+function requiredFieldError(t, field) {
+    return t('validation.required', { field });
+}
+
 export function validateXaiBundle(bundle, t) {
     const errors = [];
     const warnings = [];
     const criticalErrors = [];
-    const root = bundle && typeof bundle === 'object' && !Array.isArray(bundle) ? bundle : {};
+    const root = isObject(bundle) ? bundle : {};
 
     const requiredTop = ['schema_version', 'resource_metadata', 'generation_context', 'exercises'];
     requiredTop.forEach((field) => {
         if (!(field in root)) {
-            addError(errors, criticalErrors, t('validation.required', { field }));
+            addError(errors, criticalErrors, requiredFieldError(t, field));
         }
     });
+
+    if (hasText(root.schema_version) && root.schema_version !== SCHEMA_VERSION) {
+        addError(errors, criticalErrors, requiredFieldError(t, `schema_version=${SCHEMA_VERSION}`));
+    }
+
+    const metadata = isObject(root.resource_metadata) ? root.resource_metadata : {};
+    if (!isObject(root.resource_metadata)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'resource_metadata'));
+    }
+    if (!hasText(metadata.title, 3)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'resource_metadata.title'));
+    }
+    if (!hasText(metadata.topic, 2)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'resource_metadata.topic'));
+    }
+    if (!hasText(metadata.grade_level, 2)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'resource_metadata.grade_level'));
+    }
+    if (!hasText(metadata.language) || !LANGUAGE_LEVELS.includes(metadata.language)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'resource_metadata.language (es|en)'));
+    }
+
+    const context = isObject(root.generation_context) ? root.generation_context : {};
+    if (!isObject(root.generation_context)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context'));
+    }
+    if (!hasText(context.audience, 4)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.audience'));
+    }
+    if (!hasText(context.pedagogical_goal, 8)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.pedagogical_goal'));
+    }
+    if (!Array.isArray(context.constraints)) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.constraints[]'));
+    }
+    if (!Array.isArray(context.source_material_refs) || context.source_material_refs.length < 1) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.source_material_refs[]'));
+    } else if (context.source_material_refs.some((ref) => !hasText(ref, 3))) {
+        addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.source_material_refs[] (min length 3)'));
+    }
 
     if (!Array.isArray(root.exercises) || root.exercises.length === 0) {
         addError(errors, criticalErrors, t('validation.exercisesArray'));
@@ -44,13 +104,64 @@ export function validateXaiBundle(bundle, t) {
     exercises.forEach((exercise, index) => {
         const pos = index + 1;
         const xai = exercise?.xai;
-        const interaction = exercise?.interaction && typeof exercise.interaction === 'object' ? exercise.interaction : {};
+        const interaction = isObject(exercise?.interaction) ? exercise.interaction : {};
         const exerciseType = String(exercise?.type || '').trim();
 
-        if (!xai || typeof xai !== 'object') {
+        if (!isObject(exercise)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}]`));
+            return;
+        }
+
+        ['id', 'type', 'content', 'interaction', 'scaffolding', 'xai'].forEach((field) => {
+            if (!(field in exercise)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].${field}`));
+            }
+        });
+
+        if (!hasText(exercise.id, 5)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].id`));
+        }
+        if (!EXERCISE_TYPES.includes(exerciseType)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].type (known type)`));
+        }
+        if (!hasText(exercise?.content?.prompt_text, 8)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].content.prompt_text`));
+        }
+        if (!isObject(exercise.interaction)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].interaction`));
+        }
+        if (!hasText(exercise?.scaffolding?.hint_1, 5)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].scaffolding.hint_1`));
+        }
+        if (!hasText(exercise?.scaffolding?.explanation, 10)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].scaffolding.explanation`));
+        }
+        if (!hasText(exercise?.scaffolding?.learn_more, 8)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].scaffolding.learn_more`));
+        }
+
+        if (!xai || !isObject(xai)) {
             addError(errors, criticalErrors, t('validation.xaiMissing', { index: pos }));
             return;
         }
+
+        const requiredXaiFields = [
+            'why_this_exercise',
+            'pedagogical_alignment',
+            'content_selection',
+            'design_rationale',
+            'fairness_and_risk',
+            'human_oversight',
+            'quality_of_explanation',
+            'uncertainty',
+            'counterfactual',
+            'trace'
+        ];
+        requiredXaiFields.forEach((field) => {
+            if (!(field in xai)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.${field}`));
+            }
+        });
 
         const objective = xai?.pedagogical_alignment?.learning_objective;
         const competency = xai?.pedagogical_alignment?.competency;
@@ -59,12 +170,11 @@ export function validateXaiBundle(bundle, t) {
         if (!hasText(objective) || !hasText(competency) || !hasText(bloom) || !hasText(difficulty)) {
             addError(errors, criticalErrors, t('validation.pedagogicalMissing', { index: pos }));
         }
-
         if (hasText(bloom) && !BLOOM_LEVELS.includes(bloom)) {
-            warnings.push(t('validation.bloomOutOfCatalog', { index: pos }));
+            addError(errors, criticalErrors, t('validation.bloomOutOfCatalog', { index: pos }));
         }
         if (hasText(difficulty) && !DIFFICULTY_LEVELS.includes(difficulty)) {
-            warnings.push(t('validation.difficultyOutOfCatalog', { index: pos }));
+            addError(errors, criticalErrors, t('validation.difficultyOutOfCatalog', { index: pos }));
         }
 
         const whyExercise = xai?.why_this_exercise;
@@ -76,6 +186,27 @@ export function validateXaiBundle(bundle, t) {
         const refs = xai?.content_selection?.source_refs;
         if (!Array.isArray(refs) || refs.length < 1) {
             addError(errors, criticalErrors, t('validation.sourceRefs', { index: pos }));
+        }
+        const alternatives = xai?.content_selection?.alternatives_considered;
+        if (!Array.isArray(alternatives)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.content_selection.alternatives_considered[]`));
+        }
+
+        const designWhyType = xai?.design_rationale?.why_this_type;
+        const designWhyDistractors = xai?.design_rationale?.why_this_distractors;
+        const designExpectedTime = xai?.design_rationale?.expected_time_sec;
+        const designCognitiveLoad = xai?.design_rationale?.cognitive_load;
+        if (!hasText(designWhyType, 10)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.why_this_type`));
+        }
+        if (!hasText(designWhyDistractors, 10)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.why_this_distractors`));
+        }
+        if (!Number.isInteger(designExpectedTime) || designExpectedTime < 10) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.expected_time_sec>=10`));
+        }
+        if (!hasText(designCognitiveLoad) || !COGNITIVE_LOAD_LEVELS.includes(designCognitiveLoad)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.cognitive_load (baja|media|alta)`));
         }
 
         const confidence = xai?.uncertainty?.confidence;
@@ -120,7 +251,20 @@ export function validateXaiBundle(bundle, t) {
             addError(errors, criticalErrors, t('validation.qualityAudienceOutOfCatalog', { index: pos }));
         }
         if (hasText(qualityClarity) && !CLARITY_LEVELS.includes(qualityClarity)) {
-            warnings.push(t('validation.qualityClarityOutOfCatalog', { index: pos }));
+            addError(errors, criticalErrors, t('validation.qualityClarityOutOfCatalog', { index: pos }));
+        }
+
+        const traceModel = xai?.trace?.model;
+        const tracePromptId = xai?.trace?.prompt_id;
+        const traceTimestamp = xai?.trace?.timestamp_utc;
+        if (!hasText(traceModel, 2)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.trace.model`));
+        }
+        if (!hasText(tracePromptId, 2)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.trace.prompt_id`));
+        }
+        if (!isValidDateTime(traceTimestamp)) {
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.trace.timestamp_utc (date-time)`));
         }
 
         if (exerciseType === 'multiple_choice') {
