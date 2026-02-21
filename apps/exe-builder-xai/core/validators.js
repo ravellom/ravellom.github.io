@@ -1,12 +1,13 @@
 import { EXERCISE_TYPES } from './exercise-types.js';
 
-export const BLOOM_LEVELS = ['recordar', 'comprender', 'aplicar', 'analizar', 'evaluar', 'crear'];
-export const DIFFICULTY_LEVELS = ['bajo', 'medio', 'alto'];
-export const CLARITY_LEVELS = ['baja', 'media', 'alta'];
-export const TARGET_AUDIENCE_LEVELS = ['docente', 'estudiante', 'mixta'];
+export const BLOOM_LEVELS = ['remember', 'understand', 'apply', 'analyze', 'evaluate', 'create'];
+export const DIFFICULTY_LEVELS = ['low', 'medium', 'high'];
+export const CLARITY_LEVELS = ['low', 'medium', 'high'];
+export const TARGET_AUDIENCE_LEVELS = ['teacher', 'student', 'mixed'];
 export const LANGUAGE_LEVELS = ['es', 'en'];
-export const COGNITIVE_LOAD_LEVELS = ['baja', 'media', 'alta'];
+export const COGNITIVE_LOAD_LEVELS = ['low', 'medium', 'high'];
 export const SCHEMA_VERSION = 'xai-exercises/2.0.0';
+export const DUA_LABELS = ['DUA-Representacion', 'DUA-Accion/Expresion', 'DUA-Implicacion'];
 
 function hasText(value, min = 1) {
     return typeof value === 'string' && value.trim().length >= min;
@@ -40,6 +41,33 @@ function isGenericStepText(value) {
 
 function requiredFieldError(t, field) {
     return t('validation.required', { field });
+}
+
+function tokenizeSemantic(text) {
+    const stopwords = new Set([
+        'the', 'and', 'for', 'with', 'that', 'this', 'from', 'into', 'your', 'about', 'what', 'when', 'where', 'which',
+        'para', 'con', 'del', 'las', 'los', 'que', 'una', 'uno', 'por', 'como', 'esta', 'este', 'from', 'back',
+        'function', 'python', 'value', 'values'
+    ]);
+    return new Set(
+        String(text || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9áéíóúñü\s]/gi, ' ')
+            .split(/\s+/)
+            .map((token) => token.trim())
+            .filter((token) => token.length >= 4 && !stopwords.has(token))
+    );
+}
+
+function jaccardSimilarity(setA, setB) {
+    const a = setA instanceof Set ? setA : new Set();
+    const b = setB instanceof Set ? setB : new Set();
+    if (a.size === 0 && b.size === 0) {
+        return 1;
+    }
+    const intersection = [...a].filter((item) => b.has(item)).length;
+    const union = new Set([...a, ...b]).size;
+    return union > 0 ? intersection / union : 0;
 }
 
 export function validateXaiBundle(bundle, t) {
@@ -95,6 +123,32 @@ export function validateXaiBundle(bundle, t) {
         addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.source_material_refs[] (min length 3)'));
     }
 
+    if (context.dua_enabled === true) {
+        if (!isObject(context.dua_profile)) {
+            addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile'));
+        } else {
+            if (!hasText(context.dua_profile.profile_level, 3)) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.profile_level'));
+            }
+            if (!Array.isArray(context.dua_profile.barriers)) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.barriers[]'));
+            }
+            if (!hasText(context.dua_profile.modality, 3)) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.modality'));
+            }
+            if (!hasText(context.dua_profile.purpose, 3)) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.purpose'));
+            }
+            if (!hasText(context.dua_profile.variation_type, 3)) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.variation_type'));
+            }
+            const variantCount = Number(context.dua_profile.variant_count);
+            if (!Number.isInteger(variantCount) || variantCount < 1 || variantCount > 3) {
+                addError(errors, criticalErrors, requiredFieldError(t, 'generation_context.dua_profile.variant_count (1..3)'));
+            }
+        }
+    }
+
     if (!Array.isArray(root.exercises) || root.exercises.length === 0) {
         addError(errors, criticalErrors, t('validation.exercisesArray'));
     }
@@ -138,6 +192,35 @@ export function validateXaiBundle(bundle, t) {
         }
         if (!hasText(exercise?.scaffolding?.learn_more, 8)) {
             addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].scaffolding.learn_more`));
+        }
+
+        if (context.dua_enabled === true) {
+            const duaLabel = String(exercise?.dua?.label || '').trim();
+            const duaSummary = String(exercise?.dua?.xai_summary || '').trim();
+            const duaCoreStatement = String(exercise?.dua?.core_statement || '').trim();
+            const duaCoreId = String(exercise?.dua?.core_id || '').trim();
+            const duaVariantIndex = Number(exercise?.dua?.variant_index);
+            const duaVariantTotal = Number(exercise?.dua?.variant_total);
+            if (!DUA_LABELS.includes(duaLabel)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.label (${DUA_LABELS.join('|')})`));
+            }
+            if (!hasText(duaSummary, 10)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.xai_summary`));
+            }
+            if (!hasText(duaCoreStatement, 12)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.core_statement`));
+            }
+            if (!hasText(duaCoreId, 3)) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.core_id`));
+            }
+            if (!Number.isInteger(duaVariantIndex) || duaVariantIndex < 1 || duaVariantIndex > 3) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.variant_index (1..3)`));
+            }
+            if (!Number.isInteger(duaVariantTotal) || duaVariantTotal < 1 || duaVariantTotal > 3) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.variant_total (1..3)`));
+            } else if (Number.isInteger(duaVariantIndex) && duaVariantIndex > duaVariantTotal) {
+                addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].dua.variant_index<=variant_total`));
+            }
         }
 
         if (!xai || !isObject(xai)) {
@@ -206,7 +289,7 @@ export function validateXaiBundle(bundle, t) {
             addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.expected_time_sec>=10`));
         }
         if (!hasText(designCognitiveLoad) || !COGNITIVE_LOAD_LEVELS.includes(designCognitiveLoad)) {
-            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.cognitive_load (baja|media|alta)`));
+            addError(errors, criticalErrors, requiredFieldError(t, `exercises[${pos}].xai.design_rationale.cognitive_load (low|medium|high)`));
         }
 
         const confidence = xai?.uncertainty?.confidence;
@@ -288,6 +371,65 @@ export function validateXaiBundle(bundle, t) {
             }
         }
     });
+
+    if (context.dua_enabled === true) {
+        const groups = new Map();
+        exercises.forEach((exercise, index) => {
+            const coreId = String(exercise?.dua?.core_id || '').trim();
+            if (!coreId) {
+                return;
+            }
+            if (!groups.has(coreId)) {
+                groups.set(coreId, []);
+            }
+            groups.get(coreId).push({ exercise, index: index + 1 });
+        });
+
+        groups.forEach((items, coreId) => {
+            if (!Array.isArray(items) || items.length <= 1) {
+                return;
+            }
+            const reference = items[0].exercise;
+            const refObjective = String(reference?.xai?.pedagogical_alignment?.learning_objective || '').trim();
+            const refBloom = String(reference?.xai?.pedagogical_alignment?.bloom_level || '').trim();
+            const refDifficulty = String(reference?.xai?.pedagogical_alignment?.difficulty_level || '').trim();
+            const refCoreStatement = String(reference?.dua?.core_statement || '').trim().toLowerCase();
+            const refPromptTokens = tokenizeSemantic(reference?.content?.prompt_text || '');
+            const refCoreTokens = tokenizeSemantic(reference?.dua?.core_statement || reference?.xai?.pedagogical_alignment?.learning_objective || '');
+
+            items.slice(1).forEach(({ exercise, index }) => {
+                const objective = String(exercise?.xai?.pedagogical_alignment?.learning_objective || '').trim();
+                const bloom = String(exercise?.xai?.pedagogical_alignment?.bloom_level || '').trim();
+                const difficulty = String(exercise?.xai?.pedagogical_alignment?.difficulty_level || '').trim();
+                const coreStatement = String(exercise?.dua?.core_statement || '').trim().toLowerCase();
+                if (objective !== refObjective || bloom !== refBloom || difficulty !== refDifficulty) {
+                    addError(
+                        errors,
+                        criticalErrors,
+                        requiredFieldError(t, `exercises[${index}].xai.pedagogical_alignment invariant mismatch in core ${coreId}`)
+                    );
+                }
+                if (coreStatement !== refCoreStatement) {
+                    addError(
+                        errors,
+                        criticalErrors,
+                        requiredFieldError(t, `exercises[${index}].dua.core_statement invariant mismatch in core ${coreId}`)
+                    );
+                }
+                const promptTokens = tokenizeSemantic(exercise?.content?.prompt_text || '');
+                const similarity = jaccardSimilarity(refPromptTokens, promptTokens);
+                const variantCoreTokens = tokenizeSemantic(exercise?.dua?.core_statement || exercise?.xai?.pedagogical_alignment?.learning_objective || '');
+                const coreAlignment = Math.max(
+                    jaccardSimilarity(refCoreTokens, promptTokens),
+                    jaccardSimilarity(variantCoreTokens, promptTokens)
+                );
+                // Avoid false positives in UDL variants: style/context may change, but core concept must remain aligned.
+                if (refPromptTokens.size > 0 && promptTokens.size > 0 && similarity < 0.08 && coreAlignment < 0.08) {
+                    warnings.push(t('validation.coreSemanticDrift', { index, coreId }));
+                }
+            });
+        });
+    }
 
     const criticalRate = exercises.length > 0 ? criticalErrors.length / exercises.length : 1;
     if (criticalRate > 0.2) {

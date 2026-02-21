@@ -6,13 +6,13 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Exe Builder XAI | RecuEdu Labs</title>
+    <title>EduXAI Studio | RecuEdu Labs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20260221-23">
 </head>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -46,14 +46,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header class="app-header">
         <div class="app-title-wrap">
-            <h1 data-i18n="app.title">Exercise builder with XAI</h1>
-            <p data-i18n="app.subtitle">Diseño de ejercicios con explicabilidad</p>
+            <div class="app-brand-mark">
+                <img
+                    id="app-logo-image"
+                    class="app-logo-image"
+                    src="assets/eduxai-logo.png"
+                    alt="EduXAI Studio logo"
+                    onload="var w=this.closest('.app-title-wrap'); if(w){w.classList.add('logo-rich');} var m=document.getElementById('app-logo-mark'); if(m){m.style.display='none';}"
+                    onerror="this.style.display='none'; var w=this.closest('.app-title-wrap'); if(w){w.classList.remove('logo-rich');} var m=document.getElementById('app-logo-mark'); if(m){m.style.display='inline-flex';}"
+                >
+                <div id="app-logo-mark" class="app-logo-mark" aria-hidden="true">EX</div>
+            </div>
+            <h1 data-i18n="app.title">EduXAI Studio</h1>
+            <p data-i18n="app.subtitle">Instructional exercise design with explainable AI</p>
         </div>
         <div class="toolbar">
             <label for="language-select" data-i18n="ui.language">Idioma</label>
             <select id="language-select" class="control-select" aria-label="Seleccionar idioma">
                 <option value="es">Español</option>
-                <option value="en">English</option>
+                <option value="en" selected>English</option>
             </select>
             <a id="help-link" href="help.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
                 <i class="ph ph-question"></i> <span data-i18n="ui.help">Ayuda</span>
@@ -78,8 +89,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
                 <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (Más potente)</option>
             </select>
+            <label class="field-label" for="provider-mode" data-i18n="ui.providerMode">Provider mode</label>
+            <select id="provider-mode" class="control-select" aria-label="Provider mode">
+                <option value="direct" selected data-i18n="ui.providerDirect">Direct API</option>
+                <option value="manual" data-i18n="ui.providerManual">Manual AI prompt</option>
+            </select>
+            <div id="manual-ai-panel" class="manual-ai-panel" hidden>
+                <label class="field-label" for="manual-ai-prompt" data-i18n="ui.manualPromptLabel">Prompt to paste in any AI chat</label>
+                <textarea id="manual-ai-prompt" class="json-input" spellcheck="false" readonly></textarea>
+                <div class="panel-actions">
+                    <button id="btn-generate-prompt" class="btn btn-outline" data-i18n="actions.generatePrompt">Generate prompt</button>
+                    <button id="btn-copy-prompt" class="btn btn-outline" data-i18n="actions.copyPrompt">Copy prompt</button>
+                </div>
+                <label class="field-label" for="manual-ai-response" data-i18n="ui.manualResponseLabel">Paste AI JSON response</label>
+                <textarea id="manual-ai-response" class="json-input" spellcheck="false"></textarea>
+                <div class="panel-actions">
+                    <button id="btn-import-ai-json" class="btn btn-primary" data-i18n="actions.importAiJson">Validate and import JSON</button>
+                </div>
+            </div>
 
-            <label class="field-label" for="exercise-count" data-i18n="ui.exerciseCount">Cantidad de ejercicios (máx 15)</label>
+            <label class="field-label" for="exercise-count" data-i18n="ui.exerciseCount">Cantidad de ejercicios (máx 10)</label>
             <select id="exercise-count" class="control-select" aria-label="Cantidad de ejercicios">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -91,31 +120,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
             </select>
 
             <div class="type-plan-box">
-                <div class="type-plan-head">
-                    <label class="field-label" data-i18n="ui.typePlanTitle">Control por tipo (opcional)</label>
-                    <button id="btn-clear-type-plan" type="button" class="btn btn-outline btn-mini" data-i18n="actions.clearTypePlan">Limpiar</button>
+                <label class="field-label" for="single-exercise-type" data-i18n="ui.singleTypeTitle">Exercise type (required)</label>
+                <p class="type-plan-help" data-i18n="ui.singleTypeHelp">Generate one exercise core per request. UDL can add up to 3 variants of this same type.</p>
+                <select id="single-exercise-type" class="control-select" aria-label="Exercise type">
+                    <option value="" data-i18n="ui.singleTypePlaceholder">Select one type...</option>
+                    <option value="multiple_choice" data-i18n="types.multiple_choice">Multiple choice</option>
+                    <option value="true_false" data-i18n="types.true_false">True/False</option>
+                    <option value="fill_gaps" data-i18n="types.fill_gaps">Fill gaps</option>
+                    <option value="ordering" data-i18n="types.ordering">Ordering</option>
+                    <option value="matching" data-i18n="types.matching">Matching</option>
+                    <option value="grouping" data-i18n="types.grouping">Grouping</option>
+                    <option value="short_answer" data-i18n="types.short_answer">Short answer</option>
+                    <option value="hotspot" data-i18n="types.hotspot">Hotspot</option>
+                    <option value="slider" data-i18n="types.slider">Slider</option>
+                </select>
+                <label class="field-label" for="teacher-learning-objective" data-i18n="ui.learningObjectiveLabel">Learning objective or topic (required)</label>
+                <input id="teacher-learning-objective" class="text-input" type="text" spellcheck="true" data-i18n-placeholder="ui.learningObjectivePlaceholder" placeholder="Example: Understand Python functions and return values">
+                <label class="field-label" for="teacher-exercise-language" data-i18n="ui.exerciseLanguageLabel">Exercise output language</label>
+                <select id="teacher-exercise-language" class="control-select">
+                    <option value="en" selected data-i18n="ui.exerciseLanguageEn">English</option>
+                    <option value="es" data-i18n="ui.exerciseLanguageEs">Spanish</option>
+                    <option value="pt" data-i18n="ui.exerciseLanguagePt">Portuguese</option>
+                    <option value="fr" data-i18n="ui.exerciseLanguageFr">French</option>
+                    <option value="de" data-i18n="ui.exerciseLanguageDe">German</option>
+                    <option value="it" data-i18n="ui.exerciseLanguageIt">Italian</option>
+                </select>
+                <div class="teacher-grid">
+                    <div>
+                        <label class="field-label" for="teacher-bloom-level" data-i18n="ui.bloomLabel">Bloom level (required)</label>
+                        <select id="teacher-bloom-level" class="control-select">
+                            <option value="remember" data-i18n="ui.bloomRecordar">Remember</option>
+                            <option value="understand" selected data-i18n="ui.bloomComprender">Understand</option>
+                            <option value="apply" data-i18n="ui.bloomAplicar">Apply</option>
+                            <option value="analyze" data-i18n="ui.bloomAnalizar">Analyze</option>
+                            <option value="evaluate" data-i18n="ui.bloomEvaluar">Evaluate</option>
+                            <option value="create" data-i18n="ui.bloomCrear">Create</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="field-label" for="teacher-difficulty-level" data-i18n="ui.difficultyLabel">Difficulty (required)</label>
+                        <select id="teacher-difficulty-level" class="control-select">
+                            <option value="low" data-i18n="ui.difficultyBajo">Low</option>
+                            <option value="medium" selected data-i18n="ui.difficultyMedio">Medium</option>
+                            <option value="high" data-i18n="ui.difficultyAlto">High</option>
+                        </select>
+                    </div>
                 </div>
-                <p class="type-plan-help" data-i18n="ui.typePlanHelp">Define cuántos ejercicios quieres por tipo. Si usas este control, la suma reemplaza la cantidad total.</p>
-                <div class="type-plan-grid">
-                    <label class="type-plan-row"><span data-i18n="types.multiple_choice">Opción múltiple</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="multiple_choice"></label>
-                    <label class="type-plan-row"><span data-i18n="types.true_false">Verdadero/Falso</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="true_false"></label>
-                    <label class="type-plan-row"><span data-i18n="types.fill_gaps">Completar huecos</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="fill_gaps"></label>
-                    <label class="type-plan-row"><span data-i18n="types.ordering">Ordenamiento</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="ordering"></label>
-                    <label class="type-plan-row"><span data-i18n="types.matching">Emparejar</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="matching"></label>
-                    <label class="type-plan-row"><span data-i18n="types.grouping">Agrupar</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="grouping"></label>
-                    <label class="type-plan-row"><span data-i18n="types.short_answer">Respuesta corta</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="short_answer"></label>
-                    <label class="type-plan-row"><span data-i18n="types.hotspot">Hotspot</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="hotspot"></label>
-                    <label class="type-plan-row"><span data-i18n="types.slider">Slider</span><input class="type-qty-input" type="number" min="0" max="15" value="0" data-type="slider"></label>
-                </div>
-                <p id="type-plan-total" class="type-plan-total">Total por tipo: 0/15</p>
+                <label class="field-label" for="teacher-type-policy" data-i18n="ui.typePolicyLabel">UDL type policy</label>
+                <select id="teacher-type-policy" class="control-select">
+                    <option value="locked" selected data-i18n="ui.typePolicyLocked">Locked: all variants keep the same type</option>
+                    <option value="equivalent" data-i18n="ui.typePolicyEquivalent">Equivalent: allow pedagogically equivalent types</option>
+                </select>
+                <p class="type-plan-help" data-i18n="ui.teacherLockedHelp">Objective, Bloom and difficulty are teacher-locked invariants across UDL variants.</p>
             </div>
 
             <label class="field-label" for="content-input" data-i18n="ui.content">Contenido o resumen</label>
@@ -131,12 +190,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button id="btn-validate" class="btn btn-primary" data-i18n="actions.validate">Validar</button>
             </div>
             <input id="project-file" type="file" accept=".json" style="display:none;">
+            <input id="student-results-file" type="file" accept=".json" style="display:none;">
             <div class="panel-actions">
                 <button id="btn-import-project" class="btn btn-outline" data-i18n="actions.importProject">Cargar proyecto docente</button>
+                <button id="btn-import-results" class="btn btn-outline" data-i18n="actions.importResults">Import student results</button>
             </div>
             <div class="panel-actions">
                 <button id="btn-export-project" class="btn btn-outline" data-i18n="actions.exportProject">Exportar proyecto docente</button>
-                <button id="btn-export-visor" class="btn btn-primary" data-i18n="actions.exportVisor">Exportar para visor</button>
+                <button id="btn-export-visor" class="btn btn-primary" data-i18n="actions.exportStudents">Export for students</button>
             </div>
             <div id="status-msg" class="status-msg" aria-live="polite"></div>
             <p class="hint" data-i18n="ui.schemaHint">Esquema oficial: schema/xai-exercise-schema.json</p>
@@ -245,6 +306,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </main>
 
     <script src="../eje-shared/exercise-engine.js"></script>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="app.js?v=20260221-31"></script>
 </body>
 </html>

@@ -4,7 +4,9 @@ export const appState = {
     locale: 'es',
     data: null,
     validation: null,
-    promptTrace: ''
+    promptTrace: '',
+    exerciseMemory: {},
+    studentResultsSummary: null
 };
 
 export function setState(partialState) {

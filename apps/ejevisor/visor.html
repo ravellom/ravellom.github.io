@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor REAI | Gamificado</title>
+    <title>EduXAI-Visor | Gamificado</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -40,7 +40,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <section id="screen-upload" class="screen active">
             <div class="card-glass center-content">
                 <i class="ph ph-game-controller" style="font-size: 4rem; color: var(--primary);"></i>
-                <h1>Visor Interactivo</h1>
+                <h1>EduXAI-Visor</h1>
                 <p>Arrastra tu archivo <strong>.json</strong> aquí</p>
                 
                 <div class="upload-area" id="drop-zone">
@@ -101,13 +101,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <span id="final-xp">0</span> XP
                 </div>
                 <p>Has completado todos los ejercicios.</p>
-                <button onclick="location.reload()" class="btn-action">Jugar de Nuevo</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <button id="btn-export-results" class="btn-action"><i class="ph ph-download-simple"></i> Exportar resultados</button>
+                    <button onclick="location.reload()" class="btn-action">Jugar de Nuevo</button>
+                </div>
             </div>
         </section>
 
     </main>
 
     <script src="../eje-shared/exercise-engine.js"></script>
-    <script src="visor.js"></script>
+    <script src="visor.js?v=20260221-01"></script>
 </body>
 </html>

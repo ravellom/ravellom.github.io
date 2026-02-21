@@ -236,24 +236,37 @@ function parseJsonSafe(text) {
     throw lastError || new Error('Invalid JSON response');
 }
 
-export async function generateWithGemini({ apiKey, model, prompt, maxOutputTokens = 12288 }) {
-    const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
-                generationConfig: {
-                    temperature: 0.4,
-                    maxOutputTokens,
-                    responseMimeType: 'application/json'
-                }
-            })
+export async function generateWithGemini({ apiKey, model, prompt, maxOutputTokens = 12288, timeoutMs = 90000 }) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), Math.max(10000, Number(timeoutMs) || 90000));
+    let response;
+    try {
+        response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.4,
+                        maxOutputTokens,
+                        responseMimeType: 'application/json'
+                    }
+                })
+            }
+        );
+    } catch (error) {
+        if (error?.name === 'AbortError') {
+            throw new Error(`Request timeout after ${Math.round(timeoutMs / 1000)}s`);
         }
-    );
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);

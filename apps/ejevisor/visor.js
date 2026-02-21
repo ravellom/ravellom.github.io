@@ -7,7 +7,18 @@ let state = {
     streak: 0,
     currentAnswer: null,
     hasAnswered: false,
-    graded: {}
+    graded: {},
+    attempts: {},
+    correctness: {},
+    answerSnapshots: {},
+    timeMs: {},
+    sessionId: '',
+    sessionStartedAt: 0,
+    exerciseStartedAt: 0,
+    loadedMeta: {
+        delivery_policy: 'single_fixed',
+        resource_metadata: {}
+    }
 };
 
 let ui = {}; // Se inicializa en DOMContentLoaded
@@ -223,15 +234,73 @@ function resolveGroupingModel(interaction) {
     };
 }
 
+function resolveExercisesFromBundle(bundle) {
+    const data = bundle && typeof bundle === 'object' ? bundle : {};
+    const flatExercises = Array.isArray(data.exercises) ? data.exercises : [];
+    const cores = Array.isArray(data.udl_cores) ? data.udl_cores : [];
+    const policy = String(data?.delivery?.variant_policy || 'first_per_core').trim() || 'first_per_core';
+
+    if (cores.length === 0 || policy === 'single_fixed') {
+        return flatExercises;
+    }
+
+    const normalizeVariants = (core) => {
+        const variants = Array.isArray(core?.variants) ? core.variants : [];
+        return variants
+            .filter((item) => item && typeof item === 'object')
+            .sort((left, right) => {
+                const l = Number(left?.dua?.variant_index) || 999;
+                const r = Number(right?.dua?.variant_index) || 999;
+                return l - r;
+            });
+    };
+
+    if (policy === 'manual_select') {
+        return cores.flatMap((core) => normalizeVariants(core));
+    }
+
+    if (policy === 'random_per_core') {
+        return cores
+            .map((core) => {
+                const variants = normalizeVariants(core);
+                if (variants.length === 0) return null;
+                const pick = Math.floor(Math.random() * variants.length);
+                return variants[pick];
+            })
+            .filter(Boolean);
+    }
+
+    return cores
+        .map((core) => {
+            const variants = normalizeVariants(core);
+            return variants[0] || null;
+        })
+        .filter(Boolean);
+}
+
+function initGameFromBundle(bundle) {
+    const metadata = bundle && typeof bundle === 'object' ? bundle : {};
+    state.loadedMeta = {
+        delivery_policy: String(metadata?.delivery?.variant_policy || 'single_fixed').trim() || 'single_fixed',
+        resource_metadata: metadata?.resource_metadata && typeof metadata.resource_metadata === 'object'
+            ? { ...metadata.resource_metadata }
+            : {}
+    };
+    const exercises = resolveExercisesFromBundle(bundle);
+    if (!Array.isArray(exercises) || exercises.length === 0) {
+        alert('El archivo no contiene ejercicios validos');
+        return;
+    }
+    initGame(exercises);
+}
+
 // ===== CARGAR EJEMPLO =====
 async function loadExample() {
     try {
         const response = await fetch('ejemplo.json');
         if (response.ok) {
             const data = await response.json();
-            if (data.exercises && data.exercises.length > 0) {
-                initGame(data.exercises);
-            }
+            initGameFromBundle(data);
         } else {
             alert('No se pudo cargar el ejemplo');
         }
@@ -271,11 +340,7 @@ function processFile(file) {
     reader.onload = (ev) => {
         try {
             const data = JSON.parse(ev.target.result);
-            if (!data.exercises || !Array.isArray(data.exercises) || data.exercises.length === 0) {
-                alert('El archivo no contiene ejercicios válidos');
-                return;
-            }
-            initGame(data.exercises);
+            initGameFromBundle(data);
         } catch (err) { alert('Error JSON: ' + err.message); }
     };
     reader.readAsText(file);
@@ -287,6 +352,13 @@ function initGame(exercises) {
     state.score = 0;
     state.streak = 0;
     state.graded = {};
+    state.attempts = {};
+    state.correctness = {};
+    state.answerSnapshots = {};
+    state.timeMs = {};
+    state.sessionId = `session_${Date.now()}`;
+    state.sessionStartedAt = Date.now();
+    state.exerciseStartedAt = Date.now();
     updateHUD();
     showScreen('game');
     renderCurrentExercise();
@@ -702,7 +774,114 @@ function renderCurrentExercise() {
 
     ui.container.innerHTML = html;
 
+    state.exerciseStartedAt = Date.now();
     initializeExerciseInteractions(ex);
+}
+
+function buildAnswerSnapshot(ex) {
+    try {
+        if (!ex || typeof ex !== 'object') {
+            return null;
+        }
+        if (ex.type === 'ordering') {
+            return Array.from(document.querySelectorAll('.sortable-item')).map((item) => Number(item.dataset.id));
+        }
+        if (ex.type === 'matching') {
+            return Array.from(document.querySelectorAll('#matching-list .draggable-item')).map((item) => String(item.dataset.match || '').trim());
+        }
+        if (ex.type === 'grouping') {
+            const output = {};
+            document.querySelectorAll('.bucket-dropzone').forEach((bucket) => {
+                const category = String(bucket.getAttribute('data-category') || '').trim();
+                output[category] = Array.from(bucket.querySelectorAll('.group-item')).map((item) => String(item.textContent || '').trim());
+            });
+            return output;
+        }
+        if (ex.type === 'fill_gaps') {
+            const drops = Array.from(document.querySelectorAll('.cloze-drop'));
+            return drops.map((zone) => decodeURIComponent(String(zone.dataset.userValueEncoded || '')).trim());
+        }
+        return state.currentAnswer;
+    } catch {
+        return state.currentAnswer;
+    }
+}
+
+function recordExerciseAttempt(ex, isCorrect) {
+    const exerciseId = String(ex?.id || `idx_${state.currentIndex + 1}`);
+    const now = Date.now();
+    const elapsed = Math.max(0, now - (Number(state.exerciseStartedAt) || now));
+    state.timeMs[exerciseId] = Number(state.timeMs[exerciseId] || 0) + elapsed;
+    state.exerciseStartedAt = now;
+    state.attempts[exerciseId] = Number(state.attempts[exerciseId] || 0) + 1;
+    state.correctness[exerciseId] = Boolean(state.correctness[exerciseId] || isCorrect);
+    state.answerSnapshots[exerciseId] = buildAnswerSnapshot(ex);
+}
+
+function downloadJson(fileName, data) {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    setTimeout(() => {
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(url);
+    }, 100);
+}
+
+function exportStudentResults() {
+    const endedAt = Date.now();
+    const rows = (Array.isArray(state.exercises) ? state.exercises : []).map((exercise, index) => {
+        const exerciseId = String(exercise?.id || `idx_${index + 1}`);
+        const attempts = Number(state.attempts[exerciseId] || 0);
+        const correct = Boolean(state.correctness[exerciseId] || false);
+        const timeSec = Number(((Number(state.timeMs[exerciseId] || 0)) / 1000).toFixed(2));
+        return {
+            exercise_id: exerciseId,
+            core_id: String(exercise?.dua?.core_id || '').trim(),
+            dua_label: String(exercise?.dua?.label || '').trim(),
+            type: String(exercise?.type || '').trim(),
+            attempts,
+            correct,
+            time_sec: timeSec,
+            last_answer: state.answerSnapshots[exerciseId] ?? null
+        };
+    });
+    const attempted = rows.filter((row) => row.attempts > 0).length;
+    const correct = rows.filter((row) => row.correct).length;
+    const totalAttempts = rows.reduce((acc, row) => acc + Number(row.attempts || 0), 0);
+    const totalTimeSec = Number(rows.reduce((acc, row) => acc + Number(row.time_sec || 0), 0).toFixed(2));
+    const payload = {
+        schema_version: 'eduxai-visor-results/1.0.0',
+        app: 'EduXAI-Visor',
+        exported_at_utc: new Date(endedAt).toISOString(),
+        session: {
+            id: state.sessionId || `session_${endedAt}`,
+            started_at_utc: new Date(Number(state.sessionStartedAt || endedAt)).toISOString(),
+            ended_at_utc: new Date(endedAt).toISOString(),
+            duration_sec: Number(((endedAt - Number(state.sessionStartedAt || endedAt)) / 1000).toFixed(2)),
+            delivery_policy: String(state?.loadedMeta?.delivery_policy || 'single_fixed'),
+            resource_metadata: state?.loadedMeta?.resource_metadata || {}
+        },
+        summary: {
+            total_exercises: rows.length,
+            attempted_exercises: attempted,
+            correct_exercises: correct,
+            accuracy_pct: rows.length > 0 ? Number(((correct / rows.length) * 100).toFixed(2)) : 0,
+            total_attempts: totalAttempts,
+            total_time_sec: totalTimeSec
+        },
+        exercise_results: rows
+    };
+    const topicPart = String(state?.loadedMeta?.resource_metadata?.topic || 'topic')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .slice(0, 40) || 'topic';
+    downloadJson(`eduxai_visor_results_${topicPart}_${Date.now()}.json`, payload);
 }
 
 // LOGICA ESPECIFICA PARA HABILITAR BOTON EN GROUPING
@@ -967,6 +1146,7 @@ function checkAnswer() {
     }
     
     state.hasAnswered = true;
+    recordExerciseAttempt(ex, isCorrect);
     
     if (ui.btnCheck) {
         ui.btnCheck.disabled = true;
@@ -1097,6 +1277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnPrev: document.getElementById('btn-prev'),
         btnReset: document.getElementById('btn-reset'),
         btnHint: document.getElementById('btn-hint'),
+        btnExportResults: document.getElementById('btn-export-results'),
         btnCloseModal: document.getElementById('btn-close-modal'),
         modal: document.getElementById('feedback-overlay'),
         feedbackTitle: document.getElementById('feedback-title'),
@@ -1137,6 +1318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ui.btnPrev) ui.btnPrev.addEventListener('click', prevExercise);
     if (ui.btnReset) ui.btnReset.addEventListener('click', goToUpload);
     if (ui.btnHint) ui.btnHint.addEventListener('click', showHint);
+    if (ui.btnExportResults) ui.btnExportResults.addEventListener('click', exportStudentResults);
     if (ui.btnCloseModal) ui.btnCloseModal.addEventListener('click', closeModal);
     
     // Botón cargar ejemplo
@@ -1151,3 +1333,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

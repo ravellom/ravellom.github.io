@@ -1,4 +1,5 @@
 import { t } from '../i18n/index.js';
+import { validateXaiBundle } from '../core/validators.js';
 import { buildFillGapsAnswerMapping, normalizeOrderingEntries } from '../core/interaction-utils.js';
 
 let selectedExerciseId = null;
@@ -51,9 +52,11 @@ function createSelectField(label, value, path, options, onChange) {
     const select = document.createElement('select');
     select.className = 'mini-select';
     options.forEach((opt) => {
+        const optionValue = typeof opt === 'string' ? opt : String(opt?.value ?? '');
+        const optionLabel = typeof opt === 'string' ? opt : String(opt?.label ?? optionValue);
         const option = document.createElement('option');
-        option.value = opt;
-        option.textContent = opt;
+        option.value = optionValue;
+        option.textContent = optionLabel;
         select.appendChild(option);
     });
     select.value = value;
@@ -93,6 +96,135 @@ function isReviewed(exercise) {
     return Boolean(exercise?.reviewed === true);
 }
 
+function labelBloom(value) {
+    const key = String(value || '').trim().toLowerCase();
+    const map = {
+        remember: 'ui.bloomRecordar',
+        understand: 'ui.bloomComprender',
+        apply: 'ui.bloomAplicar',
+        analyze: 'ui.bloomAnalizar',
+        evaluate: 'ui.bloomEvaluar',
+        create: 'ui.bloomCrear'
+    };
+    return map[key] ? t(map[key]) : (value || '-');
+}
+
+function labelDifficulty(value) {
+    const key = String(value || '').trim().toLowerCase();
+    const map = {
+        low: 'ui.difficultyBajo',
+        medium: 'ui.difficultyMedio',
+        high: 'ui.difficultyAlto'
+    };
+    return map[key] ? t(map[key]) : (value || '-');
+}
+
+function uniqueNormalized(values) {
+    const source = Array.isArray(values) ? values : [];
+    const normalized = source
+        .map((value) => String(value || '').trim())
+        .filter(Boolean);
+    return [...new Set(normalized)];
+}
+
+function createInvariantsMatrix(selectedExercise, allExercises) {
+    const coreId = getCoreId(selectedExercise);
+    const variants = (Array.isArray(allExercises) ? allExercises : [])
+        .filter((exercise) => getCoreId(exercise) === coreId);
+    const sample = variants[0] || selectedExercise || {};
+
+    const objectiveValues = uniqueNormalized(variants.map((exercise) => safeGet(exercise, 'xai.pedagogical_alignment.learning_objective', '')));
+    const bloomValues = uniqueNormalized(variants.map((exercise) => safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '')));
+    const difficultyValues = uniqueNormalized(variants.map((exercise) => safeGet(exercise, 'xai.pedagogical_alignment.difficulty_level', '')));
+    const coreStatementValues = uniqueNormalized(variants.map((exercise) => safeGet(exercise, 'dua.core_statement', '')));
+
+    const baseType = String(sample?.type || '').trim();
+    const representationOrEngagement = variants.filter((exercise) => {
+        const label = String(safeGet(exercise, 'dua.label', '')).trim();
+        return label === 'DUA-Representacion' || label === 'DUA-Implicacion' || !label;
+    });
+    const repImpTypes = uniqueNormalized(representationOrEngagement.map((exercise) => exercise?.type));
+
+    const rows = [
+        {
+            name: t('editor.matrixObjective'),
+            locked: objectiveValues[0] || '-',
+            allowed: t('editor.matrixAllowedNone'),
+            stable: objectiveValues.length <= 1
+        },
+        {
+            name: t('editor.matrixBloom'),
+            locked: labelBloom(bloomValues[0] || '-'),
+            allowed: t('editor.matrixAllowedNone'),
+            stable: bloomValues.length <= 1
+        },
+        {
+            name: t('editor.matrixDifficulty'),
+            locked: labelDifficulty(difficultyValues[0] || '-'),
+            allowed: t('editor.matrixAllowedNone'),
+            stable: difficultyValues.length <= 1
+        },
+        {
+            name: t('editor.matrixCoreStatement'),
+            locked: coreStatementValues[0] || '-',
+            allowed: t('editor.matrixAllowedNone'),
+            stable: coreStatementValues.length <= 1
+        },
+        {
+            name: t('editor.matrixType'),
+            locked: baseType || '-',
+            allowed: t('editor.matrixTypeAllowed'),
+            stable: repImpTypes.length <= 1 && (!repImpTypes[0] || repImpTypes[0] === baseType)
+        }
+    ];
+
+    const section = createSection(t('editor.sectionInvariantMatrix'), 'ph-table', 'section-invariant-matrix');
+    const tableWrap = document.createElement('div');
+    tableWrap.className = 'invariants-table-wrap';
+    const table = document.createElement('table');
+    table.className = 'invariants-table';
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>${t('editor.matrixColumnInvariant')}</th>
+                <th>${t('editor.matrixColumnLocked')}</th>
+                <th>${t('editor.matrixColumnAllowed')}</th>
+                <th>${t('editor.matrixColumnStatus')}</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+    const tbody = table.querySelector('tbody');
+    rows.forEach((row) => {
+        const tr = document.createElement('tr');
+        const statusClass = row.stable ? 'ok' : 'warn';
+        tr.innerHTML = `
+            <td>${row.name}</td>
+            <td>${row.locked}</td>
+            <td>${row.allowed}</td>
+            <td><span class="matrix-status ${statusClass}">${row.stable ? t('editor.matrixStable') : t('editor.matrixDrift')}</span></td>
+        `;
+        tbody.appendChild(tr);
+    });
+    tableWrap.appendChild(table);
+    section.appendChild(tableWrap);
+    return section;
+}
+
+function getCoreId(exercise) {
+    const coreId = String(safeGet(exercise, 'dua.core_id', '')).trim();
+    return coreId || String(exercise?.id || '').trim();
+}
+
+function getVariantLabel(exercise) {
+    const duaLabel = String(safeGet(exercise, 'dua.label', '')).trim();
+    if (duaLabel) {
+        return duaLabel.replace('DUA-', '');
+    }
+    const variantIndex = Number(safeGet(exercise, 'dua.variant_index', 0));
+    return Number.isInteger(variantIndex) && variantIndex > 0 ? `V${variantIndex}` : '';
+}
+
 function renderExerciseNav(elements, exercises, activeId, onSelect) {
     elements.exerciseNavList.innerHTML = '';
     elements.exerciseCountBadge.textContent = String(exercises.length);
@@ -105,21 +237,64 @@ function renderExerciseNav(elements, exercises, activeId, onSelect) {
         return;
     }
 
-    exercises.forEach((exercise, index) => {
-        const li = document.createElement('li');
-        const reviewClass = isReviewed(exercise) ? 'reviewed' : 'pending';
-        li.className = `exercise-nav-item ${exercise.id === activeId ? 'active' : ''} ${reviewClass}`.trim();
-        li.innerHTML = `
-            <i class="ph ${iconByType(exercise.type)}"></i>
-            <div>
-                <div>${t('editor.exercise')} ${index + 1}</div>
-                <div class="type">${exercise.type || '-'}</div>
-                <div class="review-badge">${isReviewed(exercise) ? t('editor.reviewed') : t('editor.pendingReview')}</div>
-            </div>
-        `;
-        li.addEventListener('click', () => onSelect(exercise.id));
-        elements.exerciseNavList.appendChild(li);
+    const indexed = exercises.map((exercise, index) => ({ exercise, index }));
+    const groups = [];
+    const groupMap = new Map();
+    indexed.forEach((item) => {
+        const coreId = getCoreId(item.exercise) || `core_${item.index + 1}`;
+        if (!groupMap.has(coreId)) {
+            const group = { coreId, items: [] };
+            groupMap.set(coreId, group);
+            groups.push(group);
+        }
+        groupMap.get(coreId).items.push(item);
     });
+
+    groups.forEach((group, groupIndex) => {
+        const coreHeader = document.createElement('li');
+        coreHeader.className = 'exercise-core-header';
+        coreHeader.textContent = `${t('editor.coreLabel')} ${groupIndex + 1} (${group.items.length})`;
+        elements.exerciseNavList.appendChild(coreHeader);
+
+        group.items.forEach(({ exercise, index }) => {
+            const li = document.createElement('li');
+            const reviewClass = isReviewed(exercise) ? 'reviewed' : 'pending';
+            const variant = getVariantLabel(exercise);
+            li.className = `exercise-nav-item ${exercise.id === activeId ? 'active' : ''} ${reviewClass}`.trim();
+            li.innerHTML = `
+                <i class="ph ${iconByType(exercise.type)}"></i>
+                <div>
+                    <div>${t('editor.exercise')} ${index + 1}</div>
+                    <div class="type">${exercise.type || '-'}</div>
+                    <div class="review-badge">${isReviewed(exercise) ? t('editor.reviewed') : t('editor.pendingReview')}</div>
+                </div>
+                ${variant ? `<span class="variant-pill">${variant}</span>` : ''}
+            `;
+            li.addEventListener('click', () => onSelect(exercise.id));
+            elements.exerciseNavList.appendChild(li);
+        });
+    });
+}
+
+function renderVariantSwitcher(container, exercises, selectedExercise, onSelect) {
+    const selectedCoreId = getCoreId(selectedExercise);
+    const variants = (Array.isArray(exercises) ? exercises : []).filter((exercise) => getCoreId(exercise) === selectedCoreId);
+    if (variants.length <= 1) {
+        return;
+    }
+
+    const switcher = document.createElement('div');
+    switcher.className = 'variant-switcher';
+    variants.forEach((exercise, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `variant-chip ${exercise.id === selectedExercise.id ? 'active' : ''}`.trim();
+        const variantLabel = getVariantLabel(exercise) || `V${index + 1}`;
+        button.textContent = variantLabel;
+        button.addEventListener('click', () => onSelect(exercise.id));
+        switcher.appendChild(button);
+    });
+    container.appendChild(switcher);
 }
 
 function renderDetailHeader(container, exercise, index) {
@@ -763,6 +938,243 @@ function createPreviewSection(exercise) {
     return previewSection;
 }
 
+function buildExecutiveData(exercise) {
+    const bloom = safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '-');
+    const difficulty = safeGet(exercise, 'xai.pedagogical_alignment.difficulty_level', '-');
+    const type = safeGet(exercise, 'type', '-');
+    const risks = safeGet(exercise, 'xai.fairness_and_risk.potential_biases', []);
+    const risksText = Array.isArray(risks) && risks.length > 0 ? risks.slice(0, 2).join(' | ') : t('ui.noItems');
+    const confidenceRaw = Number(safeGet(exercise, 'xai.uncertainty.confidence', 0));
+    const confidence = Number.isFinite(confidenceRaw) ? Math.max(0, Math.min(1, confidenceRaw)) : 0;
+    const hasObjective = String(safeGet(exercise, 'xai.pedagogical_alignment.learning_objective', '')).trim().length > 0;
+    const hasCompetency = String(safeGet(exercise, 'xai.pedagogical_alignment.competency', '')).trim().length > 0;
+    const alignmentOk = hasObjective && hasCompetency && bloom !== '-' && difficulty !== '-';
+    const hasHumanReview = String(safeGet(exercise, 'xai.human_oversight.review_protocol', '')).trim().length >= 10;
+
+    return {
+        bloom: labelBloom(bloom),
+        difficulty: labelDifficulty(difficulty),
+        type,
+        risksText,
+        confidence,
+        alignmentStatus: alignmentOk ? t('editor.executiveCoherent') : t('editor.executiveReview'),
+        complianceStatus: alignmentOk ? t('editor.executiveOk') : t('editor.executiveReview'),
+        humanReviewRequired: hasHumanReview ? t('editor.executiveYes') : t('editor.executiveNo')
+    };
+}
+
+function createExecutiveLayer(exercise) {
+    const section = createSection(t('editor.executiveLayerTitle'), 'ph-gauge', 'section-executive');
+    const data = buildExecutiveData(exercise);
+
+    const grid = document.createElement('div');
+    grid.className = 'executive-grid';
+    grid.innerHTML = `
+        <div class="executive-item"><span>${t('editor.executiveAlignment')}</span><strong>${data.alignmentStatus}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveBloom')}</span><strong>${data.bloom || '-'}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveType')}</span><strong>${data.type || '-'}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveDifficulty')}</span><strong>${data.difficulty || '-'}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveRisks')}</span><strong>${data.risksText}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveCompliance')}</span><strong>${data.complianceStatus}</strong></div>
+        <div class="executive-item"><span>${t('editor.executiveHumanReview')}</span><strong>${data.humanReviewRequired}</strong></div>
+    `;
+
+    const confidence = document.createElement('div');
+    confidence.className = 'confidence-widget';
+    confidence.innerHTML = `
+        <span>${t('editor.executiveConfidence')}</span>
+        <div class="confidence-track"><div class="confidence-fill" style="width:${Math.round(data.confidence * 100)}%"></div></div>
+    `;
+
+    section.appendChild(grid);
+    section.appendChild(confidence);
+    return section;
+}
+
+function createNarrativeLayer(exercise) {
+    const section = createSection(t('editor.narrativeLayerTitle'), 'ph-text-indent', 'section-narrative');
+    const bloom = labelBloom(safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '-'));
+    const prompt = safeGet(exercise, 'content.prompt_text', '-');
+    const risk = Array.isArray(safeGet(exercise, 'xai.fairness_and_risk.potential_biases', []))
+        ? safeGet(exercise, 'xai.fairness_and_risk.potential_biases', [])[0]
+        : '';
+    const mitigation = Array.isArray(safeGet(exercise, 'xai.fairness_and_risk.mitigations', []))
+        ? safeGet(exercise, 'xai.fairness_and_risk.mitigations', [])[0]
+        : '';
+    const explanation = safeGet(exercise, 'scaffolding.explanation', '');
+    const confidence = Number(safeGet(exercise, 'xai.uncertainty.confidence', 0));
+    const confidenceLabel = confidence >= 0.75
+        ? t('editor.confidenceHigh')
+        : (confidence >= 0.45 ? t('editor.confidenceMedium') : t('editor.confidenceLow'));
+
+    const narrative = document.createElement('blockquote');
+    narrative.className = 'xai-narrative';
+    narrative.innerHTML = `
+        ${t('editor.narrativeLine1', { prompt: prompt || '-', bloom: bloom || '-' })}<br>
+        ${t('editor.narrativeLine2', { risk: risk || t('editor.notReported') })}<br>
+        ${t('editor.narrativeLine3', { mitigation: mitigation || t('editor.notReported') })}<br>
+        ${t('editor.narrativeLine4', { explanation: explanation || t('editor.notAvailable') })}<br>
+        ${t('editor.narrativeLine5', { confidence: confidenceLabel })}
+    `;
+    section.appendChild(narrative);
+    return section;
+}
+
+function createTechnicalLayer(exercise, technicalSections) {
+    const wrapper = document.createElement('section');
+    wrapper.className = 'technical-details';
+
+    const title = document.createElement('h4');
+    title.className = 'technical-title';
+    title.innerHTML = `<i class="ph ph-file-code"></i> ${t('editor.technicalLayerTitle')}`;
+    wrapper.appendChild(title);
+
+    technicalSections.forEach((section) => wrapper.appendChild(section));
+
+    const traceBox = document.createElement('div');
+    traceBox.className = 'technical-trace';
+    const promptId = safeGet(exercise, 'xai.trace.prompt_id', '-');
+    const model = safeGet(exercise, 'xai.trace.model', '-');
+    const timestamp = safeGet(exercise, 'xai.trace.timestamp_utc', '-');
+    traceBox.innerHTML = `
+        <strong>${t('editor.technicalTraceTitle')}</strong>
+        <p>model=${model} | prompt_id=${promptId} | timestamp=${timestamp}</p>
+    `;
+    wrapper.appendChild(traceBox);
+
+    const jsonTitle = document.createElement('strong');
+    jsonTitle.textContent = t('editor.technicalJsonTitle');
+    wrapper.appendChild(jsonTitle);
+
+    const jsonPre = document.createElement('pre');
+    jsonPre.className = 'technical-json';
+    jsonPre.textContent = JSON.stringify(exercise, null, 2);
+    wrapper.appendChild(jsonPre);
+
+    return wrapper;
+}
+
+function createValidationSection(dataBundle, selectedIndex) {
+    const section = createSection(t('editor.tabValidation'), 'ph-check-circle', 'section-validation');
+    const result = validateXaiBundle(dataBundle, t);
+    const position = selectedIndex + 1;
+    const isCurrentExerciseMessage = (message) => {
+        const text = String(message || '');
+        return text.includes(`exercises[${position}]`)
+            || new RegExp(`\\bEjercicio\\s+${position}\\b`, 'i').test(text)
+            || new RegExp(`\\bExercise\\s+${position}\\b`, 'i').test(text);
+    };
+
+    const localErrors = (Array.isArray(result.errors) ? result.errors : []).filter(isCurrentExerciseMessage);
+    const localWarnings = (Array.isArray(result.warnings) ? result.warnings : []).filter(isCurrentExerciseMessage);
+    const panel = document.createElement('div');
+    panel.className = 'exercise-validation-panel';
+
+    if (localErrors.length === 0 && localWarnings.length === 0) {
+        const ok = document.createElement('p');
+        ok.className = 'exercise-validation-ok';
+        ok.textContent = t('editor.validationNoIssues');
+        panel.appendChild(ok);
+        section.appendChild(panel);
+        return section;
+    }
+
+    const summary = document.createElement('p');
+    summary.className = 'exercise-validation-summary';
+    summary.textContent = t('editor.validationSummary', {
+        errors: localErrors.length,
+        warnings: localWarnings.length
+    });
+    panel.appendChild(summary);
+
+    if (localErrors.length > 0) {
+        const errorTitle = document.createElement('strong');
+        errorTitle.textContent = t('editor.validationErrors');
+        panel.appendChild(errorTitle);
+        const errorList = document.createElement('ul');
+        errorList.className = 'exercise-validation-list';
+        localErrors.forEach((message) => {
+            const li = document.createElement('li');
+            li.textContent = String(message);
+            errorList.appendChild(li);
+        });
+        panel.appendChild(errorList);
+    }
+
+    if (localWarnings.length > 0) {
+        const warningTitle = document.createElement('strong');
+        warningTitle.textContent = t('editor.validationWarnings');
+        panel.appendChild(warningTitle);
+        const warningList = document.createElement('ul');
+        warningList.className = 'exercise-validation-list';
+        localWarnings.forEach((message) => {
+            const li = document.createElement('li');
+            li.textContent = String(message);
+            warningList.appendChild(li);
+        });
+        panel.appendChild(warningList);
+    }
+
+    section.appendChild(panel);
+    return section;
+}
+
+function createExerciseTabs(tabEntries) {
+    const root = document.createElement('section');
+    root.className = 'exercise-tabs-shell';
+
+    const nav = document.createElement('div');
+    nav.className = 'exercise-tabs-nav';
+    nav.setAttribute('role', 'tablist');
+
+    const body = document.createElement('div');
+    body.className = 'exercise-tabs-body';
+
+    const buttons = [];
+    const panels = [];
+
+    const activate = (id) => {
+        buttons.forEach((button) => {
+            const active = button.dataset.target === id;
+            button.classList.toggle('active', active);
+            button.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        panels.forEach((panel) => {
+            const active = panel.id === id;
+            panel.classList.toggle('active', active);
+            panel.hidden = !active;
+        });
+    };
+
+    tabEntries.forEach((entry, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'exercise-tab-btn';
+        button.dataset.target = entry.id;
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        button.textContent = entry.label;
+        button.addEventListener('click', () => activate(entry.id));
+        buttons.push(button);
+        nav.appendChild(button);
+
+        const panel = document.createElement('section');
+        panel.className = 'exercise-tab-panel';
+        panel.id = entry.id;
+        panel.setAttribute('role', 'tabpanel');
+        panel.hidden = index !== 0;
+        if (entry.content) {
+            panel.appendChild(entry.content);
+        }
+        panels.push(panel);
+        body.appendChild(panel);
+    });
+
+    root.appendChild(nav);
+    root.appendChild(body);
+    return root;
+}
+
 export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     elements.exerciseEditor.innerHTML = '';
     elements.exerciseDetailHeader.innerHTML = '';
@@ -809,6 +1221,10 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     const selectedIndex = exercises.findIndex((exercise) => exercise.id === selectedExercise?.id);
 
     renderDetailHeader(elements.exerciseDetailHeader, selectedExercise, selectedIndex);
+    renderVariantSwitcher(elements.exerciseDetailHeader, filtered, selectedExercise, (id) => {
+        selectedExerciseId = id;
+        onDataChange(true);
+    });
 
     const filteredIndex = filtered.findIndex((ex) => ex.id === selectedExerciseId);
     const prevBtn = elements.exerciseDetailHeader.querySelector('#btn-prev-ex');
@@ -892,8 +1308,40 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     gridPed.className = 'exercise-grid';
     gridPed.appendChild(createField(t('editor.learningObjective'), safeGet(selectedExercise, 'xai.pedagogical_alignment.learning_objective', ''), 'xai.pedagogical_alignment.learning_objective', applyChange));
     gridPed.appendChild(createField(t('editor.competency'), safeGet(selectedExercise, 'xai.pedagogical_alignment.competency', ''), 'xai.pedagogical_alignment.competency', applyChange));
-    gridPed.appendChild(createSelectField(t('editor.bloom'), safeGet(selectedExercise, 'xai.pedagogical_alignment.bloom_level', 'analizar'), 'xai.pedagogical_alignment.bloom_level', ['recordar', 'comprender', 'aplicar', 'analizar', 'evaluar', 'crear'], applyChange));
-    gridPed.appendChild(createSelectField(t('editor.difficulty'), safeGet(selectedExercise, 'xai.pedagogical_alignment.difficulty_level', 'medio'), 'xai.pedagogical_alignment.difficulty_level', ['bajo', 'medio', 'alto'], applyChange));
+    gridPed.appendChild(createSelectField(
+        t('editor.bloom'),
+        safeGet(selectedExercise, 'xai.pedagogical_alignment.bloom_level', 'analyze'),
+        'xai.pedagogical_alignment.bloom_level',
+        [
+            { value: 'remember', label: t('ui.bloomRecordar') },
+            { value: 'understand', label: t('ui.bloomComprender') },
+            { value: 'apply', label: t('ui.bloomAplicar') },
+            { value: 'analyze', label: t('ui.bloomAnalizar') },
+            { value: 'evaluate', label: t('ui.bloomEvaluar') },
+            { value: 'create', label: t('ui.bloomCrear') }
+        ],
+        applyChange
+    ));
+    gridPed.appendChild(createSelectField(
+        t('editor.difficulty'),
+        safeGet(selectedExercise, 'xai.pedagogical_alignment.difficulty_level', 'medium'),
+        'xai.pedagogical_alignment.difficulty_level',
+        [
+            { value: 'low', label: t('ui.difficultyBajo') },
+            { value: 'medium', label: t('ui.difficultyMedio') },
+            { value: 'high', label: t('ui.difficultyAlto') }
+        ],
+        applyChange
+    ));
+    const coreStatementField = createField(
+        t('editor.coreStatement'),
+        safeGet(selectedExercise, 'dua.core_statement', ''),
+        'dua.core_statement',
+        applyChange,
+        true
+    );
+    coreStatementField.classList.add('field-full');
+    gridPed.appendChild(coreStatementField);
     const pedSection = createSection(t('editor.sectionPedagogical'), 'ph-graduation-cap', 'section-pedagogical');
     pedSection.appendChild(gridPed);
 
@@ -909,8 +1357,8 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     gridXai.appendChild(createArrayField(t('editor.limitations'), safeGet(selectedExercise, 'xai.uncertainty.limitations', []), 'xai.uncertainty.limitations', applyChange));
     gridXai.appendChild(createArrayField(t('editor.risks'), safeGet(selectedExercise, 'xai.fairness_and_risk.potential_biases', []), 'xai.fairness_and_risk.potential_biases', applyChange));
     gridXai.appendChild(createArrayField(t('editor.mitigations'), safeGet(selectedExercise, 'xai.fairness_and_risk.mitigations', []), 'xai.fairness_and_risk.mitigations', applyChange));
-    gridXai.appendChild(createField(t('editor.qualityTargetAudience'), safeGet(selectedExercise, 'xai.quality_of_explanation.target_audience', 'docente'), 'xai.quality_of_explanation.target_audience', applyChange));
-    gridXai.appendChild(createSelectField(t('editor.qualityClarityLevel'), safeGet(selectedExercise, 'xai.quality_of_explanation.clarity_level', 'media'), 'xai.quality_of_explanation.clarity_level', ['baja', 'media', 'alta'], applyChange));
+    gridXai.appendChild(createField(t('editor.qualityTargetAudience'), safeGet(selectedExercise, 'xai.quality_of_explanation.target_audience', 'teacher'), 'xai.quality_of_explanation.target_audience', applyChange));
+    gridXai.appendChild(createSelectField(t('editor.qualityClarityLevel'), safeGet(selectedExercise, 'xai.quality_of_explanation.clarity_level', 'medium'), 'xai.quality_of_explanation.clarity_level', ['low', 'medium', 'high'], applyChange));
     const qualityActionableField = createField(t('editor.qualityActionableFeedback'), safeGet(selectedExercise, 'xai.quality_of_explanation.actionable_feedback', ''), 'xai.quality_of_explanation.actionable_feedback', applyChange, true);
     qualityActionableField.classList.add('field-full');
     gridXai.appendChild(qualityActionableField);
@@ -942,13 +1390,35 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
 
     const interactionSection = createInteractionEditor(selectedExercise, applyChange);
     const previewSection = createPreviewSection(selectedExercise);
+    const exerciseDesignSection = createSection(t('editor.sectionExerciseDesign'), 'ph-pencil-ruler', 'section-exercise-design');
+    const exerciseDesignStack = document.createElement('div');
+    exerciseDesignStack.className = 'exercise-design-stack';
+    exerciseDesignStack.appendChild(coreSection);
+    exerciseDesignStack.appendChild(interactionSection);
+    exerciseDesignSection.appendChild(exerciseDesignStack);
 
-    card.appendChild(coreSection);
-    card.appendChild(pedSection);
-    card.appendChild(interactionSection);
-    card.appendChild(xaiSection);
-    card.appendChild(controlSection);
-    card.appendChild(previewSection);
+    const executiveLayer = createExecutiveLayer(selectedExercise);
+    const narrativeLayer = createNarrativeLayer(selectedExercise);
+    const invariantsMatrix = createInvariantsMatrix(selectedExercise, exercises);
+    const summarySection = createSection(t('editor.tabSummary'), 'ph-compass-tool', 'section-summary');
+    summarySection.appendChild(invariantsMatrix);
+    summarySection.appendChild(executiveLayer);
+    summarySection.appendChild(narrativeLayer);
+
+    const technicalLayer = createTechnicalLayer(selectedExercise, [
+        pedSection,
+        xaiSection,
+        controlSection
+    ]);
+    const validationSection = createValidationSection(dataBundle, selectedIndex);
+
+    card.appendChild(createExerciseTabs([
+        { id: 'tab-design', label: t('editor.tabDesign'), content: exerciseDesignSection },
+        { id: 'tab-preview', label: t('editor.tabPreview'), content: previewSection },
+        { id: 'tab-summary', label: t('editor.tabSummary'), content: summarySection },
+        { id: 'tab-technical', label: t('editor.tabTechnical'), content: technicalLayer },
+        { id: 'tab-validation', label: t('editor.tabValidation'), content: validationSection }
+    ]));
 
     elements.exerciseEditor.appendChild(card);
 }

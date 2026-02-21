@@ -27,6 +27,87 @@ function asObject(value) {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
 
+function normalizeEnum(value, aliases, fallback) {
+    const key = asString(value, fallback).toLowerCase();
+    return aliases[key] || fallback;
+}
+
+function normalizeDuaProfileValue(group, value, fallback = '') {
+    const raw = asString(value, '').toLowerCase();
+    if (!raw) {
+        return fallback;
+    }
+    const aliasesByGroup = {
+        profile_level: {
+            inicial: 'initial',
+            intermedio: 'intermediate',
+            avanzado: 'advanced',
+            heterogeneo: 'heterogeneous',
+            initial: 'initial',
+            intermediate: 'intermediate',
+            advanced: 'advanced',
+            heterogeneous: 'heterogeneous'
+        },
+        barrier: {
+            dificultad_lectora: 'reading_difficulty',
+            sobrecarga_sintactica: 'syntactic_overload',
+            atencion_limitada: 'limited_sustained_attention',
+            ansiedad_evaluativa: 'assessment_anxiety',
+            ninguna_relevante: 'none_relevant',
+            reading_difficulty: 'reading_difficulty',
+            syntactic_overload: 'syntactic_overload',
+            limited_sustained_attention: 'limited_sustained_attention',
+            assessment_anxiety: 'assessment_anxiety',
+            none_relevant: 'none_relevant'
+        },
+        modality: {
+            individual: 'individual',
+            pareja: 'pair',
+            grupo: 'group',
+            autonomo_online: 'autonomous_online',
+            pair: 'pair',
+            group: 'group',
+            autonomous_online: 'autonomous_online'
+        },
+        purpose: {
+            diagnostica: 'diagnostic',
+            formativa: 'formative',
+            sumativa: 'summative',
+            practica_autonoma: 'autonomous_practice',
+            diagnostic: 'diagnostic',
+            formative: 'formative',
+            summative: 'summative',
+            autonomous_practice: 'autonomous_practice'
+        },
+        variation_type: {
+            none: 'none',
+            representacion: 'representation',
+            accion_expresion: 'action_expression',
+            implicacion: 'engagement',
+            equilibradas: 'balanced',
+            representation: 'representation',
+            action_expression: 'action_expression',
+            engagement: 'engagement',
+            balanced: 'balanced'
+        }
+    };
+    const aliases = aliasesByGroup[group] || {};
+    return aliases[raw] || raw || fallback;
+}
+
+function normalizeDuaProfile(profile) {
+    const source = asObject(profile);
+    const rawCount = Number(source.variant_count);
+    return {
+        profile_level: normalizeDuaProfileValue('profile_level', source.profile_level, 'heterogeneous'),
+        barriers: asArray(source.barriers).map((item) => normalizeDuaProfileValue('barrier', item)).filter(Boolean),
+        modality: normalizeDuaProfileValue('modality', source.modality, 'individual'),
+        purpose: normalizeDuaProfileValue('purpose', source.purpose, 'formative'),
+        variation_type: normalizeDuaProfileValue('variation_type', source.variation_type, 'none'),
+        variant_count: Number.isFinite(rawCount) ? Math.max(1, Math.min(3, Math.floor(rawCount))) : 1
+    };
+}
+
 function normalizeChoiceOptions(interaction, forceBoolean = false) {
     const source = asObject(interaction);
     const candidates = [
@@ -66,8 +147,8 @@ function normalizeChoiceOptions(interaction, forceBoolean = false) {
         return {
             ...source,
             options: [
-                { id: 'o1', text: 'Verdadero', is_correct: true },
-                { id: 'o2', text: 'Falso', is_correct: false }
+                { id: 'o1', text: 'True', is_correct: true },
+                { id: 'o2', text: 'False', is_correct: false }
             ]
         };
     }
@@ -273,6 +354,27 @@ function normalizeInteractionByType(type, interactionValue, promptText = '') {
     return interaction;
 }
 
+function fallbackWhyThisType(type) {
+    const typeName = asString(type, 'exercise').replace(/_/g, ' ');
+    return `This ${typeName} format was selected to align interaction with the intended learning objective.`;
+}
+
+function fallbackWhyThisDistractors(type) {
+    if (type === 'matching') {
+        return 'Pairs were selected to reduce ambiguity and force conceptual discrimination between close ideas.';
+    }
+    if (type === 'ordering') {
+        return 'Steps were written to avoid superficial cues and require process understanding, not guessing.';
+    }
+    if (type === 'fill_gaps') {
+        return 'Gap options were designed to check precise understanding while minimizing random completion.';
+    }
+    if (type === 'multiple_choice' || type === 'true_false') {
+        return 'Alternatives were balanced to reveal misconceptions while preserving one clearly defensible answer.';
+    }
+    return 'Response elements were selected to reduce guessability and increase diagnostic pedagogical value.';
+}
+
 function normalizeExercise(exercise, index) {
     const ex = asObject(exercise);
     const xaiRaw = ex.xai;
@@ -319,8 +421,8 @@ function normalizeExercise(exercise, index) {
     const qualityRaw = xaiObj.quality_of_explanation;
     const quality = typeof qualityRaw === 'string'
         ? {
-            target_audience: 'docente',
-            clarity_level: 'media',
+            target_audience: 'teacher',
+            clarity_level: 'medium',
             actionable_feedback: qualityRaw,
             adaptation_notes: ''
         }
@@ -353,6 +455,53 @@ function normalizeExercise(exercise, index) {
 
     const type = asString(ex.type, 'multiple_choice');
 
+    const bloomAliases = {
+        recordar: 'remember',
+        comprender: 'understand',
+        aplicar: 'apply',
+        analizar: 'analyze',
+        evaluar: 'evaluate',
+        crear: 'create',
+        remember: 'remember',
+        understand: 'understand',
+        apply: 'apply',
+        analyze: 'analyze',
+        evaluate: 'evaluate',
+        create: 'create'
+    };
+    const difficultyAliases = {
+        bajo: 'low',
+        medio: 'medium',
+        alto: 'high',
+        low: 'low',
+        medium: 'medium',
+        high: 'high'
+    };
+    const cognitiveAliases = {
+        baja: 'low',
+        media: 'medium',
+        alta: 'high',
+        low: 'low',
+        medium: 'medium',
+        high: 'high'
+    };
+    const audienceAliases = {
+        docente: 'teacher',
+        estudiante: 'student',
+        mixta: 'mixed',
+        teacher: 'teacher',
+        student: 'student',
+        mixed: 'mixed'
+    };
+    const clarityAliases = {
+        baja: 'low',
+        media: 'medium',
+        alta: 'high',
+        low: 'low',
+        medium: 'medium',
+        high: 'high'
+    };
+
     return {
         id: asString(ex.id, `ex_auto_${Date.now()}_${index}`),
         reviewed: ex.reviewed === true,
@@ -366,13 +515,22 @@ function normalizeExercise(exercise, index) {
             explanation: asString(ex?.scaffolding?.explanation, ''),
             learn_more: asString(ex?.scaffolding?.learn_more, '')
         },
+        dua: {
+            label: asString(ex?.dua?.label, ''),
+            adaptation_focus: asString(ex?.dua?.adaptation_focus, ''),
+            xai_summary: asString(ex?.dua?.xai_summary, ''),
+            core_statement: asString(ex?.dua?.core_statement, asString(pedagogical.learning_objective, '')),
+            core_id: asString(ex?.dua?.core_id, `core_${index + 1}`),
+            variant_index: Math.max(1, Math.min(3, Number(ex?.dua?.variant_index) || 1)),
+            variant_total: Math.max(1, Math.min(3, Number(ex?.dua?.variant_total) || 1))
+        },
         xai: {
             why_this_exercise: asString(xaiObj.why_this_exercise, ''),
             pedagogical_alignment: {
                 learning_objective: asString(pedagogical.learning_objective, ''),
                 competency: asString(pedagogical.competency, ''),
-                bloom_level: asString(pedagogical.bloom_level, ''),
-                difficulty_level: asString(pedagogical.difficulty_level, '')
+                bloom_level: normalizeEnum(pedagogical.bloom_level, bloomAliases, 'understand'),
+                difficulty_level: normalizeEnum(pedagogical.difficulty_level, difficultyAliases, 'medium')
             },
             content_selection: {
                 why_this_content: asString(contentSelection.why_this_content, ''),
@@ -380,10 +538,10 @@ function normalizeExercise(exercise, index) {
                 alternatives_considered: asArray(contentSelection.alternatives_considered)
             },
             design_rationale: {
-                why_this_type: asString(xaiObj?.design_rationale?.why_this_type, ''),
-                why_this_distractors: asString(xaiObj?.design_rationale?.why_this_distractors, ''),
+                why_this_type: asString(xaiObj?.design_rationale?.why_this_type, fallbackWhyThisType(type)),
+                why_this_distractors: asString(xaiObj?.design_rationale?.why_this_distractors, fallbackWhyThisDistractors(type)),
                 expected_time_sec: Number(xaiObj?.design_rationale?.expected_time_sec) || 60,
-                cognitive_load: asString(xaiObj?.design_rationale?.cognitive_load, 'media')
+                cognitive_load: normalizeEnum(xaiObj?.design_rationale?.cognitive_load, cognitiveAliases, 'medium')
             },
             fairness_and_risk: {
                 potential_biases: asArray(fairness.potential_biases),
@@ -395,8 +553,8 @@ function normalizeExercise(exercise, index) {
                 override_policy: asString(oversight.override_policy, '')
             },
             quality_of_explanation: {
-                target_audience: asString(quality.target_audience, 'docente'),
-                clarity_level: asString(quality.clarity_level, 'media'),
+                target_audience: normalizeEnum(quality.target_audience, audienceAliases, 'teacher'),
+                clarity_level: normalizeEnum(quality.clarity_level, clarityAliases, 'medium'),
                 actionable_feedback: asString(quality.actionable_feedback, ''),
                 adaptation_notes: asString(quality.adaptation_notes, '')
             },
@@ -420,20 +578,35 @@ function normalizeExercise(exercise, index) {
 export function normalizeXaiBundle(bundle) {
     const root = asObject(bundle);
     const exercises = Array.isArray(root.exercises) ? root.exercises : [];
+    const language = asString(root?.resource_metadata?.language, 'es');
+    const normalizedLanguage = language === 'en' ? 'en' : 'es';
+
+    const sourceRefs = asArray(root?.generation_context?.source_material_refs)
+        .map((item) => asString(item))
+        .filter((item) => item.length >= 3);
 
     return {
         schema_version: asString(root.schema_version, 'xai-exercises/2.0.0'),
         resource_metadata: {
-            title: asString(root?.resource_metadata?.title, ''),
-            topic: asString(root?.resource_metadata?.topic, ''),
-            grade_level: asString(root?.resource_metadata?.grade_level, ''),
-            language: asString(root?.resource_metadata?.language, 'es')
+            title: asString(root?.resource_metadata?.title, normalizedLanguage === 'en' ? 'AI-generated XAI set' : 'Set XAI generado por IA'),
+            topic: asString(root?.resource_metadata?.topic, normalizedLanguage === 'en' ? 'General topic' : 'Tema general'),
+            grade_level: asString(root?.resource_metadata?.grade_level, normalizedLanguage === 'en' ? 'secondary' : 'secundaria'),
+            language: normalizedLanguage
         },
         generation_context: {
-            audience: asString(root?.generation_context?.audience, ''),
-            pedagogical_goal: asString(root?.generation_context?.pedagogical_goal, ''),
+            audience: asString(root?.generation_context?.audience, normalizedLanguage === 'en' ? 'Students' : 'Estudiantes'),
+            pedagogical_goal: asString(
+                root?.generation_context?.pedagogical_goal,
+                normalizedLanguage === 'en'
+                    ? 'Practice key concepts from the source material.'
+                    : 'Practicar conceptos clave del material fuente.'
+            ),
             constraints: asArray(root?.generation_context?.constraints),
-            source_material_refs: asArray(root?.generation_context?.source_material_refs)
+            source_material_refs: sourceRefs.length > 0
+                ? sourceRefs
+                : [normalizedLanguage === 'en' ? 'Teacher summary' : 'Resumen docente'],
+            dua_enabled: Boolean(root?.generation_context?.dua_enabled),
+            dua_profile: normalizeDuaProfile(root?.generation_context?.dua_profile)
         },
         exercises: exercises.map((exercise, index) => normalizeExercise(exercise, index))
     };

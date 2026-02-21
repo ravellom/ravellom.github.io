@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor de Ejercicios Interactivos | RecuEdu Labs</title>
+    <title>EduXAI-Visor | RecuEdu Labs</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -60,8 +60,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <section id="screen-upload" class="screen active">
             <div class="card-glass center-content">
                 <i class="ph ph-game-controller" style="font-size: 4rem; color: var(--primary);"></i>
-                <h1>Visor de Ejercicios Interactivos</h1>
-                <p>Carga ejercicios JSON generados con el <strong>Constructor de Ejercicios Educativos</strong></p>
+                <h1>EduXAI-Visor</h1>
+                <p>Carga ejercicios JSON generados con <strong>EduXAI Studio</strong></p>
                 
                 <div class="upload-area" id="drop-zone">
                     <i class="ph ph-upload-simple" style="font-size: 2rem;"></i>
@@ -74,7 +74,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </button>
                 
                 <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
-                    <i class="ph ph-info"></i> Compatible con archivos JSON del <a href="../ejecon/" style="color: var(--primary); text-decoration: underline;">Constructor de Ejercicios Educativos</a>
+                    <i class="ph ph-info"></i> Compatible con archivos JSON exportados desde <a href="../exe-builder-xai/" style="color: var(--primary); text-decoration: underline;">EduXAI Studio</a>
                 </p>
             </div>
         </section>
@@ -146,13 +146,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <span id="final-xp">0</span> XP
                 </div>
                 <p>Has completado todos los ejercicios.</p>
-                <button onclick="location.reload()" class="btn-action">Jugar de Nuevo</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <button id="btn-export-results" class="btn-action"><i class="ph ph-download-simple"></i> Exportar resultados</button>
+                    <button onclick="location.reload()" class="btn-action">Jugar de Nuevo</button>
+                </div>
             </div>
         </section>
 
     </main>
 
     <script src="../eje-shared/exercise-engine.js"></script>
-    <script src="visor.js"></script>
+    <script src="visor.js?v=20260221-01"></script>
 </body>
 </html>
