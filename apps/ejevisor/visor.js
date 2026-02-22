@@ -1,6 +1,7 @@
-/* * VISOR.JS - Versión Corregida * */
+/* * VISOR.JS - VersiÃ³n Corregida * */
 
 let state = {
+    locale: 'en',
     exercises: [],
     currentIndex: 0,
     score: 0,
@@ -22,6 +23,187 @@ let state = {
 };
 
 let ui = {}; // Se inicializa en DOMContentLoaded
+const VISOR_LOCALE_KEY = 'eduxai_visor_locale';
+const I18N = {
+    en: {
+        home: 'Home',
+        uploadSubtitle: 'Load JSON exercises generated with <strong>EduXAI Studio</strong>',
+        uploadSubtitleStandalone: 'Drag and drop your <strong>.json</strong> file here',
+        uploadSelectJson: 'Select JSON file',
+        uploadSelectFile: 'Select file',
+        loadSample: 'Load sample bundle',
+        compat: 'Compatible with JSON files exported from <a href="../eduxai-studio/" style="color: var(--primary); text-decoration: underline;">EduXAI Studio</a>',
+        newFile: 'New file',
+        previous: 'Previous',
+        next: 'Next',
+        nextExercise: 'Next exercise',
+        showHint: 'Show hint',
+        retry: 'Retry',
+        restartExercise: 'Restart exercise',
+        checkAnswer: 'Check answer',
+        resultTitle: 'Result',
+        resultPlaceholder: 'Explanation...',
+        missionTitle: 'Mission complete!',
+        missionSubtitle: 'You completed all exercises.',
+        exportResults: 'Export results',
+        playAgain: 'Play again',
+        question: 'Question',
+        noExercise: 'No exercise to display.',
+        noOrderedSteps: 'No ordered steps were defined for this exercise.',
+        dragWord: 'Drag each word to the correct gap.',
+        writeAnswer: 'Write your answer',
+        reference: 'Reference',
+        selectZone: 'Select the correct zone',
+        zones: 'zones',
+        noImage: 'No image configured',
+        target: 'Target',
+        tolerance: 'tolerance',
+        fileNoExercises: 'The file does not contain valid exercises',
+        loadSampleFail: 'Could not load the sample',
+        loadSampleError: 'Error loading sample:',
+        jsonError: 'JSON error:',
+        answerRequired: 'Please provide an answer before checking',
+        completeGaps: 'Complete all gaps before checking',
+        noGaps: 'No gaps were found to complete',
+        correct: 'Correct!',
+        incorrect: 'Incorrect',
+        chooseOption: 'Choose an option',
+        wellDone: 'Well done!',
+        wordMistakes: 'There are mistakes in the selected words',
+        correctCombination: 'Correct combination:',
+        gap: 'Gap',
+        perfectSequence: 'Perfect sequence',
+        orderWrong: 'The order is not correct',
+        matchOk: 'Connections are correct',
+        matchWrong: 'At least one pair does not match',
+        ungrouped: 'Some elements are still ungrouped',
+        perfectGrouping: 'Perfect classification',
+        wrongGrouping: 'Some elements are in the wrong group',
+        shortOk: 'Correct answer',
+        shortWrong: 'Review your answer',
+        zoneOk: 'Correct zone',
+        zoneWrong: 'Select the correct zone',
+        sliderOk: 'Correct! Value:',
+        sliderRetry: 'Try again. Current value:',
+        sliderTarget: 'target:',
+        feedbackGood: 'Excellent!',
+        feedbackBad: 'Not yet...',
+        hintPrefix: 'Hint:',
+        learnMore: 'Learn more',
+        alreadyGraded: '(Already graded before)'
+    },
+    es: {
+        home: 'Inicio',
+        uploadSubtitle: 'Carga ejercicios JSON generados con <strong>EduXAI Studio</strong>',
+        uploadSubtitleStandalone: 'Arrastra tu archivo <strong>.json</strong> aquí',
+        uploadSelectJson: 'Seleccionar archivo JSON',
+        uploadSelectFile: 'Seleccionar archivo',
+        loadSample: 'Cargar ejemplo',
+        compat: 'Compatible con JSON exportado desde <a href="../eduxai-studio/" style="color: var(--primary); text-decoration: underline;">EduXAI Studio</a>',
+        newFile: 'Nuevo archivo',
+        previous: 'Anterior',
+        next: 'Siguiente',
+        nextExercise: 'Siguiente ejercicio',
+        showHint: 'Ver pista',
+        retry: 'Reintentar',
+        restartExercise: 'Reiniciar ejercicio',
+        checkAnswer: 'Comprobar respuesta',
+        resultTitle: 'Resultado',
+        resultPlaceholder: 'Explicación...',
+        missionTitle: 'Misión cumplida',
+        missionSubtitle: 'Has completado todos los ejercicios.',
+        exportResults: 'Exportar resultados',
+        playAgain: 'Jugar de nuevo',
+        question: 'Pregunta',
+        noExercise: 'No hay ejercicio para mostrar.',
+        noOrderedSteps: 'No hay pasos definidos para ordenar en este ejercicio.',
+        dragWord: 'Arrastra cada palabra al espacio correcto.',
+        writeAnswer: 'Escribe tu respuesta',
+        reference: 'Referencia',
+        selectZone: 'Selecciona la zona correcta',
+        zones: 'zonas',
+        noImage: 'No hay imagen configurada',
+        target: 'Objetivo',
+        tolerance: 'tolerancia',
+        fileNoExercises: 'El archivo no contiene ejercicios válidos',
+        loadSampleFail: 'No se pudo cargar el ejemplo',
+        loadSampleError: 'Error al cargar ejemplo:',
+        jsonError: 'Error JSON:',
+        answerRequired: 'Por favor, proporciona una respuesta antes de comprobar',
+        completeGaps: 'Completa todos los espacios antes de comprobar',
+        noGaps: 'No se encontraron espacios para completar',
+        correct: 'Correcto',
+        incorrect: 'Incorrecto',
+        chooseOption: 'Elige una opción',
+        wellDone: 'Bien completado',
+        wordMistakes: 'Hay errores en las palabras',
+        correctCombination: 'Combinación correcta:',
+        gap: 'Hueco',
+        perfectSequence: 'Secuencia perfecta',
+        orderWrong: 'El orden no es correcto',
+        matchOk: 'Conexiones correctas',
+        matchWrong: 'Alguna pareja no coincide',
+        ungrouped: 'Faltan elementos por clasificar',
+        perfectGrouping: 'Clasificación perfecta',
+        wrongGrouping: 'Algunos elementos están en el grupo incorrecto',
+        shortOk: 'Respuesta correcta',
+        shortWrong: 'Revisa tu respuesta',
+        zoneOk: 'Zona correcta',
+        zoneWrong: 'Selecciona la zona correcta',
+        sliderOk: 'Correcto. Valor:',
+        sliderRetry: 'Intenta de nuevo. Valor actual:',
+        sliderTarget: 'objetivo:',
+        feedbackGood: 'Excelente',
+        feedbackBad: 'Aún no',
+        hintPrefix: 'Pista:',
+        learnMore: 'Aprender más',
+        alreadyGraded: '(Ya realizado anteriormente)'
+    }
+};
+
+function getLocale() {
+    const fromStorage = String(localStorage.getItem(VISOR_LOCALE_KEY) || '').trim().toLowerCase();
+    if (fromStorage === 'es' || fromStorage === 'en') {
+        return fromStorage;
+    }
+    return 'en';
+}
+
+function tr(key) {
+    const locale = state.locale === 'es' ? 'es' : 'en';
+    return I18N[locale]?.[key] || I18N.en[key] || key;
+}
+
+function applyLocale() {
+    document.documentElement.lang = state.locale === 'es' ? 'es' : 'en';
+    const map = [
+        ['topbar-home-label', 'home'],
+        ['upload-subtitle', window.location.pathname.toLowerCase().includes('/visor.html') ? 'uploadSubtitleStandalone' : 'uploadSubtitle'],
+        ['upload-select-label', window.location.pathname.toLowerCase().includes('/visor.html') ? 'uploadSelectFile' : 'uploadSelectJson'],
+        ['btn-load-example-label', 'loadSample'],
+        ['upload-compat', 'compat'],
+        ['btn-reset-label', 'newFile'],
+        ['btn-prev-label', 'previous'],
+        ['btn-hint-label', 'showHint'],
+        ['btn-next-nav-label', 'next'],
+        ['btn-retry-label', 'retry'],
+        ['btn-repeat-label', 'restartExercise'],
+        ['btn-next-label', window.location.pathname.toLowerCase().includes('/visor.html') ? 'nextExercise' : 'next'],
+        ['results-title', 'missionTitle'],
+        ['results-subtitle', 'missionSubtitle'],
+        ['btn-export-results-label', 'exportResults'],
+        ['btn-play-again', 'playAgain']
+    ];
+    map.forEach(([id, key]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = tr(key);
+    });
+    if (ui.btnCheck) ui.btnCheck.textContent = tr('checkAnswer');
+    if (ui.feedbackTitle) ui.feedbackTitle.textContent = tr('resultTitle');
+    if (ui.feedbackText) ui.feedbackText.textContent = tr('resultPlaceholder');
+    updateHUD();
+}
 
 const SoundFX = {
     ctx: null,
@@ -288,7 +470,7 @@ function initGameFromBundle(bundle) {
     };
     const exercises = resolveExercisesFromBundle(bundle);
     if (!Array.isArray(exercises) || exercises.length === 0) {
-        alert('El archivo no contiene ejercicios validos');
+        alert(tr('fileNoExercises'));
         return;
     }
     initGame(exercises);
@@ -302,10 +484,10 @@ async function loadExample() {
             const data = await response.json();
             initGameFromBundle(data);
         } else {
-            alert('No se pudo cargar el ejemplo');
+            alert(tr('loadSampleFail'));
         }
     } catch (error) {
-        alert('Error al cargar ejemplo: ' + error.message);
+        alert(`${tr('loadSampleError')} ${error.message}`);
     }
 }
 
@@ -341,7 +523,7 @@ function processFile(file) {
         try {
             const data = JSON.parse(ev.target.result);
             initGameFromBundle(data);
-        } catch (err) { alert('Error JSON: ' + err.message); }
+        } catch (err) { alert(`${tr('jsonError')} ${err.message}`); }
     };
     reader.readAsText(file);
 }
@@ -383,11 +565,17 @@ function goToUpload() {
 function updateHUD() {
     if (ui.score) ui.score.textContent = state.score;
     if (ui.streak) ui.streak.textContent = state.streak;
-    const total = state.exercises.length;
-    const current = state.currentIndex + 1;
-    if (ui.progressBar) ui.progressBar.style.width = `${(current / total) * 100}%`;
+    const total = Math.max(0, Number(state.exercises.length || 0));
+    const current = Math.max(1, state.currentIndex + 1);
+    if (ui.progressBar) {
+        const ratio = total > 0 ? (current / total) * 100 : 0;
+        ui.progressBar.style.width = `${Math.min(100, Math.max(0, ratio))}%`;
+    }
     const qDisplay = document.getElementById('question-display');
-    if (qDisplay) qDisplay.textContent = `Pregunta ${current}/${total}`;
+    if (qDisplay) {
+        const shownCurrent = total > 0 ? current : 0;
+        qDisplay.textContent = `${tr('question')} ${shownCurrent}/${total}`;
+    }
 }
 
 function initializeExerciseInteractions(ex) {
@@ -581,7 +769,7 @@ function renderCurrentExercise() {
     resetUI();
     const ex = state.exercises[state.currentIndex];
     if (!ex) {
-        ui.container.innerHTML = '<p style="text-align:center; color:#999;">No hay ejercicio para mostrar.</p>';
+        ui.container.innerHTML = `<p style="text-align:center; color:#999;">${tr('noExercise')}</p>`;
         return;
     }
 
@@ -658,7 +846,7 @@ function renderCurrentExercise() {
             .sort(() => Math.random() - 0.5);
 
         if (bankWords.length > 0) {
-            html += `<div class="cloze-bank-wrap" style="margin-top:16px;"><p class="helper">Arrastra cada palabra al espacio correcto.</p><div id="cloze-bank" class="cloze-bank" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:64px; padding:14px; border:2px dashed #cbd5e1; border-radius:16px; background:rgba(255,255,255,0.82);">${bankWords.map((word, index) => `<button type="button" class="cloze-token" style="font-family:inherit; border:1px solid #cbd5e1; border-radius:999px; padding:8px 16px; font-weight:700; background:var(--bg-card); color:var(--text-main); cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.08); font-size:1rem; line-height:1.2;" draggable="true" data-token-id="${index}" data-token-text-encoded="${encodeURIComponent(word)}">${word}</button>`).join('')}</div></div>`;
+            html += `<div class="cloze-bank-wrap" style="margin-top:16px;"><p class="helper">${tr('dragWord')}</p><div id="cloze-bank" class="cloze-bank" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:64px; padding:14px; border:2px dashed #cbd5e1; border-radius:16px; background:rgba(255,255,255,0.82);">${bankWords.map((word, index) => `<button type="button" class="cloze-token" style="font-family:inherit; border:1px solid #cbd5e1; border-radius:999px; padding:8px 16px; font-weight:700; background:var(--bg-card); color:var(--text-main); cursor:grab; box-shadow:0 1px 3px rgba(0,0,0,0.08); font-size:1rem; line-height:1.2;" draggable="true" data-token-id="${index}" data-token-text-encoded="${encodeURIComponent(word)}">${word}</button>`).join('')}</div></div>`;
         }
     }
 
@@ -667,7 +855,7 @@ function renderCurrentExercise() {
         const orderingSequence = resolveOrderingSequence(ex.interaction);
         const shuffled = [...orderingSequence].sort(() => Math.random() - 0.5);
         if (shuffled.length === 0) {
-            html += `<p class="helper">No hay pasos definidos para ordenar en este ejercicio.</p>`;
+            html += `<p class="helper">${tr('noOrderedSteps')}</p>`;
         }
         html += `<ul id="sortable-list" class="sortable-list">
             ${shuffled.map(item => `
@@ -727,8 +915,8 @@ function renderCurrentExercise() {
         const maxLen = ex.interaction.max_length || 200;
         html += `
             <div class="short-answer">
-                <input id="short-answer-input" type="text" maxlength="${maxLen}" placeholder="Escribe tu respuesta" />
-                ${ex.interaction.expected_answers?.length ? `<p class="helper">Referencia: ${ex.interaction.expected_answers.join(', ')}</p>` : ''}
+                <input id="short-answer-input" type="text" maxlength="${maxLen}" placeholder="${tr('writeAnswer')}" />
+                ${ex.interaction.expected_answers?.length ? `<p class="helper">${tr('reference')}: ${ex.interaction.expected_answers.join(', ')}</p>` : ''}
             </div>
         `;
     }
@@ -746,9 +934,9 @@ function renderCurrentExercise() {
                 html += `<button class="hotspot-zone" data-zone-id="${idx}" style="top:${top}%; left:${left}%; width:${width}%; height:${height}%;"></button>`;
             });
             html += '</div>';
-            html += `<p class="helper">Pulsa sobre la zona correcta (${ex.interaction.zones?.length || 0} zonas)</p>`;
+            html += `<p class="helper">${tr('selectZone')} (${ex.interaction.zones?.length || 0} ${tr('zones')})</p>`;
         } else {
-            html += '<p class="helper">No hay imagen configurada</p>';
+            html += `<p class="helper">${tr('noImage')}</p>`;
         }
         html += '</div>';
     }
@@ -767,7 +955,7 @@ function renderCurrentExercise() {
                     <span id="slider-value" style="font-weight: 700; font-size: 1.2rem; color: var(--primary);">${initialValue}</span>
                     <span>${max}</span>
                 </div>
-                <p class="helper">Objetivo: ${target} (tolerancia ±${ex.interaction.tolerance ?? 5})</p>
+                <p class="helper">${tr('target')}: ${target} (${tr('tolerance')} ±${ex.interaction.tolerance ?? 5})</p>
             </div>
         `;
     }
@@ -912,7 +1100,7 @@ function resetUI() {
     const hintBox = document.getElementById('hint-display');
     if (hintBox) hintBox.classList.remove('show');
     
-    // Habilitar botón de pista si existe
+    // Habilitar botÃ³n de pista si existe
     const ex = state.exercises[state.currentIndex];
     if (ex && ex.scaffolding && ex.scaffolding.hint_1) {
         if (ui.btnHint) {
@@ -926,7 +1114,7 @@ function resetUI() {
         }
     }
     
-    // Reiniciar botón de reintentar
+    // Reiniciar botÃ³n de reintentar
     if (ui.btnRetry) {
         ui.btnRetry.disabled = true;
         ui.btnRetry.style.opacity = "0.5";
@@ -962,7 +1150,7 @@ function retryExercise() {
     renderCurrentExercise();
 }
 
-// ===== NAVEGACIÓN =====
+// ===== NAVEGACIÃ“N =====
 
 function nextExercise() {
     if (state.currentIndex < state.exercises.length - 1) {
@@ -985,7 +1173,7 @@ function prevExercise() {
     }
 }
 
-// ===== VALIDACIÓN =====
+// ===== VALIDACIÃ“N =====
 
 function checkAnswer() {
     if (state.hasAnswered) return;
@@ -993,7 +1181,7 @@ function checkAnswer() {
     const ex = state.exercises[state.currentIndex];
     if (!ex) return;
     
-    // Validación: debe haber una respuesta según el tipo
+    // ValidaciÃ³n: debe haber una respuesta segÃºn el tipo
     // Tipos que leen del DOM no necesitan state.currentAnswer pre-establecido
     const domReadTypes = ['ordering', 'matching', 'grouping', 'fill_gaps', 'hotspot'];
     
@@ -1007,7 +1195,7 @@ function checkAnswer() {
     }
 
     if (!domReadTypes.includes(ex.type) && (state.currentAnswer === null || state.currentAnswer === undefined || String(state.currentAnswer).trim() === '')) {
-        alert('Por favor, proporciona una respuesta antes de comprobar');
+        alert(tr('answerRequired'));
         return;
     }
     
@@ -1016,7 +1204,7 @@ function checkAnswer() {
     let extraFeedbackHtml = '';
     const alreadyGraded = state.graded[ex.id] || false;
     
-    // LÓGICA DE VALIDACIÓN
+    // LÃ“GICA DE VALIDACIÃ“N
     
     if (ex.type === 'multiple_choice' || ex.type === 'true_false') {
         const options = Array.isArray(ex?.interaction?.options) ? ex.interaction.options : [];
@@ -1028,8 +1216,8 @@ function checkAnswer() {
             }
         }
         isCorrect = opt && opt.is_correct;
-        msg = isCorrect ? "¡Correcto!" : "Incorrecto";
-        if (!opt) msg = "Elige una opción";
+        msg = isCorrect ? tr('correct') : tr('incorrect');
+        if (!opt) msg = tr('chooseOption');
     } 
     else if (ex.type === 'fill_gaps') {
         const drops = Array.from(document.querySelectorAll('.cloze-drop'));
@@ -1037,7 +1225,7 @@ function checkAnswer() {
         if (drops.length > 0) {
             const allFilled = drops.every(zone => String(zone.dataset.userValueEncoded || '').trim() !== '');
             if (!allFilled) {
-                alert('Completa todos los espacios antes de comprobar');
+                alert(tr('completeGaps'));
                 return;
             }
 
@@ -1056,7 +1244,7 @@ function checkAnswer() {
         } else {
             const inputs = document.querySelectorAll('.cloze-input');
             if (inputs.length === 0) {
-                alert('No se encontraron espacios para completar');
+                alert(tr('noGaps'));
                 return;
             }
             Array.from(inputs).forEach((input) => {
@@ -1077,12 +1265,12 @@ function checkAnswer() {
                 return userValue.toLowerCase() === expectedValue.toLowerCase();
             });
         }
-        msg = isCorrect ? "¡Bien completado!" : "Hay errores en las palabras";
+        msg = isCorrect ? tr('wellDone') : tr('wordMistakes');
 
         if (!isCorrect) {
             const solved = expectedByGap.map(item => String(item || '').trim()).filter(Boolean);
             if (solved.length > 0) {
-                extraFeedbackHtml = `<div style="margin-top:12px; padding:10px; border-radius:8px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35);"><div style="font-weight:700; color:#166534; margin-bottom:6px;">✅ Combinación correcta:</div>${solved.map((answer, index) => `<div style="font-size:0.95em; color:#14532d;">Hueco ${index + 1}: <strong>${escapeHtml(answer)}</strong></div>`).join('')}</div>`;
+                extraFeedbackHtml = `<div style="margin-top:12px; padding:10px; border-radius:8px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35);"><div style="font-weight:700; color:#166534; margin-bottom:6px;">${tr('correctCombination')}</div>${solved.map((answer, index) => `<div style="font-size:0.95em; color:#14532d;">${tr('gap')} ${index + 1}: <strong>${escapeHtml(answer)}</strong></div>`).join('')}</div>`;
             }
         }
     }
@@ -1090,7 +1278,7 @@ function checkAnswer() {
         const items = document.querySelectorAll('.sortable-item');
         const currentOrder = Array.from(items).map(i => parseInt(i.dataset.id));
         isCorrect = currentOrder.every((val, i, arr) => !i || (val >= arr[i - 1]));
-        msg = isCorrect ? "Secuencia perfecta" : "El orden no es correcto";
+        msg = isCorrect ? tr('perfectSequence') : tr('orderWrong');
     }
     else if (ex.type === 'matching') {
         const leftItems = ex.interaction.pairs;
@@ -1099,7 +1287,7 @@ function checkAnswer() {
         isCorrect = Array.from(rightDOM).every((item, index) => {
             return item.dataset.match === leftItems[index].left;
         });
-        msg = isCorrect ? "Conexiones correctas" : "Alguna pareja no coincide";
+        msg = isCorrect ? tr('matchOk') : tr('matchWrong');
     }
     else if (ex.type === 'grouping') {
         const buckets = document.querySelectorAll('.bucket-dropzone');
@@ -1116,10 +1304,10 @@ function checkAnswer() {
 
         if (anyItemMissed) {
             isCorrect = false;
-            msg = "Faltan elementos por clasificar";
+            msg = tr('ungrouped');
         } else {
             isCorrect = allItemsCorrect;
-            msg = isCorrect ? "Clasificación perfecta" : "Algunos elementos están en el grupo incorrecto";
+            msg = isCorrect ? tr('perfectGrouping') : tr('wrongGrouping');
         }
     }
     else if (ex.type === 'short_answer') {
@@ -1128,21 +1316,21 @@ function checkAnswer() {
         const caseSensitive = ex.interaction.case_sensitive === true;
         const normalized = caseSensitive ? answer : answer.toLowerCase();
         isCorrect = expected.some(a => (caseSensitive ? a : a.toLowerCase()) === normalized);
-        msg = isCorrect ? "Respuesta correcta" : "Revisa tu respuesta";
+        msg = isCorrect ? tr('shortOk') : tr('shortWrong');
     }
     else if (ex.type === 'hotspot') {
         const zones = ex.interaction.zones || [];
         const selectedId = Number(state.currentAnswer);
         const selectedZone = zones[selectedId];
         isCorrect = !!selectedZone && selectedZone.is_correct === true;
-        msg = isCorrect ? "Zona correcta" : "Selecciona la zona correcta";
+        msg = isCorrect ? tr('zoneOk') : tr('zoneWrong');
     }
     else if (ex.type === 'slider') {
         const value = Number(state.currentAnswer);
         const target = ex.interaction.correct_value ?? 50;
         const tol = ex.interaction.tolerance ?? 5;
         isCorrect = Math.abs(value - target) <= tol;
-        msg = isCorrect ? `¡Correcto! Valor: ${value}` : `Intenta de nuevo. Valor actual: ${value}, objetivo: ${target} (±${tol})`;
+        msg = isCorrect ? `${tr('sliderOk')} ${value}` : `${tr('sliderRetry')} ${value}, ${tr('sliderTarget')} ${target} (±${tol})`;
     }
     
     state.hasAnswered = true;
@@ -1170,7 +1358,7 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFee
         SoundFX.playError();
     }
     
-    // Actualizar puntuación si es la primera vez
+    // Actualizar puntuaciÃ³n si es la primera vez
     if (!alreadyGraded && isCorrect) {
         state.score += 100 + (state.streak * 20);
         state.streak++;
@@ -1196,7 +1384,7 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFee
     }
     
     if (ui.feedbackTitle) {
-        ui.feedbackTitle.textContent = isCorrect ? '¡Excelente!' : 'Vaya...';
+        ui.feedbackTitle.textContent = isCorrect ? tr('feedbackGood') : tr('feedbackBad');
     }
     
     const hint = scaffolding?.hint_1;
@@ -1206,7 +1394,7 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFee
     let html = `<div>${msg}</div>`;
     
     if (!isCorrect && hint) {
-        html += `<div class="fb-hint" style="margin-top:12px; padding:10px; background:rgba(251,191,36,0.15); border-radius:8px; color:#92400e; font-weight:600;">💡 ${hint}</div>`;
+        html += `<div class="fb-hint" style="margin-top:12px; padding:10px; background:rgba(251,191,36,0.15); border-radius:8px; color:#92400e; font-weight:600;">${tr('hintPrefix')} ${hint}</div>`;
     }
     
     if (expl) {
@@ -1214,7 +1402,7 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFee
     }
     
     if (more) {
-        html += `<details class="fb-more" style="margin-top:12px; cursor:pointer;"><summary style="font-weight:700; color:var(--primary); cursor:pointer;">📚 Aprender más</summary><div style="margin-top:8px; padding:10px; background:rgba(59,130,246,0.05); border-radius:8px; color:#333;">${more}</div></details>`;
+        html += `<details class="fb-more" style="margin-top:12px; cursor:pointer;"><summary style="font-weight:700; color:var(--primary); cursor:pointer;">${tr('learnMore')}</summary><div style="margin-top:8px; padding:10px; background:rgba(59,130,246,0.05); border-radius:8px; color:#333;">${more}</div></details>`;
 
     }
 
@@ -1223,7 +1411,7 @@ function showFeedback(isCorrect, msg, scaffolding, alreadyGraded, exId, extraFee
     }
     
     if (alreadyGraded) {
-        html += `<div style="margin-top:12px; font-size:0.9em; color:#999; font-style:italic;">(Ya realizado anteriormente)</div>`;
+        html += `<div style="margin-top:12px; font-size:0.9em; color:#999; font-style:italic;">${tr('alreadyGraded')}</div>`;
     }
     
     if (ui.feedbackText) {
@@ -1258,8 +1446,9 @@ function triggerFinalConfetti() {
     }());
 }
 
-// ===== INICIALIZACIÓN =====
+// ===== INICIALIZACIÃ“N =====
 document.addEventListener('DOMContentLoaded', () => {
+    state.locale = getLocale();
     ui = {
         screens: {
             upload: document.getElementById('screen-upload'),
@@ -1284,10 +1473,11 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackText: document.getElementById('feedback-text'),
         feedbackIcon: document.getElementById('feedback-icon'),
         themeSelect: document.getElementById('theme-select'),
+        languageSelect: document.getElementById('language-select'),
         dropZone: document.getElementById('drop-zone')
     };
 
-    // Event Listeners con protección
+    // Event Listeners con protecciÃ³n
     const fileInput = document.getElementById('file-input');
     
     if (ui.dropZone) {
@@ -1321,7 +1511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ui.btnExportResults) ui.btnExportResults.addEventListener('click', exportStudentResults);
     if (ui.btnCloseModal) ui.btnCloseModal.addEventListener('click', closeModal);
     
-    // Botón cargar ejemplo
+    // BotÃ³n cargar ejemplo
     const btnLoadExample = document.getElementById('btn-load-example');
     if (btnLoadExample) {
         btnLoadExample.addEventListener('click', loadExample);
@@ -1332,5 +1522,20 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.setAttribute('data-theme', e.target.value);
         });
     }
+    if (ui.languageSelect) {
+        ui.languageSelect.value = state.locale;
+        ui.languageSelect.addEventListener('change', (e) => {
+            const next = String(e.target.value || 'en').trim().toLowerCase();
+            state.locale = next === 'es' ? 'es' : 'en';
+            localStorage.setItem(VISOR_LOCALE_KEY, state.locale);
+            applyLocale();
+            if (state.exercises.length > 0) {
+                renderCurrentExercise();
+            }
+        });
+    }
+    applyLocale();
 });
+
+
 

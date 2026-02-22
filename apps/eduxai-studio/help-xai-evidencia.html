@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos XAI basados en evidencia | EduXAI Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <style>
+        :root {
+            --border: #dbe2ea;
+            --text: #0f172a;
+            --muted: #475569;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --primary: #2563eb;
+            --ok: #166534;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+        }
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .hero h1 { margin: 0 0 8px; font-size: 1.5rem; }
+        .hero p { margin: 0; color: var(--muted); line-height: 1.5; }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .card h2 {
+            margin: 0 0 10px;
+            font-size: 1.05rem;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .card p, .card li { color: var(--muted); line-height: 1.5; }
+        .card ul { margin: 0; padding-left: 18px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 0.94rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+            padding: 8px;
+        }
+        th {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .ok { color: var(--ok); font-weight: 600; }
+        .small { font-size: 0.9rem; color: #64748b; }
+        .chip {
+            display: inline-block;
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        code {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5NTJRD37');</script>
+<!-- End Google Tag Manager -->
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NTJRD37"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand">
+                <i class="fa-solid fa-flask-vial"></i>
+                <span>RecuEdu Labs</span>
+            </a>
+            <div class="topbar-links">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i><span>Volver a la app</span></a>
+                <a href="help.html"><i class="fa-solid fa-circle-question"></i><span>Ayuda prÃ¡ctica</span></a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <h1>Fundamentos XAI basados en evidencia</h1>
+            <p>Esta guÃ­a documenta cÃ³mo el andamiaje de EduXAI Studio se alinea con literatura tÃ©cnica y pedagÃ³gica reciente, y cÃ³mo cada criterio del panel aporta transparencia, trazabilidad y control humano en contextos educativos.</p>
+        </section>
+
+        <article class="card">
+            <h2><i class="fa-solid fa-diagram-project"></i> Criterio agregado en la app</h2>
+            <p><span class="chip">Nuevo</span> En la versiÃ³n <code>xai-exercises/2.0.0</code> se incorporaron dos bloques obligatorios: <code>xai.human_oversight</code> y <code>xai.quality_of_explanation</code>.</p>
+            <p>El bloque <code>xai.human_oversight</code> incluye:</p>
+            <ul>
+                <li><code>review_protocol</code>: cÃ³mo revisa el docente el ejercicio antes de publicarlo.</li>
+                <li><code>teacher_action_on_risk</code>: quÃ© acciÃ³n toma el docente si detecta sesgo, riesgo o desajuste.</li>
+                <li><code>override_policy</code>: declaraciÃ³n explÃ­cita de que la decisiÃ³n final permanece en supervisiÃ³n humana.</li>
+            </ul>
+            <p>El bloque <code>xai.quality_of_explanation</code> incluye:</p>
+            <ul>
+                <li><code>target_audience</code>: a quiÃ©n estÃ¡ dirigida la explicaciÃ³n (docente, estudiante o mixta).</li>
+                <li><code>clarity_level</code>: nivel de claridad reportado (baja, media, alta).</li>
+                <li><code>actionable_feedback</code> y <code>adaptation_notes</code>: utilidad prÃ¡ctica y adaptaciÃ³n pedagÃ³gica.</li>
+            </ul>
+            <p class="ok">JustificaciÃ³n: la literatura reciente en XAI educativa enfatiza supervisiÃ³n humana y responsabilidad compartida como requisito estructural, no opcional.</p>
+        </article>
+
+        <article class="card">
+            <h2><i class="fa-solid fa-table"></i> Matriz criterio â†’ fundamento</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criterio del panel XAI</th>
+                        <th>Fundamento tÃ©cnico</th>
+                        <th>Fundamento pedagÃ³gico</th>
+                        <th>Referencias base</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>why_this_exercise</code> + <code>pedagogical_alignment</code></td>
+                        <td>ExplicaciÃ³n orientada a propÃ³sito, coherente con objetivo y nivel cognitivo.</td>
+                        <td>Facilita diseÃ±o instruccional explÃ­cito y evaluaciÃ³n alineada con competencias.</td>
+                        <td>CAEAI 2022; Bellas 2025; ACM Tutorial 2024</td>
+                    </tr>
+                    <tr>
+                        <td><code>content_selection</code> + <code>source_refs</code></td>
+                        <td>Trazabilidad de procedencia y decisiones de selecciÃ³n de contenido.</td>
+                        <td>Permite rendiciÃ³n de cuentas docente y revisiÃ³n curricular contextual.</td>
+                        <td>InfoFusion 2020, 2023; Transparency Index 2022</td>
+                    </tr>
+                    <tr>
+                        <td><code>design_rationale</code></td>
+                        <td>ExplicaciÃ³n de por quÃ© el formato de interacciÃ³n y distractores es adecuado.</td>
+                        <td>Conecta formato del ejercicio con carga cognitiva y tiempo esperado.</td>
+                        <td>ACM Tutorial 2024; XAI 2.0 (2024)</td>
+                    </tr>
+                    <tr>
+                        <td><code>fairness_and_risk</code></td>
+                        <td>IdentificaciÃ³n explÃ­cita de sesgos potenciales y mitigaciones.</td>
+                        <td>Promueve uso crÃ­tico y equidad en contextos heterogÃ©neos de aula.</td>
+                        <td>InfoFusion 2020, 2023, 2024; Bellas 2025</td>
+                    </tr>
+                    <tr>
+                        <td><code>human_oversight</code> <strong>(nuevo)</strong></td>
+                        <td>Formaliza supervisiÃ³n humana, protocolo de intervenciÃ³n y override.</td>
+                        <td>Mantiene autonomÃ­a docente y responsabilidad compartida en decisiones didÃ¡cticas con IA.</td>
+                        <td>UE 2025 (Explainable AI in education); Bellas 2025; AI Act UE 2024/1689</td>
+                    </tr>
+                    <tr>
+                        <td><code>quality_of_explanation</code> <strong>(nuevo)</strong></td>
+                        <td>EvalÃºa si la explicaciÃ³n es clara y accionable para la audiencia objetivo.</td>
+                        <td>Favorece comprensiÃ³n efectiva, uso crÃ­tico y ajuste didÃ¡ctico segÃºn perfil del estudiante.</td>
+                        <td>ACM Tutorial 2024; CAEAI 2022; Bellas 2025; XAI 2.0 (2024)</td>
+                    </tr>
+                    <tr>
+                        <td><code>uncertainty</code></td>
+                        <td>Expresa confianza y lÃ­mites del resultado, evitando sobreinterpretaciÃ³n.</td>
+                        <td>Apoya metacogniciÃ³n docente y mejora de iteraciones didÃ¡cticas.</td>
+                        <td>InfoFusion 2023, 2024; ACM Tutorial 2024</td>
+                    </tr>
+                    <tr>
+                        <td><code>counterfactual</code></td>
+                        <td>ExplicaciÃ³n contrastiva y accionable para adaptaciÃ³n del ejercicio.</td>
+                        <td>Permite ajustar tareas segÃºn contexto del grupo y necesidades emergentes.</td>
+                        <td>ACM Tutorial 2024 (DiCE/contrafactual); CAEAI 2022</td>
+                    </tr>
+                    <tr>
+                        <td><code>trace</code></td>
+                        <td>AuditorÃ­a mÃ­nima (modelo, prompt, marca temporal).</td>
+                        <td>Sostiene revisiÃ³n posterior, mejora continua y transparencia institucional.</td>
+                        <td>Transparency Index 2022; UE 2025; XAI 2.0 (2024)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+
+        <article class="card">
+            <h2><i class="fa-solid fa-list-check"></i> Criterios recomendados para fase siguiente</h2>
+            <ul>
+                <li><strong>Evidencia de iteraciÃ³n</strong>: registro de cambios tras revisiÃ³n humana (quÃ© se modificÃ³ y por quÃ©).</li>
+                <li><strong>AdecuaciÃ³n contextual ampliada</strong>: verificaciÃ³n explÃ­cita de pertinencia cultural/lingÃ¼Ã­stica local.</li>
+            </ul>
+            <p class="small">No se activaron aÃºn como obligatorios para mantener el MVP estable y no romper compatibilidad con proyectos previos.</p>
+        </article>
+
+        <article class="card">
+            <h2><i class="fa-solid fa-book"></i> Referencias utilizadas (nÃºcleo)</h2>
+            <ul>
+                <li>Barredo Arrieta et al. (2020). <em>Explainable AI: Concepts, taxonomies, opportunities and challenges toward responsible AI</em>. Information Fusion. DOI: 10.1016/j.inffus.2019.12.012</li>
+                <li>Ali et al. (2023). <em>Explainable AI: What we know and what is left to attain trustworthy AI</em>. Information Fusion. DOI: 10.1016/j.inffus.2023.101805</li>
+                <li>Longo et al. (2024). <em>XAI 2.0: A manifesto of open challenges and interdisciplinary directions</em>. Information Fusion. DOI: 10.1016/j.inffus.2024.102301</li>
+                <li>Khosravi et al. (2022). <em>Explainable AI in education</em>. Computers & Education: Artificial Intelligence. DOI: 10.1016/j.caeai.2022.100074</li>
+                <li>Chaudhry et al. (2022). <em>A transparency index framework for AI in education</em>. AIED 2022. DOI: 10.1007/978-3-031-11647-6_33</li>
+                <li>Bennetot et al. (2024). <em>A practical tutorial on explainable AI techniques</em>. ACM Computing Surveys. DOI: 10.1145/3670685</li>
+                <li>Publications Office of the European Union (2025). <em>Explainable AI in education: Fostering human oversight and shared responsibility</em>.</li>
+                <li>Bellas (2025). <em>Explainable artificial intelligence and its key role in education</em>. Metode. DOI: 10.7203/metode.15.30514</li>
+                <li>Reglamento (UE) 2024/1689 (AI Act).</li>
+            </ul>
+        </article>
+    </main>
+</body>
+</html>
+

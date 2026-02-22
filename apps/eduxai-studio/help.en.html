@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help | EduXAI Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <style>
+        :root { --border:#dbe2ea; --text:#0f172a; --muted:#475569; --bg:#f8fafc; --card:#fff; --ok:#166534; --primary:#1d4ed8; }
+        * { box-sizing:border-box; }
+        body { margin:0; font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif; color:var(--text); background:var(--bg); }
+        main { max-width:1100px; margin:0 auto; padding:20px; }
+        .hero { background:linear-gradient(135deg,#eff6ff 0%,#eef2ff 100%); border:1px solid #c7d2fe; border-radius:12px; padding:18px; margin-bottom:16px; }
+        .hero h1 { margin:0 0 8px; font-size:1.6rem; }
+        .hero p { margin:0; color:var(--muted); line-height:1.5; }
+        .grid { display:grid; grid-template-columns:1fr; gap:12px; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+        .card h2 { margin:0 0 10px; font-size:1.08rem; display:inline-flex; gap:8px; align-items:center; }
+        .card p,.card li { color:var(--muted); line-height:1.5; }
+        .card ul,.card ol { margin:0; padding-left:18px; }
+        .tag { display:inline-block; border:1px solid #bfdbfe; background:#eff6ff; color:#1d4ed8; border-radius:999px; padding:2px 10px; font-size:.8rem; margin-right:6px; margin-bottom:6px; }
+        .cta { display:inline-flex; gap:8px; align-items:center; text-decoration:none; border:1px solid #bfdbfe; background:#eff6ff; color:var(--primary); border-radius:10px; padding:8px 12px; font-weight:700; }
+        .ok { color:var(--ok); font-weight:600; }
+        code { background:#f1f5f9; border:1px solid var(--border); border-radius:6px; padding:1px 6px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.85em; }
+    </style>
+</head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5NTJRD37');</script>
+<!-- End Google Tag Manager -->
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NTJRD37"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div class="recuedu-topbar">
+        <div class="topbar-container">
+            <a href="../../index.html" class="topbar-brand"><i class="fa-solid fa-flask-vial"></i><span>RecuEdu Labs</span></a>
+            <div class="topbar-links">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i><span>Back to app</span></a>
+                <a href="help-xai-evidence.html"><i class="fa-solid fa-book-open-reader"></i><span>XAI Foundations</span></a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <h1>EduXAI Studio - Teacher Manual (Step by Step)</h1>
+            <p>Use this workflow to generate one conceptual exercise core per request, review XAI quality, and export a student-ready package with controlled UDL variants.</p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2><i class="fa-solid fa-list-check"></i> Step 1. Configure generation</h2>
+                <ol>
+                    <li>Pick <strong>Provider mode</strong>: Direct API or Manual AI prompt.</li>
+                    <li>Choose <strong>Exercise type</strong> (required).</li>
+                    <li>Set teacher-locked invariants: <strong>Learning objective</strong>, <strong>Bloom</strong>, <strong>Difficulty</strong>.</li>
+                    <li>Select <strong>Exercise output language</strong>.</li>
+                    <li>Optional: enable UDL variation (max 3 variants).</li>
+                </ol>
+            </article>
+
+            <article class="card">
+                <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Step 2. Generate and review</h2>
+                <ol>
+                    <li>Paste or upload source content and click <strong>Generate with AI</strong>.</li>
+                    <li>Review in <strong>Exercise Explorer</strong>: design, preview, pedagogical summary, technical XAI detail, validation.</li>
+                    <li>Mark exercises as reviewed once pedagogically approved.</li>
+                </ol>
+                <p class="ok">Tip: if the model output is incomplete, Studio applies local minimum XAI auto-repair before final validation.</p>
+            </article>
+
+            <article class="card">
+                <h2><i class="fa-solid fa-shield-check"></i> Step 3. Validate before export</h2>
+                <ul>
+                    <li>Check <strong>Validation Results</strong> and resolve critical errors first.</li>
+                    <li>Inspect warnings for semantic drift across UDL variants.</li>
+                    <li>Use <strong>XAI Insights</strong> for a quick transparency summary.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h2><i class="fa-solid fa-file-export"></i> Step 4. Export</h2>
+                <ul>
+                    <li><strong>Export teacher project</strong>: complete JSON with XAI and editing metadata.</li>
+                    <li><strong>Export for students</strong>: package optimized for EduXAI-Visor.</li>
+                    <li>In manual UDL export mode, choose one variant strategy before exporting.</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h2><i class="fa-solid fa-brain"></i> What XAI fields are expected?</h2>
+                <p>Each exercise should include a complete <code>xai</code> block:</p>
+                <div>
+                    <span class="tag">why_this_exercise</span><span class="tag">pedagogical_alignment</span><span class="tag">content_selection</span><span class="tag">design_rationale</span><span class="tag">fairness_and_risk</span><span class="tag">human_oversight</span><span class="tag">quality_of_explanation</span><span class="tag">uncertainty</span><span class="tag">counterfactual</span><span class="tag">trace</span>
+                </div>
+                <p>For theoretical and evidence mapping, open <a href="help-xai-evidence.html" target="_blank" rel="noopener noreferrer">XAI Foundations</a>.</p>
+            </article>
+
+            <article class="card">
+                <h2><i class="fa-solid fa-comments"></i> Feedback and improvement proposals</h2>
+                <p>Help evaluate the app with comments, critiques, and proposals:</p>
+                <p><a class="cta" href="https://example.com/eduxai-studio-feedback" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-up-right-from-square"></i> Open feedback form</a></p>
+                <p><small>You can replace this URL anytime from the app code.</small></p>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

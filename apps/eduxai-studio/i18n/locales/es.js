@@ -5,6 +5,7 @@ export default {
     },
     ui: {
         language: 'Idioma',
+        feedback: 'Feedback',
         help: 'Ayuda',
         xaiFoundations: 'Fundamentos XAI',
         schemaHint: 'Esquema oficial: schema/xai-exercise-schema.json',

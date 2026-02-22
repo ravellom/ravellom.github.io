@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduXAI-Visor | Gamificado</title>
-    
+    <title>EduXAI-Visor | Standalone</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-    
+
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="visor.css">
 </head>
@@ -28,24 +27,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <div class="theme-switcher">
+        <select id="language-select" aria-label="Language">
+            <option value="en" selected>English</option>
+            <option value="es">Español</option>
+        </select>
         <select id="theme-select">
-            <option value="theme-playful">🎨 Modo Gamer</option>
-            <option value="theme-clean">🧘 Modo Zen</option>
-            <option value="theme-dark">🌙 Modo Oscuro</option>
+            <option value="theme-playful">Gamer mode</option>
+            <option value="theme-clean">Zen mode</option>
+            <option value="theme-dark">Dark mode</option>
         </select>
     </div>
 
     <main id="app-container">
-        
         <section id="screen-upload" class="screen active">
             <div class="card-glass center-content">
                 <i class="ph ph-game-controller" style="font-size: 4rem; color: var(--primary);"></i>
                 <h1>EduXAI-Visor</h1>
-                <p>Arrastra tu archivo <strong>.json</strong> aquí</p>
-                
+                <p id="upload-subtitle">Drag and drop your <strong>.json</strong> file here</p>
+
                 <div class="upload-area" id="drop-zone">
                     <i class="ph ph-upload-simple" style="font-size: 2rem;"></i>
-                    <span>Seleccionar Archivo</span>
+                    <span id="upload-select-label">Select file</span>
                     <input type="file" id="file-input" accept=".json" hidden>
                 </div>
             </div>
@@ -64,30 +66,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <i class="ph ph-fire-fill"></i> <span id="streak-display">0</span>
                     </div>
                     <div class="stat-badge">
-                        <i class="ph ph-list-numbers"></i> <span id="question-display">Pregunta 1/1</span>
+                        <i class="ph ph-list-numbers"></i> <span id="question-display">Question 1/1</span>
                     </div>
                 </div>
             </header>
 
-            <div id="exercise-area" class="exercise-container">
-                </div>
+            <div id="exercise-area" class="exercise-container"></div>
 
             <div class="bottom-bar">
                 <div class="nav-row">
-                    <button id="btn-prev" class="btn-action" type="button"><i class="ph ph-arrow-left"></i> Anterior</button>
-                    <button id="btn-repeat" class="btn-ghost" type="button" disabled><i class="ph ph-arrow-counter-clockwise"></i> Reiniciar ejercicio</button>
-                    <button id="btn-reset" class="btn-action" type="button"><i class="ph ph-arrow-bend-down-left"></i> Cargar nuevos</button>
+                    <button id="btn-prev" class="btn-action" type="button"><i class="ph ph-arrow-left"></i> <span id="btn-prev-label">Previous</span></button>
+                    <button id="btn-repeat" class="btn-ghost" type="button" disabled><i class="ph ph-arrow-counter-clockwise"></i> <span id="btn-repeat-label">Restart exercise</span></button>
+                    <button id="btn-reset" class="btn-action" type="button"><i class="ph ph-arrow-bend-down-left"></i> <span id="btn-reset-label">Load new file</span></button>
                 </div>
-                <button id="btn-check" class="btn-main" disabled>Comprobar Respuesta</button>
+                <button id="btn-check" class="btn-main" disabled>Check answer</button>
             </div>
 
             <div id="feedback-overlay" class="feedback-modal hidden">
                 <div class="feedback-content">
                     <i id="feedback-icon" class="ph"></i>
-                    <h2 id="feedback-title">Resultado</h2>
-                    <p id="feedback-text">Explicación...</p>
+                    <h2 id="feedback-title">Result</h2>
+                    <p id="feedback-text">Explanation...</p>
                     <button id="btn-next" class="btn-next">
-                        Siguiente Ejercicio <i class="ph ph-arrow-right"></i>
+                        <span id="btn-next-label">Next exercise</span> <i class="ph ph-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -96,21 +97,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <section id="screen-results" class="screen">
             <div class="card-glass center-content">
                 <i class="ph ph-trophy-fill" style="font-size: 5rem; color: #fbbf24;"></i>
-                <h2>¡Misión Cumplida!</h2>
+                <h2 id="results-title">Mission complete!</h2>
                 <div class="final-score">
                     <span id="final-xp">0</span> XP
                 </div>
-                <p>Has completado todos los ejercicios.</p>
+                <p id="results-subtitle">You completed all exercises.</p>
                 <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-                    <button id="btn-export-results" class="btn-action"><i class="ph ph-download-simple"></i> Exportar resultados</button>
-                    <button onclick="location.reload()" class="btn-action">Jugar de Nuevo</button>
+                    <button id="btn-export-results" class="btn-action"><i class="ph ph-download-simple"></i> <span id="btn-export-results-label">Export results</span></button>
+                    <button onclick="location.reload()" class="btn-action" id="btn-play-again">Play again</button>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <script src="../eje-shared/exercise-engine.js"></script>
-    <script src="visor.js?v=20260221-01"></script>
+    <script src="../eje-shared/exercise-engine.js?v=20260221-01"></script>
+    <script src="visor.js?v=20260221-03"></script>
 </body>
 </html>

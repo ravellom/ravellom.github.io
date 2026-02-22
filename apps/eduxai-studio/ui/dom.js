@@ -6,6 +6,7 @@ export function getDomElements() {
         editorResizer: document.getElementById('editor-resizer'),
         helpLink: document.getElementById('help-link'),
         helpEvidenceLink: document.getElementById('help-evidence-link'),
+        feedbackLink: document.getElementById('feedback-link'),
         languageSelect: document.getElementById('language-select'),
         apiKeyInput: document.getElementById('api-key-input'),
         modelSelect: document.getElementById('model-select'),

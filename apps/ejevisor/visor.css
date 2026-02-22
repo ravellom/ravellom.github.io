@@ -58,11 +58,21 @@ body {
 
 /* Ajuste cuando tiene topbar de RecuEdu Labs */
 body.has-topbar {
-    padding-top: 42px; /* Altura del topbar */
+    padding-top: 42px; /* Keep content below fixed topbar */
 }
 
 body.has-topbar #app-container {
     height: calc(100vh - 42px);
+}
+
+/* Keep topbar attached to the top edge */
+body.has-topbar .recuedu-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 2000;
 }
 
 #app-container {
@@ -119,11 +129,14 @@ body.has-topbar #app-container {
    ========================================= */
 
 /* SELECTOR DE TEMA */
-.theme-switcher { 
-    position: fixed; 
-    top: 15px; 
-    right: 15px; 
-    z-index: 200; 
+.theme-switcher {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 200;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 /* Ajustar posición cuando hay topbar */

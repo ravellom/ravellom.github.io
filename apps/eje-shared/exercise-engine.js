@@ -14,6 +14,29 @@
         return escapeHtml(value).replace(/\r?\n/g, '<br>');
     }
 
+    function getCurrentLocale() {
+        const lang = String(document?.documentElement?.lang || '').trim().toLowerCase();
+        if (lang.startsWith('es')) return 'es';
+        if (lang.startsWith('en')) return 'en';
+        const selected = document.getElementById('language-select');
+        const value = String(selected?.value || '').trim().toLowerCase();
+        return value === 'es' ? 'es' : 'en';
+    }
+
+    function localizeTrueFalseText(text) {
+        const raw = String(text || '').trim();
+        if (!raw) return raw;
+        const normalized = raw.toLowerCase();
+        const locale = getCurrentLocale();
+        if (normalized === 'true' || normalized === 'verdadero') {
+            return locale === 'es' ? 'Verdadero' : 'True';
+        }
+        if (normalized === 'false' || normalized === 'falso') {
+            return locale === 'es' ? 'Falso' : 'False';
+        }
+        return raw;
+    }
+
     function buildFillGapsModel(templateSource, correctAnswers) {
         const safeTemplate = String(templateSource || '');
         const answers = Array.isArray(correctAnswers) ? correctAnswers : [];
@@ -293,7 +316,10 @@
             const options = Array.isArray(interaction.options) ? interaction.options : [];
             html += `<div class="options-grid">${options.map((opt, index) => {
                 const optionId = escapeHtml(String(opt.id ?? ''));
-                return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}">${escapeHtml(opt.text || '')}</button>`;
+                const optionText = exercise.type === 'true_false'
+                    ? localizeTrueFalseText(opt.text)
+                    : String(opt.text || '');
+                return `<button class="option-btn" data-option-id="${optionId}" data-option-index="${index}">${escapeHtml(optionText)}</button>`;
             }).join('')}</div>`;
         } else if (exercise.type === 'fill_gaps') {
             const template = String(interaction.template || content.prompt_text || '');
