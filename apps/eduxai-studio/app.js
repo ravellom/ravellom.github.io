@@ -941,6 +941,64 @@ function applyLocalXaiAutoRepair(bundle, { teacherConfig, modelName, promptId = 
     return bundle;
 }
 
+function buildRepairPrompt({
+    bundle,
+    validation,
+    teacherConfig,
+    selectedExerciseType,
+    exerciseCount,
+    exerciseLanguage = 'en',
+    duaConfig
+}) {
+    const issues = Array.isArray(validation?.errors) ? validation.errors.slice(0, 24) : [];
+    const issueLines = issues.length > 0
+        ? issues.map((item, index) => `${index + 1}. ${String(item || '').trim()}`).join('\n')
+        : 'No explicit issues listed. Ensure full schema compliance and minimum XAI criteria.';
+    const compactDua = duaConfig && typeof duaConfig === 'object'
+        ? {
+            enabled: Boolean(duaConfig.enabled),
+            variation_type: String(duaConfig.variation_type || 'none').trim() || 'none',
+            variant_count: Math.max(1, Math.min(3, Number(duaConfig.variant_count) || 1))
+        }
+        : { enabled: false, variation_type: 'none', variant_count: 1 };
+
+    return `You are an instructional designer and XAI specialist.
+Return ONLY valid JSON, no markdown, no comments.
+
+Repair the JSON below. Keep pedagogical meaning and exercise intent, but fix structure and missing XAI requirements.
+
+MANDATORY REPAIR RULES:
+- Keep exactly ${exerciseCount} exercises.
+- Keep requested base type policy consistent with selected type "${selectedExerciseType}".
+- Keep teacher invariants exactly:
+  - learning_objective: "${String(teacherConfig?.learning_objective || '').trim()}"
+  - bloom_level: "${String(teacherConfig?.bloom_level || 'understand').trim()}"
+  - difficulty_level: "${String(teacherConfig?.difficulty_level || 'medium').trim()}"
+- Keep output language locale for learner-facing text: "${String(exerciseLanguage || 'en').trim().toLowerCase()}".
+- Ensure every exercise has complete xai fields:
+  why_this_exercise, pedagogical_alignment, content_selection, design_rationale,
+  fairness_and_risk, human_oversight, quality_of_explanation, uncertainty,
+  counterfactual, trace.
+- Ensure min quality thresholds:
+  why_this_exercise >= 40 chars,
+  content_selection.why_this_content >= 40 chars,
+  at least 1 source_refs,
+  at least 1 uncertainty.limitations,
+  complete human_oversight, complete quality_of_explanation,
+  valid trace.model, trace.prompt_id, trace.timestamp_utc.
+- Preserve IDs if possible.
+- Do not add text outside JSON.
+
+DUA CONTEXT:
+${JSON.stringify(compactDua, null, 2)}
+
+ERRORS TO FIX:
+${issueLines}
+
+JSON TO REPAIR:
+${JSON.stringify(bundle, null, 2)}`;
+}
+
 function buildGenerationBatchSpecs({ useTypePlan, typePlan, exerciseCount, chunkSize }) {
     const hasTypePlan = typePlan && typeof typePlan === 'object' && !Array.isArray(typePlan) && Object.keys(typePlan).length > 0;
     if (useTypePlan && hasTypePlan) {
@@ -2556,7 +2614,67 @@ async function handleGenerate(elements) {
             return;
         }
 
-        const appendedBundle = appendGeneratedBundle(appState.data, mergedBundle);
+        let finalBundle = mergedBundle;
+        let preValidation = validateXaiBundle(finalBundle, t);
+        if (!preValidation.valid) {
+            setStatus(elements, t('status.repairingWithAi'), 'warning');
+            const repairPrompt = buildRepairPrompt({
+                bundle: finalBundle,
+                validation: preValidation,
+                teacherConfig,
+                selectedExerciseType,
+                exerciseCount,
+                exerciseLanguage: outputLanguage,
+                duaConfig
+            });
+            const previousTrace = readPromptTraceFromSession();
+            savePromptTraceToSession(`${previousTrace}\n\n=== Repair pass (auto) ===\n${repairPrompt}`);
+
+            try {
+                const repairResult = await generateWithModelRetries({
+                    apiKey,
+                    model,
+                    prompt: repairPrompt,
+                    isPreviewModel,
+                    maxAttempts: 2
+                });
+                let repairedBundle = enforceRequestedExerciseCount(mergeGeneratedBundles([repairResult.parsed]), exerciseCount);
+                if (repairedBundle && typeof repairedBundle === 'object') {
+                    enforceCanonicalDuaProfile(repairedBundle, duaConfig);
+                    applyDuaVariantFallback(repairedBundle, duaConfig);
+                    ensureRequiredRootFields(repairedBundle, { locale: outputLanguage, content, exerciseCount });
+                    enforceTeacherInvariants(repairedBundle, teacherConfig, selectedExerciseType);
+                    harmonizeEquivalentTypes(repairedBundle, teacherConfig, selectedExerciseType);
+                    enforceCoreStatementInvariantByCore(repairedBundle, teacherConfig);
+                    applyLocalXaiAutoRepair(repairedBundle, {
+                        teacherConfig,
+                        modelName: model,
+                        locale: outputLanguage
+                    });
+                }
+
+                const repairedValidation = validateXaiBundle(repairedBundle, t);
+                const previousCritical = Number(preValidation?.summary?.criticalCount || 9999);
+                const repairedCritical = Number(repairedValidation?.summary?.criticalCount || 9999);
+                if (repairedValidation.valid || repairedCritical < previousCritical) {
+                    finalBundle = repairedBundle;
+                    preValidation = repairedValidation;
+                    setStatus(
+                        elements,
+                        repairedValidation.valid
+                            ? t('status.repairSucceeded')
+                            : t('status.repairPartiallyImproved', { from: previousCritical, to: repairedCritical }),
+                        repairedValidation.valid ? 'success' : 'warning'
+                    );
+                } else {
+                    setStatus(elements, t('status.repairNotImproved'), 'warning');
+                }
+            } catch {
+                setStatus(elements, t('status.repairFailed'), 'warning');
+            }
+        }
+
+        const appendedBundle = appendGeneratedBundle(appState.data, finalBundle);
         const validation = applyBundle(elements, appendedBundle);
 
         if (validation.valid) {

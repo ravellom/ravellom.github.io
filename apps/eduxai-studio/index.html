@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,10 +63,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="toolbar">
             <label for="language-select" data-i18n="ui.language">Idioma</label>
             <select id="language-select" class="control-select" aria-label="Seleccionar idioma">
-                <option value="es">EspaÃ±ol</option>
+                <option value="es">EspaÃƒÂ±ol</option>
                 <option value="en" selected>English</option>
             </select>
-            <a href="../ejevisor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-visor-link" style="text-decoration:none; padding:6px 10px;">
+            <a href="../eduxai-visor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-visor-link" style="text-decoration:none; padding:6px 10px;">
                 <i class="ph ph-student"></i> <span>EduXAI-Visor</span>
             </a>
             <a id="feedback-link" href="https://example.com/eduxai-studio-feedback" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
@@ -83,7 +83,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <main class="layout">
         <aside class="panel panel-left">
-            <h2 data-i18n="panel.ai">GeneraciÃ³n con IA</h2>
+            <h2 data-i18n="panel.ai">GeneraciÃƒÂ³n con IA</h2>
             <label class="field-label" for="api-key-input" data-i18n="ui.apiKey">API Key</label>
             <input id="api-key-input" class="text-input" type="password" autocomplete="off" placeholder="AIza...">
 
@@ -91,9 +91,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <select id="model-select" class="control-select" aria-label="Seleccionar modelo">
                 <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
                 <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                <option value="gemini-2.5-flash">Gemini 2.5 Flash (RÃ¡pido)</option>
+                <option value="gemini-2.5-flash">Gemini 2.5 Flash (RÃƒÂ¡pido)</option>
                 <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
-                <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (MÃ¡s potente)</option>
+                <option value="gemini-3-pro-preview">Gemini 3 Pro Preview (MÃƒÂ¡s potente)</option>
             </select>
             <label class="field-label" for="provider-mode" data-i18n="ui.providerMode">Provider mode</label>
             <select id="provider-mode" class="control-select" aria-label="Provider mode">
@@ -114,7 +114,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
 
-            <label class="field-label" for="exercise-count" data-i18n="ui.exerciseCount">Cantidad de ejercicios (mÃ¡x 10)</label>
+            <label class="field-label" for="exercise-count" data-i18n="ui.exerciseCount">Cantidad de ejercicios (mÃƒÂ¡x 10)</label>
             <select id="exercise-count" class="control-select" aria-label="Cantidad de ejercicios">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -184,7 +184,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <label class="field-label" for="content-input" data-i18n="ui.content">Contenido o resumen</label>
-            <textarea id="content-input" class="json-input" spellcheck="false" placeholder="Pega aquÃ­ el resumen o contenido base para generar el set de ejercicios XAI..."></textarea>
+            <textarea id="content-input" class="json-input" spellcheck="false" placeholder="Pega aquÃƒÂ­ el resumen o contenido base para generar el set de ejercicios XAI..."></textarea>
 
             <input id="summary-file" type="file" accept=".txt,.md,.json,.docx,.doc,.pdf" style="display:none;">
             <div class="panel-actions">
@@ -205,7 +205,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="panel-actions">
                 <button id="btn-export-project" class="btn btn-outline" data-i18n="actions.exportProject">Exportar proyecto docente</button>
                 <button id="btn-export-visor" class="btn btn-primary" data-i18n="actions.exportStudents">Export for students</button>
-                <a href="../ejevisor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none;">
+                <a href="../eduxai-visor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none;">
                     <i class="ph ph-arrow-square-out"></i> Open EduXAI-Visor
                 </a>
             </div>
@@ -221,7 +221,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <i class="ph ph-squares-four"></i> <span data-i18n="panel.explorer">Explorador de ejercicios XAI</span>
                 </button>
                 <button id="tab-btn-insights" class="main-tab-btn" type="button" role="tab" aria-selected="false" data-target="tab-insights">
-                    <i class="ph ph-eye"></i> <span data-i18n="insights.tabLabel">XAI Insights (Â¿Por quÃ©?)</span>
+                    <i class="ph ph-eye"></i> <span data-i18n="insights.tabLabel">XAI Insights (Ã‚Â¿Por quÃƒÂ©?)</span>
                 </button>
             </div>
 
@@ -245,14 +245,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
 
                 <details class="json-details">
-                    <summary data-i18n="panel.output">JSON XAI generado (tÃ©cnico)</summary>
+                    <summary data-i18n="panel.output">JSON XAI generado (tÃƒÂ©cnico)</summary>
                     <textarea id="json-input" class="json-input" spellcheck="false" placeholder="{\n  \"schema_version\": \"xai-exercises/2.0.0\",\n  ...\n}"></textarea>
                 </details>
 
-                <h2 data-i18n="panel.results">Resultados de validaciÃ³n</h2>
+                <h2 data-i18n="panel.results">Resultados de validaciÃƒÂ³n</h2>
                 <div id="summary-card" class="summary-card" aria-live="polite"></div>
                 <details id="prompt-trace-details" class="json-details prompt-trace-details">
-                    <summary data-i18n="panel.promptTrace">Prompt final usado (sesiÃ³n actual)</summary>
+                    <summary data-i18n="panel.promptTrace">Prompt final usado (sesiÃƒÂ³n actual)</summary>
                     <pre id="prompt-trace-output" class="prompt-trace-output"></pre>
                 </details>
                 <div class="result-grid">
@@ -270,7 +270,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <section id="tab-insights" class="main-tab-panel" role="tabpanel">
                 <div class="insights-header">
                     <h2><i class="ph ph-brain"></i> <span data-i18n="insights.title">Informe de transparencia</span></h2>
-                    <p data-i18n="insights.desc">Resumen rÃ¡pido del estado de calidad, trazabilidad y supervisiÃ³n humana del set generado.</p>
+                    <p data-i18n="insights.desc">Resumen rÃƒÂ¡pido del estado de calidad, trazabilidad y supervisiÃƒÂ³n humana del set generado.</p>
                 </div>
 
                 <div class="insight-kpis">
@@ -279,7 +279,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <strong id="insight-kpi-exercises" class="insight-value">0</strong>
                     </article>
                     <article class="insight-card ok">
-                        <span class="insight-label" data-i18n="insights.kpi_errors">Errores crÃ­ticos</span>
+                        <span class="insight-label" data-i18n="insights.kpi_errors">Errores crÃƒÂ­ticos</span>
                         <strong id="insight-kpi-errors" class="insight-value">0</strong>
                     </article>
                     <article class="insight-card warn">
@@ -290,15 +290,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <div class="insight-grid">
                     <article class="insight-block">
-                        <h3><i class="ph ph-list-checks"></i> <span data-i18n="insights.rationale_title">DecisiÃ³n lÃ³gica (rationale)</span></h3>
+                        <h3><i class="ph ph-list-checks"></i> <span data-i18n="insights.rationale_title">DecisiÃƒÂ³n lÃƒÂ³gica (rationale)</span></h3>
                         <p id="insight-rationale"></p>
                     </article>
                     <article class="insight-block">
-                        <h3><i class="ph ph-scales"></i> <span data-i18n="insights.bias_title">MitigaciÃ³n de sesgos</span></h3>
+                        <h3><i class="ph ph-scales"></i> <span data-i18n="insights.bias_title">MitigaciÃƒÂ³n de sesgos</span></h3>
                         <p id="insight-bias"></p>
                     </article>
                     <article class="insight-block">
-                        <h3><i class="ph ph-graduation-cap"></i> <span data-i18n="insights.pedagogy_title">AlineaciÃ³n pedagÃ³gica</span></h3>
+                        <h3><i class="ph ph-graduation-cap"></i> <span data-i18n="insights.pedagogy_title">AlineaciÃƒÂ³n pedagÃƒÂ³gica</span></h3>
                         <p id="insight-pedagogy"></p>
                     </article>
                     <article class="insight-block">
@@ -308,8 +308,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
 
                 <div class="human-review-callout">
-                    <strong><i class="ph ph-user-circle-gear"></i> <span data-i18n="insights.human_review_title">SupervisiÃ³n humana requerida</span></strong>
-                    <p data-i18n="insights.human_review_desc">Antes de publicar o aplicar en aula, revisa precisiÃ³n disciplinar, adecuaciÃ³n Ã©tica y pertinencia para tu contexto educativo.</p>
+                    <strong><i class="ph ph-user-circle-gear"></i> <span data-i18n="insights.human_review_title">SupervisiÃƒÂ³n humana requerida</span></strong>
+                    <p data-i18n="insights.human_review_desc">Antes de publicar o aplicar en aula, revisa precisiÃƒÂ³n disciplinar, adecuaciÃƒÂ³n ÃƒÂ©tica y pertinencia para tu contexto educativo.</p>
                 </div>
             </section>
         </section>
@@ -319,6 +319,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script type="module" src="app.js?v=20260221-34"></script>
 </body>
 </html>
+
 
 
 
