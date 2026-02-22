@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../../assets/css/recuedu.css">
+<link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+<link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
     <title>Qualitative Analysis - Text Coding & NLP</title>
     <script type="module" crossorigin src="/apps/cuali-analysis/assets/index-CHJs1WYz.js"></script>
     <link rel="stylesheet" crossorigin href="/apps/cuali-analysis/assets/index-BdyrGfc_.css">
@@ -20,7 +24,41 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NTJRD37"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    <div class="recuedu-topbar">
+      <div class="topbar-container">
+        <a href="../../index.html" class="topbar-brand">
+          <i class="fa-solid fa-flask-vial"></i>
+          <span>RecuEdu Labs</span>
+        </a>
+        <div class="topbar-links">
+          <a href="../../index.html">
+            <i class="fa-solid fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="https://github.com/ravellom" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </div>
+      </div>
+    </div>
     <div id="root"></div>
 
+      <script src="../../assets/js/app-version.js"></script>
+    <script src="../../assets/js/app-trust-bar.js"></script>
+    <script>
+      const appMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.cualiAnalysis) || {};
+      const sharedMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.shared) || {};
+      window.initAppTrustBar({
+        appName: "Cuali Analysis",
+        version: appMeta.version || "v0.0.0",
+        updated: appMeta.updated || "2026-02-22",
+        locale: document.documentElement.lang || "en",
+        termsUrl: "../../assets/legal/terms-short.html",
+        dataUrl: "../../assets/legal/data-policy-short.html",
+        feedbackUrl: sharedMeta.feedbackUrl || "https://forms.gle/NqZWPNXopq6YHJK7A",
+        changelogUrl: appMeta.changelogUrl || "./CHANGELOG.md",
+        roadmapUrl: appMeta.roadmapUrl || "./ROADMAP.md"
+      });
+    </script>
   </body>
 </html>

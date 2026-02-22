@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../assets/css/recuedu.css" />
   <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+<link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <!-- Google Tag Manager -->
@@ -114,5 +115,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <script src="script.js"></script>
+  <script src="../../assets/js/app-version.js"></script>
+  <script src="../../assets/js/app-trust-bar.js"></script>
+  <script>
+    const appMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.biblioclick) || {};
+    const sharedMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.shared) || {};
+    window.initAppTrustBar({
+      appName: "BiblioClick",
+      version: appMeta.version || "v0.0.0",
+      updated: appMeta.updated || "2026-02-22",
+      locale: document.documentElement.lang || "es",
+      termsUrl: "../../assets/legal/terms-short.html",
+      dataUrl: "../../assets/legal/data-policy-short.html",
+      feedbackUrl: sharedMeta.feedbackUrl || "https://forms.gle/NqZWPNXopq6YHJK7A",
+      changelogUrl: appMeta.changelogUrl || "./CHANGELOG.md",
+      roadmapUrl: appMeta.roadmapUrl || "./ROADMAP.md"
+    });
+  </script>
 </body>
 </html>

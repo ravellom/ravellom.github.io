@@ -2,6 +2,7 @@ const listeners = new Set();
 
 export const appState = {
     locale: 'es',
+    workspaceMode: 'basic',
     data: null,
     validation: null,
     promptTrace: '',

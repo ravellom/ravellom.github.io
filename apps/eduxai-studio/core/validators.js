@@ -70,6 +70,18 @@ function jaccardSimilarity(setA, setB) {
     return union > 0 ? intersection / union : 0;
 }
 
+function tokenIntersectionCount(setA, setB) {
+    const a = setA instanceof Set ? setA : new Set();
+    const b = setB instanceof Set ? setB : new Set();
+    let count = 0;
+    a.forEach((item) => {
+        if (b.has(item)) {
+            count += 1;
+        }
+    });
+    return count;
+}
+
 export function validateXaiBundle(bundle, t) {
     const errors = [];
     const warnings = [];
@@ -423,8 +435,10 @@ export function validateXaiBundle(bundle, t) {
                     jaccardSimilarity(refCoreTokens, promptTokens),
                     jaccardSimilarity(variantCoreTokens, promptTokens)
                 );
+                const directOverlap = tokenIntersectionCount(refPromptTokens, promptTokens);
                 // Avoid false positives in UDL variants: style/context may change, but core concept must remain aligned.
-                if (refPromptTokens.size > 0 && promptTokens.size > 0 && similarity < 0.08 && coreAlignment < 0.08) {
+                const hasEnoughLexicalSignal = refPromptTokens.size >= 5 && promptTokens.size >= 5;
+                if (hasEnoughLexicalSignal && similarity < 0.05 && coreAlignment < 0.05 && directOverlap <= 1) {
                     warnings.push(t('validation.coreSemanticDrift', { index, coreId }));
                 }
             });

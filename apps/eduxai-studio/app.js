@@ -2,7 +2,7 @@ import { appState, setState, subscribe } from './core/state.js';
 import { normalizeXaiBundle } from './core/normalize-xai.js';
 import { validateXaiBundle } from './core/validators.js';
 import { EXERCISE_TYPES } from './core/exercise-types.js';
-import { exportTeacherProject, exportVisorPackage } from './core/exporters.js';
+import { exportTeacherProject, exportVisorPackage, exportScorm12Package } from './core/exporters.js';
 import { setLocale, t } from './i18n/index.js';
 import { getDomElements } from './ui/dom.js';
 import { applyI18n, renderValidationResult } from './ui/renderer.js';
@@ -19,12 +19,16 @@ const TEACHER_CONFIG_STORAGE_KEY = 'exe_builder_xai_teacher_config';
 const PROVIDER_MODE_STORAGE_KEY = 'exe_builder_xai_provider_mode';
 const EXERCISE_MEMORY_STORAGE_KEY = 'exe_builder_xai_exercise_memory';
 const EXPORT_VARIANT_POLICY_STORAGE_KEY = 'exe_builder_xai_export_variant_policy';
-const FEEDBACK_FORM_URL = 'https://example.com/eduxai-studio-feedback';
+const INSIGHTS_DRAWER_OPEN_STORAGE_KEY = 'eduxai_studio_insights_drawer_open';
+const WORKSPACE_MODE_STORAGE_KEY = 'eduxai_studio_workspace_mode';
+const AUTOSAVE_DRAFT_STORAGE_KEY = 'eduxai_studio_autosave_draft_v1';
+const FEEDBACK_FORM_URL = 'https://forms.gle/NqZWPNXopq6YHJK7A';
 const MAX_EXERCISES = 10;
 const HIGH_COMPLEXITY_COUNT = 8;
 const DUA_RECOMMENDED_MIN = 3;
 const DUA_RECOMMENDED_MAX = 6;
 const EXERCISE_MEMORY_MAX = 24;
+const AUTOSAVE_DEBOUNCE_MS = 1200;
 const DUA_LABEL_SEQUENCE = ['DUA-Representacion', 'DUA-Accion/Expresion', 'DUA-Implicacion'];
 const EQUIVALENT_TYPE_MAP = {
     multiple_choice: ['multiple_choice', 'true_false', 'matching', 'short_answer'],
@@ -91,6 +95,8 @@ const DUA_PROFILE_ALIASES = {
         balanced: 'balanced'
     }
 };
+
+let autosaveTimerId = null;
 
 function readPromptTraceFromSession() {
     try {
@@ -732,6 +738,149 @@ function loadProviderModeFromStorage() {
     }
 }
 
+function normalizeWorkspaceMode(value) {
+    const mode = String(value || '').trim().toLowerCase();
+    if (mode === 'advanced' || mode === 'designer' || mode === 'full') {
+        return mode;
+    }
+    return 'basic';
+}
+
+function loadWorkspaceModeFromStorage() {
+    try {
+        return normalizeWorkspaceMode(localStorage.getItem(WORKSPACE_MODE_STORAGE_KEY));
+    } catch {
+        return 'basic';
+    }
+}
+
+function loadAutosaveDraft() {
+    try {
+        const raw = localStorage.getItem(AUTOSAVE_DRAFT_STORAGE_KEY);
+        if (!raw) {
+            return null;
+        }
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
+function saveAutosaveDraft(payload) {
+    try {
+        localStorage.setItem(AUTOSAVE_DRAFT_STORAGE_KEY, JSON.stringify(payload));
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function applyWorkspaceMode(elements, mode) {
+    const normalized = normalizeWorkspaceMode(mode);
+    const insightsDetails = document.getElementById('core-insights-details');
+    const jsonOutputDetails = document.getElementById('json-output-details');
+    const promptTraceDetails = document.getElementById('prompt-trace-details');
+
+    if (elements.workspaceModeSelect) {
+        elements.workspaceModeSelect.value = normalized;
+    }
+
+    document.documentElement.setAttribute('data-workspace-mode', normalized);
+
+    const showInsightsControl = normalized !== 'basic';
+    if (insightsDetails) {
+        insightsDetails.style.display = showInsightsControl ? '' : 'none';
+        if (!showInsightsControl) {
+            insightsDetails.open = false;
+        }
+    }
+
+    const showJsonOutput = normalized !== 'basic';
+    if (jsonOutputDetails) {
+        jsonOutputDetails.style.display = showJsonOutput ? '' : 'none';
+    }
+
+    const showPromptTrace = normalized === 'designer' || normalized === 'full';
+    if (promptTraceDetails) {
+        promptTraceDetails.style.display = showPromptTrace ? '' : 'none';
+    }
+
+    const navDua = document.querySelector('.left-nav-link[data-target="sec-dua"]');
+    const secDua = document.getElementById('sec-dua');
+    const showDuaConfig = normalized !== 'basic';
+    if (navDua) {
+        navDua.style.display = showDuaConfig ? '' : 'none';
+    }
+    if (secDua) {
+        secDua.style.display = showDuaConfig ? '' : 'none';
+    }
+
+    const navProject = document.querySelector('.left-nav-link[data-target="sec-project"]');
+    const secProject = document.getElementById('sec-project');
+    if (navProject) {
+        navProject.style.display = '';
+    }
+    if (secProject) {
+        secProject.style.display = '';
+    }
+
+    const navStudents = document.querySelector('.left-nav-link[data-target="sec-student-export"]');
+    const secStudents = document.getElementById('sec-student-export');
+    const showStudentExport = normalized !== 'basic' || (Array.isArray(appState?.data?.exercises) && appState.data.exercises.length > 0);
+    if (navStudents) {
+        navStudents.style.display = showStudentExport ? '' : 'none';
+    }
+    if (secStudents) {
+        secStudents.style.display = showStudentExport ? '' : 'none';
+    }
+    const activeLeft = document.querySelector('.left-nav-link.active');
+    if (activeLeft && activeLeft.style.display === 'none') {
+        const firstVisible = Array.from(document.querySelectorAll('.left-nav-link')).find((node) => node.style.display !== 'none');
+        if (firstVisible) {
+            firstVisible.click();
+        }
+    }
+
+    const technicalButton = document.querySelector('.exercise-tab-btn[data-target="tab-technical"]');
+    const technicalPanel = document.getElementById('tab-technical');
+    const showTechnical = normalized !== 'basic';
+    if (technicalButton) {
+        technicalButton.style.display = showTechnical ? '' : 'none';
+    }
+    if (technicalPanel) {
+        technicalPanel.style.display = showTechnical ? '' : 'none';
+    }
+    if (!showTechnical && technicalButton?.classList.contains('active')) {
+        const fallbackTab = document.querySelector('.exercise-tab-btn[data-target="tab-design"]')
+            || Array.from(document.querySelectorAll('.exercise-tab-btn')).find((btn) => btn.style.display !== 'none');
+        fallbackTab?.click();
+    }
+
+    return normalized;
+}
+
+function scheduleAutosave(elements) {
+    if (autosaveTimerId) {
+        clearTimeout(autosaveTimerId);
+    }
+    autosaveTimerId = setTimeout(() => {
+        const teacherConfig = readTeacherConfigFromDom();
+        const draft = {
+            saved_at: new Date().toISOString(),
+            locale: String(appState.locale || 'en'),
+            workspace_mode: normalizeWorkspaceMode(appState.workspaceMode || 'basic'),
+            provider_mode: normalizeProviderMode(elements?.providerMode?.value || loadProviderModeFromStorage()),
+            single_exercise_type: String(elements?.singleExerciseType?.value || '').trim(),
+            teacher_config: teacherConfig,
+            dua_config: readDuaConfigFromDom(),
+            data: appState.data || null,
+            prompt_trace: String(appState.promptTrace || '').trim()
+        };
+        saveAutosaveDraft(draft);
+    }, AUTOSAVE_DEBOUNCE_MS);
+}
+
 function parseManualJson(rawText) {
     const text = String(rawText || '').trim();
     if (!text) {
@@ -1128,27 +1277,24 @@ function updateDerivedViews(elements, data, validation, promptTrace = '') {
 }
 
 function setupMainTabs() {
-    const tabButtons = Array.from(document.querySelectorAll('.main-tab-btn'));
-    const tabPanels = Array.from(document.querySelectorAll('.main-tab-panel'));
-
-    if (!tabButtons.length || !tabPanels.length) {
+    const insightsDetails = document.getElementById('core-insights-details');
+    if (!insightsDetails) {
         return;
     }
 
-    const activate = (targetId) => {
-        tabButtons.forEach((button) => {
-            const isActive = button.dataset.target === targetId;
-            button.classList.toggle('active', isActive);
-            button.setAttribute('aria-selected', String(isActive));
-        });
-
-        tabPanels.forEach((panel) => {
-            panel.classList.toggle('active', panel.id === targetId);
-        });
-    };
-
-    tabButtons.forEach((button) => {
-        button.addEventListener('click', () => activate(button.dataset.target));
+    let openByDefault = false;
+    try {
+        openByDefault = localStorage.getItem(INSIGHTS_DRAWER_OPEN_STORAGE_KEY) === '1';
+    } catch {
+        openByDefault = false;
+    }
+    insightsDetails.open = openByDefault;
+    insightsDetails.addEventListener('toggle', () => {
+        try {
+            localStorage.setItem(INSIGHTS_DRAWER_OPEN_STORAGE_KEY, insightsDetails.open ? '1' : '0');
+        } catch {
+            // ignore storage issues
+        }
     });
 }
 
@@ -1250,6 +1396,19 @@ function buildVariantFocus(index) {
         'Engagement support: contextualized scenario to increase motivation.'
     ];
     return focusByIndex[index % focusByIndex.length];
+}
+
+function formatDuaLabelForUi(label, fallbackIndex = 1) {
+    const key = String(label || '').trim();
+    const map = {
+        'DUA-Representacion': t('editor.variantRepresentation'),
+        'DUA-Accion/Expresion': t('editor.variantActionExpression'),
+        'DUA-Implicacion': t('editor.variantEngagement')
+    };
+    if (map[key]) {
+        return map[key];
+    }
+    return key || `V${Math.max(1, Number(fallbackIndex) || 1)}`;
 }
 
 function enforceDuaVariantMetadata(bundle, duaConfig, selectedExerciseType, teacherCoreStatement = '') {
@@ -1541,9 +1700,9 @@ function setupLeftPanelSections(elements) {
             </select>
             <label class="field-label" for="manual-udl-label" style="margin-top:8px;">UDL level (all cores)</label>
             <select id="manual-udl-label" class="control-select">
-                <option value="DUA-Representacion">DUA-Representacion</option>
-                <option value="DUA-Accion/Expresion">DUA-Accion/Expresion</option>
-                <option value="DUA-Implicacion">DUA-Implicacion</option>
+                <option value="DUA-Representacion">${t('editor.variantRepresentation')}</option>
+                <option value="DUA-Accion/Expresion">${t('editor.variantActionExpression')}</option>
+                <option value="DUA-Implicacion">${t('editor.variantEngagement')}</option>
             </select>
             <div id="manual-core-map-config" style="display:none; margin-top:10px;"></div>
         </div>
@@ -1629,10 +1788,15 @@ function setupLeftPanelSections(elements) {
     if (projectActionsBottom.childElementCount > 0) secProject.body.appendChild(projectActionsBottom);
 
     secStudentExport.body.appendChild(exportPolicyWrap);
-    if (elements.btnExportVisor) {
+    if (elements.btnExportVisor || elements.btnExportScorm) {
         const studentActions = document.createElement('div');
         studentActions.className = 'panel-actions';
-        studentActions.appendChild(elements.btnExportVisor);
+        if (elements.btnExportVisor) {
+            studentActions.appendChild(elements.btnExportVisor);
+        }
+        if (elements.btnExportScorm) {
+            studentActions.appendChild(elements.btnExportScorm);
+        }
         secStudentExport.body.appendChild(studentActions);
     }
 
@@ -2736,7 +2900,7 @@ function renderManualCoreSelectionUi(bundle) {
     const rows = groups.map((group, index) => {
         const options = group.variants.map((variant, index) => {
             const id = String(variant?.id || '').trim();
-            const label = String(variant?.dua?.label || `Variant ${index + 1}`).trim();
+            const label = formatDuaLabelForUi(String(variant?.dua?.label || '').trim(), index + 1);
             const selected = previous[group.coreId] && previous[group.coreId] === id ? ' selected' : '';
             return `<option value="${id}"${selected}>${label}${id ? ` (${id})` : ''}</option>`;
         }).join('');
@@ -2788,11 +2952,15 @@ function buildManualSelectionForExport(variantGroups) {
 function initializeApp() {
     const elements = getDomElements();
     const initialLocale = setLocale('en');
+    const initialWorkspaceMode = loadWorkspaceModeFromStorage();
     const promptTrace = readPromptTraceFromSession();
     const exerciseMemory = loadExerciseMemoryFromStorage();
-    setState({ locale: initialLocale, promptTrace, exerciseMemory });
+    setState({ locale: initialLocale, promptTrace, exerciseMemory, workspaceMode: initialWorkspaceMode });
     if (elements.languageSelect) {
         elements.languageSelect.value = initialLocale;
+    }
+    if (elements.workspaceModeSelect) {
+        elements.workspaceModeSelect.value = initialWorkspaceMode;
     }
     try {
         applyI18n();
@@ -2828,6 +2996,7 @@ function initializeApp() {
     }
     updateHelpLinksByLocale(elements, initialLocale);
     updateDerivedViews(elements, null, null, promptTrace);
+    applyWorkspaceMode(elements, initialWorkspaceMode);
     setStatus(elements, t('ui.noItems'), 'info');
 
     const savedApiKey = localStorage.getItem('exe_builder_xai_api_key');
@@ -2842,9 +3011,54 @@ function initializeApp() {
     }
     setProviderMode(elements, loadProviderModeFromStorage());
 
+    let autosaveRecovered = false;
+    const autosaveDraft = loadAutosaveDraft();
+    if (autosaveDraft && typeof autosaveDraft === 'object') {
+        const recover = window.confirm(`A local autosave from ${String(autosaveDraft.saved_at || '').replace('T', ' ').replace('Z', ' UTC')} was found. Restore it now?`);
+        if (recover) {
+            const draftLocale = setLocale(String(autosaveDraft.locale || initialLocale));
+            if (elements.languageSelect) {
+                elements.languageSelect.value = draftLocale;
+            }
+            setProviderMode(elements, normalizeProviderMode(autosaveDraft.provider_mode));
+            if (elements.singleExerciseType) {
+                const savedType = String(autosaveDraft.single_exercise_type || '').trim();
+                elements.singleExerciseType.value = EXERCISE_TYPES.includes(savedType) ? savedType : '';
+            }
+            if (autosaveDraft.teacher_config) {
+                setTeacherConfigToDom(normalizeTeacherConfig(autosaveDraft.teacher_config));
+            }
+            if (autosaveDraft.dua_config) {
+                setDuaConfigToDom(normalizeDuaConfig(autosaveDraft.dua_config));
+            }
+            if (autosaveDraft.data && typeof autosaveDraft.data === 'object') {
+                const normalizedBundle = normalizeXaiBundle(autosaveDraft.data);
+                const validation = validateXaiBundle(normalizedBundle, t);
+                setState({
+                    locale: draftLocale,
+                    data: normalizedBundle,
+                    validation,
+                    promptTrace: String(autosaveDraft.prompt_trace || ''),
+                    workspaceMode: normalizeWorkspaceMode(autosaveDraft.workspace_mode || initialWorkspaceMode)
+                });
+            } else {
+                setState({
+                    locale: draftLocale,
+                    workspaceMode: normalizeWorkspaceMode(autosaveDraft.workspace_mode || initialWorkspaceMode)
+                });
+            }
+            autosaveRecovered = true;
+        }
+    }
+
     if (elements.exerciseCount) {
         elements.exerciseCount.value = '1';
         elements.exerciseCount.disabled = true;
+    }
+    if (autosaveRecovered) {
+        updateDerivedViews(elements, appState.data, appState.validation, appState.promptTrace);
+        applyWorkspaceMode(elements, appState.workspaceMode || initialWorkspaceMode);
+        setStatus(elements, 'Autosave restored successfully.', 'success');
     }
 
     const savedSingleType = String(localStorage.getItem(SINGLE_EXERCISE_TYPE_STORAGE_KEY) || '').trim();
@@ -2961,9 +3175,10 @@ function initializeApp() {
 
     elements.languageSelect.addEventListener('change', () => {
         const locale = setLocale(elements.languageSelect.value);
+        const currentMode = normalizeWorkspaceMode(appState.workspaceMode || loadWorkspaceModeFromStorage());
         const previousStatus = elements.statusMsg.textContent;
         const previousStatusClass = elements.statusMsg.className;
-        setState({ locale });
+        setState({ locale, workspaceMode: currentMode });
         const panel = document.querySelector('.panel-left');
         if (panel) {
             panel.dataset.structured = '';
@@ -2991,8 +3206,20 @@ function initializeApp() {
         setProviderMode(elements, loadProviderModeFromStorage());
         setTeacherConfigToDom(loadTeacherConfigFromStorage());
         updateDerivedViews(elements, appState.data, appState.validation, appState.promptTrace);
+        applyWorkspaceMode(elements, currentMode);
         elements.statusMsg.className = previousStatusClass;
         elements.statusMsg.textContent = previousStatus || t('ui.noItems');
+    });
+
+    elements.workspaceModeSelect?.addEventListener('change', () => {
+        const mode = normalizeWorkspaceMode(elements.workspaceModeSelect?.value);
+        try {
+            localStorage.setItem(WORKSPACE_MODE_STORAGE_KEY, mode);
+        } catch {
+            // ignore storage failures
+        }
+        setState({ workspaceMode: mode });
+        applyWorkspaceMode(elements, mode);
     });
 
     elements.btnUploadSummary.addEventListener('click', () => {
@@ -3124,6 +3351,42 @@ function initializeApp() {
         setStatus(elements, t('status.studentsExported'), 'success');
     });
 
+    elements.btnExportScorm?.addEventListener('click', async () => {
+        if (!appState.data || !Array.isArray(appState.data.exercises) || appState.data.exercises.length === 0) {
+            setStatus(elements, t('status.nothingToExport'), 'warning');
+            return;
+        }
+        const allExercises = Array.isArray(appState.data.exercises) ? appState.data.exercises : [];
+        const unreviewedCount = allExercises.filter((exercise) => exercise?.reviewed !== true).length;
+        if (unreviewedCount > 0) {
+            const proceed = window.confirm(`There are ${unreviewedCount} exercises not marked as reviewed. Export SCORM anyway?`);
+            if (!proceed) {
+                setStatus(elements, t('status.exportBlockedByUnreviewed'), 'warning');
+                return;
+            }
+        }
+
+        const exportPolicySelect = document.getElementById('export-variant-policy');
+        const variantPolicy = String(exportPolicySelect?.value || 'first_per_core').trim() || 'first_per_core';
+        const variantGroups = getVariantGroupsForExport(appState.data);
+        const hasRealVariants = variantGroups.some((group) => Array.isArray(group.variants) && group.variants.length > 1);
+        let manualSelection = null;
+        if (variantPolicy === 'manual_select' && hasRealVariants) {
+            manualSelection = buildManualSelectionForExport(variantGroups);
+            if (!manualSelection) {
+                setStatus(elements, t('status.exportCancelled'), 'warning');
+                return;
+            }
+        }
+
+        try {
+            await exportScorm12Package(appState.data, { variantPolicy, manualSelection });
+            setStatus(elements, t('status.scormExported'), 'success');
+        } catch {
+            setStatus(elements, t('status.scormExportError'), 'error');
+        }
+    });
+
     elements.btnValidate.addEventListener('click', () => {
         let parsed;
         try {
@@ -3140,6 +3403,28 @@ function initializeApp() {
     subscribe((state) => {
         updateDerivedViews(elements, state.data, state.validation, state.promptTrace);
         renderManualCoreSelectionUi(state.data);
+        applyWorkspaceMode(elements, state.workspaceMode || loadWorkspaceModeFromStorage());
+        scheduleAutosave(elements);
+    });
+
+    window.addEventListener('beforeunload', () => {
+        scheduleAutosave(elements);
+        if (autosaveTimerId) {
+            clearTimeout(autosaveTimerId);
+            autosaveTimerId = null;
+        }
+        const teacherConfig = readTeacherConfigFromDom();
+        saveAutosaveDraft({
+            saved_at: new Date().toISOString(),
+            locale: String(appState.locale || 'en'),
+            workspace_mode: normalizeWorkspaceMode(appState.workspaceMode || loadWorkspaceModeFromStorage()),
+            provider_mode: normalizeProviderMode(elements?.providerMode?.value || loadProviderModeFromStorage()),
+            single_exercise_type: String(elements?.singleExerciseType?.value || '').trim(),
+            teacher_config: teacherConfig,
+            dua_config: readDuaConfigFromDom(),
+            data: appState.data || null,
+            prompt_trace: String(appState.promptTrace || '').trim()
+        });
     });
 }
 

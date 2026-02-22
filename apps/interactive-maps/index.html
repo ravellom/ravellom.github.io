@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+<link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
 
     <style>
         /* --- ESTRUCTURA GENERAL --- */
@@ -890,6 +891,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         // --- INICIAR ---
         initMap();
+    </script>
+    <script src="../../assets/js/app-version.js"></script>
+    <script src="../../assets/js/app-trust-bar.js"></script>
+    <script>
+        const appMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.interactiveMaps) || {};
+        const sharedMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.shared) || {};
+        window.initAppTrustBar({
+            appName: "Interactive Maps",
+            version: appMeta.version || "v0.0.0",
+            updated: appMeta.updated || "2026-02-22",
+            locale: document.documentElement.lang || "es",
+            termsUrl: "../../assets/legal/terms-short.html",
+            dataUrl: "../../assets/legal/data-policy-short.html",
+            feedbackUrl: sharedMeta.feedbackUrl || "https://forms.gle/NqZWPNXopq6YHJK7A",
+            changelogUrl: appMeta.changelogUrl || "./CHANGELOG.md",
+            roadmapUrl: appMeta.roadmapUrl || "./ROADMAP.md"
+        });
     </script>
 </body>
 </html>

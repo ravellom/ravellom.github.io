@@ -19,11 +19,13 @@ let state = {
     loadedMeta: {
         delivery_policy: 'single_fixed',
         resource_metadata: {}
-    }
+    },
+    completionReported: false
 };
 
 let ui = {}; // Se inicializa en DOMContentLoaded
 const VISOR_LOCALE_KEY = 'eduxai_visor_locale';
+let scormRuntime = null;
 const I18N = {
     en: {
         home: 'Home',
@@ -478,10 +480,20 @@ function initGameFromBundle(bundle) {
 
 // ===== CARGAR EJEMPLO =====
 async function loadExample() {
+    if (window.EDUXAI_EMBEDDED_BUNDLE && typeof window.EDUXAI_EMBEDDED_BUNDLE === 'object') {
+        initGameFromBundle(window.EDUXAI_EMBEDDED_BUNDLE);
+        return;
+    }
     try {
         const response = await fetch('ejemplo.json');
         if (response.ok) {
             const data = await response.json();
+            initGameFromBundle(data);
+            return;
+        }
+        const fallback = await fetch('../../package-bundle.json');
+        if (fallback.ok) {
+            const data = await fallback.json();
             initGameFromBundle(data);
         } else {
             alert(tr('loadSampleFail'));
@@ -538,12 +550,59 @@ function initGame(exercises) {
     state.correctness = {};
     state.answerSnapshots = {};
     state.timeMs = {};
+    state.completionReported = false;
     state.sessionId = `session_${Date.now()}`;
     state.sessionStartedAt = Date.now();
     state.exerciseStartedAt = Date.now();
     updateHUD();
     showScreen('game');
     renderCurrentExercise();
+}
+
+function buildSessionPayload() {
+    const endedAt = Date.now();
+    const rows = (Array.isArray(state.exercises) ? state.exercises : []).map((exercise, index) => {
+        const exerciseId = String(exercise?.id || `idx_${index + 1}`);
+        const attempts = Number(state.attempts[exerciseId] || 0);
+        const correct = Boolean(state.correctness[exerciseId] || false);
+        const timeSec = Number(((Number(state.timeMs[exerciseId] || 0)) / 1000).toFixed(2));
+        return {
+            exercise_id: exerciseId,
+            core_id: String(exercise?.dua?.core_id || '').trim(),
+            dua_label: String(exercise?.dua?.label || '').trim(),
+            type: String(exercise?.type || '').trim(),
+            attempts,
+            correct,
+            time_sec: timeSec,
+            last_answer: state.answerSnapshots[exerciseId] ?? null
+        };
+    });
+    const attempted = rows.filter((row) => row.attempts > 0).length;
+    const correct = rows.filter((row) => row.correct).length;
+    const totalAttempts = rows.reduce((acc, row) => acc + Number(row.attempts || 0), 0);
+    const totalTimeSec = Number(rows.reduce((acc, row) => acc + Number(row.time_sec || 0), 0).toFixed(2));
+    return {
+        schema_version: 'eduxai-visor-results/1.0.0',
+        app: 'EduXAI-Visor',
+        exported_at_utc: new Date(endedAt).toISOString(),
+        session: {
+            id: state.sessionId || `session_${endedAt}`,
+            started_at_utc: new Date(Number(state.sessionStartedAt || endedAt)).toISOString(),
+            ended_at_utc: new Date(endedAt).toISOString(),
+            duration_sec: Number(((endedAt - Number(state.sessionStartedAt || endedAt)) / 1000).toFixed(2)),
+            delivery_policy: String(state?.loadedMeta?.delivery_policy || 'single_fixed'),
+            resource_metadata: state?.loadedMeta?.resource_metadata || {}
+        },
+        summary: {
+            total_exercises: rows.length,
+            attempted_exercises: attempted,
+            correct_exercises: correct,
+            accuracy_pct: rows.length > 0 ? Number(((correct / rows.length) * 100).toFixed(2)) : 0,
+            total_attempts: totalAttempts,
+            total_time_sec: totalTimeSec
+        },
+        exercise_results: rows
+    };
 }
 
 // ===== PANTALLAS =====
@@ -1021,55 +1080,120 @@ function downloadJson(fileName, data) {
 }
 
 function exportStudentResults() {
-    const endedAt = Date.now();
-    const rows = (Array.isArray(state.exercises) ? state.exercises : []).map((exercise, index) => {
-        const exerciseId = String(exercise?.id || `idx_${index + 1}`);
-        const attempts = Number(state.attempts[exerciseId] || 0);
-        const correct = Boolean(state.correctness[exerciseId] || false);
-        const timeSec = Number(((Number(state.timeMs[exerciseId] || 0)) / 1000).toFixed(2));
-        return {
-            exercise_id: exerciseId,
-            core_id: String(exercise?.dua?.core_id || '').trim(),
-            dua_label: String(exercise?.dua?.label || '').trim(),
-            type: String(exercise?.type || '').trim(),
-            attempts,
-            correct,
-            time_sec: timeSec,
-            last_answer: state.answerSnapshots[exerciseId] ?? null
-        };
-    });
-    const attempted = rows.filter((row) => row.attempts > 0).length;
-    const correct = rows.filter((row) => row.correct).length;
-    const totalAttempts = rows.reduce((acc, row) => acc + Number(row.attempts || 0), 0);
-    const totalTimeSec = Number(rows.reduce((acc, row) => acc + Number(row.time_sec || 0), 0).toFixed(2));
-    const payload = {
-        schema_version: 'eduxai-visor-results/1.0.0',
-        app: 'EduXAI-Visor',
-        exported_at_utc: new Date(endedAt).toISOString(),
-        session: {
-            id: state.sessionId || `session_${endedAt}`,
-            started_at_utc: new Date(Number(state.sessionStartedAt || endedAt)).toISOString(),
-            ended_at_utc: new Date(endedAt).toISOString(),
-            duration_sec: Number(((endedAt - Number(state.sessionStartedAt || endedAt)) / 1000).toFixed(2)),
-            delivery_policy: String(state?.loadedMeta?.delivery_policy || 'single_fixed'),
-            resource_metadata: state?.loadedMeta?.resource_metadata || {}
-        },
-        summary: {
-            total_exercises: rows.length,
-            attempted_exercises: attempted,
-            correct_exercises: correct,
-            accuracy_pct: rows.length > 0 ? Number(((correct / rows.length) * 100).toFixed(2)) : 0,
-            total_attempts: totalAttempts,
-            total_time_sec: totalTimeSec
-        },
-        exercise_results: rows
-    };
+    const payload = buildSessionPayload();
     const topicPart = String(state?.loadedMeta?.resource_metadata?.topic || 'topic')
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '_')
         .replace(/^_+|_+$/g, '')
         .slice(0, 40) || 'topic';
     downloadJson(`eduxai_visor_results_${topicPart}_${Date.now()}.json`, payload);
+}
+
+function findScormApi(win) {
+    let current = win;
+    let attempts = 0;
+    while (current && attempts < 20) {
+        if (current.API) return current.API;
+        if (current.parent && current.parent !== current) {
+            current = current.parent;
+        } else {
+            break;
+        }
+        attempts += 1;
+    }
+    return (window.opener && window.opener.API) ? window.opener.API : null;
+}
+
+function initScorm12Runtime() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('scorm') !== '1') {
+        return null;
+    }
+    const api = findScormApi(window);
+    if (!api) {
+        return null;
+    }
+    try {
+        api.LMSInitialize('');
+        const currentStatus = String(api.LMSGetValue('cmi.core.lesson_status') || '').toLowerCase();
+        if (!currentStatus || currentStatus === 'not attempted') {
+            api.LMSSetValue('cmi.core.lesson_status', 'incomplete');
+        }
+        api.LMSCommit('');
+    } catch {
+        return null;
+    }
+
+    const runtime = {
+        complete(payload) {
+            try {
+                const accuracy = Number(payload?.summary?.accuracy_pct || 0);
+                const normalized = Number.isFinite(accuracy) ? Math.max(0, Math.min(100, accuracy)) : 0;
+                api.LMSSetValue('cmi.core.score.min', '0');
+                api.LMSSetValue('cmi.core.score.max', '100');
+                api.LMSSetValue('cmi.core.score.raw', String(normalized.toFixed(2)));
+                api.LMSSetValue('cmi.core.lesson_status', 'completed');
+                api.LMSSetValue('cmi.suspend_data', JSON.stringify({
+                    accuracy_pct: normalized,
+                    total_exercises: Number(payload?.summary?.total_exercises || 0),
+                    correct_exercises: Number(payload?.summary?.correct_exercises || 0),
+                    completed_at: new Date().toISOString()
+                }).slice(0, 3900));
+                api.LMSCommit('');
+            } catch {
+                // ignore LMS write errors
+            }
+        },
+        finish() {
+            try {
+                api.LMSCommit('');
+                api.LMSFinish('');
+            } catch {
+                // ignore LMS finish errors
+            }
+        }
+    };
+    return runtime;
+}
+
+function reportCompletionIfNeeded() {
+    if (state.completionReported) {
+        return;
+    }
+    state.completionReported = true;
+    const payload = buildSessionPayload();
+    if (scormRuntime) {
+        scormRuntime.complete(payload);
+    }
+    try {
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'eduxai_visor_completed', payload }, '*');
+        }
+    } catch {
+        // ignore cross-origin postMessage errors
+    }
+}
+
+async function tryAutoloadBundle() {
+    if (window.EDUXAI_EMBEDDED_BUNDLE && typeof window.EDUXAI_EMBEDDED_BUNDLE === 'object') {
+        initGameFromBundle(window.EDUXAI_EMBEDDED_BUNDLE);
+        return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    const bundleUrl = String(params.get('bundle') || '').trim();
+    if (!bundleUrl) {
+        return;
+    }
+    try {
+        const response = await fetch(bundleUrl, { cache: 'no-store' });
+        if (!response.ok) {
+            return;
+        }
+        const data = await response.json();
+        initGameFromBundle(data);
+    } catch {
+        // silently ignore autoload failures
+    }
 }
 
 // LOGICA ESPECIFICA PARA HABILITAR BOTON EN GROUPING
@@ -1426,6 +1550,7 @@ function showResults() {
     const finalXP = document.getElementById('final-xp');
     if (finalXP) finalXP.textContent = state.score;
     triggerFinalConfetti();
+    reportCompletionIfNeeded();
 }
 
 // ===== CONFETTI =====
@@ -1448,6 +1573,7 @@ function triggerFinalConfetti() {
 
 // ===== INICIALIZACIÃ“N =====
 document.addEventListener('DOMContentLoaded', () => {
+    scormRuntime = initScorm12Runtime();
     state.locale = getLocale();
     ui = {
         screens: {
@@ -1535,6 +1661,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     applyLocale();
+    tryAutoloadBundle();
+
+    window.EduXAIVisor = {
+        loadBundle: initGameFromBundle,
+        exportResults: exportStudentResults
+    };
+
+    window.addEventListener('beforeunload', () => {
+        if (scormRuntime) {
+            scormRuntime.finish();
+        }
+    });
 });
 
 

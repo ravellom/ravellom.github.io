@@ -30,12 +30,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <div class="recuedu-topbar">
         <div class="topbar-container">
-            <a href="../../index.html" class="topbar-brand">
+            <a href="https://ravellom.github.io/" class="topbar-brand" target="_blank" rel="noopener noreferrer">
                 <i class="fa-solid fa-flask-vial"></i>
                 <span>RecuEdu Labs</span>
             </a>
             <div class="topbar-links">
-                <a href="../../index.html">
+                <a href="https://ravellom.github.io/" target="_blank" rel="noopener noreferrer">
                     <i class="fa-solid fa-home"></i>
                     <span id="topbar-home-label">Home</span>
                 </a>
@@ -49,7 +49,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="theme-switcher">
         <select id="language-select" aria-label="Language">
             <option value="en" selected>English</option>
-            <option value="es">EspaÃƒÂ±ol</option>
+            <option value="es">Español</option>
         </select>
         <select id="theme-select">
             <option value="theme-playful">Gamer mode</option>
@@ -77,6 +77,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <p id="upload-compat" style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
                     <i class="ph ph-info"></i> Compatible with JSON files exported from <a href="../eduxai-studio/" style="color: var(--primary); text-decoration: underline;">EduXAI Studio</a>
+                    &nbsp;|&nbsp;<a href="./CHANGELOG.md" style="color: var(--primary); text-decoration: underline;">Changelog</a>
                 </p>
             </div>
         </section>
@@ -157,19 +158,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script src="../eje-shared/exercise-engine.js?v=20260221-01"></script>
     <script src="visor.js?v=20260221-03"></script>
+    <script src="../../assets/js/app-version.js"></script>
     <script src="../../assets/js/app-trust-bar.js"></script>
     <script>
+        const appMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.eduxaiVisor) || {};
+        const sharedMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.shared) || {};
         window.initAppTrustBar({
             appName: "EduXAI-Visor",
-            version: "v0.9.0-beta",
-            updated: "2026-02-22",
+            version: appMeta.version || "v0.10.0-beta",
+            updated: appMeta.updated || "2026-02-22",
             locale: document.documentElement.lang || "en",
             termsUrl: "../../assets/legal/terms-short.html",
             dataUrl: "../../assets/legal/data-policy-short.html",
-            feedbackUrl: "https://forms.gle/NqZWPNXopq6YHJK7A"
+            feedbackUrl: sharedMeta.feedbackUrl || "https://forms.gle/NqZWPNXopq6YHJK7A",
+            changelogUrl: appMeta.changelogUrl || "./CHANGELOG.md",
+            roadmapUrl: appMeta.roadmapUrl || "./ROADMAP.md"
         });
     </script>
 </body>
 </html>
+
+
 
 

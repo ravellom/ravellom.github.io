@@ -219,7 +219,12 @@ function getCoreId(exercise) {
 function getVariantLabel(exercise) {
     const duaLabel = String(safeGet(exercise, 'dua.label', '')).trim();
     if (duaLabel) {
-        return duaLabel.replace('DUA-', '');
+        const labelMap = {
+            'DUA-Representacion': t('editor.variantRepresentation'),
+            'DUA-Accion/Expresion': t('editor.variantActionExpression'),
+            'DUA-Implicacion': t('editor.variantEngagement')
+        };
+        return labelMap[duaLabel] || duaLabel.replace('DUA-', '');
     }
     const variantIndex = Number(safeGet(exercise, 'dua.variant_index', 0));
     return Number.isInteger(variantIndex) && variantIndex > 0 ? `V${variantIndex}` : '';
@@ -253,7 +258,21 @@ function renderExerciseNav(elements, exercises, activeId, onSelect) {
     groups.forEach((group, groupIndex) => {
         const coreHeader = document.createElement('li');
         coreHeader.className = 'exercise-core-header';
-        coreHeader.textContent = `${t('editor.coreLabel')} ${groupIndex + 1} (${group.items.length})`;
+        coreHeader.innerHTML = `
+            <span>${t('editor.coreLabel')} ${groupIndex + 1} (${group.items.length})</span>
+            <button type="button" class="core-insights-link">${t('insights.tabLabel')}</button>
+        `;
+        const insightsLink = coreHeader.querySelector('.core-insights-link');
+        insightsLink?.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const details = document.getElementById('core-insights-details');
+            if (!details) {
+                return;
+            }
+            details.open = true;
+            details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
         elements.exerciseNavList.appendChild(coreHeader);
 
         group.items.forEach(({ exercise, index }) => {

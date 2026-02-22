@@ -162,6 +162,11 @@ body {
     position: relative;
 }
 
+.panel-main {
+    min-width: 0;
+    overflow: hidden;
+}
+
 .panel::before {
     content: "";
     position: absolute;
@@ -329,11 +334,33 @@ body {
     font-size: 1.05rem;
 }
 
-.main-tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+.workspace-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 12px;
+}
+
+.workspace-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    color: #0f3ea8;
+    border: 1px solid #bfdbfe;
+    background: linear-gradient(135deg, #eaf1ff, #ecfeff);
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 0.9rem;
+}
+
+.workspace-main {
+    min-width: 0;
+}
+
+.insights-details {
+    margin-top: 12px;
 }
 
 .main-tab-btn {
@@ -356,14 +383,6 @@ body {
     background: linear-gradient(135deg, #eaf1ff, #ecfeff);
     border-color: #bfdbfe;
     box-shadow: 0 3px 8px rgba(37, 99, 235, 0.15);
-}
-
-.main-tab-panel {
-    display: none;
-}
-
-.main-tab-panel.active {
-    display: block;
 }
 
 .field-label {
@@ -704,6 +723,33 @@ body {
     margin: 8px 2px 4px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.core-insights-link {
+    appearance: none;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.core-insights-link:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+html[data-workspace-mode="basic"] .core-insights-link {
+    display: none;
 }
 
 .variant-pill {
@@ -1368,6 +1414,13 @@ body {
     grid-column: 1 / -1;
 }
 
+/* Prevent horizontal overflow in dense technical sections */
+.section-pedagogical .exercise-grid,
+.section-xai .exercise-grid,
+.section-control .exercise-grid {
+    grid-template-columns: 1fr;
+}
+
 .mini-label {
     display: block;
     font-size: 0.75rem;
@@ -1664,8 +1717,13 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .main-tabs {
-        grid-template-columns: 1fr;
+    .workspace-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .workspace-title {
+        justify-content: center;
     }
 
     .insight-kpis,
