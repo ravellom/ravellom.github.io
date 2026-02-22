@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
     <link rel="stylesheet" href="visor.css">
 </head>
 <!-- Google Tag Manager -->
@@ -48,7 +49,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="theme-switcher">
         <select id="language-select" aria-label="Language">
             <option value="en" selected>English</option>
-            <option value="es">EspaÃ±ol</option>
+            <option value="es">EspaÃƒÂ±ol</option>
         </select>
         <select id="theme-select">
             <option value="theme-playful">Gamer mode</option>
@@ -156,6 +157,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script src="../eje-shared/exercise-engine.js?v=20260221-01"></script>
     <script src="visor.js?v=20260221-03"></script>
+    <script src="../../assets/js/app-trust-bar.js"></script>
+    <script>
+        window.initAppTrustBar({
+            appName: "EduXAI-Visor",
+            version: "v0.9.0-beta",
+            updated: "2026-02-22",
+            locale: document.documentElement.lang || "en",
+            termsUrl: "../../assets/legal/terms-short.html",
+            dataUrl: "../../assets/legal/data-policy-short.html",
+            feedbackUrl: "https://forms.gle/NqZWPNXopq6YHJK7A"
+        });
+    </script>
 </body>
 </html>
+
 

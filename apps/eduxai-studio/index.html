@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
+    <link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
     <link rel="stylesheet" href="style.css?v=20260222-01">
 </head>
 <!-- Google Tag Manager -->
@@ -69,7 +70,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="../eduxai-visor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-visor-link" style="text-decoration:none; padding:6px 10px;">
                 <i class="ph ph-student"></i> <span>EduXAI-Visor</span>
             </a>
-            <a id="feedback-link" href="https://example.com/eduxai-studio-feedback" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
+            <a id="feedback-link" href="https://forms.gle/NqZWPNXopq6YHJK7A" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
                 <i class="ph ph-chat-centered-dots"></i> <span data-i18n="ui.feedback">Feedback</span>
             </a>
             <a id="help-link" href="help.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-decoration:none; padding:6px 10px;">
@@ -317,8 +318,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script src="../eje-shared/exercise-engine.js?v=20260221-01"></script>
     <script type="module" src="app.js?v=20260221-34"></script>
+    <script src="../../assets/js/app-trust-bar.js"></script>
+    <script>
+        window.initAppTrustBar({
+            appName: "EduXAI Studio",
+            version: "v0.9.0-beta",
+            updated: "2026-02-22",
+            locale: document.documentElement.lang || "en",
+            termsUrl: "../../assets/legal/terms-short.html",
+            dataUrl: "../../assets/legal/data-policy-short.html",
+            feedbackUrl: "https://forms.gle/NqZWPNXopq6YHJK7A"
+        });
+    </script>
 </body>
 </html>
+
 
 
 
