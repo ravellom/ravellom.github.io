@@ -17,6 +17,8 @@ export default {
         noItems: 'No items',
         parseError: 'Invalid JSON. Please check syntax.',
         apiKey: 'API Key',
+        apiKeyHelpText: 'Need an API key? Create a Gemini key (free tier available).',
+        apiKeyHelpLink: 'Open Gemini API key guide',
         model: 'Model',
         providerMode: 'Provider mode',
         providerDirect: 'Direct API',

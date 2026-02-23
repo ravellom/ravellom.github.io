@@ -207,6 +207,12 @@ body {
     color: var(--xai-muted);
 }
 
+.api-key-help-link {
+    color: #1d4ed8;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
 .left-section-nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

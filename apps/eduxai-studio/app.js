@@ -1713,6 +1713,13 @@ function setupLeftPanelSections(elements) {
 
     if (labelApiKey) secAi.body.appendChild(labelApiKey);
     if (elements.apiKeyInput) secAi.body.appendChild(elements.apiKeyInput);
+    const apiKeyHelp = document.createElement('p');
+    apiKeyHelp.className = 'hint';
+    apiKeyHelp.style.margin = '8px 0 0';
+    apiKeyHelp.innerHTML = `
+        <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener noreferrer" class="api-key-help-link">${t('ui.apiKeyHelpText')}</a>
+    `;
+    secAi.body.appendChild(apiKeyHelp);
     if (labelModel) secAi.body.appendChild(labelModel);
     if (elements.modelSelect) secAi.body.appendChild(elements.modelSelect);
     if (labelProviderMode) secAi.body.appendChild(labelProviderMode);
