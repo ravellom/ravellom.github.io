@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consola de Narrativa Emergente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Consola de Narrativa Emergente</h1>
+        <p>Simulacion multiagente con Gemini 2.5 Flash</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="forceTurnBtn" type="button" class="btn ghost">Forzar turno</button>
+        <button id="clearApiBtn" type="button" class="btn danger">Borrar API Key</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="room-panel">
+        <div id="room" class="room" aria-label="Habitacion simulada">
+          <div class="zone" data-zone="Cama">
+            <span class="zone-label">Cama</span>
+          </div>
+          <div class="zone" data-zone="Mesa">
+            <span class="zone-label">Mesa</span>
+          </div>
+          <div class="zone" data-zone="Puerta">
+            <span class="zone-label">Puerta</span>
+          </div>
+          <div class="zone" data-zone="Centro">
+            <span class="zone-label">Centro</span>
+          </div>
+
+          <div id="charactersLayer" class="characters-layer" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <aside class="observer-panel">
+        <h2>Panel del Observador</h2>
+        <form id="eventForm" class="event-form">
+          <label for="eventInput">Inyectar evento</label>
+          <input id="eventInput" name="eventInput" type="text" maxlength="180" placeholder="Ej: Se va la luz" required />
+          <button type="submit" class="btn primary">Enviar evento</button>
+        </form>
+
+        <section class="log-wrap">
+          <h3>Registro de actividad</h3>
+          <ul id="logList" class="log-list"></ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="apiModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="apiTitle">
+    <div class="modal">
+      <h2 id="apiTitle">Configurar Gemini API Key</h2>
+      <p>La clave se guarda localmente en tu navegador para esta app.</p>
+      <label for="apiKeyInput">API Key</label>
+      <input id="apiKeyInput" type="password" placeholder="AIza..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="saveApiBtn" type="button" class="btn primary">Guardar y comenzar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
