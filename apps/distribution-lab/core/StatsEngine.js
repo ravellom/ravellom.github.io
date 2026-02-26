@@ -10,11 +10,24 @@ function quantile(sortedValues, q) {
     return sortedValues[base];
 }
 
+function toFiniteNumberOrNull(rawValue) {
+    if (rawValue === null || rawValue === undefined) return null;
+    if (typeof rawValue === 'string') {
+        const normalized = rawValue.trim();
+        if (!normalized) return null;
+        if (['na', 'n/a', 'null', 'nan', 'missing'].includes(normalized.toLowerCase())) return null;
+        const parsed = Number(normalized);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+    const parsed = Number(rawValue);
+    return Number.isFinite(parsed) ? parsed : null;
+}
+
 export const StatsEngine = {
     summarize(values = []) {
         const numeric = values
-            .map((v) => Number(v))
-            .filter((v) => Number.isFinite(v))
+            .map((v) => toFiniteNumberOrNull(v))
+            .filter((v) => v !== null)
             .sort((a, b) => a - b);
 
         if (!numeric.length) {
@@ -60,8 +73,8 @@ export const StatsEngine = {
         }
 
         const numeric = values
-            .map((v) => Number(v))
-            .filter((v) => Number.isFinite(v))
+            .map((v) => toFiniteNumberOrNull(v))
+            .filter((v) => v !== null)
             .sort((a, b) => a - b);
 
         const safeMultiplier = Number.isFinite(Number(whiskerMultiplier)) ? Number(whiskerMultiplier) : 1.5;
@@ -82,8 +95,8 @@ export const StatsEngine = {
         const grouped = new Map();
         dataRows.forEach((row) => {
             const category = categoryColumn ? String(row?.[categoryColumn] ?? '').trim() || '(empty)' : 'All data';
-            const value = Number(row?.[numericColumn]);
-            if (!Number.isFinite(value)) return;
+            const value = toFiniteNumberOrNull(row?.[numericColumn]);
+            if (value === null) return;
             if (!grouped.has(category)) grouped.set(category, []);
             grouped.get(category).push(value);
         });
