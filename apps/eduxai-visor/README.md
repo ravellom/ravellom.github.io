@@ -1,6 +1,6 @@
 ﻿# ðŸŽ® EjeVisor - Visor Interactivo de Ejercicios
 
-AplicaciÃ³n gamificada para visualizar y resolver ejercicios generados con **[EjeCon](../ejecon/)**.
+AplicaciÃ³n gamificada para visualizar y resolver ejercicios generados con **[EduXAI Studio](../eduxai-studio/)**.
 
 ## ðŸŒŸ CaracterÃ­sticas Principales
 
@@ -263,7 +263,7 @@ eduxai-visor/
 
 ## ðŸ”— Enlaces Relacionados
 
-- **[EjeCon](../ejecon/)** - Crea ejercicios con IA
+- **[EduXAI Studio](../eduxai-studio/)** - Crea ejercicios con IA
 - **[RecuEdu Labs](../../)** - MÃ¡s herramientas educativas
 - **[GitHub](https://github.com/ravellom)** - Repositorio del proyecto
 
