@@ -30,6 +30,8 @@ export function getDomElements() {
         projectFile: document.getElementById('project-file'),
         studentResultsFile: document.getElementById('student-results-file'),
         btnUploadSummary: document.getElementById('btn-upload-summary'),
+        btnNewProject: document.getElementById('btn-new-project'),
+        btnRecoverDraft: document.getElementById('btn-recover-draft'),
         btnImportProject: document.getElementById('btn-import-project'),
         btnImportResults: document.getElementById('btn-import-results'),
         btnClearResults: document.getElementById('btn-clear-results'),

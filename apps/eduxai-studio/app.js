@@ -776,6 +776,69 @@ function saveAutosaveDraft(payload) {
     }
 }
 
+function clearAutosaveDraft() {
+    try {
+        localStorage.removeItem(AUTOSAVE_DRAFT_STORAGE_KEY);
+    } catch {
+        // ignore storage failures
+    }
+}
+
+function refreshRecoverDraftUi(elements) {
+    if (!elements?.btnRecoverDraft) {
+        return;
+    }
+    elements.btnRecoverDraft.disabled = !loadAutosaveDraft();
+}
+
+function restoreAutosaveDraftIntoApp(elements, draft, fallbackLocale = 'en') {
+    if (!draft || typeof draft !== 'object') {
+        return false;
+    }
+
+    const draftLocale = setLocale(String(draft.locale || fallbackLocale));
+    if (elements.languageSelect) {
+        elements.languageSelect.value = draftLocale;
+    }
+    setProviderMode(elements, normalizeProviderMode(draft.provider_mode));
+    if (elements.singleExerciseType) {
+        const savedType = String(draft.single_exercise_type || '').trim();
+        elements.singleExerciseType.value = EXERCISE_TYPES.includes(savedType) ? savedType : '';
+    }
+    if (draft.teacher_config) {
+        setTeacherConfigToDom(normalizeTeacherConfig(draft.teacher_config));
+    }
+    if (draft.dua_config) {
+        setDuaConfigToDom(normalizeDuaConfig(draft.dua_config));
+    }
+    if (draft.data && typeof draft.data === 'object') {
+        const normalizedBundle = normalizeXaiBundle(draft.data);
+        const validation = validateXaiBundle(normalizedBundle, t);
+        setState({
+            locale: draftLocale,
+            data: normalizedBundle,
+            validation,
+            promptTrace: String(draft.prompt_trace || ''),
+            workspaceMode: normalizeWorkspaceMode(draft.workspace_mode || loadWorkspaceModeFromStorage())
+        });
+    } else {
+        setState({
+            locale: draftLocale,
+            data: null,
+            validation: null,
+            promptTrace: String(draft.prompt_trace || ''),
+            workspaceMode: normalizeWorkspaceMode(draft.workspace_mode || loadWorkspaceModeFromStorage())
+        });
+    }
+
+    if (!String(draft.prompt_trace || '').trim()) {
+        savePromptTraceToSession('');
+    } else {
+        savePromptTraceToSession(String(draft.prompt_trace || ''));
+    }
+    return true;
+}
+
 function applyWorkspaceMode(elements, mode) {
     const normalized = normalizeWorkspaceMode(mode);
     const insightsDetails = document.getElementById('core-insights-details');
@@ -878,6 +941,7 @@ function scheduleAutosave(elements) {
             prompt_trace: String(appState.promptTrace || '').trim()
         };
         saveAutosaveDraft(draft);
+        refreshRecoverDraftUi(elements);
     }, AUTOSAVE_DEBOUNCE_MS);
 }
 
@@ -1787,6 +1851,8 @@ function setupLeftPanelSections(elements) {
     if (elements.btnUploadSummary) sourceActions.appendChild(elements.btnUploadSummary);
     if (sourceActions.childElementCount > 0) secSource.body.appendChild(sourceActions);
 
+    if (elements.btnNewProject) projectActionsTop.appendChild(elements.btnNewProject);
+    if (elements.btnRecoverDraft) projectActionsTop.appendChild(elements.btnRecoverDraft);
     if (elements.btnImportProject) projectActionsTop.appendChild(elements.btnImportProject);
     if (elements.btnImportResults) projectActionsTop.appendChild(elements.btnImportResults);
     if (elements.btnClearResults) projectActionsTop.appendChild(elements.btnClearResults);
@@ -3018,55 +3084,11 @@ function initializeApp() {
     }
     setProviderMode(elements, loadProviderModeFromStorage());
 
-    let autosaveRecovered = false;
-    const autosaveDraft = loadAutosaveDraft();
-    if (autosaveDraft && typeof autosaveDraft === 'object') {
-        const recover = window.confirm(`A local autosave from ${String(autosaveDraft.saved_at || '').replace('T', ' ').replace('Z', ' UTC')} was found. Restore it now?`);
-        if (recover) {
-            const draftLocale = setLocale(String(autosaveDraft.locale || initialLocale));
-            if (elements.languageSelect) {
-                elements.languageSelect.value = draftLocale;
-            }
-            setProviderMode(elements, normalizeProviderMode(autosaveDraft.provider_mode));
-            if (elements.singleExerciseType) {
-                const savedType = String(autosaveDraft.single_exercise_type || '').trim();
-                elements.singleExerciseType.value = EXERCISE_TYPES.includes(savedType) ? savedType : '';
-            }
-            if (autosaveDraft.teacher_config) {
-                setTeacherConfigToDom(normalizeTeacherConfig(autosaveDraft.teacher_config));
-            }
-            if (autosaveDraft.dua_config) {
-                setDuaConfigToDom(normalizeDuaConfig(autosaveDraft.dua_config));
-            }
-            if (autosaveDraft.data && typeof autosaveDraft.data === 'object') {
-                const normalizedBundle = normalizeXaiBundle(autosaveDraft.data);
-                const validation = validateXaiBundle(normalizedBundle, t);
-                setState({
-                    locale: draftLocale,
-                    data: normalizedBundle,
-                    validation,
-                    promptTrace: String(autosaveDraft.prompt_trace || ''),
-                    workspaceMode: normalizeWorkspaceMode(autosaveDraft.workspace_mode || initialWorkspaceMode)
-                });
-            } else {
-                setState({
-                    locale: draftLocale,
-                    workspaceMode: normalizeWorkspaceMode(autosaveDraft.workspace_mode || initialWorkspaceMode)
-                });
-            }
-            autosaveRecovered = true;
-        }
-    }
-
     if (elements.exerciseCount) {
         elements.exerciseCount.value = '1';
         elements.exerciseCount.disabled = true;
     }
-    if (autosaveRecovered) {
-        updateDerivedViews(elements, appState.data, appState.validation, appState.promptTrace);
-        applyWorkspaceMode(elements, appState.workspaceMode || initialWorkspaceMode);
-        setStatus(elements, 'Autosave restored successfully.', 'success');
-    }
+    refreshRecoverDraftUi(elements);
 
     const savedSingleType = String(localStorage.getItem(SINGLE_EXERCISE_TYPE_STORAGE_KEY) || '').trim();
     if (elements.singleExerciseType) {
@@ -3212,6 +3234,7 @@ function initializeApp() {
         }
         setProviderMode(elements, loadProviderModeFromStorage());
         setTeacherConfigToDom(loadTeacherConfigFromStorage());
+        refreshRecoverDraftUi(elements);
         updateDerivedViews(elements, appState.data, appState.validation, appState.promptTrace);
         applyWorkspaceMode(elements, currentMode);
         elements.statusMsg.className = previousStatusClass;
@@ -3237,6 +3260,45 @@ function initializeApp() {
         await handleSummaryUpload(elements);
     });
 
+    elements.btnNewProject?.addEventListener('click', () => {
+        savePromptTraceToSession('');
+        setState({
+            data: null,
+            validation: null,
+            promptTrace: '',
+            studentResultsReports: [],
+            studentResultsSummary: null
+        });
+        if (elements.jsonInput) {
+            elements.jsonInput.value = '';
+        }
+        if (elements.exerciseSearch) {
+            elements.exerciseSearch.value = '';
+        }
+        setStatus(elements, t('status.projectReset'), 'success');
+        refreshRecoverDraftUi(elements);
+    });
+
+    elements.btnRecoverDraft?.addEventListener('click', () => {
+        const autosaveDraft = loadAutosaveDraft();
+        if (!autosaveDraft) {
+            setStatus(elements, t('status.noDraftToRecover'), 'warning');
+            refreshRecoverDraftUi(elements);
+            return;
+        }
+        const restored = restoreAutosaveDraftIntoApp(elements, autosaveDraft, appState.locale || 'en');
+        if (!restored) {
+            setStatus(elements, t('status.noDraftToRecover'), 'warning');
+            clearAutosaveDraft();
+            refreshRecoverDraftUi(elements);
+            return;
+        }
+        updateDerivedViews(elements, appState.data, appState.validation, appState.promptTrace);
+        applyWorkspaceMode(elements, appState.workspaceMode || loadWorkspaceModeFromStorage());
+        setStatus(elements, t('status.draftRecovered'), 'success');
+        refreshRecoverDraftUi(elements);
+    });
+
     elements.btnImportProject.addEventListener('click', () => {
         elements.projectFile.click();
     });
@@ -3256,6 +3318,7 @@ function initializeApp() {
             const parsed = await readJsonFile(file);
             applyBundle(elements, parsed);
             setStatus(elements, t('status.projectLoaded'), 'success');
+            refreshRecoverDraftUi(elements);
         } catch (error) {
             if (error.message === 'invalid_json') {
                 setStatus(elements, t('status.projectLoadError'), 'error');
