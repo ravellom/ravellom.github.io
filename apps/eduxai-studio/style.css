@@ -202,6 +202,47 @@ body {
     padding-bottom: 82px;
 }
 
+.generation-lock-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(241, 245, 249, 0.72);
+    backdrop-filter: blur(2px);
+}
+
+.generation-lock-overlay[hidden] {
+    display: none !important;
+}
+
+.generation-lock-inner {
+    width: min(92%, 340px);
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 18px 14px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
+    text-align: center;
+}
+
+.generation-lock-gear {
+    font-size: 3.2rem;
+    line-height: 1;
+    color: #1d4ed8;
+    display: inline-block;
+    animation: spin-gear 1.35s linear infinite;
+}
+
+.generation-lock-message {
+    margin: 12px 0 0;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
 .left-header h2 {
     margin: 0;
 }
@@ -1428,6 +1469,11 @@ html[data-workspace-mode="basic"] .core-insights-link {
 
 .technical-readable-line:last-child {
     margin-bottom: 0;
+}
+
+@keyframes spin-gear {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .exercise-card-head {

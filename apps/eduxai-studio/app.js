@@ -97,6 +97,27 @@ const DUA_PROFILE_ALIASES = {
 };
 
 let autosaveTimerId = null;
+let generationLockActive = false;
+
+function getGenerationOverlayNodes() {
+    const overlay = document.getElementById('generation-lock-overlay');
+    const message = document.getElementById('generation-lock-message');
+    return { overlay, message };
+}
+
+function setGenerationLock(active, message = '') {
+    generationLockActive = Boolean(active);
+    const { overlay, message: messageNode } = getGenerationOverlayNodes();
+    if (!overlay) {
+        return;
+    }
+    overlay.hidden = !generationLockActive;
+    if (messageNode) {
+        messageNode.textContent = generationLockActive
+            ? String(message || t('status.generating'))
+            : '';
+    }
+}
 
 function readPromptTraceFromSession() {
     try {
@@ -168,6 +189,12 @@ function applyBundle(elements, rawBundle) {
 function setStatus(elements, message, type = 'info') {
     elements.statusMsg.className = `status-msg ${type}`;
     elements.statusMsg.textContent = message;
+    if (generationLockActive) {
+        const { message: lockMessage } = getGenerationOverlayNodes();
+        if (lockMessage) {
+            lockMessage.textContent = String(message || t('status.generating'));
+        }
+    }
 }
 
 function updateHelpLinksByLocale(elements, locale) {
@@ -1921,6 +1948,19 @@ function setupLeftPanelSections(elements) {
     if (status) panel.appendChild(status);
     if (hint) panel.appendChild(hint);
     panel.appendChild(actionBar);
+    if (!panel.querySelector('#generation-lock-overlay')) {
+        const generationOverlay = document.createElement('div');
+        generationOverlay.id = 'generation-lock-overlay';
+        generationOverlay.className = 'generation-lock-overlay';
+        generationOverlay.hidden = true;
+        generationOverlay.innerHTML = `
+            <div class="generation-lock-inner" role="status" aria-live="polite">
+                <div class="generation-lock-gear" aria-hidden="true">&#9881;</div>
+                <p id="generation-lock-message" class="generation-lock-message">${t('status.generating')}</p>
+            </div>
+        `;
+        panel.appendChild(generationOverlay);
+    }
     panel.dataset.structured = '1';
     enforceLeftPanelScroll(panel);
 
@@ -2735,6 +2775,7 @@ async function handleGenerate(elements) {
     elements.btnGenerate.disabled = true;
     elements.btnGenerate.textContent = t('actions.generating');
     setStatus(elements, t('status.generating'), 'info');
+    setGenerationLock(true, t('status.generating'));
 
     try {
         const maxAttempts = 2;
@@ -2948,6 +2989,7 @@ async function handleGenerate(elements) {
             : '';
         setStatus(elements, t('status.requestError', { message: `${message}${parseHint}` }), 'error');
     } finally {
+        setGenerationLock(false);
         elements.btnGenerate.disabled = false;
         elements.btnGenerate.textContent = originalText;
     }
