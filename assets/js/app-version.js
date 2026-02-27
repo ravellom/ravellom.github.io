@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
     window.RecuEduAppMeta = {
         shared: {
             feedbackUrl: "https://forms.gle/NqZWPNXopq6YHJK7A",
@@ -24,8 +24,8 @@
             roadmapUrl: "./ROADMAP.md"
         },
         biblioclick: {
-            version: "v1.1.0",
-            updated: "2026-02-22",
+            version: "v1.2.0",
+            updated: "2026-02-27",
             changelogUrl: "./CHANGELOG.md",
             roadmapUrl: "./ROADMAP.md"
         },

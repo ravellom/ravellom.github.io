@@ -1,4 +1,4 @@
-﻿let maxAuthors = 6;
+let maxAuthors = 6;
 let editingIndex = null;
 
 // Estructura para almacenar referencias como objetos
@@ -16,7 +16,7 @@ async function loadDocumentSchema() {
     updateFormFields(); // Cargar campos del primer tipo
   } catch (error) {
     console.error('Error cargando esquema de documentos:', error);
-    alert('Error al cargar la configuraciÃ³n. Por favor, recarga la pÃ¡gina.');
+    alert('Error al cargar la configuración. Por favor, recarga la página.');
   }
 }
 
@@ -33,7 +33,7 @@ function initializeDocumentTypeSelector() {
   }
 }
 
-// Generar campos dinÃ¡micamente segÃºn el tipo de documento
+// Generar campos dinámicamente según el tipo de documento
 function updateFormFields() {
   if (!documentSchema) return;
   
@@ -76,13 +76,13 @@ function updateFormFields() {
 
 function addAuthor() {
   const container = document.getElementById('authorInputs');
-  if (container.children.length >= maxAuthors) return alert('MÃ¡ximo 6 autores');
+  if (container.children.length >= maxAuthors) return alert('Máximo 6 autores');
   const div = document.createElement('div');
   div.className = 'author-row';
   div.innerHTML = `<label>Autor:</label>
                    <input type="text" placeholder="Nombre">
                    <input type="text" placeholder="Apellido">
-                   <button onclick="this.parentNode.remove()">ðŸ—‘ï¸</button>`;
+                   <button onclick="this.parentNode.remove()">🗑️</button>`;
   container.appendChild(div);
 }
 
@@ -98,7 +98,7 @@ function formatAuthorsAPA(authors) {
   } else if (authors.length <= 20) {
     result = authors.slice(0, -1).join(', ') + ', & ' + authors[authors.length - 1];
   } else {
-    // MÃ¡s de 20 autores: primeros 19 + ... & Ãºltimo
+    // Más de 20 autores: primeros 19 + ... & último
     result = authors.slice(0, 19).join(', ') + ', ... & ' + authors[authors.length - 1];
   }
   
@@ -110,7 +110,7 @@ function formatAuthorsAPA(authors) {
   return result;
 }
 
-// Formato APA 7 segÃºn tipo de documento
+// Formato APA 7 según tipo de documento
 function formatReferenceAPA(data) {
   let ref = '';
   const { authors, title, docType, urlOrDoi } = data;
@@ -124,16 +124,16 @@ function formatReferenceAPA(data) {
   const isDOI = urlOrDoi && (urlOrDoi.includes('doi.org') || urlOrDoi.match(/^10\.\d{4,}/));
   const formattedLink = isDOI ? (urlOrDoi.startsWith('http') ? urlOrDoi : `https://doi.org/${urlOrDoi}`) : urlOrDoi;
   
-  // Formateo segÃºn tipo de documento
+  // Formateo según tipo de documento
   if (docType === 'Libro') {
-    // Formato: Autor. (AÃ±o). TÃ­tulo. Editorial.
+    // Formato: Autor. (Año). Título. Editorial.
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
     
     ref += ` <em>${title}</em>`;
     if (data.edition && data.edition !== '1') {
-      ref += ` (${data.edition}Âª ed.)`;
+      ref += ` (${data.edition}ª ed.)`;
     }
     ref += '.';
     if (data.city && data.publisher) {
@@ -143,8 +143,8 @@ function formatReferenceAPA(data) {
     }
     if (formattedLink) ref += ` ${formattedLink}`;
     
-  } else if (docType === 'ArtÃ­culo') {
-    // Formato: Autor. (AÃ±o). TÃ­tulo. Revista, volumen(nÃºmero), pÃ¡ginas. DOI/URL
+  } else if (docType === 'Artículo') {
+    // Formato: Autor. (Año). Título. Revista, volumen(número), páginas. DOI/URL
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -167,7 +167,7 @@ function formatReferenceAPA(data) {
       ref += ` ${formattedLink}`;
     }
 
-  } else if (docType === 'ArtÃ­culo en conferencia') {
+  } else if (docType === 'Artículo en conferencia') {
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -188,7 +188,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Video') {
-    // Formato: Autor/Canal. (AÃ±o, fecha). TÃ­tulo [Video]. Plataforma. URL
+    // Formato: Autor/Canal. (Año, fecha). Título [Video]. Plataforma. URL
     if (data.dateVideo) {
       const dateObj = new Date(data.dateVideo);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -206,8 +206,8 @@ function formatReferenceAPA(data) {
       ref += ` ${formattedLink}`;
     }
     
-  } else if (docType === 'PeriÃ³dico') {
-    // Formato: Autor. (Fecha). TÃ­tulo. PeriÃ³dico. URL
+  } else if (docType === 'Periódico') {
+    // Formato: Autor. (Fecha). Título. Periódico. URL
     if (data.dateNewspaper) {
       const dateObj = new Date(data.dateNewspaper);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -231,7 +231,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Enciclopedia') {
-    // Formato: Autor. (AÃ±o). TÃ­tulo entrada. En TÃ­tulo enciclopedia. URL
+    // Formato: Autor. (Año). Título entrada. En Título enciclopedia. URL
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -258,7 +258,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Entrevista') {
-    // Formato: Entrevistado. (AÃ±o, fecha). TÃ­tulo [Tipo entrevista]. Medio.
+    // Formato: Entrevistado. (Año, fecha). Título [Tipo entrevista]. Medio.
     if (data.dateInterview) {
       const dateObj = new Date(data.dateInterview);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -294,7 +294,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Documental') {
-    // Formato: Director. (AÃ±o). TÃ­tulo [Tipo]. Productora.
+    // Formato: Director. (Año). Título [Tipo]. Productora.
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -303,10 +303,10 @@ function formatReferenceAPA(data) {
     
     const types = {
       'documental': 'Documental',
-      'pelicula': 'PelÃ­cula',
+      'pelicula': 'Película',
       'serie': 'Episodio de serie'
     };
-    ref += ` [${types[data.filmType] || 'PelÃ­cula'}]`;
+    ref += ` [${types[data.filmType] || 'Película'}]`;
     
     if (data.director) {
       ref += ` [Dirigida por ${data.director}]`;
@@ -320,8 +320,8 @@ function formatReferenceAPA(data) {
       ref += ` ${formattedLink}`;
     }
     
-  } else if (docType === 'PÃ¡gina web') {
-    // Formato: Autor/Org. (AÃ±o, fecha). TÃ­tulo. Sitio web. Recuperado de URL
+  } else if (docType === 'Página web') {
+    // Formato: Autor/Org. (Año, fecha). Título. Sitio web. Recuperado de URL
     if (data.dateWeb) {
       const dateObj = new Date(data.dateWeb);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -403,7 +403,7 @@ function formatReferenceVancouver(data) {
   const source = data.journal || data.conference || data.website || data.newspaper || data.publisher || '';
   const tail = data.urlOrDoi ? ` ${data.urlOrDoi}` : '';
 
-  if (data.docType === 'ArtÃ­culo' || data.docType === 'ArtÃ­culo en conferencia') {
+  if (data.docType === 'Artículo' || data.docType === 'Artículo en conferencia') {
     return `${authors} ${title} ${source}. ${year};${volume}${issue}:${pages}.${tail}`.replace(/\s+/g, ' ').trim();
   }
   if (data.docType === 'Libro') {
@@ -446,8 +446,8 @@ function createReferenceItem(refData, index) {
   li.innerHTML = `<label class="ref-selector"><input type="checkbox" class="ref-check" data-index="${index}" /> Seleccionar</label>
                   <div class="ref-text">${formattedRef}</div>
                   <div>
-                    <button onclick="editReference(this)">âœï¸</button>
-                    <button onclick="deleteReference(${index})">ðŸ—‘ï¸</button>
+                    <button onclick="editReference(this)">✏️</button>
+                    <button onclick="deleteReference(${index})">🗑️</button>
                   </div>`;
   return li;
 }
@@ -475,7 +475,7 @@ function addReference() {
   const urlOrDoi = document.getElementById('urlOrDoi').value.trim();
 
   if (!title) {
-    alert('Debe completar al menos el titulo.');
+    alert('Debe completar al menos el título.');
     return;
   }
 
@@ -516,7 +516,7 @@ function clearForm() {
   if (citationInput) citationInput.value = '';
   if (parseStatus) parseStatus.textContent = '';
   
-  // Limpiar campos dinÃ¡micos
+  // Limpiar campos dinámicos
   const dynamicInputs = document.querySelectorAll('#dynamicFields input, #dynamicFields select');
   dynamicInputs.forEach(input => {
     input.value = '';
@@ -544,7 +544,7 @@ function editReference(button) {
     refData.authors.forEach(author => {
       const parts = author.split(', ');
       const surname = parts[0] || '';
-      // Las iniciales ya estÃ¡n en formato "J. M." - convertir a nombre completo no es posible,
+      // Las iniciales ya están en formato "J. M." - convertir a nombre completo no es posible,
       // pero podemos mostrar las iniciales para que el usuario las edite si quiere
       const initials = parts[1] || '';
       const div = document.createElement('div');
@@ -552,11 +552,11 @@ function editReference(button) {
       div.innerHTML = `<label>Autor:</label>
                        <input type="text" value="${initials.replace(/\./g, '')}" placeholder="Nombre o Iniciales">
                        <input type="text" value="${surname}" placeholder="Apellido">
-                       <button onclick="this.parentNode.remove()">ðŸ—‘ï¸</button>`;
+                       <button onclick="this.parentNode.remove()">🗑️</button>`;
       document.getElementById('authorInputs').appendChild(div);
     });
   } else {
-    // Agregar un campo vacÃ­o si no hay autores
+    // Agregar un campo vacío si no hay autores
     document.getElementById('authorInputs').innerHTML = '<div class="author-row"><label>Autor:</label><input type="text" placeholder="Nombre"><input type="text" placeholder="Apellido"></div>';
   }
 
@@ -565,10 +565,10 @@ function editReference(button) {
   document.getElementById('docType').value = refData.docType || 'Libro';
   document.getElementById('urlOrDoi').value = refData.urlOrDoi || '';
   
-  // Actualizar campos dinÃ¡micos para el tipo de documento
+  // Actualizar campos dinámicos para el tipo de documento
   updateFormFields();
   
-  // Llenar campos dinÃ¡micos con los datos guardados
+  // Llenar campos dinámicos con los datos guardados
   const schema = documentSchema[refData.docType];
   if (schema) {
     schema.fields.forEach(field => {
@@ -651,7 +651,7 @@ function importLibraryJson(event) {
       const parsed = JSON.parse(reader.result);
       const imported = Array.isArray(parsed) ? parsed : parsed.references;
       if (!Array.isArray(imported)) {
-        alert('El archivo JSON no tiene un formato valido.');
+        alert('El archivo JSON no tiene un formato válido.');
         return;
       }
 
@@ -664,7 +664,7 @@ function importLibraryJson(event) {
       referencesData = [...referencesData, ...validRefs];
       saveToStorage();
       renderReferencesList();
-      alert(`Importacion completada: ${validRefs.length} referencias.`);
+      alert(`Importación completada: ${validRefs.length} referencias.`);
     } catch (error) {
       alert('No se pudo leer el archivo JSON.');
     } finally {
@@ -675,10 +675,10 @@ function importLibraryJson(event) {
 }
 
 function clearAll() {
-  if (confirm('Â¿Seguro que desea eliminar todas las referencias?')) {
+  if (confirm('¿Seguro que desea eliminar todas las referencias?')) {
     referencesData = [];
-    document.getElementById('refsList').innerHTML = '';
     saveToStorage();
+    renderReferencesList();
   }
 }
 
@@ -694,9 +694,313 @@ function loadFromStorage() {
   renderReferencesList();
 }
 
-// Inicializar la aplicaciÃ³n
+function setInputMode() {
+  const modeElement = document.getElementById('inputMode');
+  const autoInputArea = document.getElementById('autoInputArea');
+  if (!modeElement || !autoInputArea) return;
+  autoInputArea.style.display = modeElement.value === 'automatic' ? 'block' : 'none';
+}
+
+function normalizeTailPunctuation(value) {
+  if (!value) return '';
+  return value.trim().replace(/[).,;]+$/, '').trim();
+}
+
+function extractLinks(raw) {
+  const doiMatch = raw.match(/(?:https?:\/\/(?:dx\.)?doi\.org\/\S+|10\.\d{4,9}\/[-._;()/:A-Z0-9]+)/i);
+  const urlMatch = raw.match(/https?:\/\/[^\s)]+/i);
+
+  let urlOrDoi = '';
+  if (doiMatch) {
+    urlOrDoi = normalizeTailPunctuation(doiMatch[0]);
+    if (!/^https?:\/\//i.test(urlOrDoi)) {
+      urlOrDoi = `https://doi.org/${urlOrDoi}`;
+    }
+  } else if (urlMatch) {
+    urlOrDoi = normalizeTailPunctuation(urlMatch[0]);
+  }
+
+  const textWithoutLinks = raw
+    .replace(/https?:\/\/(?:dx\.)?doi\.org\/\S+/gi, '')
+    .replace(/\b10\.\d{4,9}\/[-._;()/:A-Z0-9]+\b/gi, '')
+    .replace(/https?:\/\/[^\s)]+/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  return { urlOrDoi, textWithoutLinks };
+}
+
+function detectCitationStyle(raw) {
+  const text = raw.trim();
+  if (!text) return { style: 'desconocido', confidence: 0 };
+
+  if (/\[\d+\]/.test(text) || /,\s*vol\.?\s*\d+/i.test(text) || /,\s*no\.?\s*\d+/i.test(text)) {
+    return { style: 'IEEE', confidence: 0.84 };
+  }
+  if (/^\s*\d+\./m.test(text) || /\d{4}\s*;\s*\d+\s*(\(|:)/.test(text)) {
+    return { style: 'Vancouver', confidence: 0.8 };
+  }
+  if (/\(\d{4}[a-z]?\)\./i.test(text) || /,\s*&\s*/.test(text)) {
+    return { style: 'APA', confidence: 0.88 };
+  }
+  return { style: 'desconocido', confidence: 0.45 };
+}
+
+function splitAuthorToken(token) {
+  const cleaned = token.replace(/\s+/g, ' ').trim().replace(/\.$/, '');
+  if (!cleaned) return null;
+
+  if (cleaned.includes(',')) {
+    const pieces = cleaned.split(',');
+    const family = (pieces.shift() || '').trim();
+    const given = pieces.join(',').trim();
+    if (!family) return null;
+    return { family, given: given.replace(/\.$/, '') };
+  }
+
+  const parts = cleaned.split(' ').filter(Boolean);
+  if (parts.length === 1) return { family: parts[0], given: '' };
+  return { family: parts[0], given: parts.slice(1).join(' ') };
+}
+
+function parseAuthors(authorsRaw, style) {
+  if (!authorsRaw) return [];
+  const raw = authorsRaw.replace(/\s+/g, ' ').trim();
+  const tokens = [];
+
+  if (style === 'APA') {
+    const normalized = raw.replace(/\s*&\s*/g, ', ');
+    const regex = /([^,]+,\s*(?:[A-Z]\.\s*)+)/g;
+    let match;
+    while ((match = regex.exec(normalized)) !== null) {
+      tokens.push(match[1].trim().replace(/,\s*$/, ''));
+    }
+    if (tokens.length === 0) {
+      normalized.split(/\s*,\s*/).forEach(token => token && tokens.push(token));
+    }
+  } else {
+    raw
+      .replace(/\s+and\s+/gi, ', ')
+      .split(/\s*,\s*/)
+      .forEach(token => token && tokens.push(token));
+  }
+
+  const parsed = [];
+  tokens.forEach(token => {
+    const split = splitAuthorToken(token);
+    if (split) parsed.push(split);
+  });
+  return parsed;
+}
+
+function parseSourceSegment(segment) {
+  const source = (segment || '').trim().replace(/\.$/, '');
+  const result = { journal: '', volume: '', issue: '', pages: '' };
+  if (!source) return result;
+
+  const pagesMatch = source.match(/(\d+\s*[-–]\s*\d+)\s*$/);
+  let remaining = source;
+  if (pagesMatch) {
+    result.pages = pagesMatch[1].replace(/\s+/g, '');
+    remaining = remaining.replace(/,?\s*\d+\s*[-–]\s*\d+\s*$/, '').trim();
+  }
+
+  const volIssueMatch = remaining.match(/,?\s*(\d+)\s*\(([^)]+)\)\s*$/);
+  if (volIssueMatch) {
+    result.volume = volIssueMatch[1];
+    result.issue = volIssueMatch[2].trim();
+    result.journal = remaining.replace(/,?\s*\d+\s*\([^)]+\)\s*$/, '').trim().replace(/[.,]$/, '');
+    return result;
+  }
+
+  const volOnlyMatch = remaining.match(/,?\s*(\d+)\s*$/);
+  if (volOnlyMatch) {
+    result.volume = volOnlyMatch[1];
+    result.journal = remaining.replace(/,?\s*\d+\s*$/, '').trim().replace(/[.,]$/, '');
+    return result;
+  }
+
+  result.journal = remaining.trim().replace(/[.,]$/, '');
+  return result;
+}
+
+function parseAPACitation(text) {
+  const output = { authorsRaw: '', year: '', title: '', journal: '', volume: '', issue: '', pages: '' };
+  const regex = /^(?<authors>.+?)\s*\((?<year>\d{4}[a-z]?)\)\.\s*(?<title>.+?)\.\s*(?<source>.+)$/i;
+  const match = text.match(regex);
+  if (match && match.groups) {
+    output.authorsRaw = match.groups.authors.trim();
+    output.year = match.groups.year.replace(/[^\d]/g, '');
+    output.title = match.groups.title.trim();
+    const sourceData = parseSourceSegment(match.groups.source);
+    output.journal = sourceData.journal;
+    output.volume = sourceData.volume;
+    output.issue = sourceData.issue;
+    output.pages = sourceData.pages;
+    return output;
+  }
+
+  const yearMatch = text.match(/\((\d{4})[a-z]?\)/i);
+  if (yearMatch) output.year = yearMatch[1];
+
+  const parts = text.split('.').map(part => part.trim()).filter(Boolean);
+  if (parts.length > 0) output.authorsRaw = parts[0];
+  if (parts.length > 1) output.title = parts[1];
+  if (parts.length > 2) {
+    const sourceData = parseSourceSegment(parts.slice(2).join('. '));
+    output.journal = sourceData.journal;
+    output.volume = sourceData.volume;
+    output.issue = sourceData.issue;
+    output.pages = sourceData.pages;
+  }
+  return output;
+}
+
+function parseVancouverOrIEEECitation(text) {
+  const output = { authorsRaw: '', year: '', title: '', journal: '', volume: '', issue: '', pages: '' };
+
+  const patternA = /^(?<authors>.+?)\.\s+(?<title>.+?)\.\s+(?<journal>.+?)\.\s+(?<year>\d{4})\s*;\s*(?<volume>\d+)(?:\((?<issue>[^)]+)\))?\s*:\s*(?<pages>\d+\s*[-–]\s*\d+)\.?$/i;
+  const mA = text.match(patternA);
+  if (mA && mA.groups) {
+    output.authorsRaw = mA.groups.authors.trim();
+    output.title = mA.groups.title.trim();
+    output.journal = mA.groups.journal.trim();
+    output.year = mA.groups.year;
+    output.volume = mA.groups.volume || '';
+    output.issue = mA.groups.issue || '';
+    output.pages = (mA.groups.pages || '').replace(/\s+/g, '');
+    return output;
+  }
+
+  const patternB = /^(?<authors>.+?)\.\s+(?<title>.+?)\.\s+(?<journal>.+?)(?:,|\.)\s*vol\.?\s*(?<volume>\d+)(?:,|\s)*(?:no\.?\s*(?<issue>[\w-]+))?(?:,|\s)*(?:pp\.?\s*)?(?<pages>\d+\s*[-–]\s*\d+)?(?:,|\s)*(?<year>\d{4})/i;
+  const mB = text.match(patternB);
+  if (mB && mB.groups) {
+    output.authorsRaw = mB.groups.authors.trim();
+    output.title = mB.groups.title.trim();
+    output.journal = mB.groups.journal.trim();
+    output.year = mB.groups.year;
+    output.volume = mB.groups.volume || '';
+    output.issue = mB.groups.issue || '';
+    output.pages = (mB.groups.pages || '').replace(/\s+/g, '');
+    return output;
+  }
+
+  const yearMatch = text.match(/\b(19|20)\d{2}\b/);
+  if (yearMatch) output.year = yearMatch[0];
+
+  const parts = text.split('.').map(part => part.trim()).filter(Boolean);
+  if (parts.length > 0) output.authorsRaw = parts[0];
+  if (parts.length > 1) output.title = parts[1];
+  if (parts.length > 2) {
+    const sourceData = parseSourceSegment(parts.slice(2).join('. '));
+    output.journal = sourceData.journal;
+    output.volume = sourceData.volume;
+    output.issue = sourceData.issue;
+    output.pages = sourceData.pages;
+  }
+  return output;
+}
+
+function inferDocType(parsed) {
+  const sourceText = (parsed.journal || '').toLowerCase();
+  if (sourceText.includes('conference') || sourceText.includes('congreso') || sourceText.includes('proceedings')) {
+    return 'Artículo en conferencia';
+  }
+  if (parsed.journal || parsed.volume || parsed.issue || parsed.pages) return 'Artículo';
+  if (parsed.urlOrDoi) return 'Página web';
+  return 'Otro';
+}
+
+function setDynamicFieldIfExists(fieldId, value) {
+  if (!value) return;
+  const element = document.getElementById(fieldId);
+  if (element) element.value = value;
+}
+
+function fillAuthorsIntoForm(authors) {
+  const container = document.getElementById('authorInputs');
+  container.innerHTML = '';
+
+  if (!authors.length) {
+    container.innerHTML = '<div class="author-row"><label>Autor:</label><input type="text" placeholder="Nombre"><input type="text" placeholder="Apellido"></div>';
+    return;
+  }
+
+  authors.slice(0, maxAuthors).forEach(author => {
+    const div = document.createElement('div');
+    div.className = 'author-row';
+    div.innerHTML = `<label>Autor:</label>
+                     <input type="text" value="${(author.given || '').replace(/"/g, '&quot;')}" placeholder="Nombre">
+                     <input type="text" value="${(author.family || '').replace(/"/g, '&quot;')}" placeholder="Apellido">
+                     <button onclick="this.parentNode.remove()">🗑️</button>`;
+    container.appendChild(div);
+  });
+}
+
+function fillFormFromParsed(parsed) {
+  const docTypeElement = document.getElementById('docType');
+  const availableTypes = Array.from(docTypeElement.options).map(option => option.value);
+  const inferredDocType = inferDocType(parsed);
+  const targetDocType = availableTypes.includes(inferredDocType) ? inferredDocType : availableTypes[0];
+
+  docTypeElement.value = targetDocType;
+  updateFormFields();
+
+  fillAuthorsIntoForm(parsed.authors || []);
+  document.getElementById('title').value = parsed.title || '';
+  document.getElementById('urlOrDoi').value = parsed.urlOrDoi || '';
+
+  setDynamicFieldIfExists('year', parsed.year);
+  setDynamicFieldIfExists('journal', parsed.journal);
+  setDynamicFieldIfExists('conference', parsed.journal);
+  setDynamicFieldIfExists('location', parsed.location);
+  setDynamicFieldIfExists('volume', parsed.volume);
+  setDynamicFieldIfExists('issue', parsed.issue);
+  setDynamicFieldIfExists('pages', parsed.pages);
+  setDynamicFieldIfExists('website', parsed.journal);
+}
+
+function extractFromCitation() {
+  const input = document.getElementById('citationInput');
+  const status = document.getElementById('parseStatus');
+  if (!input || !status) return;
+
+  const raw = input.value.trim();
+  if (!raw) {
+    status.textContent = 'Pega una referencia para extraer datos.';
+    return;
+  }
+
+  const detected = detectCitationStyle(raw);
+  const links = extractLinks(raw);
+  const cleanText = links.textWithoutLinks;
+
+  const parsed = detected.style === 'APA'
+    ? parseAPACitation(cleanText)
+    : parseVancouverOrIEEECitation(cleanText);
+
+  const authors = parseAuthors(parsed.authorsRaw, detected.style);
+  const fullParsed = { ...parsed, authors, urlOrDoi: links.urlOrDoi };
+
+  fillFormFromParsed(fullParsed);
+
+  const missing = [];
+  if (!fullParsed.year) missing.push('año');
+  if (!fullParsed.title) missing.push('título');
+  if (!authors.length) missing.push('autores');
+
+  const confidencePct = Math.round((detected.confidence || 0) * 100);
+  const missingText = missing.length ? ` | Revisar: ${missing.join(', ')}` : '';
+  status.textContent = `Estilo detectado: ${detected.style} (${confidencePct}% conf.)${missingText}`;
+}
+
+// Inicializar la aplicación
 window.onload = async () => {
   await loadDocumentSchema();
   loadFromStorage();
+  setInputMode();
+  const inputMode = document.getElementById('inputMode');
+  if (inputMode) inputMode.addEventListener('change', setInputMode);
 };
+
 
