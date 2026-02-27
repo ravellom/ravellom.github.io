@@ -261,8 +261,20 @@ body {
 
 .left-section-nav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 6px;
+}
+
+.left-section-nav .left-nav-link {
+    grid-column: span 2;
+}
+
+.left-section-nav .left-nav-link:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.left-section-nav .left-nav-link:nth-child(5) {
+    grid-column: 4 / span 2;
 }
 
 .left-nav-link {
@@ -1793,6 +1805,12 @@ html[data-workspace-mode="basic"] .core-insights-link {
 
     .left-section-nav {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .left-section-nav .left-nav-link,
+    .left-section-nav .left-nav-link:nth-child(4),
+    .left-section-nav .left-nav-link:nth-child(5) {
+        grid-column: auto;
     }
 
     .exercise-tabs-nav {

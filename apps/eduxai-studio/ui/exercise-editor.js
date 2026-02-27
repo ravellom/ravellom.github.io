@@ -1080,19 +1080,6 @@ function createTechnicalLayer(exercise) {
     const groups = document.createElement('div');
     groups.className = 'technical-groups';
 
-    groups.appendChild(createReadableCard(
-        t('editor.technicalGroupPedagogicalTitle'),
-        t('editor.technicalGroupPedagogicalHint'),
-        [
-            createReadableLine(t('editor.learningObjective'), safeGet(exercise, 'xai.pedagogical_alignment.learning_objective', '')),
-            createReadableLine(t('editor.competency'), safeGet(exercise, 'xai.pedagogical_alignment.competency', '')),
-            createReadableLine(t('editor.bloom'), labelBloom(safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '-'))),
-            createReadableLine(t('editor.difficulty'), labelDifficulty(safeGet(exercise, 'xai.pedagogical_alignment.difficulty_level', '-'))),
-            createReadableLine(t('editor.coreStatement'), safeGet(exercise, 'dua.core_statement', '')),
-            createReadableLine('Core ID', safeGet(exercise, 'dua.core_id', ''))
-        ]
-    ));
-
     const sourceRefs = Array.isArray(safeGet(exercise, 'xai.content_selection.source_refs', []))
         ? safeGet(exercise, 'xai.content_selection.source_refs', []).join('; ')
         : '';
