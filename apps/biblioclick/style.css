@@ -1,77 +1,87 @@
-/* BiblioClick - Estilos específicos */
+﻿/* BiblioClick - Estilos específicos */
 /* El estilo base viene de recuedu.css */
 
-/* Estilos específicos para la aplicación */
-.author-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+/* Escala general compacta */
+html, body {
+  font-size: 15px;
 }
 
 .app-header {
-  padding: 0.3rem 0;
+  padding: 0.2rem 0;
   min-height: auto;
 }
 
 .recuedu-topbar {
-  min-height: 38px;
+  min-height: 34px;
 }
 
 .recuedu-topbar .topbar-container {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .app-hero {
-  padding: 10px 0 !important;
+  padding: 6px 0 !important;
   min-height: auto !important;
 }
 
-.app-hero .hero-tag {
-  font-size: 0.78rem;
-  padding: 2px 10px;
-}
-
 .app-hero h1 {
-  font-size: 1.25rem !important;
-  margin: 8px 0 !important;
+  font-size: 1.12rem !important;
+  margin: 4px 0 !important;
 }
 
 .app-hero p {
-  font-size: 0.86rem !important;
-  margin: 4px 0 !important;
+  font-size: 0.8rem !important;
+  margin: 2px 0 !important;
 }
 
 .app-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
-  font-size: 0.94rem;
+  gap: 12px;
+  width: min(90vw, 1700px);
+  max-width: 90vw;
+  margin: 0 auto;
+  font-size: 0.9rem;
 }
 
 @media (min-width: 1080px) {
   .app-layout {
-    grid-template-columns: minmax(520px, 1.2fr) minmax(420px, 1fr);
+    grid-template-columns: minmax(560px, 1.35fr) minmax(460px, 1fr);
     align-items: start;
-  }
-
-  .entry-card,
-  .library-card {
-    margin-top: 0 !important;
   }
 
   .library-card {
     position: sticky;
-    top: 16px;
+    top: 10px;
   }
 }
 
-/* Adaptativo: vertical en móviles, horizontal en pantallas medianas o grandes */
+.entry-card,
+.library-card {
+  margin-top: 0 !important;
+}
+
+.entry-card h2,
+.library-card h2 {
+  margin-bottom: 0.55rem;
+  font-size: 1.02rem;
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.author-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  margin-bottom: 0.7rem;
+}
+
 .author-row {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: flex-start;
 }
 
@@ -79,71 +89,113 @@
   .author-row {
     flex-direction: row;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.55rem;
   }
-  
+
   .author-row label {
-    min-width: 60px;
+    min-width: 56px;
+    font-size: 0.86rem;
   }
 }
 
 .form-fields {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
 
 .form-fields label {
   font-weight: 600;
   color: var(--text-main);
-  margin-bottom: 0.25rem;
-  font-size: 0.92rem;
+  margin-bottom: 0.15rem;
+  font-size: 0.85rem;
 }
 
 input,
-select {
-  padding: 0.55rem 0.65rem;
-  font-size: 0.89rem;
-  border: 2px solid var(--border);
+select,
+textarea {
+  padding: 0.44rem 0.55rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--border);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   font-family: var(--font-main);
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
 }
 
-/* Botón secundario verde */
+.btn {
+  padding: 0.42rem 0.62rem;
+  font-size: 0.8rem;
+}
+
+.btn i {
+  margin-right: 0.35rem;
+}
+
 .btn-secondary {
   background-color: var(--secondary);
   color: white;
-  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 3px 6px -2px rgba(16, 185, 129, 0.22);
 }
 
 .btn-secondary:hover {
   background-color: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
 }
 
-/* Botón de peligro */
 .btn-danger {
-  color: #DC2626 !important;
-  border-color: #DC2626 !important;
+  color: #dc2626 !important;
+  border-color: #dc2626 !important;
 }
 
 .btn-danger:hover {
-  background-color: #DC2626 !important;
+  background-color: #dc2626 !important;
   color: white !important;
 }
 
-/* Lista de referencias */
+.auto-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.65rem;
+}
+
+.auto-panel textarea {
+  min-height: 138px;
+  resize: vertical;
+  line-height: 1.36;
+}
+
+.small-note {
+  font-size: 0.77rem;
+  color: #334155;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+}
+
+.library-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+}
+
 .refs-list {
   list-style: none;
   padding: 0;
@@ -152,87 +204,39 @@ select:focus {
 
 .ref-item {
   background: var(--bg-body);
-  padding: 0.7rem;
-  margin-bottom: 0.55rem;
+  padding: 0.55rem;
+  margin-bottom: 0.45rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  transition: all 0.2s ease;
+  gap: 8px;
 }
 
 .ref-item:hover {
   border-color: var(--primary);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .ref-text {
   flex: 1;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   word-break: break-word;
   color: var(--text-main);
-  line-height: 1.4;
-  font-size: 0.9rem;
+  line-height: 1.3;
+  font-size: 0.8rem;
 }
 
 .ref-selector {
-  font-size: 0.85rem;
+  font-size: 0.74rem;
   color: #334155;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
 }
 
 .ref-selector input {
   width: auto;
   margin: 0;
 }
-
-.auto-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 0.8rem;
-}
-
-.auto-panel textarea {
-  width: 100%;
-  min-height: 150px;
-  resize: vertical;
-  padding: 0.75rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.89rem;
-  line-height: 1.45;
-  font-family: var(--font-main);
-}
-
-.small-note {
-  font-size: 0.84rem;
-  color: #334155;
-  background: #eef2ff;
-  border: 1px solid #c7d2fe;
-  border-radius: 8px;
-  padding: 0.5rem 0.6rem;
-}
-
-.library-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.entry-card h2,
-.library-card h2 {
-  margin-bottom: 0.75rem;
-  font-size: 1.15rem;
-}
-
