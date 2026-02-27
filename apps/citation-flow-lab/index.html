@@ -1,0 +1,1896 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citation Flow Lab</title>
+  <style>
+    :root {
+      --bg: #e8edf1;
+      --panel: #f8fbfd;
+      --panel-2: #ffffff;
+      --ink: #1d2a32;
+      --muted: #5f7482;
+      --line: #bed0dc;
+      --accent: #0f87aa;
+      --accent-2: #11b0b7;
+      --ok: #1f9d69;
+      --warn: #e08a21;
+      --err: #ca2e55;
+      --authors: #e2f4ff;
+      --year: #fff2cf;
+      --title: #e9f8e6;
+      --source: #f5e8ff;
+      --doi: #ffe8ee;
+      --volume: #e8f7ff;
+      --issue: #eef5ff;
+      --pages: #e9ffe9;
+      --url: #fff6e2;
+      --shadow: 0 14px 32px rgba(9, 37, 54, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 5% -10%, rgba(15, 135, 170, 0.16), transparent 70%),
+        radial-gradient(1000px 500px at 100% 120%, rgba(17, 176, 183, 0.15), transparent 60%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: #243742;
+      color: #d4e4ee;
+      padding: 12px 20px;
+      border-bottom: 3px solid #19313f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .pill {
+      border: 1px solid #486171;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      color: #c1d7e4;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    main {
+      width: min(1600px, 90vw);
+      margin: 18px auto 26px;
+      position: relative;
+    }
+
+    .canvas {
+      position: relative;
+      padding: 18px 10px 26px;
+      min-height: 860px;
+      display: grid;
+      grid-template-columns: minmax(210px, 0.82fr) minmax(250px, 0.96fr) minmax(420px, 1.58fr) minmax(360px, 1.38fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    #node1 {
+      grid-column: 1;
+      grid-row: 1;
+      min-height: 450px;
+    }
+
+    #node2 {
+      grid-column: 2;
+      grid-row: 1;
+      min-height: 300px;
+    }
+
+    #node3 {
+      grid-column: 3;
+      grid-row: 1;
+      min-height: 650px;
+    }
+
+    #node4 {
+      grid-column: 4;
+      grid-row: 1;
+      min-height: 760px;
+    }
+
+    .flow-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+      overflow: visible;
+    }
+
+    .flow-path {
+      fill: none;
+      stroke: rgba(20, 149, 190, 0.95);
+      stroke-width: 4.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 200ms ease, opacity 200ms ease;
+      filter: none;
+    }
+
+    .flow-path.is-active {
+      stroke: rgba(6, 187, 219, 1);
+    }
+
+    .flow-pulse {
+      fill: none;
+      stroke: #0fa8ce;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 24 1800;
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+
+    .flow-pulse.is-running {
+      opacity: 1;
+      animation: flowrun 980ms linear forwards;
+    }
+
+    .node {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: rise 360ms ease-out both;
+      z-index: 2;
+    }
+
+    .port {
+      display: none;
+    }
+
+    #port1out { right: -11px; top: 50%; transform: translateY(-50%); }
+    #port2in { left: -11px; top: 50%; transform: translateY(-50%); }
+    #port2out { left: 50%; bottom: -11px; transform: translateX(-50%); }
+    #port3in { left: 50%; top: -11px; transform: translateX(-50%); }
+    #port3out { right: -11px; top: 50%; transform: translateY(-50%); }
+    #port4in { left: -11px; top: 50%; transform: translateY(-50%); }
+
+    .node.is-active {
+      border-color: #66adc7;
+      box-shadow: 0 0 0 2px rgba(30, 154, 198, 0.16), var(--shadow);
+    }
+
+    .node-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(95deg, rgba(15, 135, 170, 0.12), rgba(17, 176, 183, 0.08));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .node-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .node-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 9px 10px;
+      font: inherit;
+      font-size: 0.83rem;
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .segmented {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 220px;
+      padding: 10px;
+      font-size: 0.83rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+
+    .tag-authors { background: var(--authors); }
+    .tag-year { background: var(--year); }
+    .tag-title { background: var(--title); }
+    .tag-source { background: var(--source); }
+    .tag-doi { background: var(--doi); }
+    .tag-volume { background: var(--volume); }
+    .tag-issue { background: var(--issue); }
+    .tag-pages { background: var(--pages); }
+    .tag-url { background: var(--url); }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.7rem;
+    }
+
+    .legend span {
+      border-radius: 6px;
+      padding: 3px 6px;
+      border: 1px solid #d9e5ed;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .inline-field {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: transform 100ms ease, border-color 120ms ease, background 120ms ease;
+    }
+
+    button:hover {
+      border-color: #94b3c4;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(92deg, var(--accent), var(--accent-2));
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .btn-danger {
+      border-color: #f0c1cf;
+      color: #90223f;
+      background: #fff5f8;
+    }
+
+    .status {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 8px 9px;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .status strong {
+      color: #1a4d66;
+    }
+
+    .mono {
+      font-size: 0.76rem;
+      line-height: 1.45;
+      background: #f6fafc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    #apaInput {
+      min-height: 260px;
+      overflow: hidden;
+      resize: none;
+    }
+
+    #risPreview {
+      min-height: 430px;
+      overflow: auto;
+      flex: 1 1 auto;
+    }
+
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .err { color: var(--err); }
+
+    .memory-list {
+      max-height: 170px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .memory-item {
+      padding: 8px 9px;
+      border-bottom: 1px dashed #d5e2ea;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    .memory-item:last-child {
+      border-bottom: 0;
+    }
+
+    .small {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1160px) {
+      .canvas {
+        min-height: auto;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      #node1, #node2, #node3, #node4 {
+        min-height: 420px;
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .canvas {
+        min-height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .flow-layer {
+        display: none;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .inline-field {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes flowrun {
+      from {
+        stroke-dashoffset: 200;
+        opacity: 0.2;
+      }
+      30% {
+        opacity: 1;
+      }
+      to {
+        stroke-dashoffset: -1280;
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Citation Flow Lab | Motor local explicable</div>
+    <div class="inline-field" style="grid-template-columns: auto auto; gap: 10px;">
+      <button id="toggleLayoutTuning">Ajustar anchos</button>
+      <div class="pill" id="enginePill">Modo: sin procesar</div>
+    </div>
+  </header>
+  <div id="layoutTuningPanel" style="display:none; width:min(1600px,90vw); margin: 8px auto 0; padding:10px; border:1px solid var(--line); border-radius:10px; background:#f2f7fb;">
+    <div class="grid-2" style="grid-template-columns: repeat(4, minmax(150px,1fr));">
+      <label class="small">Panel 1 <input id="w1" type="range" min="60" max="180" value="82" /></label>
+      <label class="small">Panel 2 <input id="w2" type="range" min="60" max="220" value="96" /></label>
+      <label class="small">Panel 3 <input id="w3" type="range" min="80" max="260" value="158" /></label>
+      <label class="small">Panel 4 <input id="w4" type="range" min="80" max="240" value="138" /></label>
+    </div>
+    <div style="margin-top:8px; display:flex; gap:8px;">
+      <button id="resetLayoutWidths">Reset anchos</button>
+      <span class="small">Ajuste en tiempo real para comparar distribuciÃ³n en clase.</span>
+    </div>
+  </div>
+
+  <main>
+    <section class="canvas">
+      <svg class="flow-layer" id="flowLayer" aria-hidden="true">
+        <path class="flow-path" id="pathBase1"></path>
+        <path class="flow-path" id="pathBase2"></path>
+        <path class="flow-path" id="pathBase3"></path>
+        <path class="flow-pulse" id="pathPulse1"></path>
+        <path class="flow-pulse" id="pathPulse2"></path>
+        <path class="flow-pulse" id="pathPulse3"></path>
+      </svg>
+
+      <article class="node" id="node1">
+        <span class="port" id="port1out"></span>
+        <header class="node-head">
+          <div class="node-title">1) Entrada</div>
+          <span class="badge">Manual</span>
+        </header>
+        <div class="node-body">
+          <textarea id="apaInput" placeholder="Pega una referencia APA aquÃ­...">GarcÃ­a, M., &amp; Torres, L. (2022). Aprendizaje automÃ¡tico en bibliotecas universitarias. Revista Iberoamericana de InformaciÃ³n, 18(2), 44-63. https://doi.org/10.1234/ribi.2022.18.2.44</textarea>
+          <div class="inline-field">
+            <label class="form-label" for="methodSelect">Metodo IA</label>
+            <select id="methodSelect">
+              <option value="basic_regex">Basico: regex generico</option>
+              <option value="template_rules">Intermedio: plantillas + reglas</option>
+              <option value="classified_templates">Avanzado ligero: clasificador + plantillas</option>
+              <option value="learned_hybrid" selected>Hibrido: memoria + clasificador + reglas</option>
+              <option value="compare_all">Comparar todos (didactico)</option>
+            </select>
+          </div>
+          <div class="grid-2">
+            <button id="processFlow" class="btn-primary">Procesar flujo</button>
+            <button id="loadExample">Cargar ejemplo</button>
+          </div>
+          <div class="grid-2">
+            <button id="clearInput" class="btn-danger">Limpiar entrada</button>
+            <button id="forceLearn">Guardar aprendizaje</button>
+          </div>
+          <div class="status" id="inputStatus">Esperando texto APA...</div>
+          <div class="small">Objetivo: detectar campos y transformarlos a RIS sin usar APIs externas.</div>
+        </div>
+      </article>
+
+      <article class="node" id="node2">
+        <span class="port" id="port2in"></span>
+        <span class="port" id="port2out"></span>
+        <header class="node-head">
+          <div class="node-title">2) Segmentador</div>
+          <span class="badge" id="sourceBadge">ðŸ“ Regla</span>
+        </header>
+        <div class="node-body">
+          <div class="segmented" id="segmentedOutput"></div>
+          <div class="legend">
+            <span class="tag-authors">Autor(es)</span>
+            <span class="tag-year">AÃ±o</span>
+            <span class="tag-title">TÃ­tulo</span>
+            <span class="tag-source">Fuente</span>
+            <span class="tag-doi">DOI</span>
+            <span class="tag-volume">Volumen</span>
+            <span class="tag-issue">NÃºmero</span>
+            <span class="tag-pages">PÃ¡ginas</span>
+            <span class="tag-url">URL</span>
+          </div>
+          <div class="mono" id="explanationBox"></div>
+        </div>
+      </article>
+
+      <article class="node" id="node3">
+        <span class="port" id="port3in"></span>
+        <span class="port" id="port3out"></span>
+        <header class="node-head">
+          <div class="node-title">3) Mapeo / Correccion</div>
+          <span class="badge">Editable</span>
+        </header>
+        <div class="node-body">
+          <div class="form-stack">
+            <div class="form-row">
+              <label class="form-label" for="typeField">Tipo RIS</label>
+              <select id="typeField">
+                <option value="JOUR">TY - JOUR (Articulo)</option>
+                <option value="BOOK">TY - BOOK (Libro)</option>
+                <option value="CHAP">TY - CHAP (Capitulo)</option>
+                <option value="ELEC">TY - ELEC (Web)</option>
+                <option value="CONF">TY - CONF (Conferencia)</option>
+                <option value="THES">TY - THES (Tesis)</option>
+                <option value="RPRT">TY - RPRT (Reporte)</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="authorsField">Autor(es)</label>
+              <input id="authorsField" placeholder="Autores separados por ';'" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="yearField">Ano</label>
+              <input id="yearField" placeholder="Ano" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="titleField">Titulo</label>
+              <input id="titleField" placeholder="Titulo" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="sourceField">Fuente</label>
+              <input id="sourceField" placeholder="Revista / Fuente" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="volumeField">Volumen</label>
+              <input id="volumeField" placeholder="Volumen" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="issueField">Numero</label>
+              <input id="issueField" placeholder="Numero / fasciculo" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="pagesField">Paginas</label>
+              <input id="pagesField" placeholder="Paginas (ej: 44-63)" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="doiField">DOI</label>
+              <input id="doiField" placeholder="DOI" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="urlField">URL</label>
+              <input id="urlField" placeholder="URL (si no hay DOI)" />
+            </div>
+          </div>
+          <button id="resetToParsed">Revertir parseo</button>
+          <div class="status" id="learnStatus">Edita cualquier campo: se aprendera automaticamente por skeleton.</div>
+        </div>
+      </article>
+
+      <article class="node" id="node4">
+        <span class="port" id="port4in"></span>
+        <header class="node-head">
+          <div class="node-title">4) ExportaciÃ³n RIS</div>
+          <span class="badge">Offline</span>
+        </header>
+        <div class="node-body">
+          <pre class="mono" id="risPreview"></pre>
+          <div class="grid-2">
+            <button id="copyRis">Copiar RIS</button>
+            <button id="downloadRis" class="btn-primary">Descargar .ris</button>
+          </div>
+          <div class="status" id="missingFieldsStatus"></div>
+          <div class="status" id="memoryStats"></div>
+          <div class="memory-list" id="memoryList"></div>
+          <button id="clearMemory" class="btn-danger">Borrar memoria local</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "apa_ris_lab_memory_v1";
+    const MAX_MEMORY = 200;
+
+    const templates = [
+      {
+        id: "journal_with_doi",
+        type: "JOUR",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+(?<source>.+?)\.\s*(?<doi>https?:\/\/doi\.org\/\S+|10\.\S+)$/i
+      },
+      {
+        id: "journal_basic",
+        type: "JOUR",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+(?<source>.+)$/i
+      },
+      {
+        id: "book_basic",
+        type: "BOOK",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4}|n\.d\.)\)\.\s+(?<title>.+?)\.\s+(?<source>[^.]+(?:Press|Editorial|Ediciones|Publishing).*)$/i
+      },
+      {
+        id: "chapter_in_book",
+        type: "CHAP",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+En\s+.+?\(pp\.\s*(?<pages>\d{1,5}\s*[-â€“]\s*\d{1,5})\)\.\s*(?<source>.+)$/i
+      },
+      {
+        id: "conference_paper",
+        type: "CONF",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+In\s+.+?(?:Proceedings|Congreso|Conference).+?(?<source>https?:\/\/\S+|10\.\S+|.+)$/i
+      },
+      {
+        id: "thesis_work",
+        type: "THES",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+\[(?:Tesis|Thesis).+?\]\.\s*(?<source>.+)$/i
+      },
+      {
+        id: "report_document",
+        type: "RPRT",
+        regex: /^(?<authors>.+?)\s+\((?<year>\d{4})\)\.\s+(?<title>.+?)\.\s+\((?:Report|Informe).+?\)\.\s*(?<source>.+)$/i
+      },
+      {
+        id: "fallback_generic",
+        type: "JOUR",
+        regex: /(?<authors>.*)\s\((?<year>\d{4})\)\.\s(?<title>.*?)\.\s(?<source>.*)/i
+      }
+    ];
+
+    const els = {
+      canvas: document.querySelector(".canvas"),
+      flowLayer: document.getElementById("flowLayer"),
+      pathBase1: document.getElementById("pathBase1"),
+      pathBase2: document.getElementById("pathBase2"),
+      pathBase3: document.getElementById("pathBase3"),
+      pathPulse1: document.getElementById("pathPulse1"),
+      pathPulse2: document.getElementById("pathPulse2"),
+      pathPulse3: document.getElementById("pathPulse3"),
+      node1: document.getElementById("node1"),
+      node2: document.getElementById("node2"),
+      node3: document.getElementById("node3"),
+      node4: document.getElementById("node4"),
+      port1out: document.getElementById("port1out"),
+      port2in: document.getElementById("port2in"),
+      port2out: document.getElementById("port2out"),
+      port3in: document.getElementById("port3in"),
+      port3out: document.getElementById("port3out"),
+      port4in: document.getElementById("port4in"),
+      enginePill: document.getElementById("enginePill"),
+      sourceBadge: document.getElementById("sourceBadge"),
+      apaInput: document.getElementById("apaInput"),
+      methodSelect: document.getElementById("methodSelect"),
+      inputStatus: document.getElementById("inputStatus"),
+      segmentedOutput: document.getElementById("segmentedOutput"),
+      explanationBox: document.getElementById("explanationBox"),
+      typeField: document.getElementById("typeField"),
+      authorsField: document.getElementById("authorsField"),
+      yearField: document.getElementById("yearField"),
+      doiField: document.getElementById("doiField"),
+      titleField: document.getElementById("titleField"),
+      sourceField: document.getElementById("sourceField"),
+      volumeField: document.getElementById("volumeField"),
+      issueField: document.getElementById("issueField"),
+      pagesField: document.getElementById("pagesField"),
+      urlField: document.getElementById("urlField"),
+      learnStatus: document.getElementById("learnStatus"),
+      risPreview: document.getElementById("risPreview"),
+      missingFieldsStatus: document.getElementById("missingFieldsStatus"),
+      memoryStats: document.getElementById("memoryStats"),
+      memoryList: document.getElementById("memoryList"),
+      toggleLayoutTuning: document.getElementById("toggleLayoutTuning"),
+      layoutTuningPanel: document.getElementById("layoutTuningPanel"),
+      w1: document.getElementById("w1"),
+      w2: document.getElementById("w2"),
+      w3: document.getElementById("w3"),
+      w4: document.getElementById("w4"),
+      resetLayoutWidths: document.getElementById("resetLayoutWidths")
+    };
+
+    let memory = loadMemory();
+    let currentParsed = null;
+    let currentSkeleton = "";
+    let autoLearnTimer = null;
+    let lastLearnSignature = "";
+    let isProcessing = false;
+    let lastProcessedInput = "";
+
+    function normalizeText(input) {
+      return (input || "")
+        .replace(/\u00A0/g, " ")
+        .replace(/[â€œâ€]/g, "\"")
+        .replace(/[â€˜â€™]/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function tokenize(text) {
+      const rx = /(\d+|[A-Za-zÀ-ÖØ-öø-ÿ]+|[^\w\s]|\s+)/g;
+      const tokens = [];
+      let m;
+      while ((m = rx.exec(text)) !== null) {
+        const value = m[0];
+        let kind = "punct";
+        if (/^\s+$/.test(value)) kind = "space";
+        else if (/^\d+$/.test(value)) kind = "num";
+        else if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/.test(value)) kind = "word";
+        tokens.push({
+          value,
+          kind,
+          start: m.index,
+          end: m.index + value.length
+        });
+      }
+      return tokens;
+    }
+
+    function buildSkeleton(text) {
+      const tokens = tokenize(text);
+      return tokens
+        .map((t) => {
+          if (t.kind === "word") return "STR";
+          if (t.kind === "num") return "NUM";
+          return t.value;
+        })
+        .join("")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function normalizeAuthorName(author) {
+      let a = normalizeText(author || "")
+        .replace(/^[,;]+|[,;.\s]+$/g, "")
+        .trim();
+      if (!a) return "";
+      if (a.includes(",")) {
+        const parts = a.split(",");
+        const surname = normalizeText(parts[0] || "");
+        const given = normalizeText(parts.slice(1).join(",") || "").replace(/^[,.\s]+|[,.\s]+$/g, "");
+        return surname ? (given ? (surname + ", " + given) : surname) : "";
+      }
+      const tokens = a.split(/\s+/).filter(Boolean);
+      if (tokens.length >= 2) {
+        const surname = tokens[tokens.length - 1];
+        const given = tokens.slice(0, -1).join(" ");
+        return surname + ", " + given;
+      }
+      return a;
+    }
+
+    function splitCommaPairs(chunk) {
+      const parts = normalizeText(chunk || "").split(",").map((p) => p.trim()).filter(Boolean);
+      if (parts.length >= 4 && parts.length % 2 === 0) {
+        const out = [];
+        for (let i = 0; i < parts.length; i += 2) {
+          out.push(parts[i] + ", " + parts[i + 1]);
+        }
+        return out;
+      }
+      return [chunk];
+    }
+
+    function toAuthorList(authorsRaw) {
+      const raw = normalizeText(authorsRaw || "")
+        .replace(/\s+et\s+al\.?$/i, "")
+        .replace(/\s*&\s*/g, " | ")
+        .replace(/\s+and\s+/gi, " | ")
+        .replace(/\.$/, "");
+      if (!raw) return [];
+      const primary = raw.includes(";")
+        ? raw.split(/\s*;\s*/)
+        : raw.split(/\s*\|\s*/);
+      const exploded = primary.flatMap((chunk) => splitCommaPairs(chunk));
+      return exploded
+        .map((a) => normalizeAuthorName(a))
+        .filter(Boolean);
+    }
+
+    function scoreMatch(matchGroups) {
+      let score = 0;
+      if (matchGroups.authors) score += 3;
+      if (matchGroups.year) score += 3;
+      if (matchGroups.title) score += 3;
+      if (matchGroups.source) score += 3;
+      if (matchGroups.doi) score += 2;
+      return score;
+    }
+
+    function extractDoi(text) {
+      const m = normalizeText(text).match(/(?:https?:\/\/doi\.org\/|doi:\s*)?(10\.\S+)/i);
+      return m ? normalizeText(m[1].replace(/[.,;]$/, "")) : "";
+    }
+
+    function extractUrl(text) {
+      const m = normalizeText(text).match(/https?:\/\/\S+/i);
+      if (!m) return "";
+      const url = normalizeText(m[0].replace(/[.,;]$/, ""));
+      if (/doi\.org\//i.test(url)) return "";
+      return url;
+    }
+
+    function extractSourceParts(sourceRaw) {
+      let source = normalizeText(sourceRaw || "").replace(/\.$/, "");
+      const out = { source, volume: "", issue: "", pages: "", url: "" };
+
+      const urlMatch = source.match(/https?:\/\/\S+/i);
+      if (urlMatch) {
+        out.url = normalizeText(urlMatch[0].replace(/[.,;]$/, ""));
+        source = normalizeText(source.replace(urlMatch[0], ""));
+      }
+
+      const pagesMatch = source.match(/(\d{1,5}\s*[-â€“]\s*\d{1,5})/);
+      if (pagesMatch) {
+        out.pages = normalizeText(pagesMatch[1]).replace(/\s*[-â€“]\s*/g, "-");
+        source = normalizeText(source.replace(pagesMatch[1], ""));
+      }
+
+      const volIssueMatch = source.match(/(?:^|,\s*)(\d{1,4})\s*\(([^)]+)\)/);
+      if (volIssueMatch) {
+        out.volume = normalizeText(volIssueMatch[1]);
+        out.issue = normalizeText(volIssueMatch[2]);
+        source = normalizeText(source.replace(volIssueMatch[0], ""));
+      } else {
+        const volMatch = source.match(/(?:^|,\s*)(?:vol\.?\s*)?(\d{1,4})(?=\s*(?:,|$))/i);
+        if (volMatch) {
+          out.volume = normalizeText(volMatch[1]);
+          source = normalizeText(source.replace(volMatch[0], ""));
+        }
+        const issueMatch = source.match(/(?:^|,\s*)(?:no\.?|num(?:ero)?\.?|n[uÃº]m\.?)\s*([A-Za-z0-9-]+)/i);
+        if (issueMatch) {
+          out.issue = normalizeText(issueMatch[1]);
+          source = normalizeText(source.replace(issueMatch[0], ""));
+        }
+      }
+
+      source = source.replace(/\s+,/g, ",").replace(/,+/g, ",").replace(/^,\s*|\s*,\s*$/g, "").trim();
+      out.source = source.replace(/\.$/, "");
+      return out;
+    }
+
+    function parseWithTemplates(text, typeHint) {
+      let best = null;
+      for (const tpl of templates) {
+        if (typeHint && tpl.type && tpl.type !== typeHint && tpl.id !== "fallback_generic") continue;
+        const m = text.match(tpl.regex);
+        if (!m || !m.groups) continue;
+        const g = m.groups;
+        const sourceParts = extractSourceParts(g.source || "");
+        const parsedDoi = normalizeText((g.doi || "").replace(/^https?:\/\/doi\.org\//i, "")) || extractDoi(text);
+        const parsedUrl = sourceParts.url || extractUrl(text);
+        const score = scoreMatch(g)
+          + (sourceParts.volume ? 1 : 0)
+          + (sourceParts.issue ? 1 : 0)
+          + (sourceParts.pages ? 1 : 0);
+        if (!best || score > best.score) {
+          best = {
+            source: "rule",
+            parser: tpl.id,
+            score,
+            fields: {
+              type: typeHint || tpl.type || "JOUR",
+              authors: normalizeText(g.authors || ""),
+              year: normalizeText(g.year || ""),
+              title: normalizeText(g.title || "").replace(/\.$/, ""),
+              source: normalizeText(sourceParts.source || ""),
+              volume: normalizeText(sourceParts.volume || ""),
+              issue: normalizeText(sourceParts.issue || ""),
+              pages: normalizeText(sourceParts.pages || ""),
+              doi: normalizeText(parsedDoi || ""),
+              url: normalizeText(parsedUrl || "")
+            }
+          };
+        }
+      }
+      return best;
+    }
+
+    function parseBasicRegex(text, typeHint) {
+      const genericTpl = templates.find((t) => t.id === "fallback_generic");
+      const m = genericTpl ? text.match(genericTpl.regex) : null;
+      if (!m || !m.groups) return null;
+      const g = m.groups;
+      const sourceParts = extractSourceParts(g.source || "");
+      return {
+        source: "rule",
+        parser: "basic_regex",
+        score: scoreMatch(g),
+        fields: {
+          type: typeHint || "JOUR",
+          authors: normalizeText(g.authors || ""),
+          year: normalizeText(g.year || ""),
+          title: normalizeText(g.title || "").replace(/\.$/, ""),
+          source: normalizeText(sourceParts.source || ""),
+          volume: normalizeText(sourceParts.volume || ""),
+          issue: normalizeText(sourceParts.issue || ""),
+          pages: normalizeText(sourceParts.pages || ""),
+          doi: extractDoi(text),
+          url: extractUrl(text)
+        }
+      };
+    }
+
+    function classifyReferenceStyle(text) {
+      const t = normalizeText(text);
+      const startsBracketNum = /^\s*\[\d+\]/.test(t);
+      const startsDotNum = /^\s*\d+\./.test(t);
+      const hasApaYear = /\((\d{4}|n\.d\.)\)\./i.test(t);
+      const hasQuotedTitle = /\"[^\"]+\"/.test(t);
+      const hasIeeeHint = /\bIEEE\b|\bvol\.?\b|\bno\.?\b/i.test(t);
+      const hasVancouverHint = /;\s*\d+\s*\(\d+\)\s*:\s*\d{1,5}\s*[-–]\s*\d{1,5}/.test(t);
+
+      let style = "APA";
+      let confidence = 0.6;
+      const signals = [];
+
+      if (hasApaYear && /&|\band\b/i.test(t)) {
+        style = "APA";
+        confidence = 0.86;
+        signals.push("year_parenthesis_authors");
+      }
+      if (startsBracketNum && (hasQuotedTitle || hasIeeeHint)) {
+        style = "IEEE";
+        confidence = Math.max(confidence, 0.88);
+        signals.push("bracket_number_ieee");
+      }
+      if ((startsDotNum || startsBracketNum) && hasVancouverHint) {
+        style = "VANCOUVER";
+        confidence = Math.max(confidence, 0.9);
+        signals.push("numeric_vancouver_pattern");
+      }
+      if ((startsDotNum || startsBracketNum) && !hasApaYear && !hasQuotedTitle && /;\s*\d{4}/.test(t)) {
+        style = "VANCOUVER";
+        confidence = Math.max(confidence, 0.78);
+        signals.push("numeric_citation");
+      }
+      if (startsBracketNum && hasQuotedTitle && hasIeeeHint) {
+        style = "IEEE";
+        confidence = Math.max(confidence, 0.92);
+        signals.push("ieee_quotes_vol_no");
+      }
+
+      return { style, confidence, signals };
+    }
+
+    function classifyReferenceType(text) {
+      const t = normalizeText(text);
+      let type = "JOUR";
+      let confidence = 0.55;
+      const signals = [];
+      if (/\brecuperado de\b|\bavailable at\b|\bdisponible en\b|https?:\/\//i.test(t) && !/doi\.org/i.test(t)) {
+        type = "ELEC";
+        confidence = 0.78;
+        signals.push("url_web");
+      }
+      if (/\d+\s*\([^)]*\)\s*,?\s*\d{1,5}\s*[-â€“]\s*\d{1,5}/.test(t) || /doi\.org|10\.\S+/i.test(t)) {
+        type = "JOUR";
+        confidence = Math.max(confidence, 0.86);
+        signals.push("journal_pattern");
+      }
+      if (/\bEn\b.*\(|\bpp\.?\s*\d+/i.test(t)) {
+        type = "CHAP";
+        confidence = Math.max(confidence, 0.74);
+        signals.push("chapter_pattern");
+      }
+      if (/\bProceedings\b|\bConference\b|\bCongreso\b|\bSimposio\b/i.test(t)) {
+        type = "CONF";
+        confidence = Math.max(confidence, 0.77);
+        signals.push("conference_pattern");
+      }
+      if (/\[.*(?:Tesis|Thesis).*?\]|\bdissertation\b/i.test(t)) {
+        type = "THES";
+        confidence = Math.max(confidence, 0.84);
+        signals.push("thesis_pattern");
+      }
+      if (/\((?:Report|Informe)\s*(No\.?|N\.?)?/i.test(t)) {
+        type = "RPRT";
+        confidence = Math.max(confidence, 0.8);
+        signals.push("report_pattern");
+      }
+      if (!/\d+\s*\([^)]*\)/.test(t) && /\bEditorial\b|\bPress\b/i.test(t)) {
+        type = "BOOK";
+        confidence = Math.max(confidence, 0.68);
+        signals.push("book_publisher");
+      }
+      return { type, confidence, signals };
+    }
+
+    function countFilledFields(fields) {
+      const keys = ["authors", "year", "title", "source", "volume", "issue", "pages", "doi", "url"];
+      return keys.filter((k) => normalizeText(fields[k] || "")).length;
+    }
+
+    function selectBestParsed(candidates) {
+      if (!candidates.length) return null;
+      return candidates
+        .slice()
+        .sort((a, b) => {
+          const af = countFilledFields(a.fields);
+          const bf = countFilledFields(b.fields);
+          if (bf !== af) return bf - af;
+          return (b.score || 0) - (a.score || 0);
+        })[0];
+    }
+
+    function resolveParseByMethod(method, raw, tokens, skeleton) {
+      const cls = classifyReferenceType(raw);
+      const styleGuess = classifyReferenceStyle(raw);
+      const byMethod = {
+        basic_regex: () => parseBasicRegex(raw),
+        template_rules: () => parseWithTemplates(raw),
+        classified_templates: () => parseWithTemplates(raw, cls.type) || parseBasicRegex(raw, cls.type),
+        learned_hybrid: () => {
+          const learned = memory.find((m) => m.skeleton === skeleton && m.tokenCount === tokens.length);
+          if (learned) return applyLearned(tokens, learned, raw);
+          return (parseWithTemplates(raw, cls.type) || parseBasicRegex(raw, cls.type));
+        }
+      };
+
+      if (method === "compare_all") {
+        const methods = ["basic_regex", "template_rules", "classified_templates", "learned_hybrid"];
+        const results = methods.map((m) => ({ method: m, parsed: byMethod[m]() })).filter((x) => x.parsed);
+        const chosen = selectBestParsed(results.map((r) => r.parsed));
+        if (!chosen) return null;
+        chosen.compare = results.map((r) => ({
+          method: r.method,
+          parser: r.parsed.parser,
+          score: r.parsed.score || 0,
+          filled: countFilledFields(r.parsed.fields)
+        }));
+        chosen.classifier = cls;
+        chosen.styleGuess = styleGuess;
+        return chosen;
+      }
+
+      const fn = byMethod[method] || byMethod.learned_hybrid;
+      const parsed = fn();
+      if (parsed) {
+        parsed.classifier = cls;
+        parsed.styleGuess = styleGuess;
+      }
+      return parsed;
+    }
+
+    function htmlEscape(s) {
+      return (s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function findSpanByNeedle(text, needle) {
+      if (!needle) return null;
+      const idx = text.toLowerCase().indexOf(needle.toLowerCase());
+      if (idx < 0) return null;
+      return { start: idx, end: idx + needle.length };
+    }
+
+    function escapeRegExp(s) {
+      return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function findSpanWholeToken(text, needle) {
+      if (!needle) return null;
+      const rx = new RegExp("(^|[^A-Za-z0-9À-ÖØ-öø-ÿ])(" + escapeRegExp(needle) + ")(?=$|[^A-Za-z0-9À-ÖØ-öø-ÿ])", "i");
+      const m = text.match(rx);
+      if (!m || typeof m.index !== "number") return null;
+      const start = m.index + m[1].length;
+      return { start, end: start + m[2].length };
+    }
+
+    function findSpanByPattern(text, pattern) {
+      const m = text.match(pattern);
+      if (!m || typeof m.index !== "number") return null;
+      return { start: m.index, end: m.index + m[0].length };
+    }
+
+    function findSpanByField(text, key, value) {
+      if (!normalizeText(value || "") && key !== "doi" && key !== "url") return null;
+      if (key === "issue") {
+        return findSpanByPattern(text, new RegExp("\\(\\s*" + escapeRegExp(value || "") + "\\s*\\)"))
+          || findSpanByPattern(text, /\(\s*[A-Za-z0-9-]+\s*\)|\b(?:no\.?|num(?:ero)?\.?|n[uú]m\.?)\s*[A-Za-z0-9-]+\b/i)
+          || findSpanWholeToken(text, value)
+          || findSpanByNeedle(text, value);
+      }
+      if (key === "volume") {
+        return findSpanByPattern(text, new RegExp("\\b" + escapeRegExp(value || "") + "\\s*\\("))
+          || findSpanWholeToken(text, value)
+          || findSpanByPattern(text, /\b\d{1,4}\s*\([^)]*\)|\bvol\.?\s*\d{1,4}\b/i)
+          || findSpanByNeedle(text, value);
+      }
+      if (key === "pages") {
+        return findSpanByNeedle(text, value)
+          || (normalizeText(value || "") ? findSpanByPattern(text, /\d{1,5}\s*[-–]\s*\d{1,5}/) : null);
+      }
+      if (key === "url") return findSpanByNeedle(text, value) || findSpanByPattern(text, /https?:\/\/\S+/i);
+      if (key === "doi") return findSpanByNeedle(text, value) || findSpanByPattern(text, /(?:https?:\/\/doi\.org\/|doi:\s*)?10\.\S+/i);
+      return findSpanByNeedle(text, value);
+    }
+
+    function findLearningSpan(text, fields, key) {
+      const value = fields[key];
+      if (!value) return null;
+      const sourceSpan = fields.source ? findSpanByNeedle(text, fields.source) : null;
+      if (sourceSpan && (key === "volume" || key === "issue" || key === "pages")) {
+        const src = text.slice(sourceSpan.start, sourceSpan.end);
+        if (key === "issue") {
+          if (fields.volume) {
+            const rx = new RegExp("\\b" + escapeRegExp(fields.volume) + "\\s*\\(\\s*(" + escapeRegExp(value) + ")\\s*\\)");
+            const m = src.match(rx);
+            if (m && typeof m.index === "number") {
+              const localStart = m.index + m[0].indexOf(m[1]);
+              return { start: sourceSpan.start + localStart, end: sourceSpan.start + localStart + m[1].length };
+            }
+          }
+          const issueSpan = findSpanWholeToken(src, value) || findSpanByPattern(src, new RegExp("\\(\\s*" + escapeRegExp(value) + "\\s*\\)"));
+          if (issueSpan) return { start: sourceSpan.start + issueSpan.start, end: sourceSpan.start + issueSpan.end };
+        }
+        const withinSource = findSpanByField(src, key, value) || findSpanWholeToken(src, value);
+        if (withinSource) {
+          return { start: sourceSpan.start + withinSource.start, end: sourceSpan.start + withinSource.end };
+        }
+      }
+      if (key === "issue") return findSpanWholeToken(text, value) || findSpanByField(text, key, value);
+      return findSpanByField(text, key, value) || findSpanWholeToken(text, value);
+    }
+
+    function normalizeParsedFields(fields) {
+      const out = { ...fields };
+      const srcParts = extractSourceParts(out.source || "");
+      if (srcParts.source) out.source = srcParts.source;
+      if (!out.volume) out.volume = srcParts.volume || "";
+      if (!out.issue) out.issue = srcParts.issue || "";
+      if (!out.pages) out.pages = srcParts.pages || "";
+      if (!out.url) out.url = srcParts.url || "";
+      if (!out.doi) out.doi = extractDoi((out.source || "") + " " + (out.url || "")) || "";
+      return out;
+    }
+
+    function renderSegmented(text, fields) {
+      const priority = {
+        doi: 100,
+        url: 95,
+        volume: 90,
+        issue: 90,
+        pages: 90,
+        year: 80,
+        title: 70,
+        authors: 60,
+        source: 10
+      };
+
+      const rawMarks = [
+        { key: "authors", cls: "tag-authors", value: fields.authors },
+        { key: "year", cls: "tag-year", value: fields.year },
+        { key: "title", cls: "tag-title", value: fields.title },
+        { key: "source", cls: "tag-source", value: fields.source },
+        { key: "doi", cls: "tag-doi", value: fields.doi },
+        { key: "volume", cls: "tag-volume", value: fields.volume },
+        { key: "issue", cls: "tag-issue", value: fields.issue },
+        { key: "pages", cls: "tag-pages", value: fields.pages },
+        { key: "url", cls: "tag-url", value: fields.url }
+      ]
+        .map((m) => {
+          const span = findSpanByField(text, m.key, m.value);
+          if (!span) return null;
+          return { ...m, ...span, prio: priority[m.key] || 1 };
+        })
+        .filter(Boolean);
+
+      const chosen = [];
+      const byPriority = rawMarks
+        .slice()
+        .sort((a, b) => (b.prio - a.prio) || ((a.end - a.start) - (b.end - b.start)));
+      for (const mark of byPriority) {
+        const overlaps = chosen.some((x) => !(mark.end <= x.start || mark.start >= x.end));
+        if (!overlaps) chosen.push(mark);
+      }
+      const marks = chosen.sort((a, b) => a.start - b.start);
+
+      if (!marks.length) {
+        els.segmentedOutput.textContent = text || "Sin segmentos detectados.";
+        return;
+      }
+
+      let out = "";
+      let pos = 0;
+      for (const mark of marks) {
+        if (mark.start < pos) continue;
+        out += htmlEscape(text.slice(pos, mark.start));
+        out += "<span class=\"" + mark.cls + "\">" + htmlEscape(text.slice(mark.start, mark.end)) + "</span>";
+        pos = mark.end;
+      }
+      out += htmlEscape(text.slice(pos));
+      els.segmentedOutput.innerHTML = out;
+    }
+
+    function buildRIS(fields) {
+      const lines = [];
+      lines.push("TY  - " + (fields.type || "JOUR"));
+      for (const author of toAuthorList(fields.authors)) {
+        lines.push("AU  - " + author);
+      }
+      if (fields.year) lines.push("PY  - " + fields.year);
+      if (fields.title) lines.push("TI  - " + fields.title);
+      if (fields.source) lines.push("JO  - " + fields.source);
+      if (fields.volume) lines.push("VL  - " + fields.volume);
+      if (fields.issue) lines.push("IS  - " + fields.issue);
+      if (fields.pages) {
+        const m = fields.pages.match(/^(\d{1,5})\s*[-â€“]\s*(\d{1,5})$/);
+        if (m) {
+          lines.push("SP  - " + m[1]);
+          lines.push("EP  - " + m[2]);
+        } else {
+          lines.push("SP  - " + fields.pages);
+        }
+      }
+      if (fields.doi) lines.push("DO  - " + fields.doi);
+      if (fields.url) lines.push("UR  - " + fields.url);
+      lines.push("ER  -");
+      return lines.join("\n");
+    }
+
+    function getMissingCommonFields(fields) {
+      const requiredByType = {
+        JOUR: ["authors", "year", "title", "source", "volume", "issue", "pages"],
+        BOOK: ["authors", "year", "title"],
+        CHAP: ["authors", "year", "title", "source"],
+        ELEC: ["authors", "year", "title", "url"],
+        CONF: ["authors", "year", "title", "source"],
+        THES: ["authors", "year", "title", "source"],
+        RPRT: ["authors", "year", "title", "source"]
+      };
+      const optionalByType = {
+        JOUR: ["doi", "url"],
+        BOOK: ["doi", "url"],
+        CHAP: ["doi", "url"],
+        ELEC: ["source", "doi"],
+        CONF: ["pages", "doi", "url"],
+        THES: ["doi", "url"],
+        RPRT: ["doi", "url", "pages"]
+      };
+      const type = fields.type || "JOUR";
+      const required = requiredByType[type] || requiredByType.JOUR;
+      const optional = optionalByType[type] || optionalByType.JOUR;
+      const missingRequired = required.filter((k) => !normalizeText(fields[k] || ""));
+      const missingOptional = optional.filter((k) => !normalizeText(fields[k] || ""));
+      return { missingRequired, missingOptional };
+    }
+
+    function updateMissingFieldsStatus() {
+      const fields = readFormFields();
+      const miss = getMissingCommonFields(fields);
+      const labels = {
+        authors: "autores",
+        year: "ano",
+        title: "titulo",
+        source: "fuente",
+        volume: "volumen",
+        issue: "numero",
+        pages: "paginas",
+        doi: "doi",
+        url: "url"
+      };
+      const req = miss.missingRequired.map((k) => labels[k] || k);
+      const opt = miss.missingOptional.map((k) => labels[k] || k);
+      if (!miss.missingRequired.length) {
+        els.missingFieldsStatus.innerHTML = "<strong>Campos comunes:</strong> completos para " + (fields.type || "JOUR") + ".";
+        return;
+      }
+      els.missingFieldsStatus.innerHTML =
+        "<strong>No detectados:</strong> " + req.join(", ")
+        + (opt.length ? "<br><span class='small'>Opcionales faltantes: " + opt.join(", ") + "</span>" : "");
+    }
+
+    function readFormFields() {
+      return {
+        type: normalizeText(els.typeField.value),
+        authors: normalizeText(els.authorsField.value),
+        year: normalizeText(els.yearField.value),
+        title: normalizeText(els.titleField.value),
+        source: normalizeText(els.sourceField.value),
+        volume: normalizeText(els.volumeField.value),
+        issue: normalizeText(els.issueField.value),
+        pages: normalizeText(els.pagesField.value).replace(/\s*[-â€“]\s*/g, "-"),
+        doi: normalizeText(els.doiField.value),
+        url: normalizeText(els.urlField.value)
+      };
+    }
+
+    function writeFormFields(fields, opts = {}) {
+      els.typeField.value = fields.type || "JOUR";
+      els.authorsField.value = fields.authors || "";
+      els.yearField.value = fields.year || "";
+      els.titleField.value = fields.title || "";
+      els.sourceField.value = fields.source || "";
+      els.volumeField.value = fields.volume || "";
+      els.issueField.value = fields.issue || "";
+      els.pagesField.value = fields.pages || "";
+      els.doiField.value = fields.doi || "";
+      els.urlField.value = fields.url || "";
+      if (opts.refreshPreview !== false) {
+        refreshRISPreview();
+      }
+    }
+
+    function refreshRISPreview() {
+      const ris = buildRIS(readFormFields());
+      els.risPreview.textContent = ris;
+      updateMissingFieldsStatus();
+    }
+
+    function loadMemory() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return [];
+        return arr;
+      } catch {
+        return [];
+      }
+    }
+
+    function persistMemory() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(memory.slice(0, MAX_MEMORY)));
+    }
+
+    function findSpanTokenRange(tokens, span) {
+      if (!span) return null;
+      let startIdx = -1;
+      let endIdx = -1;
+      for (let i = 0; i < tokens.length; i++) {
+        const t = tokens[i];
+        if (startIdx < 0 && span.start >= t.start && span.start < t.end) startIdx = i;
+        if (span.end > t.start && span.end <= t.end) {
+          endIdx = i;
+          break;
+        }
+      }
+      if (startIdx < 0 || endIdx < 0 || endIdx < startIdx) return null;
+      return { start: startIdx, end: endIdx };
+    }
+
+    function learnFromCurrent() {
+      const input = normalizeText(els.apaInput.value);
+      if (!input) return false;
+
+      const fields = readFormFields();
+      const skeleton = buildSkeleton(input);
+      const tokens = tokenize(input);
+      const ranges = {};
+
+      for (const key of ["authors", "year", "title", "source", "volume", "issue", "pages", "doi", "url"]) {
+        const val = fields[key];
+        if (!val) continue;
+        const span = findLearningSpan(input, fields, key);
+        const tokenRange = findSpanTokenRange(tokens, span);
+        if (tokenRange) ranges[key] = tokenRange;
+      }
+
+      const idx = memory.findIndex((m) => m.skeleton === skeleton);
+      const baseEntry = {
+        skeleton,
+        tokenCount: tokens.length,
+        ranges,
+        type: fields.type || "JOUR",
+        updatedAt: Date.now(),
+        count: 1
+      };
+
+      if (idx >= 0) {
+        memory[idx] = {
+          ...memory[idx],
+          ...baseEntry,
+          count: (memory[idx].count || 0) + 1
+        };
+      } else {
+        memory.unshift(baseEntry);
+      }
+
+      memory = memory
+        .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+        .slice(0, MAX_MEMORY);
+      persistMemory();
+      renderMemory();
+      return true;
+    }
+
+    function applyLearned(tokens, entry, rawText) {
+      const out = {
+        source: "learned",
+        parser: "skeleton_memory",
+        score: 99,
+        fields: {
+          type: entry.type || "JOUR",
+          authors: "",
+          year: "",
+          title: "",
+          source: "",
+          volume: "",
+          issue: "",
+          pages: "",
+          doi: "",
+          url: ""
+        }
+      };
+
+      for (const key of ["authors", "year", "title", "source", "volume", "issue", "pages", "doi", "url"]) {
+        const r = entry.ranges && entry.ranges[key];
+        if (!r) continue;
+        if (r.start < 0 || r.end >= tokens.length) continue;
+        const startPos = tokens[r.start].start;
+        const endPos = tokens[r.end].end;
+        out.fields[key] = normalizeText(rawText.slice(startPos, endPos));
+      }
+      const srcParts = extractSourceParts(out.fields.source || "");
+      if (!out.fields.volume) out.fields.volume = srcParts.volume || "";
+      if (!out.fields.issue) out.fields.issue = srcParts.issue || "";
+      if (!out.fields.pages) out.fields.pages = srcParts.pages || "";
+      if (!out.fields.url) out.fields.url = srcParts.url || extractUrl(rawText) || "";
+      if (!out.fields.doi) out.fields.doi = extractDoi(rawText) || "";
+      out.fields = normalizeParsedFields(out.fields);
+      return out;
+    }
+
+    function renderMemory() {
+      els.memoryStats.innerHTML =
+        "<strong>Memoria local:</strong> " + memory.length + " patrones guardados (mÃ¡x. " + MAX_MEMORY + ").";
+      if (!memory.length) {
+        els.memoryList.innerHTML = "<div class='memory-item'>Sin patrones aÃºn.</div>";
+        return;
+      }
+      els.memoryList.innerHTML = memory
+        .slice(0, 8)
+        .map((m, i) => {
+          const dt = new Date(m.updatedAt || Date.now()).toLocaleString();
+          return "<div class='memory-item'><strong>#"
+            + (i + 1)
+            + "</strong> usos: "
+            + (m.count || 1)
+            + "<br>tokens: "
+            + (m.tokenCount || 0)
+            + "<br><span class='small'>"
+            + htmlEscape(m.skeleton.slice(0, 110))
+            + (m.skeleton.length > 110 ? "..." : "")
+            + "</span><br><span class='small'>"
+            + dt
+            + "</span></div>";
+        })
+        .join("");
+    }
+
+    function drawPath(pathA, pathB, fromEl, toEl) {
+      const canvasRect = els.canvas.getBoundingClientRect();
+      const fromRect = fromEl.getBoundingClientRect();
+      const toRect = toEl.getBoundingClientRect();
+      const from = {
+        left: fromRect.left - canvasRect.left,
+        right: fromRect.right - canvasRect.left,
+        top: fromRect.top - canvasRect.top,
+        bottom: fromRect.bottom - canvasRect.top,
+        cx: (fromRect.left + fromRect.right) * 0.5 - canvasRect.left,
+        cy: (fromRect.top + fromRect.bottom) * 0.5 - canvasRect.top
+      };
+      const to = {
+        left: toRect.left - canvasRect.left,
+        right: toRect.right - canvasRect.left,
+        top: toRect.top - canvasRect.top,
+        bottom: toRect.bottom - canvasRect.top,
+        cx: (toRect.left + toRect.right) * 0.5 - canvasRect.left,
+        cy: (toRect.top + toRect.bottom) * 0.5 - canvasRect.top
+      };
+
+      let x1 = from.cx;
+      let y1 = from.cy;
+      let x2 = to.cx;
+      let y2 = to.cy;
+      let d = "";
+
+      if (to.left >= from.right) {
+        x1 = from.right;
+        y1 = from.cy;
+        x2 = to.left;
+        y2 = to.cy;
+        const midX = (x1 + x2) * 0.5;
+        d = "M " + x1 + " " + y1 + " L " + midX + " " + y1 + " L " + midX + " " + y2 + " L " + x2 + " " + y2;
+      } else if (to.right <= from.left) {
+        x1 = from.left;
+        y1 = from.cy;
+        x2 = to.right;
+        y2 = to.cy;
+        const midX = (x1 + x2) * 0.5;
+        d = "M " + x1 + " " + y1 + " L " + midX + " " + y1 + " L " + midX + " " + y2 + " L " + x2 + " " + y2;
+      } else if (to.top >= from.bottom) {
+        x1 = from.cx;
+        y1 = from.bottom;
+        x2 = to.cx;
+        y2 = to.top;
+        const midY = (y1 + y2) * 0.5;
+        d = "M " + x1 + " " + y1 + " L " + x1 + " " + midY + " L " + x2 + " " + midY + " L " + x2 + " " + y2;
+      } else {
+        x1 = from.cx;
+        y1 = from.top;
+        x2 = to.cx;
+        y2 = to.bottom;
+        const midY = (y1 + y2) * 0.5;
+        d = "M " + x1 + " " + y1 + " L " + x1 + " " + midY + " L " + x2 + " " + midY + " L " + x2 + " " + y2;
+      }
+
+      pathA.setAttribute("d", d);
+      pathB.setAttribute("d", d);
+    }
+
+    function layoutFlowPaths() {
+      const rect = els.canvas.getBoundingClientRect();
+      const w = Math.max(100, Math.round(rect.width));
+      const h = Math.max(100, Math.round(rect.height));
+      els.flowLayer.setAttribute("viewBox", "0 0 " + w + " " + h);
+      els.flowLayer.setAttribute("preserveAspectRatio", "none");
+      drawPath(els.pathBase1, els.pathPulse1, els.node1, els.node2);
+      drawPath(els.pathBase2, els.pathPulse2, els.node2, els.node3);
+      drawPath(els.pathBase3, els.pathPulse3, els.node3, els.node4);
+    }
+
+    function resetFlowVisuals() {
+      [els.node1, els.node2, els.node3, els.node4].forEach((n) => n.classList.remove("is-active"));
+      [els.pathBase1, els.pathBase2, els.pathBase3].forEach((p) => p.classList.remove("is-active"));
+      [els.pathPulse1, els.pathPulse2, els.pathPulse3].forEach((p) => p.classList.remove("is-running"));
+    }
+
+    function startPulse(pathBase, pathPulse, durationMs) {
+      pathBase.classList.add("is-active");
+      pathPulse.style.animationDuration = durationMs + "ms";
+      pathPulse.classList.remove("is-running");
+      void pathPulse.getBoundingClientRect();
+      pathPulse.classList.add("is-running");
+    }
+
+    async function animateFlowStep(step) {
+      const d = 1000;
+      if (step === 1) {
+        resetFlowVisuals();
+        els.node1.classList.add("is-active");
+        els.node2.classList.add("is-active");
+        startPulse(els.pathBase1, els.pathPulse1, d);
+        await sleep(d);
+      } else if (step === 2) {
+        resetFlowVisuals();
+        els.node2.classList.add("is-active");
+        els.node3.classList.add("is-active");
+        startPulse(els.pathBase2, els.pathPulse2, d);
+        await sleep(d);
+      } else if (step === 3) {
+        resetFlowVisuals();
+        els.node3.classList.add("is-active");
+        els.node4.classList.add("is-active");
+        startPulse(els.pathBase3, els.pathPulse3, d);
+        await sleep(d);
+      }
+    }
+
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    function autoResizeInputText() {
+      els.apaInput.style.height = "auto";
+      els.apaInput.style.height = Math.min(520, els.apaInput.scrollHeight + 4) + "px";
+    }
+
+    function applyPanelWidths() {
+      const f1 = (Number(els.w1.value) / 100).toFixed(2);
+      const f2 = (Number(els.w2.value) / 100).toFixed(2);
+      const f3 = (Number(els.w3.value) / 100).toFixed(2);
+      const f4 = (Number(els.w4.value) / 100).toFixed(2);
+      els.canvas.style.gridTemplateColumns =
+        "minmax(210px, " + f1 + "fr) minmax(250px, " + f2 + "fr) minmax(320px, " + f3 + "fr) minmax(280px, " + f4 + "fr)";
+      layoutFlowPaths();
+    }
+
+    function resetPanelWidths() {
+      els.w1.value = "82";
+      els.w2.value = "96";
+      els.w3.value = "158";
+      els.w4.value = "138";
+      applyPanelWidths();
+    }
+
+    function clearPipelineView() {
+      currentParsed = null;
+      currentSkeleton = "";
+      lastProcessedInput = "";
+      els.segmentedOutput.textContent = "Pega una referencia para ver la segmentacion.";
+      els.explanationBox.textContent = "Sin procesamiento aun.";
+      els.sourceBadge.textContent = "WAIT";
+      els.enginePill.textContent = "Modo: sin procesar";
+      els.inputStatus.textContent = "Esperando texto APA...";
+      writeFormFields({ type: "JOUR", authors: "", year: "", title: "", source: "", volume: "", issue: "", pages: "", doi: "", url: "" });
+    }
+
+    function markInputPending() {
+      const raw = normalizeText(els.apaInput.value);
+      autoResizeInputText();
+      if (!raw) {
+        clearPipelineView();
+        return;
+      }
+      if (isProcessing) return;
+      if (raw !== lastProcessedInput) {
+        els.sourceBadge.textContent = "WAIT";
+        els.enginePill.textContent = "Modo: listo para procesar";
+        els.inputStatus.innerHTML = "<strong>Entrada actualizada.</strong> Presiona \"Procesar flujo\".";
+        els.explanationBox.textContent = "Pipeline en espera de ejecucion manual.";
+      }
+    }
+
+    async function runPipeline() {
+      const raw = normalizeText(els.apaInput.value);
+      if (!raw) {
+        clearPipelineView();
+        return;
+      }
+      if (isProcessing) return;
+      isProcessing = true;
+      layoutFlowPaths();
+      resetFlowVisuals();
+      // Visual de proceso por etapas: limpiar nodos de salida antes de arrancar.
+      els.segmentedOutput.textContent = "Procesando segmentacion...";
+      els.explanationBox.textContent = "Esperando analisis...";
+      writeFormFields({ type: "JOUR", authors: "", year: "", title: "", source: "", volume: "", issue: "", pages: "", doi: "", url: "" }, { refreshPreview: false });
+      els.risPreview.textContent = "";
+      updateMissingFieldsStatus();
+      els.sourceBadge.textContent = "RUN";
+      els.enginePill.textContent = "Modo: procesando...";
+      els.inputStatus.innerHTML = "<strong>Paso 1/4:</strong> normalizando entrada APA...";
+      els.node1.classList.add("is-active");
+      await sleep(850);
+
+      els.inputStatus.innerHTML = "<strong>Paso 2/4:</strong> tokenizando y enviando al segmentador...";
+      await animateFlowStep(1);
+      await sleep(1000);
+      parsePipeline({ keepStatus: true, renderForm: false, renderRIS: false, renderSegmented: true });
+
+      els.inputStatus.innerHTML = "<strong>Paso 3/4:</strong> seleccionando parser (regla o memoria) y pasando a mapeo...";
+      await animateFlowStep(2);
+      await sleep(1000);
+      if (currentParsed) {
+        writeFormFields(currentParsed.fields, { refreshPreview: false });
+      }
+
+      els.inputStatus.innerHTML = "<strong>Paso 4/4:</strong> generando RIS y enviando a exportacion...";
+      await animateFlowStep(3);
+      await sleep(1000);
+      refreshRISPreview();
+      els.inputStatus.innerHTML = "<strong>Completado.</strong> Puedes corregir campos y volver a procesar.";
+      resetFlowVisuals();
+      isProcessing = false;
+    }
+
+    function parsePipeline(opts = {}) {
+      const raw = normalizeText(els.apaInput.value);
+      currentSkeleton = raw ? buildSkeleton(raw) : "";
+
+      if (!raw) {
+        els.inputStatus.textContent = "Esperando texto APA...";
+        els.explanationBox.textContent = "Sin entrada.";
+        els.segmentedOutput.textContent = "Pega una referencia para ver la segmentaciÃ³n.";
+        els.enginePill.textContent = "Modo: sin procesar";
+        els.sourceBadge.textContent = "ðŸ“ Regla";
+        writeFormFields({ type: "JOUR", authors: "", year: "", title: "", source: "", volume: "", issue: "", pages: "", doi: "", url: "" });
+        currentParsed = null;
+        return;
+      }
+
+      const tokens = tokenize(raw);
+      const selectedMethod = opts.method || els.methodSelect.value || "learned_hybrid";
+      let parsed = resolveParseByMethod(selectedMethod, raw, tokens, currentSkeleton);
+      if (!parsed) {
+        parsed = {
+          source: "rule",
+          parser: "none",
+          score: 0,
+          fields: { type: "JOUR", authors: "", year: "", title: "", source: "", volume: "", issue: "", pages: "", doi: "", url: "" }
+        };
+      }
+
+      currentParsed = parsed;
+      currentParsed.fields = normalizeParsedFields(currentParsed.fields);
+      if (opts.renderForm !== false) {
+        writeFormFields(currentParsed.fields, { refreshPreview: opts.renderRIS !== false });
+      }
+      if (opts.renderSegmented !== false) {
+        renderSegmented(raw, currentParsed.fields);
+      }
+
+      const marker = parsed.source === "learned" ? "ðŸ§  Aprendido" : "ðŸ“ Regla";
+      els.sourceBadge.textContent = marker;
+      els.enginePill.textContent =
+        "Modo: " + marker + " | metodo: " + selectedMethod + " | parser: " + parsed.parser + " | score: " + parsed.score;
+      if (!opts.keepStatus) {
+        els.inputStatus.innerHTML =
+          "<strong>Skeleton:</strong> " + htmlEscape(currentSkeleton.slice(0, 130))
+          + (currentSkeleton.length > 130 ? "..." : "");
+      }
+      let explain =
+        "Parser usado: " + parsed.parser + "\n"
+        + "Origen: " + (parsed.source === "learned" ? "Memoria local (skeleton)" : "Regla base/plantillas") + "\n"
+        + "Metodo seleccionado: " + selectedMethod + "\n"
+        + (parsed.classifier ? ("Clasificador tipo: " + parsed.classifier.type + " (conf " + parsed.classifier.confidence.toFixed(2) + ")\n") : "")
+        + (parsed.styleGuess ? ("Estilo probable: " + parsed.styleGuess.style + " (conf " + parsed.styleGuess.confidence.toFixed(2) + ")\n") : "")
+        + "Campos detectados: "
+        + ["authors", "year", "title", "source", "volume", "issue", "pages", "doi", "url"].filter((k) => currentParsed.fields[k]).join(", ");
+      if (parsed.compare && parsed.compare.length) {
+        explain += "\nComparacion de metodos:\n";
+        explain += parsed.compare
+          .map((c) => c.method + " -> parser=" + c.parser + ", score=" + c.score + ", campos=" + c.filled)
+          .join("\n");
+      }
+      els.explanationBox.textContent = explain;
+      lastProcessedInput = raw;
+    }
+
+    function scheduleAutoLearn() {
+      clearTimeout(autoLearnTimer);
+      autoLearnTimer = setTimeout(() => {
+        const input = normalizeText(els.apaInput.value);
+        if (!input) return;
+        const signature = input + "||" + JSON.stringify(readFormFields());
+        if (signature === lastLearnSignature) return;
+        const ok = learnFromCurrent();
+        if (ok) {
+          lastLearnSignature = signature;
+          els.learnStatus.innerHTML = "<span class='ok'>Memoria actualizada automÃ¡ticamente.</span>";
+        }
+      }, 650);
+    }
+
+    function downloadRIS() {
+      const content = buildRIS(readFormFields());
+      const blob = new Blob([content + "\n"], { type: "application/x-research-info-systems" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "referencia.ris";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function copyRIS() {
+      const content = buildRIS(readFormFields());
+      navigator.clipboard.writeText(content).then(
+        () => {
+          els.learnStatus.innerHTML = "<span class='ok'>RIS copiado al portapapeles.</span>";
+        },
+        () => {
+          els.learnStatus.innerHTML = "<span class='warn'>No se pudo copiar automÃ¡ticamente.</span>";
+        }
+      );
+    }
+
+    function attachEvents() {
+      els.apaInput.addEventListener("input", () => {
+        markInputPending();
+      });
+
+      els.methodSelect.addEventListener("change", () => {
+        markInputPending();
+      });
+
+      [els.typeField, els.authorsField, els.yearField, els.titleField, els.sourceField, els.volumeField, els.issueField, els.pagesField, els.doiField, els.urlField]
+        .forEach((el) => {
+          el.addEventListener("input", () => {
+            refreshRISPreview();
+            scheduleAutoLearn();
+          });
+        });
+
+      document.getElementById("loadExample").addEventListener("click", () => {
+        els.apaInput.value = "SÃ¡nchez, P., Molina, R., & Vega, C. (2021). MinerÃ­a de textos para recuperaciÃ³n documental acadÃ©mica. Anales de Ciencia de la InformaciÃ³n, 12(1), 11-29. https://doi.org/10.5678/aci.2021.12.1.11";
+        markInputPending();
+      });
+
+      document.getElementById("clearInput").addEventListener("click", () => {
+        els.apaInput.value = "";
+        clearPipelineView();
+      });
+
+      document.getElementById("processFlow").addEventListener("click", () => {
+        runPipeline();
+      });
+
+      document.getElementById("forceLearn").addEventListener("click", () => {
+        const ok = learnFromCurrent();
+        if (ok) {
+          els.learnStatus.innerHTML = "<span class='ok'>Aprendizaje guardado manualmente.</span>";
+          markInputPending();
+        } else {
+          els.learnStatus.innerHTML = "<span class='warn'>No se pudo guardar (entrada vacÃ­a).</span>";
+        }
+      });
+
+      document.getElementById("resetToParsed").addEventListener("click", () => {
+        if (!currentParsed) return;
+        writeFormFields(currentParsed.fields);
+        els.learnStatus.textContent = "Campos restaurados desde el Ãºltimo parseo.";
+      });
+
+      document.getElementById("downloadRis").addEventListener("click", downloadRIS);
+      document.getElementById("copyRis").addEventListener("click", copyRIS);
+
+      document.getElementById("clearMemory").addEventListener("click", () => {
+        memory = [];
+        persistMemory();
+        renderMemory();
+        markInputPending();
+        els.learnStatus.innerHTML = "<span class='warn'>Memoria local borrada.</span>";
+      });
+
+      els.toggleLayoutTuning.addEventListener("click", () => {
+        const open = els.layoutTuningPanel.style.display !== "none";
+        els.layoutTuningPanel.style.display = open ? "none" : "block";
+      });
+
+      [els.w1, els.w2, els.w3, els.w4].forEach((r) => {
+        r.addEventListener("input", applyPanelWidths);
+      });
+
+      els.resetLayoutWidths.addEventListener("click", resetPanelWidths);
+    }
+
+    attachEvents();
+    renderMemory();
+    applyPanelWidths();
+    markInputPending();
+    autoResizeInputText();
+    layoutFlowPaths();
+    window.addEventListener("resize", layoutFlowPaths);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
