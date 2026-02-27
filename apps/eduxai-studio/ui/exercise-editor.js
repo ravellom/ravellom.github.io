@@ -1039,7 +1039,36 @@ function createNarrativeLayer(exercise) {
     return section;
 }
 
-function createTechnicalLayer(exercise, technicalSections) {
+function createReadableLine(label, value) {
+    const p = document.createElement('p');
+    p.className = 'technical-readable-line';
+    const clean = String(value ?? '').trim();
+    p.innerHTML = `<strong>${label}:</strong> ${clean || t('editor.notAvailable')}`;
+    return p;
+}
+
+function createReadableCard(title, hint, lines) {
+    const card = document.createElement('article');
+    card.className = 'summary-card technical-readable-card';
+
+    const heading = document.createElement('h5');
+    heading.className = 'technical-group-title';
+    heading.textContent = title;
+    card.appendChild(heading);
+
+    const helper = document.createElement('p');
+    helper.className = 'technical-group-hint';
+    helper.textContent = hint;
+    card.appendChild(helper);
+
+    const box = document.createElement('div');
+    box.className = 'technical-readable-box';
+    lines.forEach((line) => box.appendChild(line));
+    card.appendChild(box);
+    return card;
+}
+
+function createTechnicalLayer(exercise) {
     const wrapper = document.createElement('section');
     wrapper.className = 'technical-details';
 
@@ -1048,7 +1077,67 @@ function createTechnicalLayer(exercise, technicalSections) {
     title.innerHTML = `<i class="ph ph-file-code"></i> ${t('editor.technicalLayerTitle')}`;
     wrapper.appendChild(title);
 
-    technicalSections.forEach((section) => wrapper.appendChild(section));
+    const groups = document.createElement('div');
+    groups.className = 'technical-groups';
+
+    groups.appendChild(createReadableCard(
+        t('editor.technicalGroupPedagogicalTitle'),
+        t('editor.technicalGroupPedagogicalHint'),
+        [
+            createReadableLine(t('editor.learningObjective'), safeGet(exercise, 'xai.pedagogical_alignment.learning_objective', '')),
+            createReadableLine(t('editor.competency'), safeGet(exercise, 'xai.pedagogical_alignment.competency', '')),
+            createReadableLine(t('editor.bloom'), labelBloom(safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '-'))),
+            createReadableLine(t('editor.difficulty'), labelDifficulty(safeGet(exercise, 'xai.pedagogical_alignment.difficulty_level', '-'))),
+            createReadableLine(t('editor.coreStatement'), safeGet(exercise, 'dua.core_statement', '')),
+            createReadableLine('Core ID', safeGet(exercise, 'dua.core_id', ''))
+        ]
+    ));
+
+    const sourceRefs = Array.isArray(safeGet(exercise, 'xai.content_selection.source_refs', []))
+        ? safeGet(exercise, 'xai.content_selection.source_refs', []).join('; ')
+        : '';
+    const risks = Array.isArray(safeGet(exercise, 'xai.fairness_and_risk.potential_biases', []))
+        ? safeGet(exercise, 'xai.fairness_and_risk.potential_biases', []).join('; ')
+        : '';
+    const mitigations = Array.isArray(safeGet(exercise, 'xai.fairness_and_risk.mitigations', []))
+        ? safeGet(exercise, 'xai.fairness_and_risk.mitigations', []).join('; ')
+        : '';
+
+    groups.appendChild(createReadableCard(
+        t('editor.technicalGroupRationaleTitle'),
+        t('editor.technicalGroupRationaleHint'),
+        [
+            createReadableLine(t('editor.whyExercise'), safeGet(exercise, 'xai.why_this_exercise', '')),
+            createReadableLine(t('editor.whyContent'), safeGet(exercise, 'xai.content_selection.why_this_content', '')),
+            createReadableLine(t('editor.sourceRefs'), sourceRefs),
+            createReadableLine(t('editor.risks'), risks),
+            createReadableLine(t('editor.mitigations'), mitigations),
+            createReadableLine(t('editor.qualityTargetAudience'), safeGet(exercise, 'xai.quality_of_explanation.target_audience', '')),
+            createReadableLine(t('editor.qualityClarityLevel'), safeGet(exercise, 'xai.quality_of_explanation.clarity_level', '')),
+            createReadableLine(t('editor.qualityActionableFeedback'), safeGet(exercise, 'xai.quality_of_explanation.actionable_feedback', '')),
+            createReadableLine(t('editor.qualityAdaptationNotes'), safeGet(exercise, 'xai.quality_of_explanation.adaptation_notes', ''))
+        ]
+    ));
+
+    const limitations = Array.isArray(safeGet(exercise, 'xai.uncertainty.limitations', []))
+        ? safeGet(exercise, 'xai.uncertainty.limitations', []).join('; ')
+        : '';
+
+    groups.appendChild(createReadableCard(
+        t('editor.technicalGroupControlTitle'),
+        t('editor.technicalGroupControlHint'),
+        [
+            createReadableLine(t('editor.counterfactualCondition'), safeGet(exercise, 'xai.counterfactual.condition', '')),
+            createReadableLine(t('editor.counterfactualChange'), safeGet(exercise, 'xai.counterfactual.expected_change', '')),
+            createReadableLine(t('editor.reviewProtocol'), safeGet(exercise, 'xai.human_oversight.review_protocol', '')),
+            createReadableLine(t('editor.teacherActionOnRisk'), safeGet(exercise, 'xai.human_oversight.teacher_action_on_risk', '')),
+            createReadableLine(t('editor.overridePolicy'), safeGet(exercise, 'xai.human_oversight.override_policy', '')),
+            createReadableLine(t('editor.confidence'), safeGet(exercise, 'xai.uncertainty.confidence', '')),
+            createReadableLine(t('editor.limitations'), limitations)
+        ]
+    ));
+
+    wrapper.appendChild(groups);
 
     const traceBox = document.createElement('div');
     traceBox.className = 'technical-trace';
@@ -1060,15 +1149,6 @@ function createTechnicalLayer(exercise, technicalSections) {
         <p>model=${model} | prompt_id=${promptId} | timestamp=${timestamp}</p>
     `;
     wrapper.appendChild(traceBox);
-
-    const jsonTitle = document.createElement('strong');
-    jsonTitle.textContent = t('editor.technicalJsonTitle');
-    wrapper.appendChild(jsonTitle);
-
-    const jsonPre = document.createElement('pre');
-    jsonPre.className = 'technical-json';
-    jsonPre.textContent = JSON.stringify(exercise, null, 2);
-    wrapper.appendChild(jsonPre);
 
     return wrapper;
 }
@@ -1323,90 +1403,6 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     const coreSection = createSection(t('editor.sectionCore'), 'ph-note-pencil', 'section-core');
     coreSection.appendChild(gridCore);
 
-    const gridPed = document.createElement('div');
-    gridPed.className = 'exercise-grid';
-    gridPed.appendChild(createField(t('editor.learningObjective'), safeGet(selectedExercise, 'xai.pedagogical_alignment.learning_objective', ''), 'xai.pedagogical_alignment.learning_objective', applyChange));
-    gridPed.appendChild(createField(t('editor.competency'), safeGet(selectedExercise, 'xai.pedagogical_alignment.competency', ''), 'xai.pedagogical_alignment.competency', applyChange));
-    gridPed.appendChild(createSelectField(
-        t('editor.bloom'),
-        safeGet(selectedExercise, 'xai.pedagogical_alignment.bloom_level', 'analyze'),
-        'xai.pedagogical_alignment.bloom_level',
-        [
-            { value: 'remember', label: t('ui.bloomRecordar') },
-            { value: 'understand', label: t('ui.bloomComprender') },
-            { value: 'apply', label: t('ui.bloomAplicar') },
-            { value: 'analyze', label: t('ui.bloomAnalizar') },
-            { value: 'evaluate', label: t('ui.bloomEvaluar') },
-            { value: 'create', label: t('ui.bloomCrear') }
-        ],
-        applyChange
-    ));
-    gridPed.appendChild(createSelectField(
-        t('editor.difficulty'),
-        safeGet(selectedExercise, 'xai.pedagogical_alignment.difficulty_level', 'medium'),
-        'xai.pedagogical_alignment.difficulty_level',
-        [
-            { value: 'low', label: t('ui.difficultyBajo') },
-            { value: 'medium', label: t('ui.difficultyMedio') },
-            { value: 'high', label: t('ui.difficultyAlto') }
-        ],
-        applyChange
-    ));
-    const coreStatementField = createField(
-        t('editor.coreStatement'),
-        safeGet(selectedExercise, 'dua.core_statement', ''),
-        'dua.core_statement',
-        applyChange,
-        true
-    );
-    coreStatementField.classList.add('field-full');
-    gridPed.appendChild(coreStatementField);
-    const pedSection = createSection(t('editor.sectionPedagogical'), 'ph-graduation-cap', 'section-pedagogical');
-    pedSection.appendChild(gridPed);
-
-    const gridXai = document.createElement('div');
-    gridXai.className = 'exercise-grid';
-    const whyExField = createField(t('editor.whyExercise'), safeGet(selectedExercise, 'xai.why_this_exercise', ''), 'xai.why_this_exercise', applyChange, true);
-    whyExField.classList.add('field-full');
-    gridXai.appendChild(whyExField);
-    const whyContentField = createField(t('editor.whyContent'), safeGet(selectedExercise, 'xai.content_selection.why_this_content', ''), 'xai.content_selection.why_this_content', applyChange, true);
-    whyContentField.classList.add('field-full');
-    gridXai.appendChild(whyContentField);
-    gridXai.appendChild(createArrayField(t('editor.sourceRefs'), safeGet(selectedExercise, 'xai.content_selection.source_refs', []), 'xai.content_selection.source_refs', applyChange));
-    gridXai.appendChild(createArrayField(t('editor.limitations'), safeGet(selectedExercise, 'xai.uncertainty.limitations', []), 'xai.uncertainty.limitations', applyChange));
-    gridXai.appendChild(createArrayField(t('editor.risks'), safeGet(selectedExercise, 'xai.fairness_and_risk.potential_biases', []), 'xai.fairness_and_risk.potential_biases', applyChange));
-    gridXai.appendChild(createArrayField(t('editor.mitigations'), safeGet(selectedExercise, 'xai.fairness_and_risk.mitigations', []), 'xai.fairness_and_risk.mitigations', applyChange));
-    gridXai.appendChild(createField(t('editor.qualityTargetAudience'), safeGet(selectedExercise, 'xai.quality_of_explanation.target_audience', 'teacher'), 'xai.quality_of_explanation.target_audience', applyChange));
-    gridXai.appendChild(createSelectField(t('editor.qualityClarityLevel'), safeGet(selectedExercise, 'xai.quality_of_explanation.clarity_level', 'medium'), 'xai.quality_of_explanation.clarity_level', ['low', 'medium', 'high'], applyChange));
-    const qualityActionableField = createField(t('editor.qualityActionableFeedback'), safeGet(selectedExercise, 'xai.quality_of_explanation.actionable_feedback', ''), 'xai.quality_of_explanation.actionable_feedback', applyChange, true);
-    qualityActionableField.classList.add('field-full');
-    gridXai.appendChild(qualityActionableField);
-    const qualityAdaptationField = createField(t('editor.qualityAdaptationNotes'), safeGet(selectedExercise, 'xai.quality_of_explanation.adaptation_notes', ''), 'xai.quality_of_explanation.adaptation_notes', applyChange, true);
-    qualityAdaptationField.classList.add('field-full');
-    gridXai.appendChild(qualityAdaptationField);
-    const xaiSection = createSection(t('editor.sectionXai'), 'ph-brain', 'section-xai');
-    xaiSection.appendChild(gridXai);
-
-    const gridControl = document.createElement('div');
-    gridControl.className = 'exercise-grid';
-    gridControl.appendChild(createField(t('editor.counterfactualCondition'), safeGet(selectedExercise, 'xai.counterfactual.condition', ''), 'xai.counterfactual.condition', applyChange, true));
-    gridControl.appendChild(createField(t('editor.counterfactualChange'), safeGet(selectedExercise, 'xai.counterfactual.expected_change', ''), 'xai.counterfactual.expected_change', applyChange, true));
-    const reviewProtocolField = createField(t('editor.reviewProtocol'), safeGet(selectedExercise, 'xai.human_oversight.review_protocol', ''), 'xai.human_oversight.review_protocol', applyChange, true);
-    reviewProtocolField.classList.add('field-full');
-    gridControl.appendChild(reviewProtocolField);
-    const teacherRiskField = createField(t('editor.teacherActionOnRisk'), safeGet(selectedExercise, 'xai.human_oversight.teacher_action_on_risk', ''), 'xai.human_oversight.teacher_action_on_risk', applyChange, true);
-    teacherRiskField.classList.add('field-full');
-    gridControl.appendChild(teacherRiskField);
-    const overridePolicyField = createField(t('editor.overridePolicy'), safeGet(selectedExercise, 'xai.human_oversight.override_policy', ''), 'xai.human_oversight.override_policy', applyChange, true);
-    overridePolicyField.classList.add('field-full');
-    gridControl.appendChild(overridePolicyField);
-    gridControl.appendChild(createField(t('editor.confidence'), String(safeGet(selectedExercise, 'xai.uncertainty.confidence', 0.5)), 'xai.uncertainty.confidence', (path, rawValue) => {
-        const num = Number(rawValue);
-        applyChange(path, Number.isFinite(num) ? num : 0);
-    }));
-    const controlSection = createSection(t('editor.sectionControl'), 'ph-shield-check', 'section-control');
-    controlSection.appendChild(gridControl);
-
     const interactionSection = createInteractionEditor(selectedExercise, applyChange);
     const previewSection = createPreviewSection(selectedExercise);
     const exerciseDesignSection = createSection(t('editor.sectionExerciseDesign'), 'ph-pencil-ruler', 'section-exercise-design');
@@ -1424,11 +1420,7 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     summarySection.appendChild(executiveLayer);
     summarySection.appendChild(narrativeLayer);
 
-    const technicalLayer = createTechnicalLayer(selectedExercise, [
-        pedSection,
-        xaiSection,
-        controlSection
-    ]);
+    const technicalLayer = createTechnicalLayer(selectedExercise);
     const validationSection = createValidationSection(dataBundle, selectedIndex);
 
     card.appendChild(createExerciseTabs([

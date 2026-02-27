@@ -69,10 +69,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </select>
             <label for="workspace-mode-select" data-i18n="ui.workspaceMode">Mode</label>
             <select id="workspace-mode-select" class="control-select" aria-label="Workspace mode">
-                <option value="basic" data-i18n="ui.modeBasic">Basic teacher</option>
-                <option value="advanced" data-i18n="ui.modeAdvanced">Advanced teacher</option>
-                <option value="designer" data-i18n="ui.modeDesigner">AI designer</option>
-                <option value="full" data-i18n="ui.modeFull">Full expert</option>
+                <option value="basic" data-i18n="ui.modeBasic">Teacher</option>
+                <option value="research" data-i18n="ui.modeResearch">Teacher researcher</option>
             </select>
             <a href="../eduxai-visor/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-visor-link" style="text-decoration:none; padding:6px 10px;">
                 <i class="ph ph-student"></i> <span>EduXAI-Visor</span>
@@ -329,7 +327,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </main>
 
     <script src="../eje-shared/exercise-engine.js?v=20260221-01"></script>
-    <script type="module" src="app.js?v=20260223-42"></script>
+    <script type="module" src="app.js?v=20260227-44"></script>
     <script src="../../assets/js/app-version.js"></script>
     <script src="../../assets/js/app-trust-bar.js"></script>
     <script>
@@ -337,8 +335,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const sharedMeta = (window.RecuEduAppMeta && window.RecuEduAppMeta.shared) || {};
         window.initAppTrustBar({
             appName: "EduXAI Studio",
-            version: appMeta.version || "v0.10.0-beta",
-            updated: appMeta.updated || "2026-02-22",
+            version: appMeta.version || "v0.11.1-beta",
+            updated: appMeta.updated || "2026-02-27",
             locale: document.documentElement.lang || "en",
             termsUrl: "../../assets/legal/terms-short.html",
             dataUrl: "../../assets/legal/data-policy-short.html",

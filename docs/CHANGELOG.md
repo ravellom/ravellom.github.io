@@ -2,6 +2,15 @@
 
 This changelog tracks key milestones for **EduXAI Studio** and **EduXAI-Visor**.
 
+## v0.11.1-beta (2026-02-27)
+
+1. Workspace profiles simplified to two roles: **Teacher** and **Teacher researcher** (with legacy mode compatibility mapping).
+2. Left panel flow reorganized to match real generation sequence: **Didactic brief -> DUA/UDL strategy -> AI settings -> Project -> Students**.
+3. Teacher-facing readability improvements in Exercise Explorer: Technical XAI details now use compact narrative blocks (non-JSON display).
+4. UDL/DUA labeling refined by locale: English uses **UDL strategy**, Spanish uses **Estrategia DUA**.
+5. Trace reliability improved: internal generation trace now reflects the runtime model used by the app and refreshes timestamp on generation.
+6. Dashboard visual tuning pass: smaller action buttons and more consistent text sizing across panels.
+
 ## v0.11.0-beta (2026-02-22)
 
 1. Added **SCORM 1.2 export** from EduXAI Studio as a zipped LMS-ready package.

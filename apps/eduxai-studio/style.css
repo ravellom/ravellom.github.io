@@ -14,6 +14,9 @@
     --xai-radius-sm: 10px;
     --xai-accent-a: #14b8a6;
     --xai-accent-b: #f59e0b;
+    --xai-font-base: 14px;
+    --xai-font-sm: 0.82rem;
+    --xai-font-xs: 0.76rem;
 }
 
 * {
@@ -23,6 +26,8 @@
 body {
     margin: 0;
     font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+    font-size: var(--xai-font-base);
+    line-height: 1.45;
     color: var(--xai-text);
     background:
         radial-gradient(1200px 500px at 15% -10%, #e8f1ff 0%, transparent 60%),
@@ -111,7 +116,7 @@ body {
 
 .app-title-wrap h1 {
     margin: 0;
-    font-size: 1.45rem;
+    font-size: 1.32rem;
     letter-spacing: -0.01em;
     grid-column: 2;
 }
@@ -119,7 +124,7 @@ body {
 .app-title-wrap p {
     margin: 3px 0 0;
     color: var(--xai-muted);
-    font-size: 0.84rem;
+    font-size: var(--xai-font-sm);
     grid-column: 2;
 }
 
@@ -433,10 +438,11 @@ body {
 
 .btn {
     border: 1px solid transparent;
-    border-radius: 11px;
-    padding: 9px 12px;
+    border-radius: 10px;
+    padding: 7px 10px;
     cursor: pointer;
     font-weight: 700;
+    font-size: var(--xai-font-sm);
     letter-spacing: 0.01em;
     transition: transform 0.14s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
@@ -521,8 +527,8 @@ body {
 }
 
 .btn-mini {
-    padding: 4px 8px;
-    font-size: 0.78rem;
+    padding: 3px 7px;
+    font-size: var(--xai-font-xs);
 }
 
 .type-plan-help {
@@ -1383,6 +1389,45 @@ html[data-workspace-mode="basic"] .core-insights-link {
     background: #f8fafc;
     font-size: 0.76rem;
     line-height: 1.4;
+}
+
+.technical-groups {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.technical-group-card {
+    margin-bottom: 0;
+}
+
+.technical-group-title {
+    margin: 0;
+    font-size: 0.84rem;
+}
+
+.technical-group-hint {
+    margin: 4px 0 8px;
+    color: var(--xai-muted);
+    font-size: 0.72rem;
+}
+
+.technical-readable-box {
+    border: 1px solid var(--xai-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+}
+
+.technical-readable-line {
+    margin: 0 0 6px;
+    color: #334155;
+    font-size: 0.8rem;
+    line-height: 1.42;
+}
+
+.technical-readable-line:last-child {
+    margin-bottom: 0;
 }
 
 .exercise-card-head {

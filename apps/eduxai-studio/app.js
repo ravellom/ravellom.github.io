@@ -739,9 +739,17 @@ function loadProviderModeFromStorage() {
 }
 
 function normalizeWorkspaceMode(value) {
-    const mode = String(value || '').trim().toLowerCase();
-    if (mode === 'advanced' || mode === 'designer' || mode === 'full') {
-        return mode;
+    const mode = String(value || '').trim().toLowerCase().replace(/\s+/g, '_');
+    if (
+        mode === 'research'
+        || mode === 'advanced'
+        || mode === 'designer'
+        || mode === 'full'
+        || mode === 'teacher_researcher'
+        || mode === 'docente_investigador'
+        || mode === 'investigador'
+    ) {
+        return 'research';
     }
     return 'basic';
 }
@@ -864,14 +872,14 @@ function applyWorkspaceMode(elements, mode) {
         jsonOutputDetails.style.display = showJsonOutput ? '' : 'none';
     }
 
-    const showPromptTrace = normalized === 'designer' || normalized === 'full';
+    const showPromptTrace = normalized === 'research';
     if (promptTraceDetails) {
         promptTraceDetails.style.display = showPromptTrace ? '' : 'none';
     }
 
     const navDua = document.querySelector('.left-nav-link[data-target="sec-dua"]');
     const secDua = document.getElementById('sec-dua');
-    const showDuaConfig = normalized !== 'basic';
+    const showDuaConfig = true;
     if (navDua) {
         navDua.style.display = showDuaConfig ? '' : 'none';
     }
@@ -890,7 +898,7 @@ function applyWorkspaceMode(elements, mode) {
 
     const navStudents = document.querySelector('.left-nav-link[data-target="sec-student-export"]');
     const secStudents = document.getElementById('sec-student-export');
-    const showStudentExport = normalized !== 'basic' || (Array.isArray(appState?.data?.exercises) && appState.data.exercises.length > 0);
+    const showStudentExport = true;
     if (navStudents) {
         navStudents.style.display = showStudentExport ? '' : 'none';
     }
@@ -1138,9 +1146,15 @@ function applyLocalXaiAutoRepair(bundle, { teacherConfig, modelName, promptId = 
         if (!xai.trace || typeof xai.trace !== 'object' || Array.isArray(xai.trace)) {
             xai.trace = {};
         }
-        xai.trace.model = ensureStringMin(xai.trace.model, 2, String(modelName || 'model-name'));
+        // Always reflect the actual runtime model used by this app execution.
+        if (String(modelName || '').trim()) {
+            xai.trace.model = String(modelName).trim();
+        } else {
+            xai.trace.model = ensureStringMin(xai.trace.model, 2, 'unknown-model');
+        }
         xai.trace.prompt_id = ensureStringMin(xai.trace.prompt_id, 2, promptId);
-        xai.trace.timestamp_utc = ensureStringMin(xai.trace.timestamp_utc, 8, nowIso);
+        // Refresh timestamp to avoid stale/example trace dates.
+        xai.trace.timestamp_utc = nowIso;
 
         if (!exercise.dua || typeof exercise.dua !== 'object' || Array.isArray(exercise.dua)) {
             exercise.dua = {};
@@ -1689,6 +1703,8 @@ function setupLeftPanelSections(elements) {
     const labelModel = panel.querySelector('label[for="model-select"]');
     const labelProviderMode = panel.querySelector('label[for="provider-mode"]');
     const labelContent = panel.querySelector('label[for="content-input"]');
+    const labelTypePolicy = panel.querySelector('label[for="teacher-type-policy"]');
+    const teacherLockedHelp = panel.querySelector('[data-i18n="ui.teacherLockedHelp"]');
     const typePlanBox = panel.querySelector('.type-plan-box');
     const manualAiPanel = panel.querySelector('#manual-ai-panel');
     const hint = panel.querySelector('.hint');
@@ -1726,20 +1742,18 @@ function setupLeftPanelSections(elements) {
     sectionNav.className = 'left-section-nav';
     sectionNav.setAttribute('aria-label', t('ui.panelSectionsLabel'));
     sectionNav.innerHTML = `
-        <button type="button" class="left-nav-link" data-target="sec-ai">${t('dua.navAi')}</button>
         <button type="button" class="left-nav-link" data-target="sec-request">${t('dua.navRequest')}</button>
         <button type="button" class="left-nav-link" data-target="sec-dua">${t('dua.navDua')}</button>
-        <button type="button" class="left-nav-link" data-target="sec-source">${t('dua.navSource')}</button>
+        <button type="button" class="left-nav-link" data-target="sec-ai">${t('dua.navAi')}</button>
         <button type="button" class="left-nav-link" data-target="sec-project">${t('dua.navProject')}</button>
         <button type="button" class="left-nav-link" data-target="sec-student-export">${t('dua.navStudentExport')}</button>
     `;
 
-    const secAi = createGroup('sec-ai', 1, t('dua.sectionAi'));
-    const secRequest = createGroup('sec-request', 2, t('dua.sectionRequest'));
-    const secDua = createGroup('sec-dua', 3, t('dua.sectionDua'));
-    const secSource = createGroup('sec-source', 4, t('dua.sectionSource'));
-    const secProject = createGroup('sec-project', 5, t('dua.sectionProject'));
-    const secStudentExport = createGroup('sec-student-export', 6, t('dua.sectionStudentExport'));
+    const secRequest = createGroup('sec-request', 1, t('dua.sectionRequest'));
+    const secDua = createGroup('sec-dua', 2, t('dua.sectionDua'));
+    const secAi = createGroup('sec-ai', 3, t('dua.sectionAi'));
+    const secProject = createGroup('sec-project', 4, t('dua.sectionProject'));
+    const secStudentExport = createGroup('sec-student-export', 5, t('dua.sectionStudentExport'));
 
     const sourceActions = document.createElement('div');
     sourceActions.className = 'panel-actions';
@@ -1791,6 +1805,10 @@ function setupLeftPanelSections(elements) {
     if (manualAiPanel) secAi.body.appendChild(manualAiPanel);
 
     if (typePlanBox) secRequest.body.appendChild(typePlanBox);
+    if (labelContent) secRequest.body.appendChild(labelContent);
+    if (elements.contentInput) secRequest.body.appendChild(elements.contentInput);
+    if (elements.btnUploadSummary) sourceActions.appendChild(elements.btnUploadSummary);
+    if (sourceActions.childElementCount > 0) secRequest.body.appendChild(sourceActions);
 
     const duaWrap = document.createElement('div');
     duaWrap.className = 'dua-config-grid';
@@ -1845,11 +1863,16 @@ function setupLeftPanelSections(elements) {
         </select>
     `;
     secDua.body.appendChild(duaWrap);
-
-    if (labelContent) secSource.body.appendChild(labelContent);
-    if (elements.contentInput) secSource.body.appendChild(elements.contentInput);
-    if (elements.btnUploadSummary) sourceActions.appendChild(elements.btnUploadSummary);
-    if (sourceActions.childElementCount > 0) secSource.body.appendChild(sourceActions);
+    if (labelTypePolicy && elements.teacherTypePolicy) {
+        const duaPolicyCard = document.createElement('div');
+        duaPolicyCard.className = 'compact-card';
+        duaPolicyCard.appendChild(labelTypePolicy);
+        duaPolicyCard.appendChild(elements.teacherTypePolicy);
+        if (teacherLockedHelp) {
+            duaPolicyCard.appendChild(teacherLockedHelp);
+        }
+        secDua.body.appendChild(duaPolicyCard);
+    }
 
     if (elements.btnNewProject) projectActionsTop.appendChild(elements.btnNewProject);
     if (elements.btnRecoverDraft) projectActionsTop.appendChild(elements.btnRecoverDraft);
@@ -1890,10 +1913,9 @@ function setupLeftPanelSections(elements) {
     if (elements.summaryFile) panel.appendChild(elements.summaryFile);
     if (elements.projectFile) panel.appendChild(elements.projectFile);
     if (elements.studentResultsFile) panel.appendChild(elements.studentResultsFile);
-    panel.appendChild(secAi.section);
     panel.appendChild(secRequest.section);
     panel.appendChild(secDua.section);
-    panel.appendChild(secSource.section);
+    panel.appendChild(secAi.section);
     panel.appendChild(secProject.section);
     panel.appendChild(secStudentExport.section);
     if (status) panel.appendChild(status);
@@ -1941,7 +1963,7 @@ function setupLeftPanelSections(elements) {
         event.preventDefault();
         activateSection(targetId);
     });
-    activateSection('sec-ai');
+    activateSection('sec-request');
 
     const variationType = panel.querySelector('#dua-variation-type');
     const variantCount = panel.querySelector('#dua-variant-count');
@@ -3250,6 +3272,8 @@ function initializeApp() {
         }
         setState({ workspaceMode: mode });
         applyWorkspaceMode(elements, mode);
+        // Ensure mode-dependent UI is reapplied after async render cycles.
+        setTimeout(() => applyWorkspaceMode(elements, mode), 0);
     });
 
     elements.btnUploadSummary.addEventListener('click', () => {

@@ -6,8 +6,8 @@
             roadmapUrl: "../../docs/ROADMAP.md"
         },
         eduxaiStudio: {
-            version: "v0.11.0-beta",
-            updated: "2026-02-22",
+            version: "v0.11.1-beta",
+            updated: "2026-02-27",
             changelogUrl: "./CHANGELOG.md",
             roadmapUrl: "./ROADMAP.md"
         },
