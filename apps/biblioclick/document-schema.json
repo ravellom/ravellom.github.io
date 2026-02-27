@@ -74,6 +74,40 @@
       }
     ]
   },
+  "Artículo en conferencia": {
+    "emoji": "🎤",
+    "label": "Artículo en conferencia",
+    "fields": [
+      {
+        "id": "year",
+        "label": "Año de publicación",
+        "type": "number",
+        "placeholder": "Ej: 2024",
+        "required": false
+      },
+      {
+        "id": "conference",
+        "label": "Nombre del congreso o conferencia",
+        "type": "text",
+        "placeholder": "Ej: Congreso Internacional de Educación",
+        "required": false
+      },
+      {
+        "id": "location",
+        "label": "Lugar del evento (opcional)",
+        "type": "text",
+        "placeholder": "Ej: Madrid, España",
+        "required": false
+      },
+      {
+        "id": "pages",
+        "label": "Páginas (opcional)",
+        "type": "text",
+        "placeholder": "Ej: 44-63",
+        "required": false
+      }
+    ]
+  },
   "Página web": {
     "emoji": "🌐",
     "label": "Página web",

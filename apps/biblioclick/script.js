@@ -1,4 +1,4 @@
-let maxAuthors = 6;
+﻿let maxAuthors = 6;
 let editingIndex = null;
 
 // Estructura para almacenar referencias como objetos
@@ -16,7 +16,7 @@ async function loadDocumentSchema() {
     updateFormFields(); // Cargar campos del primer tipo
   } catch (error) {
     console.error('Error cargando esquema de documentos:', error);
-    alert('Error al cargar la configuración. Por favor, recarga la página.');
+    alert('Error al cargar la configuraciÃ³n. Por favor, recarga la pÃ¡gina.');
   }
 }
 
@@ -33,7 +33,7 @@ function initializeDocumentTypeSelector() {
   }
 }
 
-// Generar campos dinámicamente según el tipo de documento
+// Generar campos dinÃ¡micamente segÃºn el tipo de documento
 function updateFormFields() {
   if (!documentSchema) return;
   
@@ -76,13 +76,13 @@ function updateFormFields() {
 
 function addAuthor() {
   const container = document.getElementById('authorInputs');
-  if (container.children.length >= maxAuthors) return alert('Máximo 6 autores');
+  if (container.children.length >= maxAuthors) return alert('MÃ¡ximo 6 autores');
   const div = document.createElement('div');
   div.className = 'author-row';
   div.innerHTML = `<label>Autor:</label>
                    <input type="text" placeholder="Nombre">
                    <input type="text" placeholder="Apellido">
-                   <button onclick="this.parentNode.remove()">🗑️</button>`;
+                   <button onclick="this.parentNode.remove()">ðŸ—‘ï¸</button>`;
   container.appendChild(div);
 }
 
@@ -98,7 +98,7 @@ function formatAuthorsAPA(authors) {
   } else if (authors.length <= 20) {
     result = authors.slice(0, -1).join(', ') + ', & ' + authors[authors.length - 1];
   } else {
-    // Más de 20 autores: primeros 19 + ... & último
+    // MÃ¡s de 20 autores: primeros 19 + ... & Ãºltimo
     result = authors.slice(0, 19).join(', ') + ', ... & ' + authors[authors.length - 1];
   }
   
@@ -110,7 +110,7 @@ function formatAuthorsAPA(authors) {
   return result;
 }
 
-// Formato APA 7 según tipo de documento
+// Formato APA 7 segÃºn tipo de documento
 function formatReferenceAPA(data) {
   let ref = '';
   const { authors, title, docType, urlOrDoi } = data;
@@ -124,16 +124,16 @@ function formatReferenceAPA(data) {
   const isDOI = urlOrDoi && (urlOrDoi.includes('doi.org') || urlOrDoi.match(/^10\.\d{4,}/));
   const formattedLink = isDOI ? (urlOrDoi.startsWith('http') ? urlOrDoi : `https://doi.org/${urlOrDoi}`) : urlOrDoi;
   
-  // Formateo según tipo de documento
+  // Formateo segÃºn tipo de documento
   if (docType === 'Libro') {
-    // Formato: Autor. (Año). Título. Editorial.
+    // Formato: Autor. (AÃ±o). TÃ­tulo. Editorial.
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
     
     ref += ` <em>${title}</em>`;
     if (data.edition && data.edition !== '1') {
-      ref += ` (${data.edition}ª ed.)`;
+      ref += ` (${data.edition}Âª ed.)`;
     }
     ref += '.';
     if (data.city && data.publisher) {
@@ -143,8 +143,8 @@ function formatReferenceAPA(data) {
     }
     if (formattedLink) ref += ` ${formattedLink}`;
     
-  } else if (docType === 'Artículo') {
-    // Formato: Autor. (Año). Título. Revista, volumen(número), páginas. DOI/URL
+  } else if (docType === 'ArtÃ­culo') {
+    // Formato: Autor. (AÃ±o). TÃ­tulo. Revista, volumen(nÃºmero), pÃ¡ginas. DOI/URL
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -166,9 +166,29 @@ function formatReferenceAPA(data) {
     if (formattedLink) {
       ref += ` ${formattedLink}`;
     }
+
+  } else if (docType === 'ArtÃ­culo en conferencia') {
+    const year = data.year;
+    if (year) ref += ` (${year}).`;
+    else ref += ' (s.f.).';
+
+    ref += ` ${title}.`;
+    if (data.conference) {
+      ref += ` En <em>${data.conference}</em>`;
+      if (data.location) {
+        ref += ` (${data.location})`;
+      }
+      if (data.pages) {
+        ref += `, ${data.pages}`;
+      }
+      ref += '.';
+    }
+    if (formattedLink) {
+      ref += ` ${formattedLink}`;
+    }
     
   } else if (docType === 'Video') {
-    // Formato: Autor/Canal. (Año, fecha). Título [Video]. Plataforma. URL
+    // Formato: Autor/Canal. (AÃ±o, fecha). TÃ­tulo [Video]. Plataforma. URL
     if (data.dateVideo) {
       const dateObj = new Date(data.dateVideo);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -186,8 +206,8 @@ function formatReferenceAPA(data) {
       ref += ` ${formattedLink}`;
     }
     
-  } else if (docType === 'Periódico') {
-    // Formato: Autor. (Fecha). Título. Periódico. URL
+  } else if (docType === 'PeriÃ³dico') {
+    // Formato: Autor. (Fecha). TÃ­tulo. PeriÃ³dico. URL
     if (data.dateNewspaper) {
       const dateObj = new Date(data.dateNewspaper);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -211,7 +231,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Enciclopedia') {
-    // Formato: Autor. (Año). Título entrada. En Título enciclopedia. URL
+    // Formato: Autor. (AÃ±o). TÃ­tulo entrada. En TÃ­tulo enciclopedia. URL
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -238,7 +258,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Entrevista') {
-    // Formato: Entrevistado. (Año, fecha). Título [Tipo entrevista]. Medio.
+    // Formato: Entrevistado. (AÃ±o, fecha). TÃ­tulo [Tipo entrevista]. Medio.
     if (data.dateInterview) {
       const dateObj = new Date(data.dateInterview);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -274,7 +294,7 @@ function formatReferenceAPA(data) {
     }
     
   } else if (docType === 'Documental') {
-    // Formato: Director. (Año). Título [Tipo]. Productora.
+    // Formato: Director. (AÃ±o). TÃ­tulo [Tipo]. Productora.
     const year = data.year;
     if (year) ref += ` (${year}).`;
     else ref += ' (s.f.).';
@@ -283,10 +303,10 @@ function formatReferenceAPA(data) {
     
     const types = {
       'documental': 'Documental',
-      'pelicula': 'Película',
+      'pelicula': 'PelÃ­cula',
       'serie': 'Episodio de serie'
     };
-    ref += ` [${types[data.filmType] || 'Película'}]`;
+    ref += ` [${types[data.filmType] || 'PelÃ­cula'}]`;
     
     if (data.director) {
       ref += ` [Dirigida por ${data.director}]`;
@@ -300,8 +320,8 @@ function formatReferenceAPA(data) {
       ref += ` ${formattedLink}`;
     }
     
-  } else if (docType === 'Página web') {
-    // Formato: Autor/Org. (Año, fecha). Título. Sitio web. Recuperado de URL
+  } else if (docType === 'PÃ¡gina web') {
+    // Formato: Autor/Org. (AÃ±o, fecha). TÃ­tulo. Sitio web. Recuperado de URL
     if (data.dateWeb) {
       const dateObj = new Date(data.dateWeb);
       ref += ` (${dateObj.getFullYear()}, ${dateObj.toLocaleDateString('es-ES', {month: 'long', day: 'numeric'})}).`;
@@ -362,6 +382,92 @@ function getAuthors() {
   return authors;
 }
 
+function getOutputStyle() {
+  const outputStyle = document.getElementById('outputStyle');
+  return outputStyle ? outputStyle.value : 'APA';
+}
+
+function stripHtml(htmlText) {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlText || '';
+  return tempDiv.textContent || tempDiv.innerText || '';
+}
+
+function formatReferenceVancouver(data) {
+  const authors = data.authors && data.authors.length ? data.authors.join(', ') + '.' : '';
+  const title = data.title ? `${data.title}.` : '';
+  const year = data.year || 's.f.';
+  const pages = data.pages || '';
+  const volume = data.volume || '';
+  const issue = data.issue ? `(${data.issue})` : '';
+  const source = data.journal || data.conference || data.website || data.newspaper || data.publisher || '';
+  const tail = data.urlOrDoi ? ` ${data.urlOrDoi}` : '';
+
+  if (data.docType === 'ArtÃ­culo' || data.docType === 'ArtÃ­culo en conferencia') {
+    return `${authors} ${title} ${source}. ${year};${volume}${issue}:${pages}.${tail}`.replace(/\s+/g, ' ').trim();
+  }
+  if (data.docType === 'Libro') {
+    return `${authors} ${title} ${data.city ? data.city + ': ' : ''}${data.publisher || ''}; ${year}.${tail}`.replace(/\s+/g, ' ').trim();
+  }
+  return `${authors} ${title} ${source}. ${year}.${tail}`.replace(/\s+/g, ' ').trim();
+}
+
+function formatReferenceIEEE(data) {
+  const authors = data.authors && data.authors.length ? data.authors.join(', ') : '';
+  const title = data.title ? `"${data.title}"` : '""';
+  const source = data.journal || data.conference || data.website || data.newspaper || data.publisher || '';
+  const volume = data.volume ? `vol. ${data.volume}` : '';
+  const issue = data.issue ? `no. ${data.issue}` : '';
+  const pages = data.pages ? `pp. ${data.pages}` : '';
+  const year = data.year || 's.f.';
+  const tail = data.urlOrDoi ? ` ${data.urlOrDoi}` : '';
+
+  return `${authors}, ${title}, ${source}, ${volume}, ${issue}, ${pages}, ${year}.${tail}`
+    .replace(/\s+,/g, ',')
+    .replace(/,\s*,/g, ',')
+    .replace(/,\s*\./g, '.')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function formatReferenceByStyle(data, style) {
+  if (style === 'Vancouver') return formatReferenceVancouver(data);
+  if (style === 'IEEE') return formatReferenceIEEE(data);
+  return formatReferenceAPA(data);
+}
+
+function createReferenceItem(refData, index) {
+  const style = getOutputStyle();
+  const formattedRef = formatReferenceByStyle(refData, style);
+
+  const li = document.createElement('li');
+  li.className = 'ref-item';
+  li.dataset.index = String(index);
+  li.innerHTML = `<label class="ref-selector"><input type="checkbox" class="ref-check" data-index="${index}" /> Seleccionar</label>
+                  <div class="ref-text">${formattedRef}</div>
+                  <div>
+                    <button onclick="editReference(this)">âœï¸</button>
+                    <button onclick="deleteReference(${index})">ðŸ—‘ï¸</button>
+                  </div>`;
+  return li;
+}
+
+function renderReferencesList() {
+  const list = document.getElementById('refsList');
+  if (!list) return;
+  list.innerHTML = '';
+  referencesData.forEach((refData, index) => {
+    list.appendChild(createReferenceItem(refData, index));
+  });
+}
+
+function deleteReference(index) {
+  if (index < 0 || index >= referencesData.length) return;
+  referencesData.splice(index, 1);
+  saveToStorage();
+  renderReferencesList();
+}
+
 function addReference() {
   const authors = getAuthors();
   const title = document.getElementById('title').value.trim();
@@ -369,11 +475,10 @@ function addReference() {
   const urlOrDoi = document.getElementById('urlOrDoi').value.trim();
 
   if (!title) {
-    alert('Debe completar al menos el título.');
+    alert('Debe completar al menos el titulo.');
     return;
   }
 
-  // Recopilar todos los datos de los campos dinámicos
   const refData = {
     authors: authors,
     title: title,
@@ -381,7 +486,6 @@ function addReference() {
     urlOrDoi: urlOrDoi || null
   };
 
-  // Obtener valores de campos dinámicos
   const schema = documentSchema[docType];
   if (schema) {
     schema.fields.forEach(field => {
@@ -392,38 +496,27 @@ function addReference() {
     });
   }
 
-  // Formatear en APA 7
-  const formattedRef = formatReferenceAPA(refData);
-
-  const li = document.createElement('li');
-  li.className = 'ref-item';
-  li.innerHTML = `<div class="ref-text">${formattedRef}</div>
-                  <div>
-                    <button onclick="editReference(this)">✏️</button>
-                    <button onclick="this.closest('li').remove();saveToStorage();">🗑️</button>
-                  </div>`;
-
-  const list = document.getElementById('refsList');
-
   if (editingIndex !== null) {
     referencesData[editingIndex] = refData;
-    list.children[editingIndex].replaceWith(li);
     editingIndex = null;
   } else {
     referencesData.push(refData);
-    list.appendChild(li);
   }
 
   saveToStorage();
+  renderReferencesList();
   clearForm();
 }
-
 function clearForm() {
   document.getElementById('authorInputs').innerHTML = '<div class="author-row"><label>Autor:</label><input type="text" placeholder="Nombre"><input type="text" placeholder="Apellido"></div>';
   document.getElementById('title').value = '';
   document.getElementById('urlOrDoi').value = '';
+  const citationInput = document.getElementById('citationInput');
+  const parseStatus = document.getElementById('parseStatus');
+  if (citationInput) citationInput.value = '';
+  if (parseStatus) parseStatus.textContent = '';
   
-  // Limpiar campos dinámicos
+  // Limpiar campos dinÃ¡micos
   const dynamicInputs = document.querySelectorAll('#dynamicFields input, #dynamicFields select');
   dynamicInputs.forEach(input => {
     input.value = '';
@@ -440,7 +533,7 @@ function clearForm() {
 
 function editReference(button) {
   const li = button.closest('li');
-  const index = Array.from(document.querySelectorAll('.ref-item')).indexOf(li);
+  const index = Number(li.dataset.index);
   editingIndex = index;
 
   const refData = referencesData[index];
@@ -451,7 +544,7 @@ function editReference(button) {
     refData.authors.forEach(author => {
       const parts = author.split(', ');
       const surname = parts[0] || '';
-      // Las iniciales ya están en formato "J. M." - convertir a nombre completo no es posible,
+      // Las iniciales ya estÃ¡n en formato "J. M." - convertir a nombre completo no es posible,
       // pero podemos mostrar las iniciales para que el usuario las edite si quiere
       const initials = parts[1] || '';
       const div = document.createElement('div');
@@ -459,11 +552,11 @@ function editReference(button) {
       div.innerHTML = `<label>Autor:</label>
                        <input type="text" value="${initials.replace(/\./g, '')}" placeholder="Nombre o Iniciales">
                        <input type="text" value="${surname}" placeholder="Apellido">
-                       <button onclick="this.parentNode.remove()">🗑️</button>`;
+                       <button onclick="this.parentNode.remove()">ðŸ—‘ï¸</button>`;
       document.getElementById('authorInputs').appendChild(div);
     });
   } else {
-    // Agregar un campo vacío si no hay autores
+    // Agregar un campo vacÃ­o si no hay autores
     document.getElementById('authorInputs').innerHTML = '<div class="author-row"><label>Autor:</label><input type="text" placeholder="Nombre"><input type="text" placeholder="Apellido"></div>';
   }
 
@@ -472,10 +565,10 @@ function editReference(button) {
   document.getElementById('docType').value = refData.docType || 'Libro';
   document.getElementById('urlOrDoi').value = refData.urlOrDoi || '';
   
-  // Actualizar campos dinámicos para el tipo de documento
+  // Actualizar campos dinÃ¡micos para el tipo de documento
   updateFormFields();
   
-  // Llenar campos dinámicos con los datos guardados
+  // Llenar campos dinÃ¡micos con los datos guardados
   const schema = documentSchema[refData.docType];
   if (schema) {
     schema.fields.forEach(field => {
@@ -491,36 +584,98 @@ function editReference(button) {
 }
 
 function copyAll() {
-  const refsElements = Array.from(document.querySelectorAll('.ref-text'));
-  
-  // Crear versión HTML (con formato)
-  const htmlContent = refsElements.map(div => div.innerHTML).join('<br><br>');
-  
-  // Crear versión texto plano (sin etiquetas HTML pero legible)
-  const textContent = refsElements.map(div => {
-    // Reemplazar <em> con cursiva Unicode o mantener el contenido
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = div.innerHTML;
-    return tempDiv.textContent;
-  }).join('\n\n');
-  
-  // Copiar con formato HTML y texto plano
-  const blob = new ClipboardItem({
-    'text/html': new Blob([htmlContent], { type: 'text/html' }),
-    'text/plain': new Blob([textContent], { type: 'text/plain' })
-  });
-  
-  navigator.clipboard.write([blob])
-    .then(() => alert('Referencias copiadas con formato. Puedes pegarlas en Word, Google Docs, etc.'))
-    .catch(() => {
-      // Fallback para navegadores que no soportan ClipboardItem
-      navigator.clipboard.writeText(textContent)
-        .then(() => alert('Referencias copiadas (solo texto).'));
+  copyReferences(referencesData);
+}
+
+function getSelectedReferences() {
+  const selectedChecks = Array.from(document.querySelectorAll('.ref-check:checked'));
+  return selectedChecks
+    .map(check => Number(check.dataset.index))
+    .filter(index => Number.isInteger(index) && index >= 0 && index < referencesData.length)
+    .map(index => referencesData[index]);
+}
+
+function copySelected() {
+  const selectedRefs = getSelectedReferences();
+  if (!selectedRefs.length) {
+    alert('Selecciona al menos una referencia.');
+    return;
+  }
+  copyReferences(selectedRefs);
+}
+
+function copyReferences(referenceItems) {
+  const outputStyle = getOutputStyle();
+  const formatted = referenceItems.map(ref => formatReferenceByStyle(ref, outputStyle));
+  const plainText = formatted.map(stripHtml).join('\n\n');
+  const htmlText = formatted.join('<br><br>');
+
+  if (window.ClipboardItem) {
+    const blob = new ClipboardItem({
+      'text/html': new Blob([htmlText], { type: 'text/html' }),
+      'text/plain': new Blob([plainText], { type: 'text/plain' })
     });
+    navigator.clipboard.write([blob])
+      .then(() => alert(`Referencias copiadas en formato ${outputStyle}.`))
+      .catch(() => navigator.clipboard.writeText(plainText).then(() => alert(`Referencias copiadas en formato ${outputStyle}.`)));
+    return;
+  }
+
+  navigator.clipboard.writeText(plainText)
+    .then(() => alert(`Referencias copiadas en formato ${outputStyle}.`));
+}
+
+function exportLibraryJson() {
+  const payload = {
+    app: 'BiblioClick',
+    exportedAt: new Date().toISOString(),
+    count: referencesData.length,
+    references: referencesData
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `biblioclick-library-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importLibraryJson(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const imported = Array.isArray(parsed) ? parsed : parsed.references;
+      if (!Array.isArray(imported)) {
+        alert('El archivo JSON no tiene un formato valido.');
+        return;
+      }
+
+      const validRefs = imported.filter(ref => ref && typeof ref === 'object' && ref.title);
+      if (!validRefs.length) {
+        alert('No se encontraron referencias validas para importar.');
+        return;
+      }
+
+      referencesData = [...referencesData, ...validRefs];
+      saveToStorage();
+      renderReferencesList();
+      alert(`Importacion completada: ${validRefs.length} referencias.`);
+    } catch (error) {
+      alert('No se pudo leer el archivo JSON.');
+    } finally {
+      event.target.value = '';
+    }
+  };
+  reader.readAsText(file);
 }
 
 function clearAll() {
-  if (confirm('¿Seguro que desea eliminar todas las referencias?')) {
+  if (confirm('Â¿Seguro que desea eliminar todas las referencias?')) {
     referencesData = [];
     document.getElementById('refsList').innerHTML = '';
     saveToStorage();
@@ -535,21 +690,11 @@ function loadFromStorage() {
   const data = localStorage.getItem('referencesData');
   if (data) {
     referencesData = JSON.parse(data);
-    referencesData.forEach(refData => {
-      const formattedRef = formatReferenceAPA(refData);
-      const li = document.createElement('li');
-      li.className = 'ref-item';
-      li.innerHTML = `<div class="ref-text">${formattedRef}</div>
-                      <div>
-                        <button onclick="editReference(this)">✏️</button>
-                        <button onclick="this.closest('li').remove();saveToStorage();">🗑️</button>
-                      </div>`;
-      document.getElementById('refsList').appendChild(li);
-    });
   }
+  renderReferencesList();
 }
 
-// Inicializar la aplicación
+// Inicializar la aplicaciÃ³n
 window.onload = async () => {
   await loadDocumentSchema();
   loadFromStorage();

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiblioClick</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ“š</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../assets/css/recuedu.css" />
   <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
@@ -58,22 +58,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img src="logo_bc.png" alt="Logo BiblioClick" style="height: 32px;" />
         <span>BiblioClick</span>
       </div>
-      <button class="btn btn-sm btn-outline-dark" onclick="window.open('ayuda.html', '_blank')">❓ Ayuda</button>
+      <button class="btn btn-sm btn-outline-dark" onclick="window.open('ayuda.html', '_blank')">â“ Ayuda</button>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero" style="padding: 20px 0; min-height: auto;">
     <div class="container">
-      <span class="hero-tag">📚 Para Estudiantes</span>
+      <span class="hero-tag">ðŸ“š Para Estudiantes</span>
       <h1 style="font-size: 1.8rem; margin: 12px 0;">Gestor de Citas Simplificado</h1>
-      <p style="margin: 8px 0; font-size: 1rem;">Tu primera herramienta para organizar bibliografía en trabajos escolares. Genera referencias en formato APA de manera fácil y rápida.</p>
+      <p style="margin: 8px 0; font-size: 1rem;">Tu primera herramienta para organizar bibliografÃ­a en trabajos escolares. Genera referencias en formato APA de manera fÃ¡cil y rÃ¡pida.</p>
     </div>
   </section>
 
   <div class="container section">
     <div class="card">
       <h2>Agregar Referencia</h2>
+    <div class="auto-panel">
+      <label for="inputMode"><strong>Modo de entrada:</strong></label>
+      <select id="inputMode">
+        <option value="manual" selected>Manual (completar campos)</option>
+        <option value="automatic">AutomÃ¡tico (pegar referencia y extraer)</option>
+      </select>
+      <div id="autoInputArea" style="display:none;">
+        <label for="citationInput">Pega una referencia (APA, Vancouver o IEEE):</label>
+        <textarea id="citationInput" rows="7" placeholder="Ejemplo: Black, P., & Wiliam, D. (2018). Classroom assessment and pedagogy..."></textarea>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-secondary" type="button" onclick="extractFromCitation()">Extraer y completar campos</button>
+          <button class="btn btn-outline-dark" type="button" onclick="document.getElementById('citationInput').value='';document.getElementById('parseStatus').textContent=''">Limpiar texto pegado</button>
+        </div>
+        <div id="parseStatus" class="small-note"></div>
+      </div>
+    </div>
+    <br />
     <div class="author-inputs" id="authorInputs">
       <div class="author-row">
         <label>Autor:</label>
@@ -81,20 +98,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="text" placeholder="Apellido" />
       </div>
     </div>
-    <button class="btn btn-secondary" onclick="addAuthor()">+ Añadir autor</button>
+    <button class="btn btn-secondary" onclick="addAuthor()">+ AÃ±adir autor</button>
     <br /><br />
     <div class="form-fields">
-      <label for="title">Título:</label>
-      <input type="text" id="title" placeholder="Título del libro, artículo, etc." />
+      <label for="title">TÃ­tulo:</label>
+      <input type="text" id="title" placeholder="TÃ­tulo del libro, artÃ­culo, etc." />
 
       <label for="docType">Tipo de documento:</label>
       <select id="docType" onchange="updateFormFields()">
-        <!-- Las opciones se cargarán dinámicamente desde el JSON -->
+        <!-- Las opciones se cargarÃ¡n dinÃ¡micamente desde el JSON -->
       </select>
 
-      <!-- Campos dinámicos según tipo de documento -->
+      <!-- Campos dinÃ¡micos segÃºn tipo de documento -->
       <div id="dynamicFields">
-        <!-- Los campos se generarán automáticamente -->
+        <!-- Los campos se generarÃ¡n automÃ¡ticamente -->
       </div>
 
       <label for="urlOrDoi">DOI (preferido) o URL:</label>
@@ -106,12 +123,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="card" style="margin-top: 32px;">
       <h2>Referencias Guardadas</h2>
-      <ul class="refs-list" id="refsList"></ul>
-      <div style="display: flex; gap: 12px; margin-top: 20px;">
-        <button class="btn btn-outline-dark" onclick="copyAll()">📋 Copiar todas</button>
-        <button class="btn btn-outline-dark btn-danger" onclick="clearAll()">❌ Limpiar todas</button>
+      <div class="library-controls">
+        <label for="outputStyle"><strong>Formato de salida:</strong></label>
+        <select id="outputStyle" onchange="renderReferencesList()">
+          <option value="APA" selected>APA</option>
+          <option value="Vancouver">Vancouver</option>
+          <option value="IEEE">IEEE</option>
+        </select>
       </div>
-    </div>
+      <ul class="refs-list" id="refsList"></ul>
+      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
+        <button class="btn btn-outline-dark" onclick="copyAll()">Copiar todas en formato seleccionado</button>
+        <button class="btn btn-outline-dark" onclick="copySelected()">Copiar seleccionadas</button>
+        <button class="btn btn-outline-dark" onclick="exportLibraryJson()">Exportar biblioteca (JSON)</button>
+        <button class="btn btn-outline-dark" onclick="document.getElementById('importLibraryFile').click()">Importar JSON</button>
+        <button class="btn btn-outline-dark btn-danger" onclick="clearAll()">Limpiar todas</button>
+      </div>
+      <input id="importLibraryFile" type="file" accept=".json,application/json" style="display:none;" onchange="importLibraryJson(event)" />    </div>
   </div>
 
   <script src="script.js"></script>
@@ -134,3 +162,4 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </script>
 </body>
 </html>
+
