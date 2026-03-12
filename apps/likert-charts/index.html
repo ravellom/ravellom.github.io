@@ -7,8 +7,7 @@
         (function () {
             const params = new URLSearchParams(window.location.search);
             const isEmbed = params.get('embed') === '1';
-            const isStandalone = params.get('standalone') === '1';
-            if (!isEmbed && !isStandalone) {
+            if (!isEmbed) {
                 window.location.replace('../survey-suite/?view=likert');
                 return;
             }
@@ -97,9 +96,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <option value="en" selected>English</option>
                         <option value="es">Español</option>
                     </select>
-                    <a href="help.html" target="_blank" title="Help" style="color: inherit; font-size: 1.25rem; text-decoration: none;">
-                        <i class="ph ph-question"></i>
-                    </a>
                 </div>
             </div>
 
@@ -131,6 +127,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <div class="nav-footer">
+                <a class="nav-help-link" href="../survey-suite/help.html#likert" target="_blank" rel="noopener noreferrer">
+                    <i class="ph ph-question"></i>
+                    <span>Ayuda</span>
+                </a>
                 <div class="status-indicator">
                     <span class="status-dot"></span>
                     <span id="status-text">No data</span>
@@ -282,6 +282,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Panel: Gráfico -->
             <div class="options-panel" id="panel-chart">
                 <h3 class="options-title" data-i18n="panel_chart_title">Tipo de Gráfico</h3>
+
+                <div class="option-group">
+                    <label class="option-label">Modo de análisis:</label>
+                    <select id="analysis-mode" class="select-input reactive-control">
+                        <option value="standard">Estándar</option>
+                        <option value="comparison">Comparación Pre/Post</option>
+                    </select>
+                </div>
+
+                <div id="comparison-data-controls" class="option-group" style="display: none;">
+                    <label class="option-label">Datasets para comparación:</label>
+                    <div style="display: grid; gap: 8px;">
+                        <select id="comparison-pre-dataset" class="select-input">
+                            <option value="">Selecciona dataset PRE...</option>
+                        </select>
+                        <select id="comparison-post-dataset" class="select-input">
+                            <option value="">Selecciona dataset POST...</option>
+                        </select>
+                        <button id="load-comparison-datasets" class="btn-primary">
+                            <i class="ph ph-arrows-left-right"></i> Cargar comparación
+                        </button>
+                    </div>
+                    <p class="help-text">Compara ítems comunes entre PRE y POST en el mismo gráfico.</p>
+                </div>
                 
                 <div class="option-group">
                     <label class="option-label" data-i18n="chart_type">Tipo:</label>

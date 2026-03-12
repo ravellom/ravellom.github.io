@@ -1,0 +1,333 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Narrativo Wizard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="bg-shape bg-shape-a"></div>
+  <div class="bg-shape bg-shape-b"></div>
+
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">RecuEdu Labs</p>
+      <h1>Asistente de Video Narrativo</h1>
+      <p class="subtitle">Ruta guiada para que estudiantes creen un video narrativo de 40 a 60 segundos.</p>
+    </div>
+    <div class="topbar-actions">
+      <span id="aiStatusBadge" class="ai-status">IA: sin key</span>
+      <button id="btnSave" class="btn btn-outline">Guardar local</button>
+      <button id="btnLoad" class="btn btn-outline">Cargar local</button>
+      <button id="btnReset" class="btn btn-ghost">Reiniciar</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="steps-panel">
+      <h2>Paso a paso</h2>
+      <ol id="stepsList" class="steps-list"></ol>
+
+      <section class="complexity-card">
+        <h3>Semaforo de complejidad</h3>
+        <div id="complexityBadge" class="complexity-badge green">Verde</div>
+        <p id="complexityText">Simple y generable.</p>
+        <ul id="validatorList" class="validator-list"></ul>
+      </section>
+    </aside>
+
+    <section class="content-panel">
+      <div class="progress-wrap">
+        <div id="wizardProgressBar" class="progress-bar"></div>
+      </div>
+      <div id="wizardContainer"></div>
+
+      <footer class="wizard-nav">
+        <button id="btnPrev" class="btn btn-outline">Anterior</button>
+        <span id="stepCounter"></span>
+        <button id="btnNext" class="btn btn-primary">Siguiente</button>
+      </footer>
+    </section>
+  </main>
+
+  <template id="stepTemplateInicio">
+    <section class="step-card">
+      <h2>Inicio</h2>
+      <p class="hint">Define el proyecto y el modo de trabajo. Una app guiada evita la sobrecarga inicial.</p>
+      <div class="grid grid-2">
+        <label>Nombre del proyecto
+          <input id="projectName" type="text" maxlength="80" placeholder="Mi video narrativo" />
+        </label>
+        <label>Idioma
+          <select id="projectLanguage">
+            <option value="es">Español</option>
+            <option value="en">Inglés</option>
+          </select>
+        </label>
+        <label>Formato
+          <select id="projectOrientation">
+            <option value="16:9">Horizontal (16:9)</option>
+            <option value="9:16">Vertical (9:16)</option>
+          </select>
+        </label>
+        <label>Duración objetivo (seg)
+          <input id="projectDuration" type="number" min="40" max="60" value="50" />
+        </label>
+        <label>Modo
+          <select id="projectMode">
+            <option value="basico">Basico (recomendado)</option>
+            <option value="intermedio">Intermedio</option>
+          </select>
+        </label>
+        <label>Proveedor IA
+          <select id="projectProvider">
+            <option value="gemini">Gemini (recomendado)</option>
+            <option value="openai">OpenAI</option>
+          </select>
+        </label>
+        <label>API Key (opcional)
+          <input id="apiKey" type="password" placeholder="AIza... o sk-..." autocomplete="off" />
+        </label>
+      </div>
+      <p class="microcopy">La API Key se guarda solo en tu navegador (localStorage). Si eliges Gemini, usa una key de Google AI Studio.</p>
+    </section>
+  </template>
+
+  <template id="stepTemplateBrief">
+    <section class="step-card">
+      <h2>Idea y limites</h2>
+      <p class="hint">Elegir 1 lugar y maximo 2 personajes suele mejorar la consistencia visual.</p>
+      <div class="grid grid-2">
+        <label class="full">Idea en 1 frase (logline)
+          <input id="briefLogline" type="text" placeholder="Un/una ___ quiere ___ pero ___" maxlength="180" />
+        </label>
+        <label class="full">Tema o mensaje (opcional)
+          <input id="briefMessage" type="text" maxlength="140" placeholder="Persistencia, cuidado con..., cooperacion" />
+        </label>
+        <label>Publico
+          <select id="briefAudience">
+            <option value="infantil">Infantil</option>
+            <option value="adolescente">Adolescente</option>
+            <option value="docentes">Docentes</option>
+            <option value="general">General</option>
+          </select>
+        </label>
+        <label>Tono
+          <select id="briefTone">
+            <option value="inspirador">Inspirador</option>
+            <option value="comico">Comico</option>
+            <option value="serio">Serio</option>
+            <option value="ironico">Ironico suave</option>
+          </select>
+        </label>
+        <label>Numero de personajes (1-3)
+          <input id="briefCharacters" type="number" min="1" max="3" value="2" />
+        </label>
+        <label>Lugar principal
+          <input id="briefLocation" type="text" maxlength="80" placeholder="aula, parque, casa" />
+        </label>
+        <label>Epoca
+          <select id="briefEra">
+            <option value="actual">Actual</option>
+            <option value="atemporal">Atemporal</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions-row">
+        <button id="btnAssistBrief" class="btn btn-outline">Sugerir brief con IA</button>
+        <button id="btnGenerateStory" class="btn btn-primary">Convertir idea en mini-historia (IA)</button>
+      </div>
+    </section>
+  </template>
+
+  <template id="stepTemplateStory">
+    <section class="step-card">
+      <h2>Mini-historia con arco dramatio</h2>
+      <p class="hint">Estructura: Exposicion -> Incidente -> Tension -> Climax -> Desenlace -> Moraleja.</p>
+      <div class="actions-row">
+        <button id="btnStorySimple" class="btn btn-outline">Mas simple</button>
+        <button id="btnStoryEmotion" class="btn btn-outline">Mas emocional</button>
+        <button id="btnStoryHumor" class="btn btn-outline">Mas humor</button>
+        <button id="btnStoryReduce" class="btn btn-outline">Reducir a 150-180 palabras</button>
+      </div>
+      <label>Historia (editable)
+        <textarea id="storyText" rows="12"></textarea>
+      </label>
+      <label>Moraleja
+        <input id="storyMoraleja" type="text" maxlength="180" />
+      </label>
+      <label>Lista de elementos visuales (separados por coma)
+        <textarea id="storyElements" rows="3"></textarea>
+      </label>
+      <p id="storyWordCount" class="microcopy"></p>
+    </section>
+  </template>
+
+  <template id="stepTemplateVisual">
+    <section class="step-card">
+      <h2>Parametros visuales basicos</h2>
+      <p class="hint">Sin jerga tecnica: solo decisiones visuales claras y generables.</p>
+      <div class="grid grid-2">
+        <label>Estilo visual
+          <select id="visualStyle">
+            <option value="realista">Realista</option>
+            <option value="animacion">Animacion</option>
+            <option value="ilustracion">Ilustracion</option>
+          </select>
+        </label>
+        <label>Nivel de realismo
+          <select id="visualRealism">
+            <option value="natural">Natural</option>
+            <option value="estilizado">Estilizado</option>
+          </select>
+        </label>
+        <label>Colores
+          <select id="visualColors">
+            <option value="calidos">Calidos</option>
+            <option value="frios">Frios</option>
+            <option value="neutros">Neutros</option>
+            <option value="vibrantes">Vibrantes</option>
+          </select>
+        </label>
+        <label>Luz
+          <select id="visualLight">
+            <option value="dia">Dia</option>
+            <option value="tarde">Tarde</option>
+            <option value="noche">Noche</option>
+            <option value="interior">Interior</option>
+          </select>
+        </label>
+        <label>Ritmo
+          <select id="visualRhythm">
+            <option value="tranquilo">Tranquilo</option>
+            <option value="dinamico">Dinamico</option>
+          </select>
+        </label>
+        <label>Formato
+          <select id="visualFormat">
+            <option value="16:9">16:9</option>
+            <option value="9:16">9:16</option>
+          </select>
+        </label>
+      </div>
+      <label class="toggle-row">
+        <input id="visualSimplicity" type="checkbox" checked />
+        <span>Regla de sencillez: fondos simples, sin multitudes, sin texto en imagen</span>
+      </label>
+      <label>Tokens de prompt (autogenerados, editables)
+        <textarea id="visualTokens" rows="4"></textarea>
+      </label>
+      <div class="actions-row">
+        <button id="btnAssistVisual" class="btn btn-outline">Sugerir visual con IA</button>
+        <button id="btnBuildTokens" class="btn btn-primary">Actualizar tokens</button>
+      </div>
+    </section>
+  </template>
+
+  <template id="stepTemplateAnchor">
+    <section class="step-card">
+      <h2>Ancla de coherencia</h2>
+      <p class="hint">Primero define personajes y estilo. Luego crea escenas para mantener continuidad.</p>
+      <div class="actions-row">
+        <button id="btnAssistAnchor" class="btn btn-outline">Sugerir ancla con IA</button>
+        <button id="btnGenerateAnchor" class="btn btn-primary">Generar prompts de ancla</button>
+      </div>
+      <label>Prompt ancla de personajes/elementos
+        <textarea id="anchorCharacters" rows="4"></textarea>
+      </label>
+      <label>Prompt ancla de estilo
+        <textarea id="anchorStyle" rows="4"></textarea>
+      </label>
+      <label>ID / URL / referencia de imagen base
+        <input id="anchorReference" type="text" placeholder="https://... o id de imagen" />
+      </label>
+    </section>
+  </template>
+
+  <template id="stepTemplateScenes">
+    <section class="step-card">
+      <h2>Guion por escenas</h2>
+      <p class="hint">Recomendado: 8-10 escenas, una accion visual principal por escena.</p>
+      <div class="actions-row">
+        <button id="btnGenerateScenesAI" class="btn btn-outline">Generar escenas con IA</button>
+        <button id="btnGenerateScenes" class="btn btn-primary">Generar escenas (8-10)</button>
+        <button id="btnSimplifyScenes" class="btn btn-outline">Simplificar todo</button>
+      </div>
+      <div id="sceneList" class="scene-list"></div>
+    </section>
+  </template>
+
+  <template id="stepTemplatePrompts">
+    <section class="step-card">
+      <h2>Prompts por escena</h2>
+      <p class="hint">Cada escena tendra prompt de imagen y prompt de video con movimientos simples en lenguaje claro.</p>
+      <div class="grid grid-2">
+        <label>Nivel descriptivo
+          <select id="promptDetailLevel">
+            <option value="alto">Alto</option>
+            <option value="medio">Medio</option>
+            <option value="muy_alto">Muy alto</option>
+          </select>
+        </label>
+        <label>Tipo de encuadre
+          <select id="promptFraming">
+            <option value="mixto">Mixto</option>
+            <option value="cercano">Cercano</option>
+            <option value="medio">Medio</option>
+            <option value="abierto">Abierto</option>
+          </select>
+        </label>
+        <label>Atmósfera emocional
+          <select id="promptMood">
+            <option value="equilibrada">Equilibrada</option>
+            <option value="calida">Calida</option>
+            <option value="tensa">Tensa</option>
+            <option value="epica">Epica</option>
+            <option value="intima">Intima</option>
+          </select>
+        </label>
+        <label>Consistencia visual
+          <select id="promptConsistency">
+            <option value="estricta">Estricta</option>
+            <option value="normal">Normal</option>
+          </select>
+        </label>
+        <label class="full">Evitar en prompts (negativos, separados por coma)
+          <input id="promptNegative" type="text" placeholder="texto en pantalla, manos deformes, multitudes, logos" />
+        </label>
+      </div>
+      <div class="actions-row">
+        <button id="btnGeneratePromptsAI" class="btn btn-outline">Generar prompts con IA</button>
+        <button id="btnGeneratePrompts" class="btn btn-primary">Generar prompts enriquecidos</button>
+      </div>
+      <div id="promptsList" class="prompts-list"></div>
+    </section>
+  </template>
+
+  <template id="stepTemplateExport">
+    <section class="step-card">
+      <h2>Ensamble y exportacion</h2>
+      <p class="hint">Exporta paquete completo: historia, storyboard textual, prompts y checklist de coherencia.</p>
+      <div class="actions-row">
+        <button id="btnExportJson" class="btn btn-primary">Exportar JSON</button>
+        <button id="btnImportJson" class="btn btn-outline">Importar JSON</button>
+        <button id="btnQuickCopy" class="btn btn-outline">Modo copia rapida</button>
+        <button id="btnPrint" class="btn btn-ghost">Exportar PDF (imprimir)</button>
+      </div>
+      <input id="importJsonFile" type="file" accept="application/json" hidden />
+      <label>Checklist de coherencia
+        <textarea id="exportChecklist" rows="6" readonly></textarea>
+      </label>
+      <label>Paquete completo
+        <textarea id="exportBundle" rows="14" readonly></textarea>
+      </label>
+    </section>
+  </template>
+
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -158,6 +158,121 @@ function formatPromptTraceEntry(prompt, batchIndex, totalBatches, batchCount, ba
     return lines.join('\n');
 }
 
+function tokenizeContextText(text) {
+    return new Set(
+        String(text || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9áéíóúñü\s]/gi, ' ')
+            .split(/\s+/)
+            .map((token) => token.trim())
+            .filter((token) => token.length >= 4)
+    );
+}
+
+function jaccardScore(textA, textB) {
+    const a = tokenizeContextText(textA);
+    const b = tokenizeContextText(textB);
+    if (a.size === 0 && b.size === 0) {
+        return 1;
+    }
+    const intersection = [...a].filter((item) => b.has(item)).length;
+    const union = new Set([...a, ...b]).size;
+    return union > 0 ? intersection / union : 0;
+}
+
+function compactTextKey(text, max = 96) {
+    return String(text || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9áéíóúñü\s]/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, max);
+}
+
+function normalizeLangTag(value, fallback = 'en') {
+    const lang = String(value || '').trim().toLowerCase();
+    return /^[a-z]{2}(-[a-z]{2})?$/.test(lang) ? lang : fallback;
+}
+
+function getBundleContext(bundle) {
+    const projectMeta = bundle?.project_meta && typeof bundle.project_meta === 'object' ? bundle.project_meta : {};
+    const generation = bundle?.generation_context && typeof bundle.generation_context === 'object' ? bundle.generation_context : {};
+    const firstExercise = Array.isArray(bundle?.exercises) ? bundle.exercises[0] : null;
+    const objective = String(
+        projectMeta.context_objective
+        || firstExercise?.xai?.pedagogical_alignment?.learning_objective
+        || ''
+    ).trim();
+    const language = normalizeLangTag(
+        projectMeta.context_language
+        || bundle?.resource_metadata?.language
+        || generation?.language
+        || 'en',
+        'en'
+    );
+    const signature = String(projectMeta.context_signature || '').trim();
+    return { objective, language, signature };
+}
+
+function buildContextFromRequest(teacherConfig, content) {
+    const objective = String(teacherConfig?.learning_objective || '').trim();
+    const language = normalizeLangTag(teacherConfig?.exercise_language || 'en', 'en');
+    const signature = `${language}|${compactTextKey(objective, 80)}|${compactTextKey(content, 120)}`;
+    return { objective, language, signature };
+}
+
+function attachProjectMeta(bundle, { promptTrace = '', teacherConfig = null, content = '' } = {}) {
+    if (!bundle || typeof bundle !== 'object') {
+        return bundle;
+    }
+    const requestContext = teacherConfig ? buildContextFromRequest(teacherConfig, content) : null;
+    const baseMeta = bundle.project_meta && typeof bundle.project_meta === 'object' ? bundle.project_meta : {};
+    bundle.project_meta = {
+        ...baseMeta,
+        prompt_trace: String(promptTrace || '').trim(),
+        context_signature: String(requestContext?.signature || baseMeta.context_signature || '').trim(),
+        context_objective: String(requestContext?.objective || baseMeta.context_objective || '').trim(),
+        context_language: String(requestContext?.language || baseMeta.context_language || '').trim(),
+        updated_at: new Date().toISOString()
+    };
+    return bundle;
+}
+
+function resolveContextTransition(elements, teacherConfig, content, forPromptOnly = false) {
+    const currentData = appState?.data;
+    const hasExercises = Array.isArray(currentData?.exercises) && currentData.exercises.length > 0;
+    if (!hasExercises) {
+        return 'append';
+    }
+    const current = getBundleContext(currentData);
+    const next = buildContextFromRequest(teacherConfig, content);
+    const objectiveSimilarity = jaccardScore(current.objective, next.objective);
+    const languageChanged = current.language && next.language && current.language !== next.language;
+    const objectiveChanged = Boolean(current.objective && next.objective && objectiveSimilarity < 0.2);
+    if (!languageChanged && !objectiveChanged) {
+        return 'append';
+    }
+
+    const reasons = [];
+    if (languageChanged) {
+        reasons.push(t('status.contextShiftLanguageChange', { from: current.language, to: next.language }));
+    }
+    if (objectiveChanged) {
+        reasons.push(t('status.contextShiftObjectiveChange'));
+    }
+    const message = `${t('status.contextShiftTitle')}\n- ${reasons.join('\n- ')}\n\n${t(forPromptOnly ? 'status.contextShiftConfirmPrompt' : 'status.contextShiftConfirmReplace')}`;
+    const proceed = window.confirm(message);
+    if (!proceed) {
+        setStatus(elements, t('status.contextShiftCancelled'), 'warning');
+        return 'cancel';
+    }
+    if (!forPromptOnly) {
+        savePromptTraceToSession('');
+        setState({ promptTrace: '' });
+    }
+    return 'replace';
+}
+
 function getParseErrorResult() {
     return {
         valid: false,
@@ -182,7 +297,9 @@ function applyBundle(elements, rawBundle) {
         EXERCISE_MEMORY_MAX
     );
     saveExerciseMemoryToStorage(nextMemory);
-    setState({ data: normalizedBundle, validation, exerciseMemory: nextMemory });
+    const projectPromptTrace = String(normalizedBundle?.project_meta?.prompt_trace || '').trim();
+    savePromptTraceToSession(projectPromptTrace);
+    setState({ data: normalizedBundle, validation, exerciseMemory: nextMemory, promptTrace: projectPromptTrace });
     return validation;
 }
 
@@ -1469,6 +1586,9 @@ function appendGeneratedBundle(activeBundle, generatedBundle) {
     });
     const merged = {
         ...current,
+        project_meta: incoming.project_meta && typeof incoming.project_meta === 'object'
+            ? { ...incoming.project_meta }
+            : (current.project_meta && typeof current.project_meta === 'object' ? { ...current.project_meta } : undefined),
         exercises: [...currentExercises, ...incomingExercises]
     };
     const deduped = mergeGeneratedBundles([merged]);
@@ -2457,8 +2577,12 @@ function updateInsightsAndBadges(data, validation) {
     }
 
     if (compliance) {
-        if (validation.valid && warnings === 0) {
+        const unreviewedCount = (Array.isArray(data?.exercises) ? data.exercises : [])
+            .filter((exercise) => exercise?.reviewed !== true).length;
+        if (validation.valid && warnings === 0 && unreviewedCount === 0) {
             compliance.textContent = t('insights.compliance_high');
+        } else if (validation.valid && unreviewedCount > 0) {
+            compliance.textContent = t('insights.compliance_review_pending');
         } else if (validation.valid) {
             compliance.textContent = t('insights.compliance_ok');
         } else {
@@ -2580,7 +2704,7 @@ async function handleSummaryUpload(elements) {
     }
 }
 
-function buildCurrentGenerationPrompt(elements) {
+function buildCurrentGenerationPrompt(elements, memorySourceBundle = appState.data) {
     const request = prepareGenerationRequest(elements);
     const {
         content,
@@ -2601,7 +2725,7 @@ function buildCurrentGenerationPrompt(elements) {
         strictTypeCounts: Boolean(typePlan),
         duaConfig,
         teacherConfig,
-        memoryEntries: getPromptMemoryEntries(appState.data, teacherConfig, content, 8),
+        memoryEntries: getPromptMemoryEntries(memorySourceBundle, teacherConfig, content, 8),
         selectedExerciseType
     });
 }
@@ -2630,11 +2754,25 @@ function handleGeneratePrompt(elements) {
         elements.teacherLearningObjective?.focus();
         return;
     }
-    const prompt = buildCurrentGenerationPrompt(elements);
+    const contextTransition = resolveContextTransition(elements, request.teacherConfig, request.content, true);
+    if (contextTransition === 'cancel') {
+        return;
+    }
+    const memorySource = contextTransition === 'replace' ? null : appState.data;
+    const prompt = buildCurrentGenerationPrompt(elements, memorySource);
     if (elements.manualAiPrompt) {
         elements.manualAiPrompt.value = prompt;
     }
     savePromptTraceToSession(prompt);
+    if (appState.data && typeof appState.data === 'object') {
+        const updatedBundle = { ...appState.data };
+        attachProjectMeta(updatedBundle, {
+            promptTrace: prompt,
+            teacherConfig: request.teacherConfig,
+            content: request.content
+        });
+        setState({ data: updatedBundle });
+    }
     setStatus(elements, t('status.promptReadyManual'), 'success');
 }
 
@@ -2652,6 +2790,16 @@ function handleImportManualJson(elements) {
             expectedTypePlan
         } = request;
         const outputLanguage = teacherConfig.exercise_language || 'en';
+        const contextTransition = resolveContextTransition(elements, teacherConfig, content, false);
+        if (contextTransition === 'cancel') {
+            return;
+        }
+        const currentCount = Array.isArray(appState?.data?.exercises) ? appState.data.exercises.length : 0;
+        const effectiveResultingCount = contextTransition === 'replace' ? exerciseCount : (currentCount + exerciseCount);
+        if (effectiveResultingCount > MAX_EXERCISES) {
+            setStatus(elements, t('status.duaTotalExceeded', { max: MAX_EXERCISES }), 'error');
+            return;
+        }
         let mergedBundle = enforceRequestedExerciseCount(mergeGeneratedBundles([parsed]), exerciseCount);
         if (mergedBundle && typeof mergedBundle === 'object') {
             enforceCanonicalDuaProfile(mergedBundle, duaConfig);
@@ -2664,6 +2812,11 @@ function handleImportManualJson(elements) {
                 teacherConfig,
                 modelName: String(elements.modelSelect?.value || ''),
                 locale: outputLanguage
+            });
+            attachProjectMeta(mergedBundle, {
+                promptTrace: readPromptTraceFromSession(),
+                teacherConfig,
+                content
             });
         }
 
@@ -2685,9 +2838,12 @@ function handleImportManualJson(elements) {
             return;
         }
 
-        const appendedBundle = appendGeneratedBundle(appState.data, mergedBundle);
+        const baseBundle = contextTransition === 'replace' ? null : appState.data;
+        const appendedBundle = appendGeneratedBundle(baseBundle, mergedBundle);
         const validation = applyBundle(elements, appendedBundle);
-        if (validation.valid) {
+        if (validation.valid && contextTransition === 'replace') {
+            setStatus(elements, t('status.generatedOk', { count: validation.summary.exerciseCount }), 'success');
+        } else if (validation.valid) {
             setStatus(elements, t('status.manualImportedOk', { added: exerciseCount, total: validation.summary.exerciseCount }), 'success');
         } else {
             setStatus(elements, t('status.generatedInvalid'), 'error');
@@ -2754,7 +2910,12 @@ async function handleGenerate(elements) {
         return;
     }
 
-    if (resultingCount > MAX_EXERCISES) {
+    const contextTransition = resolveContextTransition(elements, teacherConfig, content, false);
+    if (contextTransition === 'cancel') {
+        return;
+    }
+    const effectiveResultingCount = contextTransition === 'replace' ? exerciseCount : resultingCount;
+    if (effectiveResultingCount > MAX_EXERCISES) {
         setStatus(elements, t('status.duaTotalExceeded', { max: MAX_EXERCISES }), 'error');
         return;
     }
@@ -2763,6 +2924,7 @@ async function handleGenerate(elements) {
     const outputLanguage = teacherConfig.exercise_language || 'en';
     const isPreviewModel = /preview/i.test(model);
     const batchSpecs = buildGenerationBatchSpecs({ useTypePlan: true, typePlan: expectedTypePlan, exerciseCount, chunkSize: exerciseCount });
+    const memorySourceBundle = contextTransition === 'replace' ? null : appState.data;
 
     localStorage.setItem('exe_builder_xai_api_key', apiKey);
     localStorage.setItem('exe_builder_xai_model', model);
@@ -2797,7 +2959,7 @@ async function handleGenerate(elements) {
                     strictTypeCounts: spec.strictTypeCounts,
                     duaConfig,
                     teacherConfig,
-                    memoryEntries: getPromptMemoryEntries(appState.data, teacherConfig, content, 8),
+                    memoryEntries: getPromptMemoryEntries(memorySourceBundle, teacherConfig, content, 8),
                     selectedExerciseType
                 });
                 promptTraceEntries.push(
@@ -2864,7 +3026,7 @@ async function handleGenerate(elements) {
                     strictTypeCounts: true,
                     duaConfig: { ...duaConfig, enabled: false, variation_type: 'none', variant_count: 1 },
                     teacherConfig,
-                    memoryEntries: getPromptMemoryEntries(appState.data, teacherConfig, content, 8),
+                    memoryEntries: getPromptMemoryEntries(memorySourceBundle, teacherConfig, content, 8),
                     selectedExerciseType
                 });
                 const existingTrace = readPromptTraceFromSession();
@@ -2915,6 +3077,8 @@ async function handleGenerate(elements) {
         }
 
         let finalBundle = mergedBundle;
+        const currentPromptTrace = readPromptTraceFromSession();
+        attachProjectMeta(finalBundle, { promptTrace: currentPromptTrace, teacherConfig, content });
         let preValidation = validateXaiBundle(finalBundle, t);
         if (!preValidation.valid) {
             setStatus(elements, t('status.repairingWithAi'), 'warning');
@@ -2951,6 +3115,11 @@ async function handleGenerate(elements) {
                         modelName: model,
                         locale: outputLanguage
                     });
+                    attachProjectMeta(repairedBundle, {
+                        promptTrace: readPromptTraceFromSession(),
+                        teacherConfig,
+                        content
+                    });
                 }
 
                 const repairedValidation = validateXaiBundle(repairedBundle, t);
@@ -2974,10 +3143,13 @@ async function handleGenerate(elements) {
             }
         }
 
-        const appendedBundle = appendGeneratedBundle(appState.data, finalBundle);
+        const baseBundle = contextTransition === 'replace' ? null : appState.data;
+        const appendedBundle = appendGeneratedBundle(baseBundle, finalBundle);
         const validation = applyBundle(elements, appendedBundle);
 
-        if (validation.valid) {
+        if (validation.valid && contextTransition === 'replace') {
+            setStatus(elements, t('status.generatedOk', { count: validation.summary.exerciseCount }), 'success');
+        } else if (validation.valid) {
             setStatus(elements, t('status.generatedAppended', { added: exerciseCount, total: validation.summary.exerciseCount }), 'success');
         } else {
             setStatus(elements, t('status.generatedInvalid'), 'error');
@@ -3090,7 +3262,7 @@ function initializeApp() {
     const elements = getDomElements();
     const initialLocale = setLocale('en');
     const initialWorkspaceMode = loadWorkspaceModeFromStorage();
-    const promptTrace = readPromptTraceFromSession();
+    const promptTrace = '';
     const exerciseMemory = loadExerciseMemoryFromStorage();
     setState({ locale: initialLocale, promptTrace, exerciseMemory, workspaceMode: initialWorkspaceMode });
     if (elements.languageSelect) {
@@ -3455,19 +3627,48 @@ function initializeApp() {
         setStatus(elements, t('status.projectExported'), 'success');
     });
 
+    const confirmExportWithWarnings = (data, scormMode = false) => {
+        const exercises = Array.isArray(data?.exercises) ? data.exercises : [];
+        const unreviewedCount = exercises.filter((exercise) => exercise?.reviewed !== true).length;
+        const validation = appState.validation || validateXaiBundle(data, t);
+        const warningMessages = [];
+
+        if (unreviewedCount > 0) {
+            warningMessages.push(t('status.exportWarningUnreviewed', { count: unreviewedCount }));
+        }
+        if (!validation?.valid) {
+            const criticalCount = Number(validation?.summary?.criticalCount) || 0;
+            warningMessages.push(t('status.exportWarningInvalid', { critical: criticalCount }));
+        }
+        const warningsCount = Number(Array.isArray(validation?.warnings) ? validation.warnings.length : 0);
+        if (warningsCount > 0) {
+            warningMessages.push(t('status.exportWarningWarnings', { count: warningsCount }));
+        }
+
+        if (warningMessages.length === 0) {
+            return true;
+        }
+
+        const warningText = `${t('status.exportWarningTitle')}\n- ${warningMessages.join('\n- ')}\n\n${t('status.exportWarningConfirm')}`;
+        const proceed = window.confirm(warningText);
+        if (!proceed) {
+            setStatus(elements, t('status.exportCancelled'), 'warning');
+            return false;
+        }
+
+        const modeLabel = scormMode ? 'SCORM' : 'visor';
+        console.warn(`[EduXAI Studio] Export continued with warnings (${modeLabel}).`, warningMessages);
+        setStatus(elements, t('status.exportProceedWithWarnings'), 'warning');
+        return true;
+    };
+
     elements.btnExportVisor.addEventListener('click', () => {
         if (!appState.data || !Array.isArray(appState.data.exercises) || appState.data.exercises.length === 0) {
             setStatus(elements, t('status.nothingToExport'), 'warning');
             return;
         }
-        const allExercises = Array.isArray(appState.data.exercises) ? appState.data.exercises : [];
-        const unreviewedCount = allExercises.filter((exercise) => exercise?.reviewed !== true).length;
-        if (unreviewedCount > 0) {
-            const proceed = window.confirm(`There are ${unreviewedCount} exercises not marked as reviewed. Export anyway?`);
-            if (!proceed) {
-                setStatus(elements, t('status.exportBlockedByUnreviewed'), 'warning');
-                return;
-            }
+        if (!confirmExportWithWarnings(appState.data, false)) {
+            return;
         }
 
         const exportPolicySelect = document.getElementById('export-variant-policy');
@@ -3492,14 +3693,8 @@ function initializeApp() {
             setStatus(elements, t('status.nothingToExport'), 'warning');
             return;
         }
-        const allExercises = Array.isArray(appState.data.exercises) ? appState.data.exercises : [];
-        const unreviewedCount = allExercises.filter((exercise) => exercise?.reviewed !== true).length;
-        if (unreviewedCount > 0) {
-            const proceed = window.confirm(`There are ${unreviewedCount} exercises not marked as reviewed. Export SCORM anyway?`);
-            if (!proceed) {
-                setStatus(elements, t('status.exportBlockedByUnreviewed'), 'warning');
-                return;
-            }
+        if (!confirmExportWithWarnings(appState.data, true)) {
+            return;
         }
 
         const exportPolicySelect = document.getElementById('export-variant-policy');

@@ -25,35 +25,45 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
-        if (!groups.length) return;
-
         const palette = options.palette || ['#3b82f6', '#38bdf8', '#06b6d4', '#2563eb'];
         const showOutliers = options.showOutliers !== false;
-        const title = options.title || 'Boxplot';
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
+        const title = typeof options.title === 'string' ? options.title : 'Boxplot';
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const titleFontSize = options.titleFontSize || 20;
         const labelFontSize = options.labelFontSize || 12;
         const outlierSize = options.outlierSize || 2.2;
         const outlierColor = options.outlierColor || '#ef4444';
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
         const showGrid = options.showGrid !== false;
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
+        if (!groups.length) return;
 
         const allValues = groups.flatMap((g) => g.values || []);
         const minValue = Math.min(...allValues);
         const maxValue = Math.max(...allValues);
         const safeRange = maxValue - minValue || 1;
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${titleFontSize}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(title, 20, 28);
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (orientation === 'horizontal') {
             this.drawHorizontal(ctx, groups, {
                 width, height, margin, groupSize, groupGap, lineWidth, palette, showOutliers,
-                fontFamily, labelFontSize, outlierSize, outlierColor, showGrid,
+                fontFamily, labelFontSize, outlierSize, outlierColor, showGrid, showSampleSizeLabel,
+                gridColor, axisColor, textColor,
                 minValue, safeRange, annotations: options.annotations || {}
             });
             return;
@@ -61,7 +71,8 @@ export default {
 
         this.drawVertical(ctx, groups, {
             width, height, margin, groupSize, groupGap, lineWidth, palette, showOutliers,
-            fontFamily, labelFontSize, outlierSize, outlierColor, showGrid,
+            fontFamily, labelFontSize, outlierSize, outlierColor, showGrid, showSampleSizeLabel,
+            gridColor, axisColor, textColor,
             minValue, safeRange, annotations: options.annotations || {}
         });
     },
@@ -75,7 +86,7 @@ export default {
         const scaleX = (value) => chartLeft + ((value - cfg.minValue) / cfg.safeRange) * chartWidth;
 
         if (cfg.showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = cfg.gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const x = chartLeft + (chartWidth * i) / 5;
@@ -83,7 +94,7 @@ export default {
                 ctx.moveTo(x, cfg.margin.top - 8);
                 ctx.lineTo(x, cfg.height - cfg.margin.bottom + 6);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = cfg.axisColor;
                 ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
                 ctx.textAlign = 'center';
                 ctx.fillText((cfg.minValue + (cfg.safeRange * i) / 5).toFixed(2), x, cfg.height - cfg.margin.bottom + 24);
@@ -152,11 +163,12 @@ export default {
                 yCenter: y
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = cfg.textColor;
             ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${group.label} (n=${s.n})`, cfg.margin.left - 10, y);
+            const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
+            ctx.fillText(label, cfg.margin.left - 10, y);
         });
 
         drawAnnotations(ctx, {
@@ -185,7 +197,7 @@ export default {
         const boxWidth = Math.max(10, Math.min(slotWidth * 0.6, cfg.groupSize));
 
         if (cfg.showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = cfg.gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const y = chartBottom - (chartHeight * i) / 5;
@@ -193,7 +205,7 @@ export default {
                 ctx.moveTo(chartLeft - 8, y);
                 ctx.lineTo(chartRight + 6, y);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = cfg.axisColor;
                 ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
@@ -265,11 +277,11 @@ export default {
                 xCenter
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = cfg.textColor;
             ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
-            const label = `${group.label} (n=${s.n})`;
+            const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
             const clipped = label.length > 18 ? `${label.slice(0, 18)}...` : label;
             ctx.fillText(clipped, xCenter, chartBottom + 10);
         });

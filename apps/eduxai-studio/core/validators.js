@@ -86,6 +86,7 @@ export function validateXaiBundle(bundle, t) {
     const errors = [];
     const warnings = [];
     const criticalErrors = [];
+    const criticalExerciseIndices = new Set();
     const root = isObject(bundle) ? bundle : {};
 
     const requiredTop = ['schema_version', 'resource_metadata', 'generation_context', 'exercises'];
@@ -169,6 +170,7 @@ export function validateXaiBundle(bundle, t) {
 
     exercises.forEach((exercise, index) => {
         const pos = index + 1;
+        const criticalBefore = criticalErrors.length;
         const xai = exercise?.xai;
         const interaction = isObject(exercise?.interaction) ? exercise.interaction : {};
         const exerciseType = String(exercise?.type || '').trim();
@@ -382,6 +384,10 @@ export function validateXaiBundle(bundle, t) {
                 warnings.push(t('validation.fillGapsGenericToken', { index: pos }));
             }
         }
+
+        if (criticalErrors.length > criticalBefore) {
+            criticalExerciseIndices.add(pos);
+        }
     });
 
     if (context.dua_enabled === true) {
@@ -415,6 +421,7 @@ export function validateXaiBundle(bundle, t) {
                 const difficulty = String(exercise?.xai?.pedagogical_alignment?.difficulty_level || '').trim();
                 const coreStatement = String(exercise?.dua?.core_statement || '').trim().toLowerCase();
                 if (objective !== refObjective || bloom !== refBloom || difficulty !== refDifficulty) {
+                    criticalExerciseIndices.add(index);
                     addError(
                         errors,
                         criticalErrors,
@@ -422,6 +429,7 @@ export function validateXaiBundle(bundle, t) {
                     );
                 }
                 if (coreStatement !== refCoreStatement) {
+                    criticalExerciseIndices.add(index);
                     addError(
                         errors,
                         criticalErrors,
@@ -445,7 +453,7 @@ export function validateXaiBundle(bundle, t) {
         });
     }
 
-    const criticalRate = exercises.length > 0 ? criticalErrors.length / exercises.length : 1;
+    const criticalRate = exercises.length > 0 ? criticalExerciseIndices.size / exercises.length : 1;
     if (criticalRate > 0.2) {
         addError(errors, criticalErrors, t('validation.criticalThreshold'));
     }
@@ -456,7 +464,8 @@ export function validateXaiBundle(bundle, t) {
         warnings,
         summary: {
             exerciseCount: exercises.length,
-            criticalCount: criticalErrors.length
+            criticalCount: criticalErrors.length,
+            criticalExerciseCount: criticalExerciseIndices.size
         }
     };
 }

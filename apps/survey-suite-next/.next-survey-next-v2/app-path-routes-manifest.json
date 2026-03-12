@@ -1,0 +1,16 @@
+{
+  "/api/datasets/[id]/route": "/api/datasets/[id]",
+  "/api/auth/register/route": "/api/auth/register",
+  "/api/active-dataset/route": "/api/active-dataset",
+  "/api/health/route": "/api/health",
+  "/api/datasets/route": "/api/datasets",
+  "/_not-found/page": "/_not-found",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/datasets/page": "/datasets",
+  "/likert/page": "/likert",
+  "/auth/login/page": "/auth/login",
+  "/page": "/",
+  "/auth/register/page": "/auth/register",
+  "/dashboard/page": "/dashboard",
+  "/distribution/page": "/distribution"
+}

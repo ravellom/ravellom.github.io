@@ -106,5 +106,23 @@ export const StatsEngine = {
             values,
             summary: this.summarizeBox(values, whiskerMultiplier)
         }));
+    },
+
+    groupByNumericColumns(dataRows = [], numericColumns = [], whiskerMultiplier = 1.5) {
+        const safeColumns = Array.isArray(numericColumns)
+            ? numericColumns.filter((col) => typeof col === 'string' && col.trim())
+            : [];
+
+        return safeColumns.map((column) => {
+            const values = dataRows
+                .map((row) => toFiniteNumberOrNull(row?.[column]))
+                .filter((value) => value !== null);
+
+            return {
+                label: column,
+                values,
+                summary: this.summarizeBox(values, whiskerMultiplier)
+            };
+        }).filter((group) => group.summary.n > 0);
     }
 };

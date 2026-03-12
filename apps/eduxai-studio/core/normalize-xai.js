@@ -27,6 +27,11 @@ function asObject(value) {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
 
+function asNullableString(value) {
+    const text = asString(value, '');
+    return text || '';
+}
+
 function ensureMinText(value, minLength, fallback) {
     const text = asString(value, '');
     if (text.length >= minLength) {
@@ -122,6 +127,17 @@ function normalizeDuaProfile(profile) {
         purpose: normalizeDuaProfileValue('purpose', source.purpose, 'formative'),
         variation_type: normalizeDuaProfileValue('variation_type', source.variation_type, 'none'),
         variant_count: Number.isFinite(rawCount) ? Math.max(1, Math.min(3, Math.floor(rawCount))) : 1
+    };
+}
+
+function normalizeProjectMeta(meta) {
+    const source = asObject(meta);
+    return {
+        prompt_trace: asNullableString(source.prompt_trace),
+        context_signature: asNullableString(source.context_signature),
+        context_objective: asNullableString(source.context_objective),
+        context_language: asNullableString(source.context_language),
+        updated_at: asNullableString(source.updated_at)
     };
 }
 
@@ -543,6 +559,11 @@ function normalizeExercise(exercise, index) {
     return {
         id: asString(ex.id, `ex_auto_${Date.now()}_${index}`),
         reviewed: ex.reviewed === true,
+        review_audit: {
+            reviewed_by: asNullableString(ex?.review_audit?.reviewed_by),
+            reviewed_at: asNullableString(ex?.review_audit?.reviewed_at),
+            review_notes: asNullableString(ex?.review_audit?.review_notes)
+        },
         type,
         content: {
             prompt_text: promptText
@@ -625,6 +646,7 @@ export function normalizeXaiBundle(bundle) {
 
     return {
         schema_version: asString(root.schema_version, 'xai-exercises/2.0.0'),
+        project_meta: normalizeProjectMeta(root.project_meta),
         resource_metadata: {
             title: asString(root?.resource_metadata?.title, normalizedLanguage === 'en' ? 'AI-generated XAI set' : 'Set XAI generado por IA'),
             topic: asString(root?.resource_metadata?.topic, normalizedLanguage === 'en' ? 'General topic' : 'Tema general'),

@@ -253,6 +253,25 @@ html.embed-mode .language-selector {
     border-top: 1px solid var(--border-color);
 }
 
+.nav-help-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.45rem 0.4rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    margin-bottom: 0.55rem;
+}
+
+.nav-help-link:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
 .status-indicator {
     display: flex;
     flex-direction: column;
@@ -303,8 +322,8 @@ html.embed-mode .language-selector {
 }
 
 .chart-header h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--text-color);
 }
 
@@ -417,12 +436,12 @@ html.embed-mode .language-selector {
 }
 
 .options-title {
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--text-color);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1.5px solid var(--border-color);
 }
 
 .layout-subnav {

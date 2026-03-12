@@ -60,8 +60,15 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
         if (!groups.length) return;
 
         const chartLeft = margin.left;
@@ -72,9 +79,10 @@ export default {
         const showGrid = options.showGrid !== false;
         const showOutliers = options.showOutliers !== false;
         const showJitter = options.showJitter !== false;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const labelFontSize = options.labelFontSize || 12;
-        const title = options.title || 'Raincloud';
+        const title = typeof options.title === 'string' ? options.title : 'Raincloud';
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const lineWidth = options.lineWidth || 1.8;
         const jitterSize = options.jitterSize || 1.6;
@@ -92,14 +100,16 @@ export default {
         const scaleX = (value) => chartLeft + ((value - minValue) / safeRange) * chartWidth;
         const domain = Array.from({ length: kdeSteps }, (_, i) => minValue + (safeRange * i) / (kdeSteps - 1));
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${options.titleFontSize || 20}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(title, 20, 28);
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const x = chartLeft + (chartWidth * i) / 5;
@@ -107,7 +117,7 @@ export default {
                 ctx.moveTo(x, chartTop - 8);
                 ctx.lineTo(x, chartBottom + 6);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = axisColor;
                 ctx.font = `${labelFontSize}px ${fontFamily}`;
                 ctx.textAlign = 'center';
                 ctx.fillText((minValue + (safeRange * i) / 5).toFixed(2), x, chartBottom + 24);
@@ -207,11 +217,12 @@ export default {
                 yCenter: boxY + boxH / 2
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = textColor;
             ctx.font = `${labelFontSize}px ${fontFamily}`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${group.label} (n=${s.n})`, margin.left - 10, yCenter + 2);
+            const label = showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
+            ctx.fillText(label, margin.left - 10, yCenter + 2);
         });
 
         drawAnnotations(ctx, {
@@ -243,8 +254,15 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
         if (!groups.length) return;
 
         const chartLeft = margin.left;
@@ -257,9 +275,10 @@ export default {
         const showGrid = options.showGrid !== false;
         const showOutliers = options.showOutliers !== false;
         const showJitter = options.showJitter !== false;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const labelFontSize = options.labelFontSize || 12;
-        const title = options.title || 'Raincloud';
+        const title = typeof options.title === 'string' ? options.title : 'Raincloud';
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const lineWidth = options.lineWidth || 1.8;
         const jitterSize = options.jitterSize || 1.6;
@@ -277,14 +296,16 @@ export default {
         const scaleY = (value) => chartBottom - ((value - minValue) / safeRange) * chartHeight;
         const domain = Array.from({ length: kdeSteps }, (_, i) => minValue + (safeRange * i) / (kdeSteps - 1));
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${options.titleFontSize || 20}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(title, 20, 28);
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const y = chartBottom - (chartHeight * i) / 5;
@@ -292,7 +313,7 @@ export default {
                 ctx.moveTo(chartLeft - 8, y);
                 ctx.lineTo(chartRight + 6, y);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = axisColor;
                 ctx.font = `${labelFontSize}px ${fontFamily}`;
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
@@ -395,11 +416,11 @@ export default {
                 xCenter: boxX + boxW / 2
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = textColor;
             ctx.font = `${labelFontSize}px ${fontFamily}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
-            const label = `${group.label} (n=${s.n})`;
+            const label = showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
             const clipped = label.length > 18 ? `${label.slice(0, 18)}...` : label;
             ctx.fillText(clipped, xCenter, chartBottom + 10);
         });

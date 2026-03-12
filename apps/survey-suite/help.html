@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Suite Help Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --b:#e2e8f0; --t:#0f172a; --m:#475569; --bg:#f8fafc; --p:#4f46e5; }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: Inter, "Segoe UI", Arial, sans-serif; background:var(--bg); color:var(--t); }
+        .wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 48px; }
+        .top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+        h1 { margin:0; font-size:1.25rem; }
+        .nav { display:flex; gap:8px; flex-wrap:wrap; }
+        .nav a { text-decoration:none; color:#1d4ed8; font-weight:600; }
+        .card { background:#fff; border:1px solid var(--b); border-radius:12px; padding:14px; margin-bottom:12px; }
+        h2 { margin:0 0 10px; font-size:1.02rem; color:var(--p); }
+        ul { margin:0; padding-left:18px; color:var(--m); }
+        li { margin:6px 0; }
+        p { margin:0; color:var(--m); }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="top">
+            <h1><i class="fa-solid fa-circle-question"></i> Survey Suite Help Center</h1>
+            <nav class="nav">
+                <a href="#suite">Suite</a>
+                <a href="#processor">Data Processor</a>
+                <a href="#likert">Likert Charts</a>
+                <a href="#distribution">Distribution Lab</a>
+            </nav>
+        </div>
+
+        <section class="card" id="suite">
+            <h2>Suite Workflow</h2>
+            <ul>
+                <li>Selecciona el dataset en Storage desde la cinta superior.</li>
+                <li>Prepara datos en Data Processor y guarda en Storage.</li>
+                <li>Visualiza en Likert Charts o Distribution Lab.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="processor">
+            <h2>Data Processor</h2>
+            <ul>
+                <li>Importa CSV/JSON/XLSX y detecta delimitadores.</li>
+                <li>Transforma columnas, normaliza Likert y convierte texto a número.</li>
+                <li>Limpia vacíos/duplicados y guarda dataset para otros módulos.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="likert">
+            <h2>Likert Charts</h2>
+            <ul>
+                <li>Define escala y tipo de gráfico Likert.</li>
+                <li>Ajusta estilo (colores, tipografía, ejes, lienzo, exportación).</li>
+                <li>Exporta PNG/SVG/PDF y configuraciones.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="distribution">
+            <h2>Distribution Lab</h2>
+            <ul>
+                <li>Selecciona variables numéricas y categoría opcional.</li>
+                <li>Usa boxplot/violin/raincloud/error bars con orden de grupos.</li>
+                <li>Personaliza estilo y exporta resultados.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

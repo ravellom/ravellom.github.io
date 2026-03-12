@@ -1010,6 +1010,37 @@ function createExecutiveLayer(exercise) {
     return section;
 }
 
+function createReviewAuditSection(exercise, onChange) {
+    const section = createSection(t('editor.sectionReviewAudit'), 'ph-user-circle-gear', 'section-review-audit');
+    const grid = document.createElement('div');
+    grid.className = 'exercise-grid';
+
+    grid.appendChild(createField(
+        t('editor.reviewedBy'),
+        safeGet(exercise, 'review_audit.reviewed_by', ''),
+        'review_audit.reviewed_by',
+        onChange
+    ));
+    grid.appendChild(createField(
+        t('editor.reviewedAt'),
+        safeGet(exercise, 'review_audit.reviewed_at', ''),
+        'review_audit.reviewed_at',
+        onChange
+    ));
+    const notes = createField(
+        t('editor.reviewNotes'),
+        safeGet(exercise, 'review_audit.review_notes', ''),
+        'review_audit.review_notes',
+        onChange,
+        true
+    );
+    notes.classList.add('field-full');
+    grid.appendChild(notes);
+
+    section.appendChild(grid);
+    return section;
+}
+
 function createNarrativeLayer(exercise) {
     const section = createSection(t('editor.narrativeLayerTitle'), 'ph-text-indent', 'section-narrative');
     const bloom = labelBloom(safeGet(exercise, 'xai.pedagogical_alignment.bloom_level', '-'));
@@ -1336,7 +1367,16 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
 
     if (toggleReviewedBtn) {
         toggleReviewedBtn.addEventListener('click', () => {
-            selectedExercise.reviewed = !isReviewed(selectedExercise);
+            const nextReviewed = !isReviewed(selectedExercise);
+            selectedExercise.reviewed = nextReviewed;
+            if (nextReviewed) {
+                if (!selectedExercise.review_audit || typeof selectedExercise.review_audit !== 'object' || Array.isArray(selectedExercise.review_audit)) {
+                    selectedExercise.review_audit = {};
+                }
+                if (!String(selectedExercise.review_audit.reviewed_at || '').trim()) {
+                    selectedExercise.review_audit.reviewed_at = new Date().toISOString();
+                }
+            }
             onDataChange(false);
         });
     }
@@ -1389,6 +1429,7 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     gridCore.appendChild(promptField);
     const coreSection = createSection(t('editor.sectionCore'), 'ph-note-pencil', 'section-core');
     coreSection.appendChild(gridCore);
+    const reviewAuditSection = createReviewAuditSection(selectedExercise, applyChange);
 
     const interactionSection = createInteractionEditor(selectedExercise, applyChange);
     const previewSection = createPreviewSection(selectedExercise);
@@ -1397,6 +1438,7 @@ export function renderExerciseEditor(elements, dataBundle, onDataChange) {
     exerciseDesignStack.className = 'exercise-design-stack';
     exerciseDesignStack.appendChild(coreSection);
     exerciseDesignStack.appendChild(interactionSection);
+    exerciseDesignStack.appendChild(reviewAuditSection);
     exerciseDesignSection.appendChild(exerciseDesignStack);
 
     const executiveLayer = createExecutiveLayer(selectedExercise);

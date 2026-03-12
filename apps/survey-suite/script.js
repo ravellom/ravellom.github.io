@@ -1,7 +1,35 @@
 const SuiteState = {
-    currentView: 'processor',
+    currentView: 'home',
     activeDataset: '',
     language: localStorage.getItem('survey_suite_language') || 'en'
+};
+
+function updateLayoutMetrics() {
+    const root = document.documentElement;
+    const topbarH = document.querySelector('.recuedu-topbar')?.offsetHeight || 50;
+    const headerH = document.querySelector('.app-header')?.offsetHeight || 56;
+    const ribbonH = document.querySelector('.module-ribbon')?.offsetHeight || 68;
+    const shellH = Math.max(320, window.innerHeight - topbarH - headerH - ribbonH);
+    root.style.setProperty('--suite-shell-height', `${shellH}px`);
+}
+
+const VIEW_META = {
+    home: {
+        title: 'Inicio',
+        help: 'Selecciona un módulo para comenzar'
+    },
+    processor: {
+        title: 'Data Processor',
+        help: 'Importa, limpia y transforma datos antes de visualizar'
+    },
+    likert: {
+        title: 'Likert Charts',
+        help: 'Genera gráficos Likert para resultados de encuestas'
+    },
+    distribution: {
+        title: 'Distribution Lab',
+        help: 'Analiza distribución y variabilidad de variables numéricas'
+    }
 };
 
 function getLikertFrames() {
@@ -22,6 +50,8 @@ function getProcessorFrames() {
 
 function setActiveView(viewId) {
     SuiteState.currentView = viewId;
+    document.body.classList.remove('module-home', 'module-processor', 'module-likert', 'module-distribution');
+    document.body.classList.add(`module-${viewId}`);
 
     document.querySelectorAll('.suite-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.view === viewId);
@@ -33,6 +63,13 @@ function setActiveView(viewId) {
 
     const viewEl = document.getElementById(`view-${viewId}`);
     if (viewEl) viewEl.classList.add('active');
+
+    const titleEl = document.getElementById('ribbon-view-title');
+    const helpEl = document.getElementById('ribbon-view-help');
+    const meta = VIEW_META[viewId] || VIEW_META.home;
+    if (titleEl) titleEl.textContent = meta.title;
+    if (helpEl) helpEl.textContent = meta.help;
+    updateLayoutMetrics();
 
     if (viewId === 'likert') {
         applySharedStateToLikert();
@@ -47,6 +84,7 @@ function setActiveView(viewId) {
 
 function refreshActiveView() {
     const activeMap = {
+        home: [],
         processor: ['frame-processor'],
         likert: ['frame-likert'],
         distribution: ['frame-distribution']
@@ -88,16 +126,25 @@ function populateDatasets() {
         if (SuiteState.activeDataset) {
             select.value = SuiteState.activeDataset;
         }
+        updateActiveDatasetBadge();
     } catch (error) {
         select.innerHTML = '<option value="">Error loading datasets</option>';
+        updateActiveDatasetBadge();
     }
 }
 
 function setActiveDataset(datasetName) {
     SuiteState.activeDataset = datasetName || '';
     localStorage.setItem('survey_suite_active_dataset', SuiteState.activeDataset);
+    updateActiveDatasetBadge();
     applySharedStateToLikert();
     applySharedStateToDistribution();
+}
+
+function updateActiveDatasetBadge() {
+    const badge = document.getElementById('ribbon-active-dataset');
+    if (!badge) return;
+    badge.textContent = SuiteState.activeDataset || 'Ninguno';
 }
 
 function setLanguage(lang) {
@@ -171,19 +218,33 @@ function bindIframeLoads() {
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const initialView = params.get('view');
-    if (initialView && ['processor', 'likert', 'distribution'].includes(initialView)) {
+    if (initialView && ['home', 'processor', 'likert', 'distribution'].includes(initialView)) {
         setActiveView(initialView);
+    } else {
+        setActiveView(SuiteState.currentView);
     }
 
     const savedDataset = localStorage.getItem('survey_suite_active_dataset');
     if (savedDataset) {
         SuiteState.activeDataset = savedDataset;
     }
+    updateActiveDatasetBadge();
 
     document.querySelectorAll('.suite-tab').forEach(tab => {
         tab.addEventListener('click', (e) => {
             e.preventDefault();
             const view = tab.dataset.view;
+            setActiveView(view);
+            const url = new URL(window.location.href);
+            url.searchParams.set('view', view);
+            history.replaceState(null, '', url.toString());
+        });
+    });
+
+    document.querySelectorAll('.btn-open-view').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const view = btn.dataset.openView;
+            if (!view) return;
             setActiveView(view);
             const url = new URL(window.location.href);
             url.searchParams.set('view', view);
@@ -209,4 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applySharedStateToLikert();
     applySharedStateToProcessor();
     applySharedStateToDistribution();
+    updateLayoutMetrics();
+    window.addEventListener('resize', updateLayoutMetrics);
 });

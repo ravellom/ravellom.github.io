@@ -18,8 +18,8 @@
             roadmapUrl: "./ROADMAP.md"
         },
         surveySuite: {
-            version: "v0.5.0-beta",
-            updated: "2026-02-22",
+            version: "v0.6.0-beta",
+            updated: "2026-03-06",
             changelogUrl: "./CHANGELOG.md",
             roadmapUrl: "./ROADMAP.md"
         },

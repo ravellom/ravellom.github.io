@@ -92,12 +92,15 @@ function vectorSVGFromContext(context = {}) {
     const showJitter = cfg.showJitter === true;
     const outlierColor = cfg.outlierColor || '#ef4444';
     const outlierSize = cfg.outlierSize || 2.2;
+    const showSampleSizeLabel = cfg.showSampleSizeLabel !== false;
 
     const parts = [];
     parts.push(`<?xml version="1.0" encoding="UTF-8"?>`);
     parts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`);
     parts.push(`<rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff"/>`);
-    parts.push(`<text x="20" y="32" fill="#0f172a" font-family="${esc(fontFamily)}" font-size="${titleSize}" font-weight="700">${esc(cfg.chartTitle || context.numericColumn || 'Distribution')}</text>`);
+    if (cfg.showChartTitle !== false) {
+        parts.push(`<text x="20" y="32" fill="#0f172a" font-family="${esc(fontFamily)}" font-size="${titleSize}" font-weight="700">${esc(cfg.chartTitle || context.numericColumn || 'Distribution')}</text>`);
+    }
 
     if (showGrid) {
         for (let i = 0; i <= 5; i += 1) {
@@ -168,7 +171,8 @@ function vectorSVGFromContext(context = {}) {
             });
         }
 
-        parts.push(`<text x="${marginLeft - 10}" y="${y}" fill="#0f172a" font-family="${esc(fontFamily)}" font-size="${labelSize}" text-anchor="end" dominant-baseline="middle">${esc(`${group.label} (n=${s.n || 0})`)}</text>`);
+        const label = showSampleSizeLabel ? `${group.label} (n=${s.n || 0})` : `${group.label}`;
+        parts.push(`<text x="${marginLeft - 10}" y="${y}" fill="#0f172a" font-family="${esc(fontFamily)}" font-size="${labelSize}" text-anchor="end" dominant-baseline="middle">${esc(label)}</text>`);
     });
 
     const annotations = cfg.annotations || {};

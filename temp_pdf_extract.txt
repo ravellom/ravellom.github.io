@@ -1,0 +1,582 @@
+MONOGRAPH
+   METODE 45
+Metode Science Studies Journal , 15(7). University of Valencia (2025).
+eISSN: 2174-9221.
+Submitted: 05/03/2025. Approved: 19/06/2025.
+https://doi.org/10.7203/metode.15.30514
+EXPLAINABLE ARTIFICIAL INTELLIGENCE 
+AND ITS KEY ROLE IN EDUCA TION
+Promoting critical thinking and autonomy in the classroom
+Francisco J. Bellas
+This article provides an introduction to explainable artificial intelligence and discusses its main 
+implications for education. It addresses two basic questions: Why do users of AI systems need 
+explanations? Can such advanced technology be trusted without them? In this text, these two 
+questions are answered by briefly reviewing the technical foundations of AI at the root of its 
+unreliability, and how explainable AI may offer solutions, encouraging critical use and control 
+of these tools. In the case of education, explanations are fundamental to ensure real human 
+autonomy in the use of AI tools for teaching and learning.
+Keywords: explainable artificial intelligence, critical thinking, artificial intelligence in education, 
+artificial intelligence ethics, Artificial Intelligence Act.
+ ■ A BRIEF INTRODUCTION
+Explainable artificial intelligence (XAI) is a subfield 
+of artificial intelligence (AI) that aims to provide 
+explanations for why a given AI-based system makes 
+a decision or provides a result 
+(TechDispatch, 2023). The search 
+for meaningful explanations is 
+not new in the field of AI, but 
+until now it has mainly been a 
+technical issue for algorithm 
+developers seeking to increase the 
+reliability of the results produced 
+by their systems in order to 
+improve acceptance among users 
+(Ali et al., 2023). However, the 
+rise of AI in recent years has made it a general-use 
+digital tool, giving rise to new considerations in the 
+field of explainability and its impact on the population 
+(Longo et al., 2024).
+The importance of XAI is of concern to policy 
+makers (European Commission, 2019), AI developers, 
+and technology experts, but many end-users are 
+not yet aware of it. Thus, simple answers to the 
+following questions are needed: 
+Why are these explanations 
+necessary? Why is this advanced 
+technology unreliable? The 
+following section outlines three 
+fundamental reasons for XAI.
+First, AI systems show their 
+greatest potential when solving 
+complex tasks, which means 
+that the solutions provided are 
+often complex and difficult 
+to understand for users who are not experts in the 
+specific subject matter in question. Second, AI 
+systems can take over tasks previously delegated 
+to humans, effectively «replacing» us in decision-
+«If AI these systems make 
+decisions on our behalf that 
+we may not understand, 
+we lose control, making 
+the risks evident»
+HOW TO CITE:
+Bellas, Francisco J. (2025). Explainable artificial intelligence and its key role in education: Promoting critical thinking 
+and autonomy in the classrooms. Metode Science Studies Journal, 15(7), e30514.  
+https:/ /doi.org/10.7203/metode.15.30514
+46 METODE
+MONOGRAPH
+AI think, therefore AI am
+making, thereby compromising our autonomy. 
+Consequently, if these systems make decisions on 
+our behalf that we may not understand, we lose 
+control, making the risks evident. Finally, the answers 
+provided by today’s most widely used AI systems, 
+which are based on machine learning models, are 
+often inaccurate. These computational models 
+generate patterns and inferences from data and their 
+predictions always carry a probabilistic margin of 
+error. For users accustomed to digital technologies, 
+this is a new scenario. Traditional software 
+applications either simply do their job or they do not, 
+with no probabilistic range of correctness.
+Consequently, AI systems should, by default, 
+include explanations of why they make decisions and 
+how reliable they are, so that users remain in control 
+and can make responsible use of this technology. 
+Such is the need for these explanations that this 
+requirement is explicitly provided for in the current AI 
+Act (Regulation [UE] 2024/1689), which establishes a 
+regulatory framework for the development, marketing, 
+and use of AI across the European Union. It also 
+complements the General Data Protection Regulation 
+(Regulation [UE] 2016/679) and other EU digital laws.
+The AI Act does not explicitly stipulate how these 
+explanations should be articulated, but addresses 
+human oversight, data governance, cybersecurity, and 
+transparency, along with the rights to explanations in 
+individual decision-making. In Article 13, AI systems 
+are required to be designed to be transparent so that 
+those who implement them can understand and use 
+them correctly. The instructions should be clear 
+and include information about 
+the supplier, capabilities and 
+limitations of the system, and 
+any inherent risks. They should 
+explain how to interpret the 
+results, the default settings and 
+potential changes in the system, 
+and how to maintain it. The 
+instructions should also describe 
+how to collect, store, and interpret 
+data records.
+Furthermore, Article 14 specifies that systems must 
+be designed to allow for effective human supervision. 
+These measures should be appropriate to the risk and 
+context and should be incorporated into the system by 
+the provider. AI systems should include mechanisms 
+to guide and inform human supervisors so that they 
+can make informed decisions on when and how to 
+intervene.
+Therefore, in the current scenario, the impact 
+of XAI is evident not only because it is useful for 
+users, but also because it is a legal requirement at the 
+European level. In the following section we examine 
+explainable AI in more detail.
+ ■ TECHNICAL ASPECTS OF EXPLAINABLE AI
+Although this is not a technical paper, we need 
+to clarify some key aspects of AI to understand 
+the complexity of achieving the desired level of 
+explainability. Providing an explanation for the output 
+of a standard software application is a simple task for 
+developers, as it relies on traditional programming 
+languages. Such systems execute 
+a clear set of instructions, 
+making it possible to trace and 
+analyse the logic behind each 
+result. However, in the case of 
+AI systems, the situation is more 
+complex.
+From a general perspective, 
+we can distinguish two main 
+technical approaches in AI: 
+knowledge-based and data-
+driven (Holmes & Tuomi, 2022). In the former, human 
+knowledge and experience is represented in a way 
+that can be processed by computer programmes, 
+mainly through logical rules and probabilistic 
+reasoning. These systems were very popular in the 
+1980s, but their difficulties in scaling to complex, 
+real-world problems have restricted their application. 
+Obtaining explanations from knowledge-based 
+AI is straightforward, as is the case with standard 
+software applications. Data-driven AI, on the other 
+Reaching a compromise between how well the system works and 
+its interpretability is a fundamental challenge for developers in the 
+field of explainable artificial intelligence (XAI).
+Canva
+Canva
+«In some critical fields such 
+as education and health, 
+knowledge-based AI is still 
+preferred, even if this implies 
+less precision»
+MONOGRAPH
+AI think, therefore AI am
+   METODE 47
+hand, is based on the idea that knowledge can be 
+extracted directly from the information contained in 
+datasets representing a given problem, by analysing 
+patterns and making inferences. Within this approach, 
+machine learning is the specific field of study that 
+develops algorithms and statistical models. Computer 
+systems then use these models to make predictions 
+or decisions without the need for explicit instructions. 
+Today, we have highly reliable algorithms that build 
+models and «learn» hidden patterns in the data. 
+This learning process results in a set of numerical 
+parameters that characterise the model and define 
+its response. As we can imagine, for us, deriving 
+explanations from this set of numbers is not as simple 
+as deriving explanations from a set of logical rules or 
+commands written in standard language. Moreover, 
+the greater the number of numerical parameters, the 
+greater their complexity and the more reliable their 
+«learning». However, this also makes it more difficult 
+to obtain explanations for their responses.
+The improvement of machine learning techniques 
+and their success in solving real-world problems has 
+been so significant in recent years that data-driven AI 
+has eclipsed knowledge-based AI. However, when 
+it comes to explainability, the situation remains 
+uncertain, and in some critical fields such as education 
+and health, knowledge-based AI is still preferred, even 
+if this implies less precision (Khosravi et al., 2022; 
+Loh et al., 2022). Currently, many AI researchers and 
+developers are actively working on the development 
+of computational techniques to derive meaningful 
+explanations from data-driven AI (Bennetot et 
+al., 2024). Therefore, we should be cautious about 
+criticising these approaches because of their limited 
+explainability.
+ ■ THE KEY CONCEPTS OF EXPLAINABLE AI
+It is essential to know the fundamental concepts in the 
+field of XAI in order to grasp its scope and complexity, 
+which derive from the technical problem outlined 
+above. Although experts in the field have not yet 
+reached full consensus on unambiguous definitions, 
+the terms used here are those more established from a 
+general perspective, applicable to different fields of AI. 
+Let us start with the main concept associated with AI 
+explainability: transparency.
+Transparency
+Transparency in AI refers to a process with which all 
+the information, decisions, decision-making processes 
+and assumptions are made available to be shared with 
+the stakeholders and this shared information enhances 
+the understanding of these stakeholders. (Chaudhry et 
+al., 2022).
+The relevance of this concept is evident, as it is 
+clearly defined as follows in the preamble of the AI Act:
+[…] Transparency means that AI systems are developed 
+and used in a way that allows appropriate traceability 
+and explainability, while making humans aware that 
+they communicate or interact with an AI system, as 
+well as duly informing deployers of the capabilities and 
+limitations of that AI system and affected persons about 
+their rights. (European Commission, 2024)
+The transparency of an AI system depends on the 
+developer, who must design it in such a way that 
+no information about the system is hidden. There 
+are five key aspects of AI transparency that must be 
+considered: (1) data, (2) models, (3) processes, (4) 
+outcomes, and (5) purpose. We recommend reviewing 
+Jonker (2024) for further details.
+Interpretability
+This concept primarily refers to the understanding 
+that developers can gain from their own models, 
+as qualified in this definition by Ali et al. (2023): 
+«Interpretability enables developers to delve into 
+the model’s decision-making process, boosting their 
+confidence in understanding where the model gets its 
+results».
+AI systems can have two main levels of 
+interpretability (Ooge, 2023), directly related to 
+the previous section. On the one hand, we have the 
+inherently interpretable models. These are simple 
+enough for humans to understand directly. Examples 
+Professionals such as data scientists and domain-specific specialists 
+who use AI for analytics and decision making but who lack a deep 
+technical understanding of AI require explanations tailored to their 
+specific field yet still presented in accessible, non-technical terms.
+48 METODE
+MONOGRAPH
+AI think, therefore AI am
+include those used in knowledge-based AI, and some 
+simpler models in data-driven AI. In the field of XAI, 
+they are known as «white box» models (Ali et al., 2023).
+On the other hand, there are the opaque models, 
+which are very accurate but difficult to interpret due 
+to their complexity. All of these AI models are data-
+driven. As mentioned above, their inner workings are 
+based on large sets of «learned» numerical parameters, 
+which are applied in a computational model and 
+provide predictions from input data. In the field of 
+XAI, these are known as «black box» models (Ali et 
+al., 2023).
+There is a trade-off between model quality and 
+interpretability, where simpler models are more 
+interpretable, but less accurate for complex tasks. 
+Reaching a compromise between how well the system 
+works and its level of interpretability is currently the 
+main goal of the XAI field.
+Explainability
+According to TechDispatch (2023), 
+«explainability in AI concentrates 
+on providing clear and coherent 
+explanations for specific model 
+predictions or decisions. It aims 
+to answer questions like “Why 
+did the AI system make this particular prediction?” 
+by offering human-understandable justifications 
+or reasons for a specific outcome». In this sense, 
+explainability also lies with the AI system developer, 
+who must explicitly include this feature in the system, 
+with the primary aim described in Ali et al. (2023): 
+«Explainability provides insight into the deep neural 
+networks’ decision to the end-user in order to build 
+trust that the AI is making correct and non-biased 
+decisions based on facts».
+Some authors, such as Miller (2019), use the 
+concepts of interpretability and explainability 
+interchangeably, but there is an important nuance. 
+Interpretability is a passive characteristic: any AI 
+model is inherently interpretable or not, to varying 
+degrees (Barredo Arrieta et al., 2020). Conversely, 
+explainability is an active characteristic: AI models 
+are explainable when their developers implement 
+mechanisms that clarify or detail their inner workings 
+so that users can understand them more easily 
+(Barredo Arrieta et al., 2020).
+As we can see, transparency, interpretability, 
+and explainability depend on the developers of the 
+AI system. The first two depend on the technical 
+characteristics of the approach adopted, while the 
+third depends on the type of information being 
+transmitted (Dwivedi, 2023). To achieve the ultimate 
+goal of increasing trust in AI systems, the developer 
+must provide as much transparency as possible 
+and must also strive to strike a balance between 
+performance and interpretability: the system must 
+be understandable, but also useful, in order to make 
+sense (European Commission, 2019). At this point, it 
+is important to highlight the key role of the AI Act, 
+which extends responsibility to legislators and policy 
+makers to create a framework that ensures developers 
+understand what is required of them regarding their 
+XAI systems.
+As we have already mentioned, the most relevant 
+aspect of XAI is not on the technical side, but rather, 
+is on the human side, since an explanation that is not 
+understood is of little or no use. This brings us to the 
+fourth basic concept of XAI, comprehensibility.
+Understandability
+Understandability is the «degree 
+to which the provided insights 
+can make sense for the targeted 
+audience’s domain knowledge» 
+(Saeed & Omlin, 2023). This 
+concept no longer depends on 
+the developer, but on the receiver 
+of the explanation, as discussed 
+in TechDispatch (2023).
+Understandability focuses on the end-users1 – 
+on how well they can understand an explanation 
+addressed to them and how much it helps them stay 
+in control. Therefore, it is a measure of the actual 
+usefulness of the XAI. Understandability emphasises 
+the need for AI explanations to align with the 
+cognitive and contextual needs of the people using 
+the technology, ensuring that they can understand 
+the system behaviour and outcomes (Ooge, 2023). 
+In other words, the information required by a doctor 
+using a diagnostic recommendation system differs 
+from that required by a teacher using an exercise 
+recommendation system, and in turn, both differ from 
+the information needed by the user of an autonomous 
+vehicle (Figure 1).
+ ■ THE ACTORS INVOLVED IN EXPLAINABLE AI
+From what we have discussed so far, it seems 
+clear that advancing XAI requires the involvement 
+of different actors and stakeholders and the 
+1  Some authors, such as Biran & Cotton (2017), use the concept of 
+interpretability and understandability interchangeably, but as explained 
+above, interpretability concerns computational models, while 
+understandability concerns the end user.
+«Transparency, interpretability, 
+and explainability depend 
+on the developers of the 
+AI system»
+MONOGRAPH
+AI think, therefore AI am
+   METODE 49
+encouragement of their collaboration. It is unrealistic 
+to place the burden of such an ambitious goal solely 
+on developers, or to limit it to a purely legal issue. As 
+a starting point, we can follow the approach proposed 
+by Saeed & Omlin (2023), which considers five 
+perspectives and associates them with three main 
+types of actors with distinct roles in XAI.
+Legislators and policy makers
+Associated with regulatory and social perspectives. 
+The EU’s approach to digital regulation is based 
+on the fundamental rights of individuals and aims 
+to foster innovation by promoting trusted, human-
+centred AI. The role of this first group is not just to 
+control AI development; it is even more important 
+than that. It relates to human governance and 
+oversight of AI systems. They are responsible 
+for defining laws and policies that promote the 
+development and use of XAI, thus helping to ensure 
+the transparency and interpretability of AI systems. 
+They are also responsible for supporting developers 
+in achieving truly useful explainability for users 
+(understandability), fostering multidisciplinary 
+teams and creating effective channels for citizen 
+participation.
+Researchers, professionals, and developers
+Associated with industrial and model development 
+perspectives. They are the technical engine behind 
+XAI and the main drivers of progress in this field. For 
+this group, it is essential that commercial interests 
+are managed with a balance between constraints and 
+opportunities, which underscores the importance 
+of collaboration with the first group. Their basic 
+contribution lies in making the transparency, 
+interpretability, explainability, and understandability 
+of AI systems a reality.
+End-users
+Associated with industrial (professional) and social 
+perspectives. This is a heterogeneous target group 
+that applies AI systems both in their professional 
+development and in their daily lives. They are 
+the main «jury» of explainability, who determine 
+whether an AI system is useful or not. Their 
+contribution focuses on promoting the explainability 
+and understandability of the AI systems they use, 
+selecting those systems that best meet the XAI 
+guidelines.
+It is important to note that, from a practical point 
+of view, the first two groups are also end-users of AI 
+within their own domains. Consequently, they are also 
+affected by the explainability and understandability of 
+the systems they promote and develop. Considering all 
+potential AI users, three levels of XAI experience can 
+be distinguished.
+Firstly, AI novices, individuals who are impacted 
+by AI systems and who possess little or no technical 
+expertise in this area. They need explanations that 
+help them understand the answers AI systems produce, 
+so they can maintain control over the decisions and 
+understand how their data are used. Examples of 
+such users include medical patients, bank customers, 
+teachers, politicians, and public decision-makers, 
+among others.
+Secondly, data users. These are professionals such 
+as data scientists and domain-specific specialists 
+who use AI for analytics and decision making but do 
+not have a deep technical understanding of AI. They 
+need specific explanations that allow them to evaluate 
+reliability and adjust and compare models. These 
+users include doctors, economists, managers, judges, 
+and social workers.
+And finally, AI experts, specialists (AI researchers 
+or engineers) who create and deploy AI models or 
+develop explainable AI techniques. They focus on 
+interpreting and improving their models to ensure their 
+correct functioning, so explainability here is purely 
+technical and highly detailed.
+Explainability
+Interpretability
+Transparency
+Technical perspective Human perspective
+End-usersLegislators
+Policy makers
+Developers
+Understandability
+Figure 1. Diagram summarising the two perspectives behind XAI, 
+technical and human, with the main actors involved in each one. 
+Source: Created by the author.
+«Advancing explainable AI requires 
+the involvement of different actors 
+and stakeholders and the encouragement 
+of their collaboration»
+50 MÈTODE
+MONOGRAPH
+AI think, therefore AI am
+ ■ AI IN EDUCATION
+The previous sections sought to justify the relevance of 
+explainable AI in a general way, showing how it affects 
+numerous actors with different degrees of knowledge 
+about the technology. In the specific case of education, 
+XAI goes beyond being a mere technical improvement; 
+it is a fundamental requirement for fostering human 
+autonomy, trust, and transparency in educational 
+environments that increasingly rely on AI tools for 
+teaching and learning.
+The integration of XAI in educational contexts 
+requires rethinking digital skills, in particular those 
+related to AI literacy (Flores-Alarcia et al., 2024, 
+chapter 2). Teachers need to be able to use AI tools and 
+possess the critical thinking skills required to interpret 
+their results and ensure they are used ethically. Learners, 
+for their part, need support to understand the decisions 
+made by AI systems, thus promoting autonomy and 
+self-regulated learning.2
+Building a transparent, fair, and people-centred AI 
+for education means creating systems that are both 
+technically sound and contextually appropriate, legally 
+compliant, and pedagogically effective. This requires 
+continuous collaboration across disciplines, sectors, and 
+stakeholders. As AI continues to evolve, so too must 
+collective efforts to ensure that its use in education 
+supports, rather than replaces, human judgement, 
+values, and oversight. 
+REFERENCES
+Ali, S., Abuhmed, T., El-Sappagh, S., Muhammad, K., Alonso-Moral, J. M., 
+Confalonieri, R., Guidotti, R., Del Ser, J., Díaz-Rodríguez, N., & Herrera, F. 
+(2023). Explainable artificial intelligence (XAI): What we know and what 
+is left to attain trustworthy artificial intelligence. Information Fusion, 99, 
+101805. https:/ /doi.org/10.1016/j.inffus.2023.101805
+Barredo Arrieta, A., Díaz-Rodríguez, N., Del Ser, J., Bennetot, A., Tabik, S., 
+Barbado, A., Garcia, S., Gil-Lopez, S., Molina, D., Benjamins, R., Chatila, 
+R., & Herrera, F. (2020). Explainable artificial intelligence (XAI): Concepts, 
+taxonomies, opportunities and challenges toward responsible AI. Information 
+Fusion, 58, 82–115. https:/ /doi.org/10.1016/j.inffus.2019.12.012
+Bennetot, A., Donadello, I., El Qadi El Haouari, A., Dragoni, M., Frossard, 
+T., Wagner, B., Sarranti, A., Tulli, S., Trocan, M., Chatila, R., Holzinger, 
+A., Garcez, A. D., & Díaz-Rodríguez, N. (2024). A practical tutorial 
+on explainable AI techniques. ACM Computing Surveys, 57(2), Article 50. 
+https:/ /doi.org/10.1145/3670685
+Biran, O., & Cotton, C. (2017). Explanation and justification in machine 
+learning: A survey. In IJCAI-17 workshop on explainable AI (XAI) (pp. 8–13), 
+vol. 8, N. 1.
+Chaudhry, M. A., Cukurova, M., & Luckin, R. (2022). A transparency index 
+framework for AI in education. In M. M. Rodrigo, N. Matsuda, A. I. Cristea, 
+& V . Dimitrova (Eds). Artificial Intelligence in Education. Posters and Late 
+Breaking Results, Workshops and Tutorials, Industry and Innovation 
+Tracks, Practitioners’ and Doctoral Consortium. AIED 2022. Lecture Notes 
+in Computer Science, vol 13356. Springer. https:/ /doi.org/10.1007/978-
+3-031-11647-6_33
+Dwivedi, R., Dave, D., Naik H., Singhal, S., Omer, R., Patel, P., Qian, B., Wen, 
+Z., Shah, T., Morgan, G., & Ranjan, R. (2023). Explainable AI (XAI): Core 
+2  See the European Commission (EC) and Organisation for Economic Co-ope-
+ration and Development (OECD) AILit Framework:  
+https:/ /ailiteracyframework.org
+ideas, techniques, and solutions. ACM Computing Surveys, 55(9), Article 194. 
+https:/ /doi.org/10.1145/3561048
+European Commission. (2019). Ethics guidelines for trustworthy AI. 
+Publications Office of the European Union. https:/ /data.europa.eu/
+doi/10.2759/346720
+Flores-Alarcia, Ó., & Fornons Casol, L. (2024). Educación e inteligencia 
+artificial: Horizontes de transformación. Dykinson.
+Holmes, W., & Tuomi, I. (2022). State of the art and practice in AI in education. 
+European Journal of Education, 57, 542–570. https:/ /doi.org/10.1111/
+ejed.12533
+Jonker, A., Gomstyn, A., & McGrath, A., (2024). What is AI transparency? 
+https:/ /www.ibm.com/think/topics/ai-transparency
+Khosravi, H., Shum, S. B., Chen, G., Conati, C., Tsai, Y .-S., Kay, J., Knight, 
+S., Martinez-Maldonado, R., Sadiq, S., & Gašević, D. (2022). Explainable 
+artificial intelligence in education. Computers and Education: Artificial 
+Intelligence, 3, 100074. https:/ /doi.org/10.1016/j.caeai.2022.100074
+Loh, H. W., Ooi, C. P., Seoni, S., Barua, P. D., Molinari, F., & Acharya, U. 
+R. (2022). Application of explainable artificial intelligence for healthcare: 
+A systematic review of the last decade (2011–2022). Computer Methods 
+and Programs in Biomedicine, 226, 107161. https:/ /doi.org/10.1016/j.
+cmpb.2022.107161
+Longo, L., Brcic, M., Cabitza, F., Choi, J., Confalonieri, R., Del Ser, J., 
+Guidotti, R., Hayashi, Y ., Herrera, F., Holzinger, A., Jiang, R., Khosravi, H., 
+Lecue, F., Malgieri, G., Páez, A., Samek, W., Schneider, J., Speith, T., & 
+Stumpf, S. (2024). Explainable artificial intelligence (XAI) 2.0: A manifesto 
+of open challenges and interdisciplinary research directions. Information 
+Fusion, 106, 102301. https:/ /doi.org/10.1016/j.inffus.2024.102301
+Miller, T. (2019). Explanation in artificial intelligence: Insights from the social 
+sciences. Artificial intelligence, 267, 1–38. https:/ /doi.org/10.1016/j.
+artint.2018.07.007
+Ooge, J. (2023). Explaining artificial intelligence with tailored interactive 
+visualisations [Doctoral dissertation]. https:/ /jeroenooge.be/sites/
+default/files/2023-10/PhD%20thesis%20Jeroen%20Ooge%20
+%28deluxe%29.pdf
+Regulation (EU) 2024/1689 of the European Parliament and of the Council 
+of 13 June 2024 laying down harmonised rules on artificial intelligence 
+and amending Regulations (EC) No 300/2008, (EU) No 167/2013, (EU) 
+No 168/2013, (EU) 2018/858, (EU) 2018/1139 and (EU) 2019/2144 
+and Directives 2014/90/EU, (EU) 2016/797 and (EU) 2020/1828 (Artificial 
+Intelligence Act) (Text with EEA relevance). https:/ /eur-lex.europa.eu/
+eli/reg/2024/1689/oj
+Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 
+April 2016 on the protection of natural persons with regard to the processing 
+of personal data and on the free movement of such data, and repealing 
+Directive 95/46/EC (General Data Protection Regulation) (Text with 
+EEA relevance). https:/ /eur-lex.europa.eu/eli/reg/2016/679/oj
+Saeed, W., & Omlin, C. (2023). Explainable AI (XAI): A systematic meta-
+survey of current challenges and future opportunities. Knowledge-Based 
+Systems, 263, 110273. https:/ /doi.org/10.1016/j.knosys.2023.110273
+TechDispatch. (2023). Explainable artificial intelligence. European Data 
+Protection Supervisor (EDPS). https:/ /www.edps.europa.eu/data-
+protection/our-work/publications/techdispatch/2023-11-16-
+techdispatch-22023-explainable-artificial-intelligence_en
+ACKNOWLEDGEMENTS
+This article summarises the European Digital Education Hub’s squad on 
+explainable AI in education (https:/ /data.europa.eu/doi/10.2797/ 
+6780469) which I coordinated between August and December 2024. I would 
+like to thank all the members of the squad, and the EDEH managers who made 
+it possible.
+FRANCISCO J. BELLAS. Full professor in the Department of Computer 
+Science and Information Technologies (CITIC) at the University of A Coruña 
+(Spain). He is a specialist in artificial intelligence applied to robotics with 
+more than 20 years of teaching and research experience. He participated in 
+the development of the internationally awarded educational robot Robobo and 
+leads projects on AI education at pre-university level. He is a member of the 
+Galician Regional Government’s group of experts on AI in education and of 
+the working group on the same subject in the European Digital Education Hub. ✉ francisco.bellas@udc.es

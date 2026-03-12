@@ -1,0 +1,41 @@
+{
+  "pages": {
+    "/datasets/page": [
+      "static/chunks/app_globals_71f961d1.css",
+      "static/chunks/node_modules_next_02beae46._.js",
+      "static/chunks/components_layout_AppHeader_tsx_70b483ba._.js",
+      "static/chunks/app_layout_tsx_0a548d63._.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_68eba532.js",
+      "static/chunks/components_datasets_DatasetsManager_tsx_abfcd5d6._.js",
+      "static/chunks/app_datasets_page_tsx_68eba532._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_57d40746._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js",
+      "static/chunks/node_modules_next_dist_compiled_next-devtools_index_a9cb0712.js",
+      "static/chunks/node_modules_next_dist_compiled_5150ccfd._.js",
+      "static/chunks/node_modules_next_dist_client_cf1d9188._.js",
+      "static/chunks/node_modules_next_dist_b0daae9a._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_b3dc30d6._.js",
+      "static/chunks/_a0ff3932._.js",
+      "static/chunks/turbopack-_cdba956c._.js"
+    ],
+    "/likert/page": [
+      "static/chunks/app_globals_71f961d1.css",
+      "static/chunks/node_modules_next_02beae46._.js",
+      "static/chunks/components_layout_AppHeader_tsx_70b483ba._.js",
+      "static/chunks/app_layout_tsx_0a548d63._.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_68eba532.js",
+      "static/chunks/node_modules_html2canvas_dist_html2canvas_c201672c.js",
+      "static/chunks/components_likert_LikertWorkbench_tsx_f5d2af57._.js",
+      "static/chunks/app_likert_page_tsx_68eba532._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_57d40746._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js",
+      "static/chunks/node_modules_next_dist_compiled_next-devtools_index_a9cb0712.js",
+      "static/chunks/node_modules_next_dist_compiled_5150ccfd._.js",
+      "static/chunks/node_modules_next_dist_client_cf1d9188._.js",
+      "static/chunks/node_modules_next_dist_b0daae9a._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_b3dc30d6._.js",
+      "static/chunks/_a0ff3932._.js",
+      "static/chunks/turbopack-_cdba956c._.js"
+    ]
+  }
+}

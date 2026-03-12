@@ -71,7 +71,13 @@ const AppState = {
     currentPanel: 'data',
     zoom: 1,
     embedMode: false,
-    storageOnlyMode: false
+    storageOnlyMode: false,
+    comparisonConfig: {
+        mode: 'standard',
+        preDatasetName: '',
+        postDatasetName: '',
+        baseItemOrder: []
+    }
 };
 
 window.AppState = AppState;
@@ -632,7 +638,10 @@ const ChartRenderer = {
         // Aplicar zoom
         canvas.style.transform = `scale(${AppState.zoom})`;
 
-        const chartType = AppState.chartConfig.type;
+        let chartType = AppState.chartConfig.type;
+        if (AppState.comparisonConfig.mode === 'comparison' && chartType === 'distribution') {
+            chartType = 'stacked';
+        }
         const chartModule = chartRegistry.get(chartType);
 
         if (!chartModule) {
@@ -642,12 +651,21 @@ const ChartRenderer = {
         }
 
         let items = DataTransformer.getUniqueItems(AppState.longData);
+        if (AppState.comparisonConfig.mode === 'comparison' && Array.isArray(AppState.comparisonConfig.baseItemOrder) && AppState.comparisonConfig.baseItemOrder.length > 0) {
+            const comparisonItems = [];
+            AppState.comparisonConfig.baseItemOrder.forEach((baseItem) => {
+                comparisonItems.push(`${baseItem} [Pre]`);
+                comparisonItems.push(`${baseItem} [Post]`);
+            });
+            items = comparisonItems;
+        }
         if (AppState.filteredItems.size > 0) {
             items = items.filter(item => AppState.filteredItems.has(item));
         }
 
         const stats = DataTransformer.calculateStatistics(AppState.longData, items);
-        const sortedItems = DataTransformer.sortItems(items, stats, AppState.chartConfig.sortBy);
+        const sortMode = AppState.comparisonConfig.mode === 'comparison' ? 'original' : AppState.chartConfig.sortBy;
+        const sortedItems = DataTransformer.sortItems(items, stats, sortMode);
         const normalizedConfig = ChartOptionsAdapter.normalize(
             AppState.chartConfig,
             AppState.scaleConfig,
@@ -778,6 +796,7 @@ const UI = {
         this.populateChartTypes();
         this.loadGeminiApiKey();
         this.refreshStorageDatasets();
+        this.updateAnalysisModeUI();
     },
 
     /**
@@ -847,6 +866,10 @@ const UI = {
 
         document.getElementById('load-storage-dataset')?.addEventListener('click', () => {
             this.loadDatasetFromStorage();
+        });
+
+        document.getElementById('load-comparison-datasets')?.addEventListener('click', () => {
+            this.loadComparisonDatasetsFromStorage();
         });
 
         // Filter buttons
@@ -925,7 +948,9 @@ const UI = {
 
     refreshStorageDatasets() {
         const selects = [
-            document.getElementById('storage-dataset-select')
+            document.getElementById('storage-dataset-select'),
+            document.getElementById('comparison-pre-dataset'),
+            document.getElementById('comparison-post-dataset')
         ].filter(Boolean);
         if (!selects.length) return;
 
@@ -963,6 +988,170 @@ const UI = {
             selects.forEach(select => {
                 select.innerHTML = '<option value="">Error loading datasets</option>';
             });
+        }
+    },
+
+    getNormalizedStorageDataset(datasetName) {
+        const dataApi = this.getSharedDataApi();
+        if (!dataApi || !dataApi.storage) {
+            throw new Error('Shared storage is not available.');
+        }
+
+        const dataset = dataApi.storage.loadDataset(datasetName);
+        if (!dataset || !Array.isArray(dataset.data) || dataset.data.length === 0) {
+            throw new Error(`Dataset "${datasetName}" is empty or invalid.`);
+        }
+
+        const autoProcess = document.getElementById('storage-auto-process')?.checked !== false;
+        let rows = dataset.data.map((row) => ({ ...row }));
+
+        if (autoProcess) {
+            rows = dataApi.trimValues(rows);
+            const itemColumns = Object.keys(rows[0]).slice(1);
+            if (itemColumns.length > 0) {
+                rows = dataApi.likertTextToNumber(rows, itemColumns);
+            }
+        }
+
+        const headers = Object.keys(rows[0]);
+        if (headers.length < 2) {
+            throw new Error(`Dataset "${datasetName}" must have at least 2 columns (ID + items).`);
+        }
+
+        const idColumn = headers[0];
+        const normalizedRows = rows.map((row, index) => ({
+            ...row,
+            [idColumn]: row[idColumn] !== undefined && row[idColumn] !== null && row[idColumn] !== ''
+                ? row[idColumn]
+                : `R${index + 1}`
+        }));
+
+        return {
+            name: datasetName,
+            headers,
+            idColumn,
+            rows: normalizedRows
+        };
+    },
+
+    applyScaleFromLongData(longData) {
+        const numericValues = longData
+            .map((d) => d.value)
+            .filter((v) => v !== null && !isNaN(v));
+
+        if (!numericValues.length) return;
+
+        const minValue = Math.min(...numericValues);
+        const maxValue = Math.max(...numericValues);
+
+        if (minValue === 0 && maxValue === 9) {
+            AppState.scaleConfig.points = 10;
+            AppState.scaleConfig.rawMin = 0;
+            AppState.scaleConfig.rawMax = 9;
+            AppState.scaleConfig.labels = Array.from({ length: 10 }, (_, i) => `${i}`);
+            const scaleInput = document.getElementById('scale-points');
+            if (scaleInput) scaleInput.value = 10;
+            this.updateScaleLabels();
+        } else if (maxValue >= 2 && maxValue <= 10 && maxValue !== AppState.scaleConfig.points) {
+            AppState.scaleConfig.points = maxValue;
+            AppState.scaleConfig.rawMin = 1;
+            AppState.scaleConfig.rawMax = maxValue;
+            AppState.scaleConfig.labels = Array.from({ length: maxValue }, (_, i) => `${i + 1}`);
+            const scaleInput = document.getElementById('scale-points');
+            if (scaleInput) scaleInput.value = maxValue;
+            this.updateScaleLabels();
+        }
+    },
+
+    buildComparisonLongData(preDataset, postDataset) {
+        const preItems = preDataset.headers.slice(1);
+        const postItemsSet = new Set(postDataset.headers.slice(1));
+        const commonItems = preItems.filter((item) => postItemsSet.has(item));
+
+        if (commonItems.length === 0) {
+            throw new Error('No common item columns found between PRE and POST datasets.');
+        }
+
+        const toLikertInt = (value) => {
+            if (value === '' || value === null || value === undefined) return null;
+            const n = parseInt(value, 10);
+            return Number.isNaN(n) ? null : n;
+        };
+
+        const longData = [];
+
+        commonItems.forEach((item) => {
+            preDataset.rows.forEach((row) => {
+                longData.push({
+                    respondent: `PRE-${row[preDataset.idColumn]}`,
+                    item: `${item} [Pre]`,
+                    value: toLikertInt(row[item])
+                });
+            });
+
+            postDataset.rows.forEach((row) => {
+                longData.push({
+                    respondent: `POST-${row[postDataset.idColumn]}`,
+                    item: `${item} [Post]`,
+                    value: toLikertInt(row[item])
+                });
+            });
+        });
+
+        return { longData, commonItems };
+    },
+
+    loadComparisonDatasetsFromStorage() {
+        const preDatasetName = document.getElementById('comparison-pre-dataset')?.value;
+        const postDatasetName = document.getElementById('comparison-post-dataset')?.value;
+
+        if (!preDatasetName || !postDatasetName) {
+            alert('Selecciona dataset PRE y POST.');
+            return;
+        }
+
+        if (preDatasetName === postDatasetName) {
+            alert('PRE y POST deben ser datasets distintos.');
+            return;
+        }
+
+        try {
+            const preDataset = this.getNormalizedStorageDataset(preDatasetName);
+            const postDataset = this.getNormalizedStorageDataset(postDatasetName);
+            const comparisonData = this.buildComparisonLongData(preDataset, postDataset);
+
+            AppState.comparisonConfig.preDatasetName = preDatasetName;
+            AppState.comparisonConfig.postDatasetName = postDatasetName;
+            AppState.comparisonConfig.baseItemOrder = comparisonData.commonItems;
+
+            AppState.data = {
+                headers: ['item', 'pre_n', 'post_n'],
+                rows: comparisonData.commonItems.map((item) => ({
+                    item,
+                    pre_n: preDataset.rows.length,
+                    post_n: postDataset.rows.length
+                }))
+            };
+            AppState.longData = comparisonData.longData;
+
+            this.applyScaleFromLongData(AppState.longData);
+
+            const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
+            if (validation.summary.outOfRange > 0) {
+                console.warn(`${validation.summary.outOfRange} valores fuera de rango convertidos a vacio.`);
+            }
+
+            this.showComparisonPreview(preDatasetName, postDatasetName, comparisonData.commonItems);
+            this.populateItemFilter();
+            ChartRenderer.render();
+
+            const statusText = document.getElementById('status-text');
+            if (statusText) {
+                statusText.textContent = `Comparación cargada (${preDatasetName} vs ${postDatasetName})`;
+            }
+        } catch (error) {
+            console.error('Error loading comparison datasets:', error);
+            alert('No se pudo cargar la comparación: ' + error.message);
         }
     },
 
@@ -1044,31 +1233,11 @@ const UI = {
     applyParsedData(parsedData, sourceLabel = 'archivo') {
         AppState.data = parsedData;
         AppState.longData = DataParser.convertToLong(parsedData);
+        AppState.comparisonConfig.preDatasetName = '';
+        AppState.comparisonConfig.postDatasetName = '';
+        AppState.comparisonConfig.baseItemOrder = [];
 
-        const numericValues = AppState.longData
-            .map(d => d.value)
-            .filter(v => v !== null && !isNaN(v));
-        if (numericValues.length > 0) {
-            const minValue = Math.min(...numericValues);
-            const maxValue = Math.max(...numericValues);
-            if (minValue === 0 && maxValue === 9) {
-                AppState.scaleConfig.points = 10;
-                AppState.scaleConfig.rawMin = 0;
-                AppState.scaleConfig.rawMax = 9;
-                AppState.scaleConfig.labels = Array.from({ length: 10 }, (_, i) => `${i}`);
-                const scaleInput = document.getElementById('scale-points');
-                if (scaleInput) scaleInput.value = 10;
-                this.updateScaleLabels();
-            } else if (maxValue >= 2 && maxValue <= 10 && maxValue !== AppState.scaleConfig.points) {
-                AppState.scaleConfig.points = maxValue;
-                AppState.scaleConfig.rawMin = 1;
-                AppState.scaleConfig.rawMax = maxValue;
-                AppState.scaleConfig.labels = Array.from({ length: maxValue }, (_, i) => `${i + 1}`);
-                const scaleInput = document.getElementById('scale-points');
-                if (scaleInput) scaleInput.value = maxValue;
-                this.updateScaleLabels();
-            }
-        }
+        this.applyScaleFromLongData(AppState.longData);
 
         const validation = DataParser.validateData(AppState.longData, AppState.scaleConfig);
         if (validation.summary.outOfRange > 0) {
@@ -1093,6 +1262,10 @@ const UI = {
                 const value = control.type === 'checkbox' ? control.checked : control.value;
 
                 switch (id) {
+                    case 'analysis-mode':
+                        AppState.comparisonConfig.mode = value;
+                        this.updateAnalysisModeUI();
+                        break;
                     case 'chart-type':
                         AppState.chartConfig.type = value;
                         break;
@@ -1543,6 +1716,9 @@ const UI = {
         AppState.data = null;
         AppState.longData = null;
         AppState.filteredItems.clear();
+        AppState.comparisonConfig.preDatasetName = '';
+        AppState.comparisonConfig.postDatasetName = '';
+        AppState.comparisonConfig.baseItemOrder = [];
 
         // Clear preview
         const preview = document.getElementById('data-preview');
@@ -1555,6 +1731,11 @@ const UI = {
         if (filterContainer) {
             filterContainer.innerHTML = '';
         }
+
+        const preSelect = document.getElementById('comparison-pre-dataset');
+        const postSelect = document.getElementById('comparison-post-dataset');
+        if (preSelect) preSelect.value = '';
+        if (postSelect) postSelect.value = '';
 
         // Clear AI status
         const statusDiv = document.getElementById('ai-status');
@@ -1769,6 +1950,63 @@ const UI = {
         }
     },
 
+    updateAnalysisModeUI() {
+        const modeSelect = document.getElementById('analysis-mode');
+        const mode = modeSelect?.value || AppState.comparisonConfig.mode || 'standard';
+        AppState.comparisonConfig.mode = mode;
+
+        const comparisonControls = document.getElementById('comparison-data-controls');
+        if (comparisonControls) {
+            comparisonControls.style.display = mode === 'comparison' ? 'block' : 'none';
+        }
+
+        const sortBy = document.getElementById('sort-by');
+        if (sortBy) {
+            if (mode === 'comparison') {
+                sortBy.value = 'original';
+                AppState.chartConfig.sortBy = 'original';
+                sortBy.disabled = true;
+            } else {
+                sortBy.disabled = false;
+            }
+        }
+
+        const chartType = document.getElementById('chart-type');
+        if (chartType) {
+            const distributionOption = chartType.querySelector('option[value="distribution"]');
+            if (distributionOption) {
+                distributionOption.disabled = mode === 'comparison';
+            }
+
+            if (mode === 'comparison' && chartType.value === 'distribution') {
+                chartType.value = 'stacked';
+                AppState.chartConfig.type = 'stacked';
+            }
+        }
+    },
+
+    showComparisonPreview(preDatasetName, postDatasetName, commonItems) {
+        const container = document.getElementById('data-preview');
+        if (!container) return;
+
+        const rows = commonItems.slice(0, 8);
+        let html = '<div style="display:grid;gap:6px;">';
+        html += `<p><strong>Modo:</strong> Comparación Pre/Post</p>`;
+        html += `<p><strong>PRE:</strong> ${preDatasetName}</p>`;
+        html += `<p><strong>POST:</strong> ${postDatasetName}</p>`;
+        html += `<p><strong>Ítems comunes:</strong> ${commonItems.length}</p>`;
+        html += '<table><thead><tr><th>Item</th><th>Series</th></tr></thead><tbody>';
+        rows.forEach((item) => {
+            html += `<tr><td>${item}</td><td>${item} [Pre] / ${item} [Post]</td></tr>`;
+        });
+        html += '</tbody></table>';
+        if (commonItems.length > rows.length) {
+            html += `<p class="text-muted" style="margin-top: 0.5rem;">... y ${commonItems.length - rows.length} ítems más</p>`;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    },
+
     showDataPreview(data) {
         const container = document.getElementById('data-preview');
         if (!container) return;
@@ -1801,6 +2039,10 @@ const UI = {
     populateItemFilter() {
         const container = document.getElementById('item-filter-container');
         if (!container) return;
+        if (!AppState.longData || !AppState.longData.length) {
+            container.innerHTML = '';
+            return;
+        }
 
         const items = DataTransformer.getUniqueItems(AppState.longData);
         AppState.filteredItems.clear();

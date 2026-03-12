@@ -8,8 +8,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
-<link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../assets/css/app-trust-bar.css">
+    <link rel="stylesheet" href="style.css?v=2026030612">
     <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
 </head>
 <body>
@@ -34,13 +34,17 @@
     <header class="app-header">
         <div class="brand">
             <i class="ph ph-circles-three-plus"></i>
-            <div>
+            <div class="brand-copy">
                 <h1>Survey Suite <span class="badge">beta</span></h1>
-                <p class="subtitle">Unified workflow: process survey data and visualize Likert charts</p>
+                <p class="brand-meta">Flujo integrado para procesar encuestas y generar visualizaciones</p>
             </div>
         </div>
         <nav class="module-links">
-            <a class="suite-tab active" data-view="processor" href="?view=processor">
+            <a class="suite-tab active" data-view="home" href="?view=home">
+                <i class="ph ph-house"></i>
+                <span>Inicio</span>
+            </a>
+            <a class="suite-tab" data-view="processor" href="?view=processor">
                 <i class="ph ph-database"></i>
                 <span>Data Processor</span>
             </a>
@@ -57,54 +61,88 @@
             <button class="btn btn-outline" id="btn-refresh-active">
                 <i class="ph ph-arrow-clockwise"></i> Refresh Active View
             </button>
-            <a class="btn btn-primary" href="../likert-charts/?standalone=1&v=20260219025" target="_blank">
-                <i class="ph ph-chart-line-up"></i> Open Likert Standalone
-            </a>
         </div>
     </header>
 
-    <main class="suite-shell">
-        <section class="global-controls">
-            <div class="hint">
-                <i class="ph ph-info"></i>
-                <span>Active dataset and language are centralized here for all modules.</span>
+    <section class="module-ribbon">
+        <div class="ribbon-inner">
+            <div class="ribbon-title">
+                <strong id="ribbon-view-title">Inicio</strong>
+                <span id="ribbon-view-help">Selecciona un módulo para comenzar</span>
+                <span class="ribbon-dataset-active">Dataset activo: <strong id="ribbon-active-dataset">Ninguno</strong></span>
             </div>
-            <div class="control-row">
+            <div class="ribbon-controls">
                 <div class="control-group">
-                    <label for="suite-dataset-select">Active Dataset</label>
+                    <label for="suite-dataset-select">Dataset en Storage</label>
                     <select id="suite-dataset-select" class="suite-select">
-                        <option value="">Select saved dataset...</option>
+                        <option value="">Selecciona dataset guardado...</option>
                     </select>
                     <button id="btn-suite-refresh-datasets" class="btn btn-outline">
                         <i class="ph ph-arrow-clockwise"></i> Refresh
                     </button>
                 </div>
                 <div class="control-group">
-                    <label for="suite-language-select">Language</label>
-                    <select id="suite-language-select" class="suite-select">
+                    <label for="suite-language-select">Idioma</label>
+                    <select id="suite-language-select" class="suite-select suite-select-small">
                         <option value="en" selected>English</option>
-                        <option value="es">EspaÃ±ol</option>
+                        <option value="es">Español</option>
                     </select>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <main class="suite-shell">
         <section class="suite-content">
-            <div class="view-single active" id="view-processor">
-                <iframe id="frame-processor" title="Data Processor" src="../data-processor/?embed=1&v=20260219025"></iframe>
+            <div class="view-single active" id="view-home">
+                <section class="suite-home">
+                    <div class="home-header">
+                        <h2>Survey Suite Workspace</h2>
+                        <p>Flujo recomendado: Importa y limpia datos, define la escala Likert y finalmente visualiza resultados.</p>
+                    </div>
+                    <div class="home-cards">
+                        <article class="home-card">
+                            <div class="home-card-icon"><i class="ph ph-database"></i></div>
+                            <h3>1. Data Processor</h3>
+                            <p>Importa archivos CSV/JSON/XLSX, limpia datos y transforma columnas para análisis.</p>
+                            <button class="btn btn-primary btn-open-view" data-open-view="processor">Abrir módulo</button>
+                        </article>
+                        <article class="home-card">
+                            <div class="home-card-icon"><i class="ph ph-chart-bar"></i></div>
+                            <h3>2. Likert Charts</h3>
+                            <p>Crea gráficos Likert, ordena ítems y ajusta estilos para reportes docentes.</p>
+                            <button class="btn btn-primary btn-open-view" data-open-view="likert">Abrir módulo</button>
+                        </article>
+                        <article class="home-card">
+                            <div class="home-card-icon"><i class="ph ph-chart-scatter"></i></div>
+                            <h3>3. Distribution Lab</h3>
+                            <p>Analiza distribución con boxplot, violin y raincloud para validar resultados.</p>
+                            <button class="btn btn-primary btn-open-view" data-open-view="distribution">Abrir módulo</button>
+                        </article>
+                    </div>
+                    <ol class="home-flow">
+                        <li>Carga o selecciona el dataset activo en la cinta superior.</li>
+                        <li>Prepara los datos en Data Processor y guarda en Storage.</li>
+                        <li>Abre Likert Charts o Distribution Lab para visualizar y exportar.</li>
+                    </ol>
+                </section>
+            </div>
+
+            <div class="view-single" id="view-processor">
+                <iframe id="frame-processor" title="Data Processor" src="../data-processor/?embed=1&v=2026030604"></iframe>
             </div>
 
             <div class="view-single" id="view-likert">
-                <iframe id="frame-likert" title="Likert Charts" src="../likert-charts/?embed=1&storageOnly=1&v=20260219025"></iframe>
+                <iframe id="frame-likert" title="Likert Charts" src="../likert-charts/?embed=1&storageOnly=1&v=2026030604"></iframe>
             </div>
 
             <div class="view-single" id="view-distribution">
-                <iframe id="frame-distribution" title="Distribution Lab" src="../distribution-lab/?embed=1&v=20260219024"></iframe>
+                <iframe id="frame-distribution" title="Distribution Lab" src="../distribution-lab/?embed=1&v=2026030604"></iframe>
             </div>
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2026030603"></script>
     <script src="../../assets/js/app-version.js"></script>
     <script src="../../assets/js/app-trust-bar.js"></script>
     <script>
@@ -113,7 +151,7 @@
         window.initAppTrustBar({
             appName: "Survey Suite",
             version: appMeta.version || "v0.0.0",
-            updated: appMeta.updated || "2026-02-22",
+            updated: appMeta.updated || "2026-03-06",
             locale: document.documentElement.lang || "en",
             termsUrl: "../../assets/legal/terms-short.html",
             dataUrl: "../../assets/legal/data-policy-short.html",
@@ -124,6 +162,7 @@
     </script>
 </body>
 </html>
+
 
 
 

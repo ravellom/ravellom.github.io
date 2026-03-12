@@ -121,6 +121,11 @@ const DataBridge = {
         if (!numericSelect || !categorySelect) return;
 
         const columns = Object.keys(rows[0] || {});
+        const prevNumericSelection = new Set(
+            Array.from(numericSelect.selectedOptions || [])
+                .map((opt) => opt.value)
+                .filter(Boolean)
+        );
         const prevNumeric = numericSelect.value;
         const prevCategory = categorySelect.value;
         const numericColumns = columns.filter((col) => {
@@ -142,6 +147,7 @@ const DataBridge = {
             const opt = document.createElement('option');
             opt.value = col;
             opt.textContent = col;
+            if (prevNumericSelection.has(col)) opt.selected = true;
             numericSelect.appendChild(opt);
         });
 
@@ -152,10 +158,12 @@ const DataBridge = {
             categorySelect.appendChild(opt);
         });
 
-        if (numericColumns.includes(prevNumeric)) {
+        const hasSelected = Array.from(numericSelect.selectedOptions || []).length > 0;
+        if (!hasSelected && numericColumns.includes(prevNumeric)) {
             numericSelect.value = prevNumeric;
-        } else if (numericColumns.length > 0) {
-            numericSelect.value = numericColumns[0];
+        }
+        if (!hasSelected && numericColumns.length > 0) {
+            numericSelect.options[0].selected = true;
         }
 
         if (columns.includes(prevCategory)) {
@@ -175,13 +183,22 @@ const ChartController = {
     },
 
     getSelectedConfig() {
+        const numericSelect = document.getElementById('numeric-column');
+        const numericColumns = numericSelect
+            ? Array.from(numericSelect.selectedOptions || [])
+                .map((opt) => opt.value)
+                .filter(Boolean)
+            : [];
+
         return {
-            numericColumn: document.getElementById('numeric-column')?.value || '',
+            numericColumns,
+            numericColumn: numericColumns[0] || document.getElementById('numeric-column')?.value || '',
             categoryColumn: document.getElementById('category-column')?.value || '',
             chartType: document.getElementById('chart-type')?.value || 'boxplot',
             orientation: document.getElementById('chart-orientation')?.value || 'horizontal',
             showOutliers: document.getElementById('show-outliers')?.checked !== false,
             showJitter: document.getElementById('show-jitter')?.checked === true,
+            showSampleSizeLabel: document.getElementById('show-sample-size-label')?.checked !== false,
             showGrid: document.getElementById('show-grid')?.checked !== false,
             groupOrder: document.getElementById('group-order')?.value || 'original',
             topN: this.parseNumber('top-n-groups', 15, 1, 200),
@@ -194,6 +211,11 @@ const ChartController = {
             fontFamily: document.getElementById('font-family')?.value || 'Arial, sans-serif',
             titleFontSize: this.parseNumber('title-font-size', 20, 12, 42),
             labelFontSize: this.parseNumber('label-font-size', 12, 10, 24),
+            canvasBackground: document.getElementById('canvas-bg-color')?.value || '#ffffff',
+            canvasTransparent: document.getElementById('canvas-transparent')?.checked === true,
+            gridColor: document.getElementById('grid-color')?.value || '#e2e8f0',
+            axisColor: document.getElementById('axis-color')?.value || '#64748b',
+            textColor: document.getElementById('text-color')?.value || '#0f172a',
             lineWidth: this.parseNumber('line-width', 2, 1, 6),
             violinOpacity: this.parseNumber('violin-opacity', 0.55, 0.1, 1),
             jitterSize: this.parseNumber('jitter-size', 1.6, 1, 8),
@@ -235,7 +257,8 @@ const ChartController = {
             annotationY: this.parseNumber('annotation-y', 12, 0, 100),
             annotationColor: document.getElementById('annotation-color')?.value || '#111827',
             annotationSize: this.parseNumber('annotation-size', 13, 10, 40),
-            chartTitle: (document.getElementById('chart-title-input')?.value || '').trim()
+            chartTitle: (document.getElementById('chart-title-input')?.value || '').trim(),
+            showChartTitle: document.getElementById('show-chart-title')?.checked !== false
         };
     },
 
@@ -306,12 +329,17 @@ const ChartController = {
             return;
         }
 
-        let groups = StatsEngine.groupNumeric(
-            AppState.dataRows,
-            cfg.numericColumn,
-            cfg.categoryColumn,
-            cfg.whiskerMultiplier
-        );
+        const hasCategory = Boolean(cfg.categoryColumn);
+        const useMultiVariableMode = !hasCategory && cfg.numericColumns.length > 1;
+
+        let groups = useMultiVariableMode
+            ? StatsEngine.groupByNumericColumns(AppState.dataRows, cfg.numericColumns, cfg.whiskerMultiplier)
+            : StatsEngine.groupNumeric(
+                AppState.dataRows,
+                cfg.numericColumn,
+                cfg.categoryColumn,
+                cfg.whiskerMultiplier
+            );
         groups = this.sortGroups(groups, cfg.groupOrder).slice(0, cfg.topN);
 
         if (!groups.length) {
@@ -322,16 +350,16 @@ const ChartController = {
         placeholder.classList.add('hidden');
         canvas.classList.remove('hidden');
 
-        const autoTitleBase = cfg.categoryColumn
+        const autoTitleBase = hasCategory
             ? `${cfg.numericColumn} by ${cfg.categoryColumn}`
-            : cfg.numericColumn;
+            : (cfg.numericColumns.length > 1 ? `Variables: ${cfg.numericColumns.join(', ')}` : cfg.numericColumn);
         const autoTitle = autoTitleBase.length > 80
             ? `${autoTitleBase.slice(0, 77)}...`
             : autoTitleBase;
-        const title = cfg.chartTitle || autoTitle;
+        const title = cfg.showChartTitle ? (cfg.chartTitle || autoTitle) : '';
         const palette = COLOR_SCHEMES[cfg.colorScheme] || COLOR_SCHEMES.blue_orange;
         const overallStats = this.computeOverallStats(groups);
-        const hypothesisResult = cfg.categoryColumn && cfg.showHypothesis
+        const hypothesisResult = groups.length > 1 && cfg.showHypothesis
             ? HypothesisTests.compare(groups, cfg.hypothesisMode)
             : null;
 
@@ -339,12 +367,18 @@ const ChartController = {
             orientation: cfg.orientation,
             showOutliers: cfg.showOutliers,
             showJitter: cfg.showJitter,
+            showSampleSizeLabel: cfg.showSampleSizeLabel,
             showGrid: cfg.showGrid,
             title,
             palette,
             fontFamily: cfg.fontFamily,
             titleFontSize: cfg.titleFontSize,
             labelFontSize: cfg.labelFontSize,
+            canvasBackground: cfg.canvasBackground,
+            canvasTransparent: cfg.canvasTransparent,
+            gridColor: cfg.gridColor,
+            axisColor: cfg.axisColor,
+            textColor: cfg.textColor,
             lineWidth: cfg.lineWidth,
             violinOpacity: cfg.violinOpacity,
             jitterSize: cfg.jitterSize,
@@ -354,7 +388,7 @@ const ChartController = {
             groupHeight: cfg.groupThickness,
             groupGap: cfg.groupGap,
             width: this.getResponsiveWidth(cfg.chartWidth),
-            minCanvasHeight: cfg.chartMinHeight,
+            minCanvasHeight: this.getResponsiveMinHeight(cfg.chartMinHeight),
             marginLeft: cfg.marginLeft,
             marginRight: cfg.marginRight,
             marginTop: cfg.marginTop,
@@ -394,6 +428,7 @@ const ChartController = {
         AppState.lastRender = {
             timestamp: new Date().toISOString(),
             dataset: AppState.activeDatasetName || '',
+            numericColumns: [...cfg.numericColumns],
             numericColumn: cfg.numericColumn,
             categoryColumn: cfg.categoryColumn,
             chartType: cfg.chartType,
@@ -435,6 +470,13 @@ const ChartController = {
         // Usa el ancho interno disponible para evitar overflow inicial en iframe/pantallas pequeñas.
         const availableWidth = Math.max(320, Math.floor(container.clientWidth - 8));
         return Math.min(requestedWidth, availableWidth);
+    },
+
+    getResponsiveMinHeight(requestedHeight) {
+        const container = document.querySelector('.chart-container');
+        if (!container) return requestedHeight;
+        const availableHeight = Math.max(280, Math.floor(container.clientHeight - 8));
+        return Math.min(requestedHeight, availableHeight);
     }
 };
 
@@ -467,38 +509,77 @@ function bindUI() {
     document.getElementById('btn-refresh-dataset')?.addEventListener('click', () => {
         DataBridge.refreshFromStorage();
     });
-    document.getElementById('btn-export-png')?.addEventListener('click', () => {
-        const canvas = document.getElementById('chart-canvas');
-        if (!canvas || canvas.classList.contains('hidden')) return;
-        const chartType = document.getElementById('chart-type')?.value || 'chart';
-        ExportUtils.exportCanvasPNG(canvas, `distribution-${chartType}-${Date.now()}.png`);
-    });
-    document.getElementById('btn-export-svg')?.addEventListener('click', () => {
-        const canvas = document.getElementById('chart-canvas');
-        if (!canvas || canvas.classList.contains('hidden')) {
-            alert(I18n.t('export_no_chart'));
-            return;
-        }
-        const chartType = document.getElementById('chart-type')?.value || 'chart';
-        const ok = ExportUtils.exportVectorSVG(AppState.lastRender, `distribution-${chartType}-${Date.now()}.svg`);
-        if (!ok) {
-            const context = AppState.lastRender;
-            const title = context?.config?.chartTitle
-                || `${context?.numericColumn || 'distribution'} ${context?.categoryColumn ? `by ${context.categoryColumn}` : ''}`.trim();
-            ExportUtils.exportCanvasSVGFallback(canvas, `distribution-${chartType}-${Date.now()}.svg`, {
-                title,
-                description: `Dataset: ${AppState.activeDatasetName || '-'}`
+    document.querySelectorAll('.layout-tab[data-style-tab]').forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.styleTab;
+            if (!target) return;
+            document.querySelectorAll('.layout-tab[data-style-tab]').forEach((btn) => {
+                btn.classList.toggle('active', btn === tab);
+                btn.setAttribute('aria-selected', btn === tab ? 'true' : 'false');
             });
-        }
+            document.querySelectorAll('.layout-section').forEach((section) => {
+                section.classList.toggle('active', section.id === target);
+            });
+        });
     });
-    document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
+
+    const makeScaledCanvas = (canvas, scale = 1) => {
+        if (!canvas || scale <= 1) return canvas;
+        const temp = document.createElement('canvas');
+        temp.width = Math.max(1, Math.round(canvas.width * scale));
+        temp.height = Math.max(1, Math.round(canvas.height * scale));
+        const ctx = temp.getContext('2d');
+        if (!ctx) return canvas;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(canvas, 0, 0, temp.width, temp.height);
+        return temp;
+    };
+
+    document.getElementById('download-btn')?.addEventListener('click', async () => {
         const canvas = document.getElementById('chart-canvas');
         if (!canvas || canvas.classList.contains('hidden')) {
             alert(I18n.t('export_no_chart'));
             return;
         }
         const chartType = document.getElementById('chart-type')?.value || 'chart';
-        ExportUtils.exportCanvasPDF(canvas, `distribution-${chartType}-${Date.now()}.pdf`);
+        const format = document.getElementById('export-format')?.value || 'png';
+        const scale = Math.max(1, parseInt(document.getElementById('export-scale')?.value || '2', 10));
+        const dpi = Math.max(96, parseInt(document.getElementById('export-dpi')?.value || '300', 10));
+        const dpiScale = dpi / 96;
+        const effectiveScale = Math.max(scale, dpiScale);
+        const stamp = Date.now();
+
+        if (format === 'svg') {
+            const ok = ExportUtils.exportVectorSVG(AppState.lastRender, `distribution-${chartType}-${stamp}.svg`);
+            if (!ok) {
+                const context = AppState.lastRender;
+                const title = context?.config?.chartTitle
+                    || `${context?.numericColumn || 'distribution'} ${context?.categoryColumn ? `by ${context.categoryColumn}` : ''}`.trim();
+                ExportUtils.exportCanvasSVGFallback(canvas, `distribution-${chartType}-${stamp}.svg`, {
+                    title,
+                    description: `Dataset: ${AppState.activeDatasetName || '-'}`
+                });
+            }
+            return;
+        }
+
+        const sourceCanvas = makeScaledCanvas(canvas, effectiveScale);
+        if (format === 'pdf') {
+            ExportUtils.exportCanvasPDF(sourceCanvas, `distribution-${chartType}-${stamp}.pdf`);
+            return;
+        }
+        if (format === 'clipboard') {
+            try {
+                const ok = await ExportUtils.copyCanvasToClipboard(sourceCanvas);
+                alert(ok ? I18n.t('clipboard_ok') : I18n.t('clipboard_unsupported'));
+            } catch (error) {
+                console.error(error);
+                alert(I18n.t('clipboard_error'));
+            }
+            return;
+        }
+        ExportUtils.exportCanvasPNG(sourceCanvas, `distribution-${chartType}-${stamp}.png`);
     });
     document.getElementById('btn-copy-clipboard')?.addEventListener('click', async () => {
         const canvas = document.getElementById('chart-canvas');
@@ -579,6 +660,7 @@ function bindUI() {
         'chart-orientation',
         'show-outliers',
         'show-jitter',
+        'show-sample-size-label',
         'show-grid',
         'group-order',
         'top-n-groups',
@@ -591,6 +673,11 @@ function bindUI() {
         'font-family',
         'title-font-size',
         'label-font-size',
+        'canvas-bg-color',
+        'canvas-transparent',
+        'grid-color',
+        'axis-color',
+        'text-color',
         'line-width',
         'violin-opacity',
         'jitter-size',
@@ -630,7 +717,8 @@ function bindUI() {
         'annotation-y',
         'annotation-color',
         'annotation-size',
-        'chart-title-input'
+        'chart-title-input',
+        'show-chart-title'
     ].forEach((id) => {
         const el = document.getElementById(id);
         if (!el) return;
@@ -641,6 +729,7 @@ function bindUI() {
 
 function applyConfigToUI(config = {}) {
     const mappings = {
+        numericColumns: 'numeric-column',
         numericColumn: 'numeric-column',
         categoryColumn: 'category-column',
         chartType: 'chart-type',
@@ -656,6 +745,11 @@ function applyConfigToUI(config = {}) {
         fontFamily: 'font-family',
         titleFontSize: 'title-font-size',
         labelFontSize: 'label-font-size',
+        canvasBackground: 'canvas-bg-color',
+        canvasTransparent: 'canvas-transparent',
+        gridColor: 'grid-color',
+        axisColor: 'axis-color',
+        textColor: 'text-color',
         lineWidth: 'line-width',
         violinOpacity: 'violin-opacity',
         jitterSize: 'jitter-size',
@@ -671,16 +765,24 @@ function applyConfigToUI(config = {}) {
         marginTop: 'margin-top',
         marginBottom: 'margin-bottom',
         chartTitle: 'chart-title-input',
+        showChartTitle: 'show-chart-title',
         showOutliers: 'show-outliers',
         showJitter: 'show-jitter',
+        showSampleSizeLabel: 'show-sample-size-label',
         showGrid: 'show-grid'
     };
 
     Object.entries(mappings).forEach(([key, id]) => {
         const el = document.getElementById(id);
         if (!el || !(key in config)) return;
+        if (key === 'numericColumn' && Array.isArray(config.numericColumns)) return;
         if (el.type === 'checkbox') {
             el.checked = Boolean(config[key]);
+        } else if (el.id === 'numeric-column' && Array.isArray(config[key])) {
+            const selected = new Set(config[key].map(String));
+            Array.from(el.options).forEach((opt) => {
+                opt.selected = selected.has(opt.value);
+            });
         } else {
             el.value = config[key];
         }

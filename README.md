@@ -57,7 +57,7 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 - Generador de nubes de palabras para exploracion de texto, independiente del flujo de Survey Suite.
 
 ### Otras apps publicadas
-- Narrativa Emergente: [apps/narrativa-emergente](apps/narrativa-emergente) - [Demo](https://ravellom.github.io/apps/narrativa-emergente/)
+- Simulador Multiagente: [apps/ia-apps/simulador-multiagente](apps/ia-apps/simulador-multiagente) - [Demo](https://ravellom.github.io/apps/ia-apps/simulador-multiagente/)
 - AI Ref Extractor: [apps/ai-ref-extractor](apps/ai-ref-extractor) - [Demo](https://ravellom.github.io/apps/ai-ref-extractor/)
 
 ---

@@ -62,15 +62,23 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
         if (!groups.length) return;
 
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const showJitter = options.showJitter === true;
         const showOutliers = options.showOutliers !== false;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const showGrid = options.showGrid !== false;
-        const title = options.title || 'Violin';
+        const title = typeof options.title === 'string' ? options.title : 'Violin';
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const titleFontSize = options.titleFontSize || 20;
         const labelFontSize = options.labelFontSize || 12;
@@ -88,11 +96,13 @@ export default {
         const safeRange = maxValue - minValue || 1;
         const domain = Array.from({ length: kdeSteps }, (_, i) => minValue + (safeRange * i) / (kdeSteps - 1));
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${titleFontSize}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(title, 20, 28);
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (orientation === 'vertical') {
             this.drawVertical(ctx, groups, {
@@ -112,7 +122,11 @@ export default {
                 jitterAlpha,
                 outlierSize,
                 outlierColor,
+                showSampleSizeLabel,
                 violinOpacity,
+                gridColor,
+                axisColor,
+                textColor,
                 domain,
                 kdeBandwidthFactor,
                 minValue,
@@ -139,7 +153,11 @@ export default {
             jitterAlpha,
             outlierSize,
             outlierColor,
+            showSampleSizeLabel,
             violinOpacity,
+            gridColor,
+            axisColor,
+            textColor,
             domain,
             kdeBandwidthFactor,
             minValue,
@@ -157,7 +175,7 @@ export default {
         const scaleX = (value) => chartLeft + ((value - cfg.minValue) / cfg.safeRange) * chartWidth;
 
         if (cfg.showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = cfg.gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const x = chartLeft + (chartWidth * i) / 5;
@@ -165,7 +183,7 @@ export default {
                 ctx.moveTo(x, cfg.margin.top - 8);
                 ctx.lineTo(x, cfg.height - cfg.margin.bottom + 6);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = cfg.axisColor;
                 ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
@@ -197,7 +215,7 @@ export default {
 
             const s = group.summary;
             const xMed = scaleX(s.median);
-            ctx.strokeStyle = '#0f172a';
+            ctx.strokeStyle = cfg.textColor;
             ctx.lineWidth = Math.max(1.2, cfg.lineWidth);
             ctx.beginPath();
             ctx.moveTo(xMed, y - halfWidth);
@@ -237,11 +255,12 @@ export default {
                 yCenter: y
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = cfg.textColor;
             ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${group.label} (n=${s.n})`, cfg.margin.left - 10, y);
+            const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
+            ctx.fillText(label, cfg.margin.left - 10, y);
         });
 
         drawAnnotations(ctx, {
@@ -268,7 +287,7 @@ export default {
         const slotWidth = chartWidth / Math.max(1, groups.length);
 
         if (cfg.showGrid) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = cfg.gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const y = chartBottom - (chartHeight * i) / 5;
@@ -276,7 +295,7 @@ export default {
                 ctx.moveTo(chartLeft - 8, y);
                 ctx.lineTo(chartRight + 6, y);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = cfg.axisColor;
                 ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
@@ -308,7 +327,7 @@ export default {
 
             const s = group.summary;
             const yMed = scaleY(s.median);
-            ctx.strokeStyle = '#0f172a';
+            ctx.strokeStyle = cfg.textColor;
             ctx.lineWidth = Math.max(1.2, cfg.lineWidth);
             ctx.beginPath();
             ctx.moveTo(xCenter - halfWidth, yMed);
@@ -348,11 +367,11 @@ export default {
                 xCenter
             });
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = cfg.textColor;
             ctx.font = `${cfg.labelFontSize}px ${cfg.fontFamily}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
-            const label = `${group.label} (n=${s.n})`;
+            const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
             const clipped = label.length > 18 ? `${label.slice(0, 18)}...` : label;
             ctx.fillText(clipped, xCenter, chartBottom + 10);
         });

@@ -7,8 +7,7 @@
         (function () {
             const params = new URLSearchParams(window.location.search);
             const isEmbed = params.get('embed') === '1';
-            const isStandalone = params.get('standalone') === '1';
-            if (!isEmbed && !isStandalone) {
+            if (!isEmbed) {
                 window.location.replace('../survey-suite/?view=distribution');
                 return;
             }
@@ -22,7 +21,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="../../assets/css/recuedu.css">
     <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css">
-    <link rel="stylesheet" href="style-dashboard.css">
+    <link rel="stylesheet" href="style-dashboard.css?v=2026030604">
 </head>
 <body>
     <div class="recuedu-topbar">
@@ -61,14 +60,13 @@
 
     <div class="dashboard-layout">
         <nav class="nav-sidebar">
+            <div class="nav-header">
+                <h1>WORKSPACE</h1>
+            </div>
             <div class="nav-menu">
                 <button class="nav-item active" data-panel="data">
                     <span class="nav-icon"><i class="ph ph-folder-simple"></i></span>
                     <span class="nav-label" data-i18n="nav_data">Data</span>
-                </button>
-                <button class="nav-item" data-panel="groups">
-                    <span class="nav-icon"><i class="ph ph-users-three"></i></span>
-                    <span class="nav-label" data-i18n="nav_groups">Groups</span>
                 </button>
                 <button class="nav-item" data-panel="chart">
                     <span class="nav-icon"><i class="ph ph-chart-line"></i></span>
@@ -78,20 +76,26 @@
                     <span class="nav-icon"><i class="ph ph-palette"></i></span>
                     <span class="nav-label" data-i18n="nav_style">Style</span>
                 </button>
-                <button class="nav-item" data-panel="annotations">
-                    <span class="nav-icon"><i class="ph ph-note-pencil"></i></span>
-                    <span class="nav-label" data-i18n="nav_annotations">Notes</span>
-                </button>
                 <button class="nav-item" data-panel="export">
                     <span class="nav-icon"><i class="ph ph-download-simple"></i></span>
                     <span class="nav-label" data-i18n="nav_export">Export</span>
                 </button>
             </div>
+            <div class="nav-footer">
+                <a class="nav-help-link" href="../survey-suite/help.html#distribution" target="_blank" rel="noopener noreferrer">
+                    <i class="ph ph-question"></i>
+                    <span>Ayuda</span>
+                </a>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span data-i18n="active_dataset">Active dataset</span>
+                </div>
+            </div>
         </nav>
 
         <main class="chart-main">
             <div class="chart-header">
-                <h2 data-i18n="preview_title">Preview</h2>
+                <h2 data-i18n="preview_title">Visualización</h2>
                 <div class="dataset-chip">
                     <span data-i18n="active_dataset">Active dataset</span>:
                     <strong id="active-dataset-name">-</strong>
@@ -122,7 +126,8 @@
                 </div>
                 <div class="option-group">
                     <label class="option-label" data-i18n="numeric_variable">Numeric variable (Y)</label>
-                    <select id="numeric-column" class="select-input"></select>
+                    <select id="numeric-column" class="select-input" multiple size="8"></select>
+                    <small class="field-hint" data-i18n="numeric_variable_help">Select one or more numeric variables (Ctrl/Cmd + click).</small>
                 </div>
                 <div class="option-group">
                     <label class="option-label" data-i18n="category_variable">Category variable (X, optional)</label>
@@ -135,23 +140,6 @@
                 </div>
                 <div class="option-group">
                     <div id="data-summary" class="data-summary"></div>
-                </div>
-            </div>
-
-            <div class="options-panel" id="panel-groups">
-                <h3 class="options-title" data-i18n="panel_groups">Groups</h3>
-                <div class="option-group">
-                    <label class="option-label" data-i18n="group_order">Group order</label>
-                    <select id="group-order" class="select-input">
-                        <option value="original">Original</option>
-                        <option value="alphabetical">Alphabetical</option>
-                        <option value="median_desc">Median desc</option>
-                        <option value="median_asc">Median asc</option>
-                    </select>
-                </div>
-                <div class="option-group">
-                    <label class="option-label" data-i18n="top_n_groups">Top N groups</label>
-                    <input id="top-n-groups" type="number" min="1" max="100" value="15" class="number-input">
                 </div>
             </div>
 
@@ -175,6 +163,28 @@
                             <option value="horizontal" data-i18n="horizontal">Horizontal</option>
                             <option value="vertical" data-i18n="vertical">Vertical</option>
                         </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="checkbox-label">
+                            <input id="show-sample-size-label" type="checkbox" checked>
+                            <span data-i18n="show_sample_size_label">Show sample size in labels (n=...)</span>
+                        </label>
+                    </div>
+                </details>
+                <details class="settings-section">
+                    <summary data-i18n="panel_groups">Groups</summary>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="group_order">Group order</label>
+                        <select id="group-order" class="select-input">
+                            <option value="original">Original</option>
+                            <option value="alphabetical">Alphabetical</option>
+                            <option value="median_desc">Median desc</option>
+                            <option value="median_asc">Median asc</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" data-i18n="top_n_groups">Top N groups</label>
+                        <input id="top-n-groups" type="number" min="1" max="100" value="15" class="number-input">
                     </div>
                 </details>
                 <details class="settings-section">
@@ -224,128 +234,173 @@
 
             <div class="options-panel" id="panel-style">
                 <h3 class="options-title" data-i18n="panel_style">Style</h3>
-                <details class="settings-section" open>
-                    <summary data-i18n="style_group_theme">Theme and Typography</summary>
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="color_scheme">Color scheme</label>
-                        <select id="color-scheme" class="select-input">
-                            <option value="blue_orange">Blue/Orange</option>
-                            <option value="cool">Cool</option>
-                            <option value="warm">Warm</option>
-                        </select>
-                    </div>
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="font_family">Font family</label>
-                        <select id="font-family" class="select-input">
-                            <option value="Arial, sans-serif">Arial</option>
-                            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
-                            <option value="Georgia, serif">Georgia</option>
-                            <option value="'Courier New', monospace">Courier New</option>
-                        </select>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="title_size">Title size</label>
-                            <input id="title-font-size" type="number" min="12" max="42" value="20" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="label_size">Label size</label>
-                            <input id="label-font-size" type="number" min="10" max="24" value="12" class="number-input">
-                        </div>
-                    </div>
-                </details>
-                <details class="settings-section">
-                    <summary data-i18n="style_group_marks">Marks and Visual Elements</summary>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="line_width">Line width</label>
-                            <input id="line-width" type="number" min="1" max="5" value="2" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="violin_opacity">Violin opacity</label>
-                            <input id="violin-opacity" type="number" min="0.1" max="1" step="0.05" value="0.55" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="jitter_size">Jitter size</label>
-                            <input id="jitter-size" type="number" min="1" max="6" step="0.2" value="1.6" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="jitter_alpha">Jitter alpha</label>
-                            <input id="jitter-alpha" type="number" min="0.1" max="1" step="0.05" value="0.4" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="outlier_size">Outlier size</label>
-                            <input id="outlier-size" type="number" min="1" max="8" step="0.2" value="2.2" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="outlier_color">Outlier color</label>
-                            <input id="outlier-color" type="color" value="#ef4444" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group">
-                        <label class="checkbox-label">
-                            <input id="show-grid" type="checkbox" checked>
-                            <span data-i18n="show_grid">Show grid</span>
-                        </label>
-                    </div>
-                </details>
-                <details class="settings-section">
-                    <summary data-i18n="style_group_layout">Layout and Dimensions</summary>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="group_thickness">Group thickness</label>
-                            <input id="group-thickness" type="number" min="20" max="80" value="34" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="group_gap">Group gap</label>
-                            <input id="group-gap" type="number" min="4" max="40" value="16" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="chart_width">Chart width</label>
-                            <input id="chart-width" type="number" min="800" max="2600" value="1200" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="chart_height">Chart min height</label>
-                            <input id="chart-min-height" type="number" min="360" max="1400" value="420" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="margin_left">Margin left</label>
-                            <input id="margin-left" type="number" min="80" max="500" value="220" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="margin_right">Margin right</label>
-                            <input id="margin-right" type="number" min="40" max="300" value="80" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group two-col">
-                        <div>
-                            <label class="option-label" data-i18n="margin_top">Margin top</label>
-                            <input id="margin-top" type="number" min="40" max="220" value="60" class="number-input">
-                        </div>
-                        <div>
-                            <label class="option-label" data-i18n="margin_bottom">Margin bottom</label>
-                            <input id="margin-bottom" type="number" min="40" max="220" value="70" class="number-input">
-                        </div>
-                    </div>
-                    <div class="option-group">
-                        <label class="option-label" data-i18n="chart_title">Chart title</label>
-                        <input id="chart-title-input" class="text-input" placeholder="Distribution analysis">
-                    </div>
-                </details>
-            </div>
+                <div class="layout-subnav" role="tablist" aria-label="Style groups">
+                    <button type="button" class="layout-tab active" data-style-tab="style-theme" aria-selected="true">Theme</button>
+                    <button type="button" class="layout-tab" data-style-tab="style-marks" aria-selected="false">Marks</button>
+                    <button type="button" class="layout-tab" data-style-tab="style-layout" aria-selected="false">Layout</button>
+                    <button type="button" class="layout-tab" data-style-tab="style-annotations" aria-selected="false">Notes</button>
+                </div>
 
-            <div class="options-panel" id="panel-annotations">
-                <h3 class="options-title" data-i18n="panel_annotations">Annotations</h3>
-                <details class="settings-section" open>
-                    <summary data-i18n="anno_group_reference">Reference Line</summary>
+                <div class="layout-section active" id="style-theme">
+                    <details class="settings-section" open>
+                        <summary data-i18n="style_group_theme">Theme and Typography</summary>
+                        <div class="option-group">
+                            <label class="option-label" data-i18n="color_scheme">Color scheme</label>
+                            <select id="color-scheme" class="select-input">
+                                <option value="blue_orange">Blue/Orange</option>
+                                <option value="cool">Cool</option>
+                                <option value="warm">Warm</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label class="option-label" data-i18n="font_family">Font family</label>
+                            <select id="font-family" class="select-input">
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="'Courier New', monospace">Courier New</option>
+                            </select>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="title_size">Title size</label>
+                                <input id="title-font-size" type="number" min="12" max="42" value="20" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="label_size">Label size</label>
+                                <input id="label-font-size" type="number" min="10" max="24" value="12" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label">Color de fondo</label>
+                                <input id="canvas-bg-color" type="color" value="#ffffff" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label">Color de texto</label>
+                                <input id="text-color" type="color" value="#0f172a" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input id="canvas-transparent" type="checkbox">
+                                <span>Fondo transparente</span>
+                            </label>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="layout-section" id="style-marks">
+                    <details class="settings-section" open>
+                        <summary data-i18n="style_group_marks">Marks and Visual Elements</summary>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="line_width">Line width</label>
+                                <input id="line-width" type="number" min="1" max="5" value="2" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="violin_opacity">Violin opacity</label>
+                                <input id="violin-opacity" type="number" min="0.1" max="1" step="0.05" value="0.55" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="jitter_size">Jitter size</label>
+                                <input id="jitter-size" type="number" min="1" max="6" step="0.2" value="1.6" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="jitter_alpha">Jitter alpha</label>
+                                <input id="jitter-alpha" type="number" min="0.1" max="1" step="0.05" value="0.4" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="outlier_size">Outlier size</label>
+                                <input id="outlier-size" type="number" min="1" max="8" step="0.2" value="2.2" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="outlier_color">Outlier color</label>
+                                <input id="outlier-color" type="color" value="#ef4444" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input id="show-grid" type="checkbox" checked>
+                                <span data-i18n="show_grid">Show grid</span>
+                            </label>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label">Color de cuadrícula</label>
+                                <input id="grid-color" type="color" value="#e2e8f0" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label">Color de ejes</label>
+                                <input id="axis-color" type="color" value="#64748b" class="number-input">
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="layout-section" id="style-layout">
+                    <details class="settings-section" open>
+                        <summary data-i18n="style_group_layout">Layout and Dimensions</summary>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="group_thickness">Group thickness</label>
+                                <input id="group-thickness" type="number" min="20" max="80" value="34" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="group_gap">Group gap</label>
+                                <input id="group-gap" type="number" min="4" max="40" value="16" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="chart_width">Chart width</label>
+                                <input id="chart-width" type="number" min="800" max="2600" value="1200" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="chart_height">Chart min height</label>
+                                <input id="chart-min-height" type="number" min="360" max="1400" value="420" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="margin_left">Margin left</label>
+                                <input id="margin-left" type="number" min="80" max="500" value="220" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="margin_right">Margin right</label>
+                                <input id="margin-right" type="number" min="40" max="300" value="80" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label" data-i18n="margin_top">Margin top</label>
+                                <input id="margin-top" type="number" min="40" max="220" value="60" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label" data-i18n="margin_bottom">Margin bottom</label>
+                                <input id="margin-bottom" type="number" min="40" max="220" value="70" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <label class="option-label" data-i18n="chart_title">Chart title</label>
+                            <input id="chart-title-input" class="text-input" placeholder="Distribution analysis">
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input id="show-chart-title" type="checkbox" checked>
+                                <span data-i18n="show_chart_title">Show title</span>
+                            </label>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="layout-section" id="style-annotations">
+                    <details class="settings-section" open>
+                        <summary data-i18n="anno_group_reference">Reference Line</summary>
                     <div class="option-group">
                         <label class="checkbox-label">
                             <input id="show-mean-line" type="checkbox">
@@ -502,31 +557,51 @@
                             <input id="annotation-size" type="number" min="10" max="40" value="13" class="number-input">
                         </div>
                     </div>
-                </details>
+                    </details>
+                </div>
             </div>
 
             <div class="options-panel" id="panel-export">
                 <h3 class="options-title" data-i18n="panel_export">Export</h3>
                 <div class="option-group">
-                    <button id="btn-export-png" class="btn-primary btn-block">
-                        <i class="ph ph-download-simple"></i> PNG
-                    </button>
+                    <label class="option-label" data-i18n="export_format">Format</label>
+                    <select id="export-format" class="select-input">
+                        <option value="png">PNG</option>
+                        <option value="svg">SVG</option>
+                        <option value="pdf">PDF</option>
+                        <option value="clipboard">Clipboard</option>
+                    </select>
                 </div>
                 <div class="option-group">
-                    <button id="btn-export-svg" class="btn-secondary btn-block">
-                        <i class="ph ph-file-svg"></i> SVG
-                    </button>
+                    <label class="option-label" data-i18n="export_scale">PNG/PDF scale</label>
+                    <select id="export-scale" class="select-input">
+                        <option value="1">1x</option>
+                        <option value="2" selected>2x</option>
+                        <option value="3">3x</option>
+                        <option value="4">4x</option>
+                    </select>
                 </div>
                 <div class="option-group">
-                    <button id="btn-export-pdf" class="btn-secondary btn-block">
-                        <i class="ph ph-file-pdf"></i> <span data-i18n="export_pdf">PDF</span>
-                    </button>
+                    <label class="option-label" data-i18n="export_dpi">Output DPI (PNG/PDF)</label>
+                    <select id="export-dpi" class="select-input">
+                        <option value="96">96 DPI</option>
+                        <option value="150">150 DPI</option>
+                        <option value="300" selected>300 DPI</option>
+                        <option value="400">400 DPI</option>
+                    </select>
                 </div>
                 <div class="option-group">
-                    <button id="btn-copy-clipboard" class="btn-secondary btn-block">
-                        <i class="ph ph-clipboard-text"></i> <span data-i18n="copy_clipboard">Copy to Clipboard</span>
+                    <button id="download-btn" class="btn-primary btn-block" data-i18n="download_chart">
+                        <i class="ph ph-download-simple"></i> Download Chart
                     </button>
                 </div>
+                <details class="settings-section">
+                    <summary>Advanced exports</summary>
+                    <div class="option-group">
+                        <button id="btn-copy-clipboard" class="btn-secondary btn-block">
+                            <i class="ph ph-clipboard-text"></i> <span data-i18n="copy_clipboard">Copy to Clipboard</span>
+                        </button>
+                    </div>
                 <div class="option-group">
                     <button id="btn-export-summary" class="btn-secondary btn-block">
                         <i class="ph ph-file-csv"></i> <span data-i18n="export_summary_csv">Summary CSV</span>
@@ -548,12 +623,13 @@
                         <i class="ph ph-stack"></i> <span data-i18n="export_batch">Export Batch</span>
                     </button>
                 </div>
+                </details>
             </div>
         </aside>
     </div>
 
     <script src="../data-processor/recuedu-data-lib.js?v=20260212019"></script>
-    <script type="module" src="app-dashboard.js?v=20260219024"></script>
+    <script type="module" src="app-dashboard.js?v=2026030604"></script>
 </body>
 </html>
 

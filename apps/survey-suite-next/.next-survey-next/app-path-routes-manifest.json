@@ -1,0 +1,10 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/health/route": "/api/health",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/api/auth/register/route": "/api/auth/register",
+  "/auth/login/page": "/auth/login",
+  "/dashboard/page": "/dashboard",
+  "/auth/register/page": "/auth/register",
+  "/page": "/"
+}

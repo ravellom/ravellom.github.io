@@ -47,8 +47,15 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, width, height);
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
         if (!groups.length) return;
 
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
@@ -56,6 +63,7 @@ export default {
         const titleSize = options.titleFontSize || 20;
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const lineWidth = options.lineWidth || 2;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const chartLeft = margin.left;
         const chartRight = width - margin.right;
         const chartTop = margin.top;
@@ -80,14 +88,17 @@ export default {
         const safeRange = yMax - yMin || 1;
         const scaleY = (v) => chartBottom - ((v - yMin) / safeRange) * chartHeight;
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${titleSize}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(options.title || 'Mean + Error Bars', 20, 28);
+        const title = typeof options.title === 'string' ? options.title : 'Mean + Error Bars';
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (options.showGrid !== false) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const y = chartBottom - (chartHeight * i) / 5;
@@ -95,7 +106,7 @@ export default {
                 ctx.moveTo(chartLeft - 8, y);
                 ctx.lineTo(chartRight + 6, y);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = axisColor;
                 ctx.font = `${labelFontSize}px ${fontFamily}`;
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
@@ -136,7 +147,7 @@ export default {
             ctx.font = `${labelFontSize}px ${fontFamily}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
-            const label = `${g.label} (n=${g.summary?.n || 0})`;
+            const label = showSampleSizeLabel ? `${g.label} (n=${g.summary?.n || 0})` : `${g.label}`;
             const clipped = label.length > 18 ? `${label.slice(0, 18)}...` : label;
             ctx.fillText(clipped, x, chartBottom + 10);
         });
@@ -170,8 +181,15 @@ export default {
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, width, height);
+        const canvasBackground = options.canvasBackground || '#ffffff';
+        const canvasTransparent = options.canvasTransparent === true;
+        const gridColor = options.gridColor || '#e2e8f0';
+        const axisColor = options.axisColor || '#64748b';
+        const textColor = options.textColor || '#0f172a';
+        if (!canvasTransparent) {
+            ctx.fillStyle = canvasBackground;
+            ctx.fillRect(0, 0, width, height);
+        }
         if (!groups.length) return;
 
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
@@ -179,6 +197,7 @@ export default {
         const titleSize = options.titleFontSize || 20;
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const lineWidth = options.lineWidth || 2;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const chartLeft = margin.left;
         const chartRight = width - margin.right;
         const chartTop = margin.top;
@@ -200,14 +219,17 @@ export default {
         const safeRange = xMax - xMin || 1;
         const scaleX = (v) => chartLeft + ((v - xMin) / safeRange) * chartWidth;
 
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = textColor;
         ctx.font = `700 ${titleSize}px ${fontFamily}`;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(options.title || 'Mean + Error Bars', 20, 28);
+        const title = typeof options.title === 'string' ? options.title : 'Mean + Error Bars';
+        if (title) {
+            ctx.fillText(title, 20, 28);
+        }
 
         if (options.showGrid !== false) {
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = gridColor;
             ctx.lineWidth = 1;
             for (let i = 0; i <= 5; i++) {
                 const x = chartLeft + (chartWidth * i) / 5;
@@ -215,7 +237,7 @@ export default {
                 ctx.moveTo(x, chartTop - 8);
                 ctx.lineTo(x, chartBottom + 6);
                 ctx.stroke();
-                ctx.fillStyle = '#64748b';
+                ctx.fillStyle = axisColor;
                 ctx.font = `${labelFontSize}px ${fontFamily}`;
                 ctx.textAlign = 'center';
                 ctx.fillText((xMin + (safeRange * i) / 5).toFixed(2), x, chartBottom + 24);
@@ -256,7 +278,8 @@ export default {
             ctx.font = `${labelFontSize}px ${fontFamily}`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${g.label} (n=${g.summary?.n || 0})`, margin.left - 10, y);
+            const label = showSampleSizeLabel ? `${g.label} (n=${g.summary?.n || 0})` : `${g.label}`;
+            ctx.fillText(label, margin.left - 10, y);
         });
 
         drawAnnotations(ctx, {

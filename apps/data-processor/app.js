@@ -105,6 +105,7 @@
         attachEventListeners();
         setupSidebarNavigation();
         setupPanelResizer();
+        updateSidebarStatus(false);
         refreshSavedDatasets();
         showStatus(AppLang === 'en' ? 'Ready to process data' : '👋 Listo para procesar datos', 'info');
     }
@@ -134,6 +135,7 @@
         setText('.sidebar-item[data-panel="clean"] span', 'Clean');
         setText('.sidebar-item[data-panel="storage"] span', 'Storage');
         setText('.sidebar-item[data-panel="info"] span', 'Info');
+        setText('#sidebar-status-text', 'No data');
         setText('.topbar-links a[href="../../index.html"] span', 'Home');
         setText('#btn-help', 'Help');
         setText('#btn-export-json', 'Export JSON');
@@ -281,7 +283,7 @@
             const newWidth = Math.max(280, Math.min(window.innerWidth * 0.5, startWidth + delta));
             
             // Actualizar el grid-template-columns del workspace
-            workspace.style.gridTemplateColumns = `120px ${newWidth}px 4px 1fr`;
+            workspace.style.gridTemplateColumns = `130px ${newWidth}px 4px 1fr`;
         });
 
         document.addEventListener('mouseup', () => {
@@ -651,6 +653,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
 
         originalData = JSON.parse(JSON.stringify(data));
         currentData = JSON.parse(JSON.stringify(data));
+        updateSidebarStatus(true);
         dataSource = source;
         modifiedTime = new Date();
 
@@ -860,6 +863,14 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         const range = mapping[preset] || [1, 5];
         if (elements.likertMin) elements.likertMin.value = range[0];
         if (elements.likertMax) elements.likertMax.value = range[1];
+    }
+
+    function updateSidebarStatus(hasData) {
+        const statusText = document.getElementById('sidebar-status-text');
+        if (!statusText) return;
+        statusText.textContent = hasData
+            ? tr('Datos cargados', 'Data loaded')
+            : tr('Sin datos', 'No data');
     }
 
     function applyNormalizeLikert() {
@@ -1080,6 +1091,7 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         
         if (confirm(tr('¿Restaurar los datos originales? Se perderán todos los cambios.', 'Restore original data? All changes will be lost.'))) {
             currentData = JSON.parse(JSON.stringify(originalData));
+            updateSidebarStatus(true);
             modifiedTime = new Date();
             
             updateTable();
