@@ -484,3 +484,24 @@
   .sources-grid { grid-template-columns: 1fr; }
 }
 
+/* Detail-page button */
+.src-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .22rem .6rem;
+  font-size: .75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid var(--primary, #3b82f6);
+  color: var(--primary, #3b82f6);
+  background: transparent;
+  transition: background .15s, color .15s;
+  margin-top: .4rem;
+}
+.src-detail-btn:hover {
+  background: var(--primary, #3b82f6);
+  color: #fff;
+}
+

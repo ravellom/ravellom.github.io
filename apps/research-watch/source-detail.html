@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Detalle — ResearchWatch</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔭</text></svg>" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../../assets/css/recuedu.css" />
+  <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Detail-specific overrides ─────────────────────────────────── */
+    .detail-hero {
+      background: var(--hero-gradient, linear-gradient(135deg,#1e40af,#0f172a));
+      color: #fff;
+      padding: 1.5rem 0 2rem;
+    }
+    .detail-back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: rgba(255,255,255,.75); font-size: .82rem;
+      text-decoration: none; margin-bottom: 1rem;
+    }
+    .detail-back:hover { color: #fff; }
+    .detail-hero h1 {
+      font-size: 1.55rem; font-weight: 800; margin: 0 0 .5rem; line-height: 1.25;
+    }
+    .detail-hero-meta {
+      font-size: .82rem; opacity: .8; margin-bottom: .75rem;
+      display: flex; flex-wrap: wrap; gap: .25rem .75rem; align-items: center;
+    }
+    .detail-hero-meta span { display: flex; align-items: center; gap: .3rem; }
+    .detail-badges { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+    .badge-oa  { background:#bbf7d0; color:#065f46; font-size:.72rem; font-weight:700;
+                 padding:.15rem .5rem; border-radius:99px; }
+    .badge-doaj { background:#bfdbfe; color:#1e40af; font-size:.72rem; font-weight:700;
+                  padding:.15rem .5rem; border-radius:99px; }
+    .badge-apc  { background:#fef9c3; color:#854d0e; font-size:.72rem; font-weight:700;
+                  padding:.15rem .5rem; border-radius:99px; }
+
+    .detail-main { padding-top: 1.75rem; padding-bottom: 3rem;
+                   display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* Metrics row */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: .75rem;
+    }
+    .metric-card {
+      background: var(--bg-card,#fff);
+      border: 1px solid var(--border,#e2e8f0);
+      border-radius: 10px;
+      padding: .9rem 1rem;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 1.6rem; font-weight: 800;
+      color: var(--primary,#3b82f6); line-height: 1;
+    }
+    .metric-label { font-size: .72rem; color: var(--text-muted,#475569);
+                    text-transform: uppercase; letter-spacing:.04em; margin-top: .25rem; }
+
+    /* Links row */
+    .links-row {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+    }
+    .link-btn {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .35rem .85rem; border-radius: 6px; font-size: .8rem; font-weight: 600;
+      text-decoration: none; border: 1px solid var(--border,#e2e8f0);
+      background: var(--bg-card,#fff); color: var(--text-main,#0f172a);
+      transition: background .15s, color .15s;
+    }
+    .link-btn:hover { background: var(--primary,#3b82f6); color: #fff; border-color: transparent; }
+    .link-btn i { font-size: .75rem; }
+
+    /* Section sub-heading */
+    .section-title {
+      font-size: .82rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .05em; color: var(--text-muted,#475569); margin-bottom: .65rem;
+    }
+
+    /* Calls table inside detail */
+    .detail-calls-empty {
+      font-size: .85rem; color: var(--text-muted,#94a3b8);
+      padding: 1rem 1.25rem;
+    }
+
+    @media (max-width: 600px) {
+      .detail-hero h1 { font-size: 1.2rem; }
+      .metrics-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Shared topbar ─────────────────────────────────────────────────── -->
+  <div class="recuedu-topbar">
+    <div class="topbar-container">
+      <a class="topbar-brand" href="../../index.html">
+        <i class="fa-solid fa-flask-vial"></i> RecuEdu Labs
+      </a>
+      <div class="topbar-links">
+        <a href="index.html">ResearchWatch</a>
+        <a href="https://github.com/ravellom" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <div class="detail-hero">
+    <div class="container">
+      <a class="detail-back" href="index.html">
+        <i class="fa-solid fa-arrow-left"></i> Volver al listado
+      </a>
+      <h1 id="d-name">Cargando…</h1>
+      <div class="detail-hero-meta" id="d-meta"></div>
+      <div class="detail-badges" id="d-badges"></div>
+    </div>
+  </div>
+
+  <!-- ── Main ──────────────────────────────────────────────────────────── -->
+  <main class="container detail-main">
+
+    <!-- Metrics (OpenAlex) -->
+    <div id="d-metrics-wrap" style="display:none">
+      <p class="section-title">Métricas (OpenAlex)</p>
+      <div class="metrics-row" id="d-metrics"></div>
+    </div>
+
+    <!-- External links -->
+    <div id="d-links-wrap" style="display:none">
+      <p class="section-title">Acceder en</p>
+      <div class="links-row" id="d-links"></div>
+    </div>
+
+    <!-- Areas -->
+    <div id="d-areas-wrap" style="display:none">
+      <p class="section-title">Áreas temáticas</p>
+      <div class="area-tags" id="d-areas"></div>
+    </div>
+
+    <!-- Topics (OpenAlex) -->
+    <div id="d-topics-wrap" style="display:none">
+      <p class="section-title">Topics (OpenAlex)</p>
+      <div class="area-tags" id="d-topics"></div>
+    </div>
+
+    <!-- Notes -->
+    <div id="d-notes-wrap" style="display:none">
+      <p class="section-title">Notas</p>
+      <p id="d-notes" style="font-size:.88rem; color:var(--text-muted,#475569)"></p>
+    </div>
+
+    <!-- Active calls -->
+    <section class="card rw-card" id="d-calls-section">
+      <div class="rw-card-header">
+        <h2><i class="fa-solid fa-bullhorn"></i> Calls for papers activos</h2>
+      </div>
+      <div id="d-calls-content">
+        <p class="detail-calls-empty">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Cargando…
+        </p>
+      </div>
+    </section>
+
+    <!-- Recent articles -->
+    <section class="card rw-card" id="d-articles-section">
+      <div class="rw-card-header">
+        <h2><i class="fa-solid fa-rss"></i> Artículos recientes (RSS)</h2>
+      </div>
+      <div id="d-articles-content">
+        <p class="detail-calls-empty">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Cargando…
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Loading / error -->
+  <div id="loading-overlay" class="loading-overlay">
+    <i class="fa-solid fa-satellite-dish fa-spin"></i>
+    <span>Cargando datos…</span>
+  </div>
+  <div id="error-banner" class="error-banner" style="display:none">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="error-msg">No se pudieron cargar los datos.</span>
+  </div>
+
+  <script>
+  /* ── Helpers ──────────────────────────────────────────────────────────── */
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function setText(id, v) { const el=document.getElementById(id); if(el) el.textContent=v; }
+  function show(id) { const el=document.getElementById(id); if(el) el.style.display=''; }
+  function hide(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
+  function fmtNum(n) { return n != null ? Number(n).toLocaleString('es-ES') : '—'; }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`;
+  }
+
+  const COUNTRY_NAMES = {
+    US:'Estados Unidos',GB:'Reino Unido',NL:'Países Bajos',DE:'Alemania',
+    FR:'Francia',ES:'España',AU:'Australia',CA:'Canadá',CH:'Suiza',IT:'Italia',
+    BR:'Brasil',MX:'México',AR:'Argentina',CO:'Colombia',CL:'Chile',
+    CN:'China',JP:'Japón',KR:'Corea del Sur',IN:'India',
+  };
+
+  /* ── Data loading ─────────────────────────────────────────────────────── */
+  async function init() {
+    const params = new URLSearchParams(location.search);
+    const id     = params.get('id');
+    const type   = params.get('type') || 'journal';
+
+    if (!id) { showError('Parámetro ?id= no encontrado.'); hideLoading(); return; }
+
+    try {
+      const [sources, callsData] = await Promise.all([
+        fetch('data/research-watch-sources.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }),
+        fetch('data/research-watch.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }),
+      ]);
+
+      const list   = type === 'journal' ? sources.journals : sources.conferences;
+      const source = (list || []).find(s => s.id === id);
+      if (!source) { showError(`Fuente con id="${id}" no encontrada.`); hideLoading(); return; }
+
+      const activeCalls = (callsData.calls || []).filter(c => c.source?.id === id);
+      renderDetail(source, activeCalls, type);
+    } catch(err) {
+      showError('No se pudieron cargar los datos: ' + err.message);
+    }
+    hideLoading();
+  }
+
+  /* ── Render ───────────────────────────────────────────────────────────── */
+  function renderDetail(s, calls, type) {
+    const isJournal = type === 'journal';
+    document.title = `${s.name} — ResearchWatch`;
+
+    // Name
+    setText('d-name', s.name);
+
+    // Meta row (ISSN · publisher · country)
+    const oa    = s.openalex || {};
+    const parts = [];
+    if (isJournal && s.issn)    parts.push(`<span><i class="fa-solid fa-barcode"></i> ${escHtml(s.issn)}</span>`);
+    if (s.publisher)             parts.push(`<span><i class="fa-solid fa-building"></i> ${escHtml(s.publisher)}</span>`);
+    if (s.acronym)               parts.push(`<span><i class="fa-solid fa-tag"></i> ${escHtml(s.acronym)}</span>`);
+    if (s.periodicity)           parts.push(`<span><i class="fa-solid fa-rotate"></i> ${escHtml(s.periodicity)}</span>`);
+    if (oa.country_code)         parts.push(`<span><i class="fa-solid fa-earth-europe"></i> ${COUNTRY_NAMES[oa.country_code] || oa.country_code}</span>`);
+    document.getElementById('d-meta').innerHTML = parts.join('');
+
+    // Badges
+    const badges = [];
+    if (s.quartile)       badges.push(`<span class="src-q-badge src-q-${s.quartile.toLowerCase()}">${s.quartile}</span>`);
+    if (s.impact_factor)  badges.push(`<span class="source-if">IF ${s.impact_factor}</span>`);
+    if (oa.is_oa)         badges.push(`<span class="badge-oa"><i class="fa-solid fa-lock-open"></i> Open Access</span>`);
+    if (oa.is_in_doaj)    badges.push(`<span class="badge-doaj">DOAJ</span>`);
+    if (oa.apc_usd)       badges.push(`<span class="badge-apc">APC $${fmtNum(oa.apc_usd)}</span>`);
+    document.getElementById('d-badges').innerHTML = badges.join('');
+
+    // Metrics
+    if (oa.works_count != null) {
+      const metrics = [
+        { label: 'Trabajos', value: fmtNum(oa.works_count) },
+        { label: 'Citas totales', value: fmtNum(oa.cited_by_count) },
+        { label: 'H-index', value: oa.h_index ?? '—' },
+        { label: 'Citas 2 años', value: oa.mean_citations_2yr != null ? Number(oa.mean_citations_2yr).toFixed(2) : '—' },
+      ];
+      document.getElementById('d-metrics').innerHTML = metrics.map(m => `
+        <div class="metric-card">
+          <div class="metric-value">${escHtml(String(m.value))}</div>
+          <div class="metric-label">${escHtml(m.label)}</div>
+        </div>`).join('');
+      show('d-metrics-wrap');
+    }
+
+    // External links
+    const links = s.links || {};
+    const linkDefs = [
+      { key: 'url',         label: 'Sitio web',     icon: 'fa-arrow-up-right-from-square', url: s.url },
+      { key: 'miar',        label: 'MIAR',           icon: 'fa-database',   url: links.miar },
+      { key: 'openalex',    label: 'OpenAlex',       icon: 'fa-magnifying-glass-chart', url: links.openalex || oa.openalex_url },
+      { key: 'issn_portal', label: 'Portal ISSN',    icon: 'fa-barcode',    url: links.issn_portal },
+      { key: 'sherpa',      label: 'Sherpa/RoMEO',   icon: 'fa-file-contract', url: links.sherpa },
+      { key: 'doaj',        label: 'DOAJ',           icon: 'fa-leaf',       url: links.doaj },
+    ].filter(l => l.url);
+
+    if (linkDefs.length) {
+      document.getElementById('d-links').innerHTML = linkDefs.map(l => `
+        <a href="${escHtml(l.url)}" target="_blank" rel="noopener" class="link-btn">
+          <i class="fa-solid ${l.icon}"></i> ${escHtml(l.label)}
+        </a>`).join('');
+      show('d-links-wrap');
+    }
+
+    // Areas
+    if ((s.areas || []).length) {
+      document.getElementById('d-areas').innerHTML =
+        s.areas.map(a => `<span class="area-tag">${escHtml(a)}</span>`).join('');
+      show('d-areas-wrap');
+    }
+
+    // Topics (OpenAlex)
+    if ((oa.topics || []).length) {
+      document.getElementById('d-topics').innerHTML =
+        oa.topics.map(t => `<span class="area-tag" style="background:#ede9fe;color:#6d28d9">${escHtml(t)}</span>`).join('');
+      show('d-topics-wrap');
+    }
+
+    // Notes
+    if (s.notes) {
+      setText('d-notes', s.notes);
+      show('d-notes-wrap');
+    }
+
+    // Active calls
+    renderCalls(calls);
+
+    // Recent articles
+    renderArticles(s.recent_entries || []);
+  }
+
+  function renderCalls(calls) {
+    const el = document.getElementById('d-calls-content');
+    if (!calls.length) {
+      el.innerHTML = '<p class="detail-calls-empty"><i class="fa-solid fa-circle-info"></i> No hay calls activos en este momento.</p>';
+      return;
+    }
+    const TYPE_L = { cfp:'CFP', special_issue:'Special Issue', monographic:'Monográfico' };
+    el.innerHTML = `
+      <div class="rw-table-wrap">
+        <table class="rw-table">
+          <thead><tr>
+            <th class="col-deadline">Deadline</th>
+            <th class="col-type">Tipo</th>
+            <th class="col-title">Título</th>
+          </tr></thead>
+          <tbody>${calls.map(c => `
+            <tr>
+              <td class="col-deadline">${c.deadline ? fmtDate(c.deadline) : '—'}</td>
+              <td class="col-type"><span class="type-badge type-${c.type}">${TYPE_L[c.type]||c.type}</span></td>
+              <td class="col-title call-title">
+                ${c.url ? `<a href="${escHtml(c.url)}" target="_blank" rel="noopener">${escHtml(c.title)}</a>` : escHtml(c.title)}
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  function renderArticles(entries) {
+    const el = document.getElementById('d-articles-content');
+    if (!entries.length) {
+      el.innerHTML = '<p class="detail-calls-empty"><i class="fa-solid fa-circle-info"></i> Sin artículos recientes en el feed RSS.</p>';
+      return;
+    }
+    el.innerHTML = `<ul class="src-articles" style="padding:1rem 1.25rem">${
+      entries.map(e => `
+        <li>
+          ${e.url
+            ? `<a href="${escHtml(e.url)}" target="_blank" rel="noopener">${escHtml(e.title)}</a>`
+            : escHtml(e.title)}
+          ${e.published ? `<span class="src-article-date">${e.published}</span>` : ''}
+          ${e.summary   ? `<p class="src-article-summary">${escHtml(e.summary)}</p>` : ''}
+        </li>`).join('')
+    }</ul>`;
+  }
+
+  /* ── UI helpers ───────────────────────────────────────────────────────── */
+  function hideLoading() {
+    document.getElementById('loading-overlay')?.classList.add('hidden');
+  }
+  function showError(msg) {
+    const b = document.getElementById('error-banner');
+    document.getElementById('error-msg').textContent = msg;
+    if (b) b.style.display = 'flex';
+    hideLoading();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

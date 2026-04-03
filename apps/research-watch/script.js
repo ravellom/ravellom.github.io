@@ -171,6 +171,7 @@ function renderJournals(journals) {
         <div class="src-articles-wrap" id="src-articles-j-${i}">
           <p class="src-articles-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Cargando artículos…</p>
         </div>
+        ${j.id ? `<div style="padding:.5rem 0 .25rem"><a href="source-detail.html?type=journal&id=${escHtml(j.id)}" class="btn btn-xs btn-outline src-detail-btn"><i class="fa-solid fa-circle-info"></i> Detalles de la revista →</a></div>` : ''}
       </div>
     </li>`;
   }).join('');
@@ -205,6 +206,7 @@ function renderConferences(conferences) {
         <div class="src-articles-wrap" id="src-articles-c-${i}">
           <p class="src-articles-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Cargando artículos…</p>
         </div>
+        ${c.id ? `<div style="padding:.5rem 0 .25rem"><a href="source-detail.html?type=conference&id=${escHtml(c.id)}" class="btn btn-xs btn-outline src-detail-btn"><i class="fa-solid fa-circle-info"></i> Detalles del congreso →</a></div>` : ''}
       </div>
     </li>`
   ).join('');
