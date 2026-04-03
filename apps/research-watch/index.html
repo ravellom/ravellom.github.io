@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResearchWatch — Calls activos</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔭</text></svg>" />
+
+  <!-- Font Awesome 6.4.0 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+  <!-- Shared site styles -->
+  <link rel="stylesheet" href="../../assets/css/recuedu.css" />
+  <link rel="stylesheet" href="../../assets/css/recuedu-topbar.css" />
+  <link rel="stylesheet" href="../../assets/css/app-trust-bar.css" />
+
+  <!-- App-local styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Shared topbar ─────────────────────────────────────────────────── -->
+  <div class="recuedu-topbar">
+    <div class="topbar-container">
+      <a class="topbar-brand" href="../../index.html">
+        <i class="fa-solid fa-flask-vial"></i> RecuEdu Labs
+      </a>
+      <div class="topbar-links">
+        <a href="../../index.html">Inicio</a>
+        <a href="https://github.com/ravellom" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── App header ────────────────────────────────────────────────────── -->
+  <nav class="navbar app-header">
+    <div class="container nav-content">
+      <div class="logo">
+        <i class="fa-solid fa-satellite-dish logo-icon"></i>
+        <span class="logo-name">ResearchWatch</span>
+        <span class="logo-badge">beta</span>
+      </div>
+      <div class="header-actions">
+        <a id="feed-link" href="data/research-watch-feed.json" target="_blank" class="btn btn-sm btn-outline" title="JSON Feed 1.1">
+          <i class="fa-solid fa-rss"></i> Feed
+        </a>
+        <a id="json-link" href="data/research-watch.json" target="_blank" class="btn btn-sm btn-outline">
+          <i class="fa-solid fa-download"></i> JSON
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="hero app-hero">
+    <div class="container">
+      <h1 style="font-size:1.75rem;margin-bottom:.4rem">Revistas y congresos activos</h1>
+      <p style="font-size:1rem;opacity:.85">
+        Monitorización de calls for papers, special issues y monográficos en mi área de investigación.
+      </p>
+      <!-- Stats bar -->
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-item"><span class="stat-value" id="stat-calls">—</span><span class="stat-label">calls activos</span></div>
+        <div class="stat-item"><span class="stat-value" id="stat-next">—</span><span class="stat-label">próximo deadline</span></div>
+        <div class="stat-item"><span class="stat-value" id="stat-journals">—</span><span class="stat-label">revistas seguidas</span></div>
+        <div class="stat-item"><span class="stat-value" id="stat-conferences">—</span><span class="stat-label">congresos seguidos</span></div>
+        <div class="stat-item stat-meta"><span id="stat-updated" class="stat-label">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main content ──────────────────────────────────────────────────── -->
+  <main class="container section app-main">
+
+    <!-- Calls ─────────────────────────────────────────────────────────── -->
+    <section class="card rw-card" id="section-calls">
+      <div class="rw-card-header">
+        <h2><i class="fa-solid fa-bullhorn"></i> Calls activos</h2>
+        <!-- Filters -->
+        <div class="rw-filters">
+          <div class="filter-group">
+            <label for="filter-area">Área</label>
+            <select id="filter-area">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-type">Tipo</label>
+            <select id="filter-type">
+              <option value="">Todos</option>
+              <option value="cfp">CFP</option>
+              <option value="special_issue">Special Issue</option>
+              <option value="monographic">Monográfico</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-days">Deadline en</label>
+            <select id="filter-days">
+              <option value="">Cualquier fecha</option>
+              <option value="30">30 días</option>
+              <option value="60">60 días</option>
+              <option value="90">90 días</option>
+              <option value="180">6 meses</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="calls-empty" class="empty-state" style="display:none">
+        <i class="fa-solid fa-circle-info"></i> No hay calls que coincidan con los filtros.
+      </div>
+
+      <div class="rw-table-wrap">
+        <table class="rw-table" id="calls-table">
+          <thead>
+            <tr>
+              <th class="col-deadline">Deadline</th>
+              <th class="col-days">Días</th>
+              <th class="col-type">Tipo</th>
+              <th class="col-title">Título</th>
+              <th class="col-source">Fuente</th>
+              <th class="col-areas">Áreas</th>
+            </tr>
+          </thead>
+          <tbody id="calls-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Two-column lower: Journals + Conferences ───────────────────────── -->
+    <div class="rw-grid-two">
+
+      <!-- Journals -->
+      <section class="card rw-card" id="section-journals">
+        <div class="rw-card-header">
+          <h2><i class="fa-solid fa-book-open"></i> Revistas</h2>
+        </div>
+        <ul class="source-list" id="journals-list"></ul>
+      </section>
+
+      <!-- Conferences -->
+      <section class="card rw-card" id="section-conferences">
+        <div class="rw-card-header">
+          <h2><i class="fa-solid fa-people-group"></i> Congresos</h2>
+        </div>
+        <ul class="source-list" id="conferences-list"></ul>
+      </section>
+
+    </div>
+
+    <!-- Feed / Blogspot integration ─────────────────────────────────────── -->
+    <section class="card rw-card" id="section-feed">
+      <div class="rw-card-header">
+        <h2><i class="fa-solid fa-rss"></i> Integrar en tu blog (Blogspot)</h2>
+      </div>
+      <p class="feed-intro">
+        Copia este snippet HTML/JavaScript en tu blog de Blogger
+        (<strong>Diseño → Añadir un gadget → HTML/JavaScript</strong>).
+        Se actualiza automáticamente cada vez que se sincronice este sitio.
+      </p>
+      <div class="code-block-wrap">
+        <button class="btn btn-sm btn-outline copy-btn" id="copy-snippet">
+          <i class="fa-regular fa-copy"></i> Copiar
+        </button>
+        <pre id="blogspot-snippet" class="code-block"></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Loading / error overlay ──────────────────────────────────────── -->
+  <div id="loading-overlay" class="loading-overlay">
+    <i class="fa-solid fa-satellite-dish fa-spin"></i>
+    <span>Cargando datos…</span>
+  </div>
+
+  <div id="error-banner" class="error-banner" style="display:none">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="error-msg">No se pudieron cargar los datos.</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

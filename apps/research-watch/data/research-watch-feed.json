@@ -1,0 +1,19 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "ResearchWatch — Calls activos",
+  "home_page_url": "https://ravellom.github.io/apps/research-watch/",
+  "feed_url": "https://raw.githubusercontent.com/ravellom/ravellom.github.io/main/apps/research-watch/data/research-watch-feed.json",
+  "description": "Resumen semanal de calls for papers, special issues y monográficos activos agrupados por área temática.",
+  "items": [
+    {
+      "id": "sin-área-2026-03-30",
+      "title": "Calls activos — Sin área (Semana 14 / 2026)",
+      "date_published": "2026-03-30T00:00:00+00:00",
+      "summary": "5 calls activos en Sin área. Próximo: \"International Journal of Teacher Education and Teaching\" (2026-04-15).",
+      "content_html": "<h3>Sin área — Semana 14 / 2026</h3><p>5 call(s) activo(s).</p><ul><li><strong>[CFP]</strong> International Journal of Teacher Education and Teaching — <a href=\"http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192316&copyownerid=197211\" target=\"_blank\">más info</a><br><strong>Deadline:</strong> 15 Apr 2026 (<span style='color:#e67e22;font-weight:bold'>12d</span>) — <em>Fuente desconocida</em></li><li><strong>[CFP]</strong> 19th International Conference on Information Society — <a href=\"http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192257&copyownerid=18301\" target=\"_blank\">más info</a><br><strong>Deadline:</strong> 16 Apr 2026 (<span style='color:#e67e22;font-weight:bold'>13d</span>) — <em>Fuente desconocida</em></li><li><strong>[CFP]</strong> The 3rd International Conference on Intelligent Technology for Educational Applications — <a href=\"http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191561&copyownerid=194712\" target=\"_blank\">más info</a><br><strong>Deadline:</strong> 18 Apr 2026 (<span style='color:#e67e22;font-weight:bold'>15d</span>) — <em>Fuente desconocida</em></li><li><strong>[CFP]</strong> Malaysia-China International Conference on  Educational Development — <a href=\"http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191526&copyownerid=196539\" target=\"_blank\">más info</a><br><strong>Deadline:</strong> 25 Sep 2026 (<span style='color:#27ae60;font-weight:bold'>175d</span>) — <em>Fuente desconocida</em></li><li><strong>[CFP]</strong> Malaysia-China International Conference on  Educational Development — <a href=\"http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191527&copyownerid=196539\" target=\"_blank\">más info</a><br><strong>Deadline:</strong> 25 Sep 2026 (<span style='color:#27ae60;font-weight:bold'>175d</span>) — <em>Fuente desconocida</em></li></ul>",
+      "tags": [
+        "Sin área"
+      ]
+    }
+  ]
+}
