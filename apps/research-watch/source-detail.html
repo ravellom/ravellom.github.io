@@ -253,7 +253,8 @@
     // Meta row (ISSN · publisher · country)
     const oa    = s.openalex || {};
     const parts = [];
-    if (isJournal && s.issn)    parts.push(`<span><i class="fa-solid fa-barcode"></i> ${escHtml(s.issn)}</span>`);
+    if (isJournal && s.issn)    parts.push(`<span><i class="fa-solid fa-barcode"></i> pISSN ${escHtml(s.issn)}</span>`);
+    if (isJournal && s.eissn && s.eissn !== s.issn) parts.push(`<span><i class="fa-solid fa-barcode"></i> eISSN ${escHtml(s.eissn)}</span>`);
     if (s.publisher)             parts.push(`<span><i class="fa-solid fa-building"></i> ${escHtml(s.publisher)}</span>`);
     if (s.acronym)               parts.push(`<span><i class="fa-solid fa-tag"></i> ${escHtml(s.acronym)}</span>`);
     if (s.periodicity)           parts.push(`<span><i class="fa-solid fa-rotate"></i> ${escHtml(s.periodicity)}</span>`);
@@ -267,6 +268,11 @@
     if (oa.is_oa)         badges.push(`<span class="badge-oa"><i class="fa-solid fa-lock-open"></i> Open Access</span>`);
     if (oa.is_in_doaj)    badges.push(`<span class="badge-doaj">DOAJ</span>`);
     if (oa.apc_usd)       badges.push(`<span class="badge-apc">APC $${fmtNum(oa.apc_usd)}</span>`);
+    if (isJournal) {
+      if (s.scopus_active === true)  badges.push(`<span style="background:#d1fae5;color:#065f46;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:99px"><i class="fa-solid fa-circle-check"></i> SCOPUS activa</span>`);
+      if (s.scopus_active === false) badges.push(`<span style="background:#fee2e2;color:#b91c1c;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:99px"><i class="fa-solid fa-circle-xmark"></i> SCOPUS inactiva</span>`);
+      if (s.scopus_active === null)  badges.push(`<span style="background:#fef9c3;color:#854d0e;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:99px"><i class="fa-solid fa-circle-question"></i> No en SCOPUS Feb 2026</span>`);
+    }
     document.getElementById('d-badges').innerHTML = badges.join('');
 
     // Metrics

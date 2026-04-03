@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-04-03T14:42:24.101046+00:00",
+    "generated_at": "2026-04-03T15:04:05.186939+00:00",
     "version": "2",
     "total_journals": 38,
     "total_conferences": 24
@@ -10,6 +10,8 @@
       "id": "ba6db7fc-bad4-4ea7-a872-006918cf45f0",
       "name": "Aula Abierta",
       "issn": "0210-2773",
+      "eissn": "2341-2313",
+      "scopus_active": true,
       "publisher": "Universidad de Oviedo",
       "url": "https://reunido.uniovi.es/index.php/AA/index",
       "rss_url": "https://reunido.uniovi.es/index.php/AA/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -20,7 +22,7 @@
         "didáctica",
         "innovación docente"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Percepción de la calidad del aprendizaje-servicio desde la mirada del profesorado de Educación Secundaria",
@@ -96,7 +98,9 @@
       "id": "cfb67e04-cce2-44a6-816f-fe29368d79d6",
       "name": "Avances de Investigación en Educación Matemática (AIEM)",
       "issn": "2254-4313",
-      "publisher": "SEIEM",
+      "eissn": "2254-4313",
+      "scopus_active": true,
+      "publisher": "Spanish Society of Research in Mathematics Education",
       "url": "https://aiem.es/",
       "rss_url": "https://aiem.es/index.php/aiem/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -105,8 +109,14 @@
         "educación matemática",
         "didáctica de las matemáticas"
       ],
-      "notes": "Open access.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
+        {
+          "title": "La importancia de la formulación de problemas en el desarrollo de conocimiento matemático",
+          "url": "https://aiem.es/article/view/v28-burgos-bruno",
+          "published": "2025-10-30",
+          "summary": "La invención de problemas en matemáticas ha sido considerada, durante varias décadas, una herramienta de investigación y una estrategia de enseñanza y aprendizaje, no solo con estudiantes de diferentes niveles educativos, sino también con profesores en formación y en ejercicio. A través de los artíc"
+        },
         {
           "title": "Investigación sobre la formulación de problemas matemáticos: revisión de algunas preguntas respondidas y no respondidas",
           "url": "https://aiem.es/article/view/v28-olmez-han-hwang-cai",
@@ -136,12 +146,6 @@
           "url": "https://aiem.es/article/view/v28-malaspina-malaspina-barraga",
           "published": "2025-10-30",
           "summary": "Investigadores de la psicología destacan la importancia de los juegos durante los procesos de aprendizaje y desarrollo de los niños; por otra parte, investigadores de la educación matemática enfatizan la importancia de la creación de problemas en el aprendizaje de las matemáticas. Esto nos lleva a i"
-        },
-        {
-          "title": "Formulación de problemas matemáticos en la formación del profesorado de Secundaria. Aportaciones del uso de GeoGebra",
-          "url": "https://aiem.es/article/view/v28-hernandez-martin-camacho",
-          "published": "2025-10-30",
-          "summary": "Esta investigación analiza cómo el uso de GeoGebra fortalece la capacidad de futuros profesores para reformular problemas. Se utilizó una metodología cualitativa basada en el uso de cuatro fases para el proceso de formulación (orientación, conexión, generación y reflexión), y las categorías establec"
         }
       ],
       "openalex": {
@@ -181,7 +185,9 @@
       "id": "9384a76a-0f92-49b4-94e2-fce2d818ddc8",
       "name": "British Journal of Educational Technology",
       "issn": "0007-1013",
-      "publisher": "Wiley / BERA",
+      "eissn": "1467-8535",
+      "scopus_active": true,
+      "publisher": "Wiley-Blackwell Publishing Ltd",
       "url": "https://bera-journals.onlinelibrary.wiley.com/journal/14678535",
       "rss_url": "https://bera-journals.onlinelibrary.wiley.com/action/showFeed?jc=14678535&type=etoc&feed=rss",
       "impact_factor": 6.0,
@@ -266,7 +272,9 @@
       "id": "afcd33d0-9775-4add-98dc-c009ab985f51",
       "name": "Campus Virtuales",
       "issn": "2255-1514",
-      "publisher": "UAJOURNALS",
+      "eissn": "2255-1514",
+      "scopus_active": false,
+      "publisher": "Red Universitaria de Campus Virtuales",
       "url": "http://www.uajournals.com/campusvirtuales/es/",
       "rss_url": null,
       "impact_factor": null,
@@ -276,7 +284,7 @@
         "e-learning",
         "educación virtual"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "SCOPUS: marcada como Inactive en Feb 2026.",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S4306505601",
@@ -315,7 +323,9 @@
       "id": "781ec7ab-1424-4556-be58-51bd00aa9faa",
       "name": "Computers & Education",
       "issn": "0360-1315",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "scopus_active": true,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/computers-and-education",
       "rss_url": "https://rss.sciencedirect.com/publication/science/03601315",
       "impact_factor": 8.9,
@@ -401,7 +411,9 @@
       "id": "cfc5a7ca-73ac-4047-9505-e6a2cb16caf3",
       "name": "Computers in Human Behavior",
       "issn": "0747-5632",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "scopus_active": true,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/computers-in-human-behavior",
       "rss_url": "https://rss.sciencedirect.com/publication/science/07475632",
       "impact_factor": 9.0,
@@ -487,7 +499,9 @@
       "id": "16fcd1fe-b98f-4601-bc90-571f4c3f8d67",
       "name": "Comunicar",
       "issn": "1134-3478",
-      "publisher": "Grupo Comunicar",
+      "eissn": "1988-3293",
+      "scopus_active": false,
+      "publisher": "Grupo Comunicar Ediciones",
       "url": "https://www.revistacomunicar.com/",
       "rss_url": null,
       "impact_factor": 5.9,
@@ -497,7 +511,7 @@
         "educational communication",
         "digital competence"
       ],
-      "notes": "Revista iberoamericana de comunicación y educación. JCR Q1.",
+      "notes": "JCR Q1. SCOPUS: marcada como Inactive en Feb 2026 (verificar posible cambio de ISSN).",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S98708256",
@@ -536,7 +550,9 @@
       "id": "fe4949e2-6ecc-43b5-b775-967b7e5adbf9",
       "name": "Digital Education Review",
       "issn": "2013-9144",
-      "publisher": "University of Barcelona",
+      "eissn": "2013-9144",
+      "scopus_active": true,
+      "publisher": "Universitat de Barcelona",
       "url": "https://revistes.ub.edu/index.php/der/index",
       "rss_url": "https://revistes.ub.edu/index.php/der/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -622,7 +638,9 @@
       "id": "58236087-1fef-4260-a345-04ac43b1a94a",
       "name": "EDUTEC. Revista Electrónica de Tecnología Educativa",
       "issn": "1135-9250",
-      "publisher": "EDUTEC",
+      "eissn": "1135-9250",
+      "scopus_active": true,
+      "publisher": "GTE-Educational Technology Group, University of Balearic Islands",
       "url": "https://www.edutec.es/revista/index.php/edutec-e",
       "rss_url": "https://www.edutec.es/revista/index.php/edutec-e/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -632,7 +650,7 @@
         "innovación docente",
         "e-learning"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Prácticas educativas con tecnologías digitales: una revisión sistemática desde la Teoría de la Actividad",
@@ -708,7 +726,9 @@
       "id": "f5250cb2-1ac8-4326-b8f9-35786735f93e",
       "name": "Educación XX1",
       "issn": "1139-613X",
-      "publisher": "UNED",
+      "eissn": "2174-5374",
+      "scopus_active": true,
+      "publisher": "Universidad Nacional de Educacion a Distancia",
       "url": "https://revistas.uned.es/index.php/educacionXX1/index",
       "rss_url": "https://revistas.uned.es/index.php/educacionXX1/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -718,7 +738,7 @@
         "investigación educativa",
         "tecnología educativa"
       ],
-      "notes": "Indexada en JCR y SCOPUS.",
+      "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS.",
       "recent_entries": [
         {
           "title": "Se buscan revisoras/es",
@@ -794,7 +814,9 @@
       "id": "01234efb-2929-4c02-84d4-a32441995caf",
       "name": "Educar",
       "issn": "0211-819X",
-      "publisher": "Universitat Autònoma de Barcelona",
+      "eissn": "2014-8801",
+      "scopus_active": true,
+      "publisher": "Universitat Autonoma de Barcelona",
       "url": "https://educar.uab.cat/index",
       "rss_url": "https://educar.uab.cat/index.php/educar/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -804,7 +826,7 @@
         "pedagogía",
         "formación"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Juegos digitales y tradicionales en el aula de educación infantil",
@@ -880,6 +902,8 @@
       "id": "3fdcbef0-a84b-43c4-90f9-59e76e1b5fc2",
       "name": "Educatio Siglo XXI",
       "issn": "1699-2105",
+      "eissn": null,
+      "scopus_active": null,
       "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/educatio",
       "rss_url": null,
@@ -890,7 +914,7 @@
         "didáctica",
         "ciencias de la educación"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1699-2105.",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S4210214660",
@@ -929,17 +953,19 @@
       "id": "cffa0cd0-a028-4ce4-80e3-027c5497938c",
       "name": "Education Sciences (MDPI)",
       "issn": "2227-7102",
-      "publisher": "MDPI",
+      "eissn": "2227-7102",
+      "scopus_active": true,
+      "publisher": "Multidisciplinary Digital Publishing Institute (MDPI)",
       "url": "https://www.mdpi.com/journal/education",
-      "rss_url": null,
-      "impact_factor": 3.3,
+      "rss_url": "https://www.mdpi.com/rss/journal/education",
+      "impact_factor": null,
       "quartile": null,
       "areas": [
-        "educational technology",
-        "education sciences",
-        "higher education"
+        "educational sciences",
+        "pedagogy",
+        "e-learning"
       ],
-      "notes": null,
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S2738008561",
@@ -978,6 +1004,8 @@
       "id": "4cc97c44-e7d7-444f-89b3-30d729dedcf4",
       "name": "Education and Information Technologies",
       "issn": "1360-2357",
+      "eissn": "1573-7608",
+      "scopus_active": true,
       "publisher": "Springer",
       "url": "https://link.springer.com/journal/10639",
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10639",
@@ -1064,7 +1092,9 @@
       "id": "bf8f0854-9c05-4c97-ac11-e7288e82aadc",
       "name": "Education in the Knowledge Society (EKS)",
       "issn": "2444-8729",
-      "publisher": "Universidad de Salamanca",
+      "eissn": "2444-8729",
+      "scopus_active": false,
+      "publisher": "Ediciones Universidad de Salamanca",
       "url": "https://revistas.usal.es/tres/index.php/eks/index",
       "rss_url": "https://revistas.usal.es/tres/index.php/eks/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -1074,7 +1104,7 @@
         "tecnología educativa",
         "educación"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall). SCOPUS: marcada como Inactive en Feb 2026.",
       "recent_entries": [
         {
           "title": "Tres escenarios para la IA en educación: del apoyo responsable a la cocreación",
@@ -1150,6 +1180,8 @@
       "id": "3ab22e40-823a-4f27-8ae4-ce2b9a09963a",
       "name": "Educational Technology Research and Development",
       "issn": "1042-1629",
+      "eissn": "1556-6501",
+      "scopus_active": true,
       "publisher": "Springer",
       "url": "https://link.springer.com/journal/11423",
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=11423",
@@ -1235,6 +1267,8 @@
       "id": "140e3d65-157e-4783-a315-65439f895ea4",
       "name": "Estudios Pedagógicos",
       "issn": "0716-050X",
+      "eissn": "0718-0705",
+      "scopus_active": true,
       "publisher": "Universidad Austral de Chile",
       "url": "http://revistas.uach.cl/index.php/estped/index",
       "rss_url": "http://revistas.uach.cl/index.php/estped/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -1321,6 +1355,8 @@
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
       "name": "Foro de Educación",
       "issn": "1698-7799",
+      "eissn": null,
+      "scopus_active": null,
       "publisher": "FahrenHouse",
       "url": "http://forodeeducacion.com/ojs/index.php/fde",
       "rss_url": "http://forodeeducacion.com/ojs/index.php/fde/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -1331,7 +1367,7 @@
         "filosofía de la educación",
         "pedagogía social"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799.",
       "recent_entries": [
         {
           "title": "Ethical Leadership as a Psychological Mechanism Linking Teacher Self-Efficacy and Classroom Management to Online Professional Development Engagement",
@@ -1407,7 +1443,9 @@
       "id": "c925c528-9c44-4fdf-bfab-3a8ae6cfd913",
       "name": "Higher Education",
       "issn": "0018-1560",
-      "publisher": "Springer",
+      "eissn": "1573-174X",
+      "scopus_active": true,
+      "publisher": "Springer Netherlands",
       "url": "https://link.springer.com/journal/10734",
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10734",
       "impact_factor": 4.6,
@@ -1492,7 +1530,9 @@
       "id": "4bec5771-e69e-41fb-b705-7bd2b14153d9",
       "name": "Innovations in Education and Teaching International",
       "issn": "1470-3297",
-      "publisher": "Taylor & Francis",
+      "eissn": "1470-3300",
+      "scopus_active": true,
+      "publisher": "Taylor and Francis Ltd.",
       "url": "https://www.tandfonline.com/journals/riie20",
       "rss_url": "https://www.tandfonline.com/feed/rss/riie20",
       "impact_factor": 3.5,
@@ -1577,7 +1617,9 @@
       "id": "1dc1a709-1f45-4b38-b7f7-ac2b1530863e",
       "name": "International Journal of Educational Technology in Higher Education",
       "issn": "2365-9440",
-      "publisher": "Springer Open",
+      "eissn": "2365-9440",
+      "scopus_active": true,
+      "publisher": "Springer Netherlands",
       "url": "https://educationaltechnologyjournal.springeropen.com/",
       "rss_url": "https://link.springer.com/search.rss?search-within=Journal&query=call+for+papers&facet-journal-id=41239",
       "impact_factor": 6.6,
@@ -1587,7 +1629,7 @@
         "higher education",
         "e-learning"
       ],
-      "notes": "Open access. Formerly RUSC.",
+      "notes": "Open Access (Unpaywall). Formerly RUSC.",
       "recent_entries": [
         {
           "title": "Designing assessments in the generative AI era: A tailored assessment framework for ICT tertiary education",
@@ -1663,7 +1705,9 @@
       "id": "3ca307f9-04df-4e67-802b-4e5951461f91",
       "name": "Journal of Computer Assisted Learning",
       "issn": "0266-4909",
-      "publisher": "Wiley",
+      "eissn": "1365-2729",
+      "scopus_active": true,
+      "publisher": "Wiley-Blackwell Publishing Ltd",
       "url": "https://onlinelibrary.wiley.com/journal/13652729",
       "rss_url": "https://onlinelibrary.wiley.com/action/showFeed?jc=13652729&type=etoc&feed=rss",
       "impact_factor": 5.1,
@@ -1742,7 +1786,9 @@
       "id": "fd86c37a-3ee6-4169-80fc-475e697bcb01",
       "name": "Journal of New Approaches in Educational Research",
       "issn": "2254-7339",
-      "publisher": "University of Alicante",
+      "eissn": "2254-7339",
+      "scopus_active": true,
+      "publisher": "Springer International Publishing",
       "url": "https://naerjournal.com/",
       "rss_url": null,
       "impact_factor": null,
@@ -1752,7 +1798,7 @@
         "educational technology",
         "innovation"
       ],
-      "notes": "Open access. Indexed in SCOPUS. English and Spanish.",
+      "notes": "Open Access (Unpaywall). English and Spanish.",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S2738710002",
@@ -1791,7 +1837,9 @@
       "id": "c29a7519-71cd-4e40-bed6-a37692862aa6",
       "name": "Learning and Instruction",
       "issn": "0959-4752",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "scopus_active": true,
+      "publisher": "Elsevier B.V.",
       "url": "https://www.sciencedirect.com/journal/learning-and-instruction",
       "rss_url": "https://rss.sciencedirect.com/publication/science/09594752",
       "impact_factor": 6.5,
@@ -1876,7 +1924,9 @@
       "id": "ced5ace0-9155-494d-95d7-fe27c6e3aaf3",
       "name": "Perfiles Educativos",
       "issn": "0185-2698",
-      "publisher": "UNAM / IISUE",
+      "eissn": "2448-6167",
+      "scopus_active": true,
+      "publisher": "Universidad Nacional Autonoma de Mexico",
       "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/",
       "rss_url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -1932,6 +1982,8 @@
       "id": "36e05325-ab09-4b36-b2cc-d1084ef98c3b",
       "name": "Pixel-Bit. Revista de Medios y Educación",
       "issn": "1133-8482",
+      "eissn": "2171-7966",
+      "scopus_active": true,
       "publisher": "Universidad de Sevilla",
       "url": "https://recyt.fecyt.es/index.php/pixel/index",
       "rss_url": "https://recyt.fecyt.es/index.php/pixel/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -1942,7 +1994,7 @@
         "tecnología educativa",
         "e-learning"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Impacto de las TIC en la motivación y el aprendizaje en educación primaria: Hacia una escuela emocionante [Impact of ICT on Motivation and Learning in Primary Education: Towards an exciting school]",
@@ -2018,7 +2070,9 @@
       "id": "0fb4284a-a75b-45ea-ae6f-16a8ba1d6baf",
       "name": "RED. Revista de Educación a Distancia",
       "issn": "1138-2783",
-      "publisher": "Universidad de Murcia",
+      "eissn": "1390-3306",
+      "scopus_active": true,
+      "publisher": "Ibero-American Association for Distance Education",
       "url": "https://revistas.um.es/red",
       "rss_url": "https://revistas.um.es/red/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -2028,7 +2082,7 @@
         "e-learning",
         "tecnología educativa"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Diseño y validación de un instrumento para evaluar el liderazgo transformacional y directivo en el uso responsable de la inteligencia artificial en centros educativos",
@@ -2104,7 +2158,9 @@
       "id": "82b52ca7-ade6-49db-8010-06d03fbf3257",
       "name": "REIFOP. Revista Electrónica Interuniversitaria de Formación del Profesorado",
       "issn": "1575-0965",
-      "publisher": "AUFOP",
+      "eissn": "1575-0965",
+      "scopus_active": true,
+      "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/reifop/",
       "rss_url": "https://revistas.um.es/reifop/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -2114,7 +2170,7 @@
         "didáctica",
         "innovación educativa"
       ],
-      "notes": null,
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "La preparación de los opositores de Infantil y Primaria ante el acceso a la función pública",
@@ -2190,6 +2246,8 @@
       "id": "1b1e713d-8be4-4eb5-a50c-31170e6969d7",
       "name": "RELIEVE. Revista Electrónica de Investigación y Evaluación Educativa",
       "issn": "1134-4032",
+      "eissn": "1134-4032",
+      "scopus_active": true,
       "publisher": "Universidad de Granada",
       "url": "https://revistaseug.ugr.es/index.php/RELIEVE",
       "rss_url": "https://revistaseug.ugr.es/index.php/RELIEVE/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -2200,7 +2258,7 @@
         "evaluación",
         "metodología"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Diseño y validación de un instrumento de medida de la inclusión educativa en instituciones de educación superior",
@@ -2276,7 +2334,9 @@
       "id": "ea472c4a-b8b6-49a5-bea8-a21cfecdb325",
       "name": "RIED. Revista Iberoamericana de Educación a Distancia",
       "issn": "1138-2783",
-      "publisher": "UNED / AIESAD",
+      "eissn": "1390-3306",
+      "scopus_active": true,
+      "publisher": "Ibero-American Association for Distance Education",
       "url": "https://revistas.uned.es/index.php/ried/index",
       "rss_url": "https://revistas.uned.es/index.php/ried/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -2286,7 +2346,7 @@
         "e-learning",
         "tecnología educativa"
       ],
-      "notes": "Indexada en JCR y SCOPUS. Iberoamérica.",
+      "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS.",
       "recent_entries": [
         {
           "title": "Inteligencia artificial generativa y autonomía educativa: metáforas históricas y principios éticos para la transformación pedagógica",
@@ -2362,7 +2422,9 @@
       "id": "541c2d29-4f4d-46e5-9037-460f7f8dbfe4",
       "name": "Research in Learning Technology",
       "issn": "2156-7069",
-      "publisher": "Taylor & Francis / ALT",
+      "eissn": "2156-7077",
+      "scopus_active": true,
+      "publisher": "Association for Learning Technology",
       "url": "https://journal.alt.ac.uk/index.php/rlt",
       "rss_url": "https://journal.alt.ac.uk/index.php/rlt/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -2371,7 +2433,7 @@
         "learning technology",
         "open access education"
       ],
-      "notes": "Open access. Published by the Association for Learning Technology.",
+      "notes": "Open Access (Unpaywall). Published by the Association for Learning Technology.",
       "recent_entries": [
         {
           "title": "Does recording lectures help? A within-course availability comparison linking lecture capture and attendance to exam performance",
@@ -2447,6 +2509,8 @@
       "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
       "name": "Revista Fuentes",
       "issn": "1575-7072",
+      "eissn": null,
+      "scopus_active": null,
       "publisher": "Universidad de Sevilla",
       "url": "https://revistascientificas.us.es/index.php/fuentes/index",
       "rss_url": "https://revistascientificas.us.es/index.php/fuentes/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -2457,7 +2521,7 @@
         "ciencias sociales",
         "investigación educativa"
       ],
-      "notes": null,
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072.",
       "recent_entries": [
         {
           "title": "Impacto del Diseño Universal para el Aprendizaje en estudiantes universitarios con discapacidad: Revisión y metaanálisis",
@@ -2533,7 +2597,9 @@
       "id": "cbe7d9bc-74d0-4de1-9a85-879cea837bec",
       "name": "Revista Interuniversitaria de Formación del Profesorado (RIFOP)",
       "issn": "0213-8646",
-      "publisher": "AUFOP",
+      "eissn": "2530-3791",
+      "scopus_active": true,
+      "publisher": "Asociacion Universitaria de Formacion del Profesorado",
       "url": "https://recyt.fecyt.es/index.php/RIFOP/about",
       "rss_url": "https://recyt.fecyt.es/index.php/RIFOP/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
@@ -2543,7 +2609,7 @@
         "didáctica",
         "educación"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
           "title": "Escuelas en transformación: estudio cuantitativo sobre Entornos Innovadores de Aprendizaje",
@@ -2619,7 +2685,9 @@
       "id": "9b608f0f-ea5c-4603-8ed4-e8b5e0f867a8",
       "name": "Revista de Investigación Educativa",
       "issn": "0212-4068",
-      "publisher": "Universidad de Murcia / AIDIPE",
+      "eissn": "1989-9106",
+      "scopus_active": true,
+      "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/rie",
       "rss_url": null,
       "impact_factor": null,
@@ -2629,7 +2697,7 @@
         "metodología",
         "evaluación"
       ],
-      "notes": "Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S4210172987",
@@ -2668,7 +2736,9 @@
       "id": "6ccdae4e-ebbc-4d12-bfdb-5bbc5e12c4ed",
       "name": "Studies in Higher Education",
       "issn": "0307-5079",
-      "publisher": "Taylor & Francis",
+      "eissn": "1470-174X",
+      "scopus_active": true,
+      "publisher": "Routledge",
       "url": "https://www.tandfonline.com/journals/cshe20",
       "rss_url": "https://www.tandfonline.com/feed/rss/cshe20",
       "impact_factor": 4.3,
@@ -2753,7 +2823,9 @@
       "id": "1c4966ab-24a8-4158-8ca7-2c0f617b9240",
       "name": "Teaching and Teacher Education",
       "issn": "0742-051X",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "scopus_active": true,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/teaching-and-teacher-education",
       "rss_url": "https://rss.sciencedirect.com/publication/science/0742051X",
       "impact_factor": 4.1,
@@ -2838,7 +2910,9 @@
       "id": "acd0efc1-f3c2-449b-a791-27f514e143eb",
       "name": "The Internet and Higher Education",
       "issn": "1096-7516",
-      "publisher": "Elsevier",
+      "eissn": "1873-5525",
+      "scopus_active": true,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/the-internet-and-higher-education",
       "rss_url": "https://rss.sciencedirect.com/publication/science/10967516",
       "impact_factor": 8.1,
@@ -2924,6 +2998,8 @@
       "id": "65e4f698-005d-4724-8e46-5e9e4dccef98",
       "name": "magis. Revista Internacional de Investigación en Educación",
       "issn": "2027-1174",
+      "eissn": "2027-1182",
+      "scopus_active": true,
       "publisher": "Pontificia Universidad Javeriana",
       "url": "https://revistas.javeriana.edu.co/index.php/MAGIS",
       "rss_url": null,
@@ -2934,7 +3010,7 @@
         "educación internacional",
         "pedagogía"
       ],
-      "notes": "Open access. Indexada en SCOPUS.",
+      "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
       "openalex": {
         "openalex_id": "https://openalex.org/S2739290193",
