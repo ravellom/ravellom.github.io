@@ -62,97 +62,113 @@
   </section>
 
   <main class="container section app-main">
-    <section class="card rw-card" id="section-calls">
-      <div class="rw-card-header">
-        <h2><i class="fa-solid fa-bullhorn"></i> Calls activos</h2>
-        <div class="rw-filters">
-          <div class="filter-group">
-            <label for="filter-area">Area</label>
-            <select id="filter-area">
-              <option value="">Todas</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label for="filter-type">Tipo</label>
-            <select id="filter-type">
-              <option value="">Todos</option>
-              <option value="cfp">CFP</option>
-              <option value="special_issue">Special Issue</option>
-              <option value="monographic">Monografico</option>
-              <option value="project_call">Project call</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label for="filter-days">Deadline en</label>
-            <select id="filter-days">
-              <option value="">Cualquier fecha</option>
-              <option value="30">30 dias</option>
-              <option value="60">60 dias</option>
-              <option value="90">90 dias</option>
-              <option value="180">6 meses</option>
-            </select>
+    <div class="rw-tabs" role="tablist" aria-label="Secciones de ResearchWatch">
+      <button class="rw-tab is-active" data-tab-target="calls-panel" role="tab" aria-selected="true">Calls</button>
+      <button class="rw-tab" data-tab-target="journals-panel" role="tab" aria-selected="false">Revistas</button>
+      <button class="rw-tab" data-tab-target="conferences-panel" role="tab" aria-selected="false">Congresos</button>
+      <button class="rw-tab" data-tab-target="funding-panel" role="tab" aria-selected="false">Programas</button>
+      <button class="rw-tab" data-tab-target="feed-panel" role="tab" aria-selected="false">Feed</button>
+    </div>
+
+    <section class="rw-tab-panel is-active" id="calls-panel" role="tabpanel">
+      <section class="card rw-card" id="section-calls">
+        <div class="rw-card-header">
+          <h2><i class="fa-solid fa-bullhorn"></i> Calls activos</h2>
+          <div class="rw-filters">
+            <div class="filter-group">
+              <label for="filter-area">Area</label>
+              <select id="filter-area">
+                <option value="">Todas</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-type">Tipo</label>
+              <select id="filter-type">
+                <option value="">Todos</option>
+                <option value="cfp">CFP</option>
+                <option value="special_issue">Special Issue</option>
+                <option value="monographic">Monografico</option>
+                <option value="project_call">Project call</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-days">Deadline en</label>
+              <select id="filter-days">
+                <option value="">Cualquier fecha</option>
+                <option value="30">30 dias</option>
+                <option value="60">60 dias</option>
+                <option value="90">90 dias</option>
+                <option value="180">6 meses</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="calls-empty" class="empty-state" style="display:none">
-        <i class="fa-solid fa-circle-info"></i> No hay calls que coincidan con los filtros.
-      </div>
+        <div id="calls-empty" class="empty-state" style="display:none">
+          <i class="fa-solid fa-circle-info"></i> No hay calls que coincidan con los filtros.
+        </div>
 
-      <div class="rw-table-wrap">
-        <table class="rw-table" id="calls-table">
-          <thead>
-            <tr>
-              <th class="col-deadline">Deadline</th>
-              <th class="col-days">Dias</th>
-              <th class="col-type">Tipo</th>
-              <th class="col-title">Titulo</th>
-              <th class="col-source">Fuente</th>
-              <th class="col-areas">Areas</th>
-            </tr>
-          </thead>
-          <tbody id="calls-tbody"></tbody>
-        </table>
-      </div>
+        <div class="rw-table-wrap">
+          <table class="rw-table" id="calls-table">
+            <thead>
+              <tr>
+                <th class="col-deadline">Deadline</th>
+                <th class="col-days">Dias</th>
+                <th class="col-type">Tipo</th>
+                <th class="col-title">Titulo</th>
+                <th class="col-source">Fuente</th>
+                <th class="col-areas">Areas</th>
+              </tr>
+            </thead>
+            <tbody id="calls-tbody"></tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
-    <div class="rw-grid-two">
+    <section class="rw-tab-panel" id="journals-panel" role="tabpanel" hidden>
       <section class="card rw-card" id="section-journals">
         <div class="rw-card-header">
           <h2><i class="fa-solid fa-book-open"></i> Revistas</h2>
         </div>
         <ul class="source-list" id="journals-list"></ul>
       </section>
+    </section>
 
+    <section class="rw-tab-panel" id="conferences-panel" role="tabpanel" hidden>
       <section class="card rw-card" id="section-conferences">
         <div class="rw-card-header">
           <h2><i class="fa-solid fa-people-group"></i> Congresos</h2>
         </div>
         <ul class="source-list" id="conferences-list"></ul>
       </section>
+    </section>
 
+    <section class="rw-tab-panel" id="funding-panel" role="tabpanel" hidden>
       <section class="card rw-card" id="section-funding">
         <div class="rw-card-header">
           <h2><i class="fa-solid fa-euro-sign"></i> Programas y funding</h2>
         </div>
         <ul class="source-list" id="funding-list"></ul>
       </section>
-    </div>
+    </section>
 
-    <section class="card rw-card" id="section-feed">
-      <div class="rw-card-header">
-        <h2><i class="fa-solid fa-rss"></i> Integrar en tu blog</h2>
-      </div>
-      <p class="feed-intro">
-        Copia este snippet HTML/JavaScript en tu blog de Blogger
-        (<strong>Diseno -&gt; Anadir un gadget -&gt; HTML/JavaScript</strong>).
-      </p>
-      <div class="code-block-wrap">
-        <button class="btn btn-sm btn-outline copy-btn" id="copy-snippet">
-          <i class="fa-regular fa-copy"></i> Copiar
-        </button>
-        <pre id="blogspot-snippet" class="code-block"></pre>
-      </div>
+    <section class="rw-tab-panel" id="feed-panel" role="tabpanel" hidden>
+      <section class="card rw-card" id="section-feed">
+        <div class="rw-card-header">
+          <h2><i class="fa-solid fa-rss"></i> Integrar en tu blog</h2>
+        </div>
+        <p class="feed-intro">
+          Copia este snippet HTML/JavaScript en tu blog de Blogger
+          (<strong>Diseno -&gt; Anadir un gadget -&gt; HTML/JavaScript</strong>).
+        </p>
+        <div class="code-block-wrap">
+          <button class="btn btn-sm btn-outline copy-btn" id="copy-snippet">
+            <i class="fa-regular fa-copy"></i> Copiar
+          </button>
+          <pre id="blogspot-snippet" class="code-block"></pre>
+        </div>
+      </section>
     </section>
   </main>
 

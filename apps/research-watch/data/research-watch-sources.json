@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T09:58:46.435056+00:00",
+    "generated_at": "2026-04-07T11:56:25.103884+00:00",
     "version": "2",
     "total_journals": 38,
-    "total_conferences": 24,
+    "total_conferences": 26,
     "total_funding_sources": 2
   },
   "journals": [
@@ -18,6 +18,13 @@
       "rss_url": "https://reunido.uniovi.es/index.php/AA/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "educación",
         "didáctica",
@@ -62,38 +69,8 @@
           "summary": "El objetivo principal de esta investigación fue diseñar y validar un instrumento para evaluar las competencias clave en la Educación Secundaria Obligatoria (ESO). Se utilizó el método Delphi con un grupo coordinador (N = 3) y un panel de expertos (N = 7). Participaron 388 estudiantes de ESO (M edad "
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2898580591",
-        "openalex_url": "https://openalex.org/S2898580591",
-        "works_count": 1399,
-        "cited_by_count": 5532,
-        "h_index": 31,
-        "i10_index": 168,
-        "mean_citations_2yr": 0.6435643564356436,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Higher Education Teaching and Evaluation",
-          "Educational Practices and Policies",
-          "Education and Teacher Training",
-          "Educational theories and practices",
-          "Social Sciences and Policies",
-          "Educational Innovations and Technology",
-          "Literacy and Educational Practices",
-          "Education in Rural Contexts"
-        ],
-        "homepage_url": "https://www.sciencedirect.com/journal/aula-abierta"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0210-2773",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0210-2773",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0210-2773",
-        "openalex": "https://openalex.org/S2898580591",
-        "doaj": "https://doaj.org/toc/02102773"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "cfb67e04-cce2-44a6-816f-fe29368d79d6",
@@ -106,18 +83,18 @@
       "rss_url": "https://aiem.es/index.php/aiem/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "educación matemática",
         "didáctica de las matemáticas"
       ],
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [
-        {
-          "title": "La importancia de la formulación de problemas en el desarrollo de conocimiento matemático",
-          "url": "https://aiem.es/article/view/v28-burgos-bruno",
-          "published": "2025-10-30",
-          "summary": "La invención de problemas en matemáticas ha sido considerada, durante varias décadas, una herramienta de investigación y una estrategia de enseñanza y aprendizaje, no solo con estudiantes de diferentes niveles educativos, sino también con profesores en formación y en ejercicio. A través de los artíc"
-        },
         {
           "title": "Investigación sobre la formulación de problemas matemáticos: revisión de algunas preguntas respondidas y no respondidas",
           "url": "https://aiem.es/article/view/v28-olmez-han-hwang-cai",
@@ -147,40 +124,16 @@
           "url": "https://aiem.es/article/view/v28-malaspina-malaspina-barraga",
           "published": "2025-10-30",
           "summary": "Investigadores de la psicología destacan la importancia de los juegos durante los procesos de aprendizaje y desarrollo de los niños; por otra parte, investigadores de la educación matemática enfatizan la importancia de la creación de problemas en el aprendizaje de las matemáticas. Esto nos lleva a i"
+        },
+        {
+          "title": "Formulación de problemas matemáticos en la formación del profesorado de Secundaria. Aportaciones del uso de GeoGebra",
+          "url": "https://aiem.es/article/view/v28-hernandez-martin-camacho",
+          "published": "2025-10-30",
+          "summary": "Esta investigación analiza cómo el uso de GeoGebra fortalece la capacidad de futuros profesores para reformular problemas. Se utilizó una metodología cualitativa basada en el uso de cuatro fases para el proceso de formulación (orientación, conexión, generación y reflexión), y las categorías establec"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210207716",
-        "openalex_url": "https://openalex.org/S4210207716",
-        "works_count": 228,
-        "cited_by_count": 999,
-        "h_index": 15,
-        "i10_index": 32,
-        "mean_citations_2yr": 1.2307692307692308,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Mathematics Education and Teaching Techniques",
-          "Statistics Education and Methodologies",
-          "Educational Innovations and Technology",
-          "Educational theories and practices",
-          "Education and Teacher Training",
-          "Developmental and Educational Neuropsychology",
-          "Educational methodologies and cognitive development",
-          "Educational Outcomes and Influences"
-        ],
-        "homepage_url": "http://www.aiem.es/index.php/aiem/about/journalSponsorship"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2254-4313",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2254-4313",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2254-4313",
-        "openalex": "https://openalex.org/S4210207716",
-        "doaj": "https://doaj.org/toc/22544313"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "9384a76a-0f92-49b4-94e2-fce2d818ddc8",
@@ -193,6 +146,8 @@
       "rss_url": "https://bera-journals.onlinelibrary.wiley.com/action/showFeed?jc=14678535&type=etoc&feed=rss",
       "impact_factor": 6.0,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "educational technology",
         "digital learning"
@@ -236,38 +191,8 @@
           "summary": "British Journal of Educational Technology, EarlyView."
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S110346167",
-        "openalex_url": "https://openalex.org/S110346167",
-        "works_count": 4842,
-        "cited_by_count": 177331,
-        "h_index": 179,
-        "i10_index": 2367,
-        "mean_citations_2yr": 12.653429602888087,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 3860,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Online and Blended Learning",
-          "Innovative Teaching and Learning Methods",
-          "Education and Technology Integration",
-          "Online Learning and Analytics",
-          "Educational Games and Gamification",
-          "Reflective Practices in Education",
-          "Mobile Learning in Education",
-          "Child Development and Digital Technology"
-        ],
-        "homepage_url": "http://onlinelibrary.wiley.com/journal/10.1111/(ISSN)1467-8535"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0007-1013",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0007-1013",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0007-1013",
-        "openalex": "https://openalex.org/S110346167",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "afcd33d0-9775-4add-98dc-c009ab985f51",
@@ -280,6 +205,12 @@
       "rss_url": null,
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "campus virtuales",
         "e-learning",
@@ -287,38 +218,8 @@
       ],
       "notes": "SCOPUS: marcada como Inactive en Feb 2026.",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4306505601",
-        "openalex_url": "https://openalex.org/S4306505601",
-        "works_count": 199,
-        "cited_by_count": 869,
-        "h_index": 15,
-        "i10_index": 28,
-        "mean_citations_2yr": 0.6973684210526315,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": null,
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Digital literacy in education",
-          "Educational Technology in Learning",
-          "Education and Teacher Training",
-          "Online Learning and Analytics",
-          "Higher Education Teaching and Evaluation",
-          "Knowledge Societies in the 21st Century"
-        ],
-        "homepage_url": "http://www.revistacampusvirtuales.es"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2255-1514",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2255-1514",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2255-1514",
-        "openalex": "https://openalex.org/S4306505601",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "781ec7ab-1424-4556-be58-51bd00aa9faa",
@@ -331,6 +232,8 @@
       "rss_url": "https://rss.sciencedirect.com/publication/science/03601315",
       "impact_factor": 8.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "educational technology",
         "e-learning",
@@ -375,38 +278,8 @@
           "summary": "Publication date: August 2026 Source: Computers & Education, Volume 249 Author(s): Meixia Cheng, Peihua Qiao, Heng Ni, Heping Xie, Richard E. Mayer, Fuxing Wang"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210172634",
-        "openalex_url": "https://openalex.org/S4210172634",
-        "works_count": 6123,
-        "cited_by_count": 523065,
-        "h_index": 319,
-        "i10_index": 4272,
-        "mean_citations_2yr": 10.116279069767442,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 4220,
-        "country_code": "US",
-        "type": "journal",
-        "topics": [
-          "Innovative Teaching and Learning Methods",
-          "Online and Blended Learning",
-          "Online Learning and Analytics",
-          "Educational Games and Gamification",
-          "Impact of Technology on Adolescents",
-          "Child Development and Digital Technology",
-          "Gender and Technology in Education",
-          "Teaching and Learning Programming"
-        ],
-        "homepage_url": "https://www.journals.elsevier.com/computers-and-education"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0360-1315",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0360-1315",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0360-1315",
-        "openalex": "https://openalex.org/S4210172634",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "cfc5a7ca-73ac-4047-9505-e6a2cb16caf3",
@@ -419,6 +292,8 @@
       "rss_url": "https://rss.sciencedirect.com/publication/science/07475632",
       "impact_factor": 9.0,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "human-computer interaction",
         "educational technology",
@@ -463,38 +338,8 @@
           "summary": "Publication date: August 2026 Source: Computers in Human Behavior, Volume 181 Author(s): Zijian Lew, Jiemin Looi"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S204030396",
-        "openalex_url": "https://openalex.org/S204030396",
-        "works_count": 9010,
-        "cited_by_count": 784140,
-        "h_index": 348,
-        "i10_index": 7428,
-        "mean_citations_2yr": 9.127690100430415,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 3440,
-        "country_code": "NL",
-        "type": "journal",
-        "topics": [
-          "Impact of Technology on Adolescents",
-          "Digital Marketing and Social Media",
-          "Technology Adoption and User Behaviour",
-          "Social Media and Politics",
-          "Child Development and Digital Technology",
-          "Innovative Teaching and Learning Methods",
-          "Media Influence and Health",
-          "Knowledge Management and Sharing"
-        ],
-        "homepage_url": "https://www.journals.elsevier.com/computers-in-human-behavior"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0747-5632",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0747-5632",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0747-5632",
-        "openalex": "https://openalex.org/S204030396",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "16fcd1fe-b98f-4601-bc90-571f4c3f8d67",
@@ -507,6 +352,13 @@
       "rss_url": null,
       "impact_factor": 5.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "areas": [
         "media literacy",
         "educational communication",
@@ -514,38 +366,8 @@
       ],
       "notes": "JCR Q1. SCOPUS: marcada como Inactive en Feb 2026 (verificar posible cambio de ISSN).",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S98708256",
-        "openalex_url": "https://openalex.org/S98708256",
-        "works_count": 2518,
-        "cited_by_count": 28879,
-        "h_index": 80,
-        "i10_index": 599,
-        "mean_citations_2yr": 1.9545454545454546,
-        "is_oa": true,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Media and Digital Communication",
-          "Advertising and Communication Studies",
-          "Media, Journalism, and Communication History",
-          "Educational Innovations and Technology",
-          "Journalism and Media Studies",
-          "Digital literacy in education",
-          "Communication and COVID-19 Impact",
-          "Educational theories and practices"
-        ],
-        "homepage_url": "http://www.comunicarjournal.com/"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1134-3478",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1134-3478",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1134-3478",
-        "openalex": "https://openalex.org/S98708256",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "fe4949e2-6ecc-43b5-b775-967b7e5adbf9",
@@ -558,6 +380,8 @@
       "rss_url": "https://revistes.ub.edu/index.php/der/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "areas": [
         "digital education",
         "e-learning",
@@ -602,38 +426,8 @@
           "summary": "In order to encourage the students to follow an inter-disciplinary education system where they can study multiple academic disciplines, the New Education Policy offers them a variety of elective courses. Greater flexibility promotes all-around development and can cater to a diverse set of interests,"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2737239682",
-        "openalex_url": "https://openalex.org/S2737239682",
-        "works_count": 379,
-        "cited_by_count": 3990,
-        "h_index": 30,
-        "i10_index": 112,
-        "mean_citations_2yr": 3.9583333333333335,
-        "is_oa": true,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Digital literacy in education",
-          "Educational Technology in Learning",
-          "Child Development and Digital Technology",
-          "Impact of Technology on Adolescents",
-          "Higher Education Teaching and Evaluation",
-          "Online and Blended Learning"
-        ],
-        "homepage_url": "http://revistes.ub.edu/index.php/der"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2013-9144",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2013-9144",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2013-9144",
-        "openalex": "https://openalex.org/S2737239682",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "58236087-1fef-4260-a345-04ac43b1a94a",
@@ -646,6 +440,12 @@
       "rss_url": "https://www.edutec.es/revista/index.php/edutec-e/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "tecnología educativa",
         "innovación docente",
@@ -690,38 +490,8 @@
           "summary": "El uso de chatbots conversacionales basados en inteligencia artificial generativa ha planteado nuevos desafíos y oportunidades para la alfabetización académica en la educación superior. Este estudio tiene como objetivo diseñar y validar una rúbrica de evaluación formativa basada en la escala AIAS (A"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738810609",
-        "openalex_url": "https://openalex.org/S2738810609",
-        "works_count": 870,
-        "cited_by_count": 5627,
-        "h_index": 29,
-        "i10_index": 163,
-        "mean_citations_2yr": 1.696551724137931,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Digital literacy in education",
-          "Educational Technology in Learning",
-          "Higher Education Teaching and Evaluation",
-          "Education and Teacher Training",
-          "Knowledge Societies in the 21st Century",
-          "Media and Digital Communication"
-        ],
-        "homepage_url": "http://www.edutec.es/revista/index.php/edutec-e"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1135-9250",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1135-9250",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1135-9250",
-        "openalex": "https://openalex.org/S2738810609",
-        "doaj": "https://doaj.org/toc/11359250"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "f5250cb2-1ac8-4326-b8f9-35786735f93e",
@@ -734,82 +504,22 @@
       "rss_url": "https://revistas.uned.es/index.php/educacionXX1/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "educación",
         "investigación educativa",
         "tecnología educativa"
       ],
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS.",
-      "recent_entries": [
-        {
-          "title": "Se buscan revisoras/es",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/46383",
-          "published": "2026-01-14",
-          "summary": ""
-        },
-        {
-          "title": "Aulas cooperativas como factor protector de salud mental-problemas externalizantes en educación primaria",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/42904",
-          "published": "2026-01-14",
-          "summary": "El aprendizaje cooperativo es utilizado en las aulas con la finalidad de favorecer el trabajo en equipo, la interacción con los compañeros y mejorar el rendimiento académico. Por otro lado, los problemas comportamentales y emocionales, referidos a conductas disruptivas en el aula, hiperactividad, o "
-        },
-        {
-          "title": "Creatividad y bienestar en las aulas: una revisión sistemática de programas de intervención",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/42816",
-          "published": "2026-01-14",
-          "summary": "Tanto la creatividad como el bienestar individual son aspectos que están teniendo una presencia cada vez mayor en el panorama educativo. En ese sentido, se destaca la importancia de analizar las intervenciones o programas que se han llevado a cabo a lo largo de los últimos 15 años en materia de crea"
-        },
-        {
-          "title": "FOURCHAT: Intervención orientada a promover el uso crítico de ChatGPT en la universidad",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/42884",
-          "published": "2026-01-14",
-          "summary": "Este estudio evalúa la efectividad de FOURCHAT (FOrmación Universitaria en uso Responsable de CHATgpt), una intervención educativa diseñada para promover el uso crítico y responsable de ChatGPT entre estudiantes universitarios. La investigación, que contó con 150 estudiantes de tres grados diferente"
-        },
-        {
-          "title": "Influencia de las expectativas académicas sobre los motivos de intención de abandono en estudiantes de una universidad ecuatoriana",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/42831",
-          "published": "2026-01-14",
-          "summary": "Las expectativas académicas son predicciones que hacen las personas sobre su actuación en situaciones contextualizadas, como el entorno educativo. Una discrepancia entre estas expectativas y lo que encuentran realmente en la universidad, podría contribuir a la intención de abandono de los estudios. "
-        },
-        {
-          "title": "La sutil agresión de la exclusión social en la escuela: una escala de medida para adolescentes",
-          "url": "https://revistas.uned.es/index.php/educacionXX1/article/view/39860",
-          "published": "2026-01-14",
-          "summary": "La literatura científica ha explicado ampliamente el constructo exclusión social. Sin embargo, son escasos los estudios que abordan las importantes diferencias y tipos de marginación o exclusión social en el marco de la convivencia escolar. Igualmente son pocos los estudios que focalizan el estudio "
-        }
-      ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S1018412103",
-        "openalex_url": "https://openalex.org/S1018412103",
-        "works_count": 701,
-        "cited_by_count": 10723,
-        "h_index": 48,
-        "i10_index": 312,
-        "mean_citations_2yr": 1.975,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Educational Innovations and Technology",
-          "Higher Education Teaching and Evaluation",
-          "E-Learning and Knowledge Management",
-          "Educational Outcomes and Influences",
-          "Educational Practices and Policies",
-          "Social Skills and Education",
-          "Education in Rural Contexts"
-        ],
-        "homepage_url": "http://revistas.uned.es/index.php/educacionXX1/index"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1139-613X",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1139-613X",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1139-613X",
-        "openalex": "https://openalex.org/S1018412103",
-        "doaj": "https://doaj.org/toc/1139613X"
-      }
+      "recent_entries": [],
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "01234efb-2929-4c02-84d4-a32441995caf",
@@ -822,6 +532,13 @@
       "rss_url": "https://educar.uab.cat/index.php/educar/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "educación",
         "pedagogía",
@@ -830,74 +547,44 @@
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
-          "title": "Presentación",
-          "url": "https://educar.uab.cat/article/view/v62-n1-essomba-et-al",
-          "published": "2026-02-19",
-          "summary": "La educación sigue siendo un terreno de disputa ideológica y política. En él confluyen las diversas fuerzas sociales, dispuestas a apropiarse de ella para favorecer el modelo de sociedad que anhelan. Simplificando, diríamos que son dos las fuerzas mayoritarias que actúan por una educación favorable "
+          "title": "Juegos digitales y tradicionales en el aula de educación infantil",
+          "url": "https://educar.uab.cat/article/view/v62-n1-genoguin",
+          "published": "2025-09-23",
+          "summary": "La enseñanza basada en juegos ofrece múltiples oportunidades de aprendizaje, especialmente para los niños pequeños. Este estudio examinó la efectividad del aprendizaje basado en juegos en la educación infantil y determinó si el juego digital o el tradicional mejoran más eficazmente la numeración en "
         },
         {
-          "title": "Escuela, diversidad cultural y recursos comunitarios: Hacia la corresponsabilidad educativa",
-          "url": "https://educar.uab.cat/article/view/v62-n1-vecina-et-al",
-          "published": "2026-02-19",
-          "summary": "El contexto actual requiere de instituciones educativas abiertas al trabajo colaborativo junto con otros recursos comunitarios para fomentar una educación de calidad. Este estudio analiza la relación entre centros de educación primaria y diversos recursos comunitarios. Considerando las variables tip"
+          "title": "Relación entre la competencia digital docente y la actitud hacia la innovación educativa del profesorado en servicio",
+          "url": "https://educar.uab.cat/article/view/v62-n1-duenas-tapia",
+          "published": "2025-07-18",
+          "summary": "La competencia digital docente (CDD) es esencial para la integración efectiva de tecnologías en el aula, y su desarrollo podría influir en la disposición del profesorado hacia la innovación. Este estudio tiene por objetivo analizar la relación entre la competencia digital docente y la actitud hacia "
         },
         {
-          "title": "Ayudar a las familias a respirar: del trabajo en paralelo al empoderamiento colaborativo en la participación escolar mediada por la comunidad",
-          "url": "https://educar.uab.cat/article/view/v62-n1-teklemariam-et-al",
-          "published": "2026-02-19",
-          "summary": "La educación comunitaria sostiene las trayectorias académicas de muchos estudiantes refugiados y migrantes; sin embargo, esta labor esencial a menudo no se reconoce dentro de los marcos formales de las agendas de colaboración escuela-familia. Esta desconexión genera un ciclo de falta de reconocimien"
+          "title": "Variables personales asociadas a la transición de educación primaria a educación secundaria del alumnado rural y urbano",
+          "url": "https://educar.uab.cat/article/view/v62-n1-vicien-chocarro",
+          "published": "2025-09-23",
+          "summary": "Una actividad palanca del Programa de Refuerzo, Orientación y Apoyo se centra en facilitar y mejorar las transiciones educativas. Este es un proceso complejo influenciado por diversas variables, tanto académicas como personales o sociales. La percepción de la transición, las habilidades sociales y e"
         },
         {
-          "title": "Participación y educación comunitaria desde el modelo de comunidades de aprendizaje en Andalucía",
-          "url": "https://educar.uab.cat/article/view/v62-n1-dominguez-prados",
-          "published": "2026-02-19",
-          "summary": "En las comunidades de aprendizaje, la formación y la participación de la comunidad educativa es fundamental. Se manifiesta mediante su implicación en la toma de decisiones, la colaboración en actividades educativas y la evaluación de procesos. Esta participación no solo busca mejorar el aprendizaje "
+          "title": "Etapas educativas, transiciones y abandono escolar: los casos de España y Portugal",
+          "url": "https://educar.uab.cat/article/view/v62-n1-abrantes-et-al",
+          "published": "2025-12-09",
+          "summary": "El objetivo del artículo es explorar cómo la estructuración de las distintas etapas educativas en diferentes países se relaciona con el fenómeno del abandono escolar temprano. Se parte del diálogo entre dos líneas de investigación internacionales, una sobre las transiciones entre etapas educativas y"
         },
         {
-          "title": "El Proceso Diverze como pedagogía social comunitaria: Una apuesta por la inclusión socioeducativa a través del ocio inclusivo",
-          "url": "https://educar.uab.cat/article/view/v62-n1-cepeda-garcia",
-          "published": "2026-02-19",
-          "summary": "Este artículo examina el Proceso Diverze, una iniciativa de ocio inclusivo de la Asociación para la Mediación Social (EQUA) y la Universidad de Cádiz (UCA) con el objetivo de comprender en profundidad el alcance de este desde las claves que ofrece la pedagogía social comunitaria. Mediante un estudio"
+          "title": "Adhesión a la formación y orientación laboral del alumnado universitario",
+          "url": "https://educar.uab.cat/article/view/v62-n1-sanchez-bolivar-et-al",
+          "published": "2025-09-30",
+          "summary": "Para la transición a la vida activa del estudiante universitario de Ceuta se hace imprescindible establecer itinerarios educativos y profesionales óptimos para dar respuesta a su contexto geopolítico transnacional y, por ende, a su entorno vulnerable. Este estudio tiene como objetivo describir el pe"
         },
         {
-          "title": "Educación comunitaria no adultocéntrica: El enfoque de los comunes educativos para el reconocimiento de las infancias y adolescencias",
-          "url": "https://educar.uab.cat/article/view/v62-n1-servan-et-al",
-          "published": "2026-02-19",
-          "summary": "Este artículo analiza cómo los comunes educativos, concebidos como prácticas pedagógicas comunitarias, contribuyen a desestabilizar las lógicas adultocéntricas y a conseguir que niñas, niños y adolescentes disputen espacios de participación y agencia en la comunidad. La investigación, basada en una "
+          "title": "Diseño y validación del instrumento DigCompEdu Check-In para la medición de la competencia digital docente en los centros no universitarios de la Comunidad de Madrid",
+          "url": "https://educar.uab.cat/article/view/v62-n1-fernandez-et-al",
+          "published": "2025-09-23",
+          "summary": "La aplicación del marco DigCompEdu para definir la competencia digital del docente (CDD) ha sido ampliamente analizada en numerosos trabajos de investigación. El presente estudio tiene como objetivo validar el instrumento DigCompEdu Check-In para medir la competencia digital docente en centros no un"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210168775",
-        "openalex_url": "https://openalex.org/S4210168775",
-        "works_count": 1121,
-        "cited_by_count": 4593,
-        "h_index": 29,
-        "i10_index": 146,
-        "mean_citations_2yr": 0.7294117647058823,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Practices and Policies",
-          "Higher Education Teaching and Evaluation",
-          "Education and Teacher Training",
-          "Social Sciences and Policies",
-          "E-Learning and Knowledge Management",
-          "Educational theories and practices",
-          "Educational Innovations and Technology",
-          "Education in Rural Contexts"
-        ],
-        "homepage_url": "http://educar.uab.cat/"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0211-819X",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0211-819X",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0211-819X",
-        "openalex": "https://openalex.org/S4210168775",
-        "doaj": "https://doaj.org/toc/0211819X"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "3fdcbef0-a84b-43c4-90f9-59e76e1b5fc2",
@@ -910,6 +597,12 @@
       "rss_url": null,
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "educación",
         "didáctica",
@@ -917,38 +610,8 @@
       ],
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1699-2105.",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210214660",
-        "openalex_url": "https://openalex.org/S4210214660",
-        "works_count": 414,
-        "cited_by_count": 3482,
-        "h_index": 24,
-        "i10_index": 102,
-        "mean_citations_2yr": 1.0238095238095237,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "Education and Teacher Training",
-          "E-Learning and Knowledge Management",
-          "Higher Education Teaching and Evaluation",
-          "Literacy and Educational Practices",
-          "Digital literacy in education",
-          "Education in Rural Contexts",
-          "Inclusive Education and Diversity"
-        ],
-        "homepage_url": "https://revistas.um.es/educatio"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1699-2105",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1699-2105",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1699-2105",
-        "openalex": "https://openalex.org/S4210214660",
-        "doaj": "https://doaj.org/toc/16992105"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "cffa0cd0-a028-4ce4-80e3-027c5497938c",
@@ -961,6 +624,8 @@
       "rss_url": "https://www.mdpi.com/rss/journal/education",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "areas": [
         "educational sciences",
         "pedagogy",
@@ -968,38 +633,8 @@
       ],
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738008561",
-        "openalex_url": "https://openalex.org/S2738008561",
-        "works_count": 8228,
-        "cited_by_count": 103018,
-        "h_index": 108,
-        "i10_index": 2564,
-        "mean_citations_2yr": 3.644230769230769,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": 1515,
-        "country_code": "CH",
-        "type": "journal",
-        "topics": [
-          "Teacher Education and Leadership Studies",
-          "Online Learning and Analytics",
-          "Innovative Teaching and Learning Methods",
-          "Science Education and Pedagogy",
-          "Online and Blended Learning",
-          "Educational Games and Gamification",
-          "Early Childhood Education and Development",
-          "Innovative Teaching Methods"
-        ],
-        "homepage_url": "http://www.mdpi.com/journal/education"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2227-7102",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2227-7102",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2227-7102",
-        "openalex": "https://openalex.org/S2738008561",
-        "doaj": "https://doaj.org/toc/22277102"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "4cc97c44-e7d7-444f-89b3-30d729dedcf4",
@@ -1012,6 +647,8 @@
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10639",
       "impact_factor": 4.8,
       "quartile": "Q2",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "educational technology",
         "information technology",
@@ -1056,38 +693,8 @@
           "summary": ""
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S166722454",
-        "openalex_url": "https://openalex.org/S166722454",
-        "works_count": 5258,
-        "cited_by_count": 147051,
-        "h_index": 147,
-        "i10_index": 2935,
-        "mean_citations_2yr": 8.684278350515465,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 3190,
-        "country_code": "CH",
-        "type": "journal",
-        "topics": [
-          "Online and Blended Learning",
-          "Online Learning and Analytics",
-          "Innovative Teaching and Learning Methods",
-          "Educational Games and Gamification",
-          "Impact of Technology on Adolescents",
-          "Technology Adoption and User Behaviour",
-          "Teaching and Learning Programming",
-          "Child Development and Digital Technology"
-        ],
-        "homepage_url": "https://www.springer.com/journal/10639"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1360-2357",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1360-2357",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1360-2357",
-        "openalex": "https://openalex.org/S166722454",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "bf8f0854-9c05-4c97-ac11-e7288e82aadc",
@@ -1100,6 +707,12 @@
       "rss_url": "https://revistas.usal.es/tres/index.php/eks/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "sociedad del conocimiento",
         "tecnología educativa",
@@ -1144,38 +757,8 @@
           "summary": "La deserción estudiantil constituye un desafío para las instituciones de Educación Superior debido, entre otras razones, a la diversidad de los estudiantes en cuanto a su origen social, educativo y económico, así como a las disciplinas y grados académicos en los que se matriculan, produciendo una am"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2736693445",
-        "openalex_url": "https://openalex.org/S2736693445",
-        "works_count": 822,
-        "cited_by_count": 7637,
-        "h_index": 36,
-        "i10_index": 192,
-        "mean_citations_2yr": 1.8604651162790697,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "E-Learning and Knowledge Management",
-          "Educational Innovations and Technology",
-          "Digital literacy in education",
-          "Educational Technology in Learning",
-          "Higher Education Teaching and Evaluation",
-          "Education and Teacher Training",
-          "Educational theories and practices",
-          "Media and Digital Communication"
-        ],
-        "homepage_url": "http://revistas.usal.es/index.php/revistatesi/index"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2444-8729",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2444-8729",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2444-8729",
-        "openalex": "https://openalex.org/S2736693445",
-        "doaj": "https://doaj.org/toc/24448729"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "3ab22e40-823a-4f27-8ae4-ce2b9a09963a",
@@ -1188,6 +771,8 @@
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=11423",
       "impact_factor": 4.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "educational technology",
         "instructional design"
@@ -1213,56 +798,26 @@
           "summary": "This study proposes that teachers’ reading comprehension knowledge is multifaceted, consisting of identification-based and construction-based dimensions, and that effective professional development (PD) should improve both. We evaluated a PD program including an online workshop and in-person coachin"
         },
         {
-          "title": "Weaving STEAM with threads: teacher professional development with e-textile projects",
-          "url": "https://link.springer.com/article/10.1007/s11423-026-10597-z",
-          "published": "2026-03-17",
-          "summary": "The impact of educational e-textiles on student outcomes in STEAM education programs is a growing area of interest. Despite the potential of e-textile projects to enhance STEAM education, their effect on K-12 teachers’ professional development remains underexplored. This study investigates middle sc"
-        },
-        {
           "title": "The role of media multitasking tendency in medium effect on reading comprehension of university students",
           "url": "https://link.springer.com/article/10.1007/s11423-026-10607-0",
           "published": "2026-03-17",
           "summary": "Although there seemed to be an optimistic consensus about the use of Information and Communication Technologies to support teaching and learning, the negative effects of introducing technology into the classroom have become apparent in recent years. Evidence suggests that instead of using technologi"
         },
         {
-          "title": "Designing a peer teaching-based digital error correction approach to promote primary students learning performance, learning engagement, and perceptions",
-          "url": "https://link.springer.com/article/10.1007/s11423-026-10609-y",
+          "title": "Weaving STEAM with threads: teacher professional development with e-textile projects",
+          "url": "https://link.springer.com/article/10.1007/s11423-026-10597-z",
+          "published": "2026-03-17",
+          "summary": "The impact of educational e-textiles on student outcomes in STEAM education programs is a growing area of interest. Despite the potential of e-textile projects to enhance STEAM education, their effect on K-12 teachers’ professional development remains underexplored. This study investigates middle sc"
+        },
+        {
+          "title": "Human–machine knowledge building: reconceptualising knowledge building partnerships in the age of artificial intelligence",
+          "url": "https://link.springer.com/article/10.1007/s11423-026-10605-2",
           "published": "2026-03-16",
-          "summary": "With the rapid development of artificial intelligence, digital technology-based error correction significantly improves the efficiency of error correction by automatically identifying and clustering students’ errors and then analyzing the types of errors. However, in China’s whole class teaching, te"
+          "summary": "Increasingly ubiquitous access to Generative Artificial Intelligence (GenAI) presents many challenges, but also opportunities. The fundamental capacity of GenAI to mimic and augment human cognitive functioning, sets it aside from the myriad of previous technological ‘cognitive tool’ innovations that"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S114840262",
-        "openalex_url": "https://openalex.org/S114840262",
-        "works_count": 2696,
-        "cited_by_count": 147296,
-        "h_index": 171,
-        "i10_index": 1562,
-        "mean_citations_2yr": 5.975,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 3090,
-        "country_code": "US",
-        "type": "journal",
-        "topics": [
-          "Innovative Teaching and Learning Methods",
-          "Online and Blended Learning",
-          "Online Learning and Analytics",
-          "Educational Games and Gamification",
-          "Visual and Cognitive Learning Processes",
-          "Education and Technology Integration",
-          "Teaching and Learning Programming",
-          "Impact of Technology on Adolescents"
-        ],
-        "homepage_url": "https://www.springer.com/journal/11423"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1042-1629",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1042-1629",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1042-1629",
-        "openalex": "https://openalex.org/S114840262",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "140e3d65-157e-4783-a315-65439f895ea4",
@@ -1275,6 +830,12 @@
       "rss_url": "http://revistas.uach.cl/index.php/estped/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "pedagogía",
         "educación",
@@ -1319,38 +880,8 @@
           "summary": "Este artículo analiza la situación relacional en el IES Altsasu, un instituto público de educación secundaria de Navarra (España) caracterizado por la multiculturalidad. La Investigación-Acción Participativa (IAP) desarrollada incorporó al conjunto de la comunidad educativa y diversos agentes social"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210230295",
-        "openalex_url": "https://openalex.org/S4210230295",
-        "works_count": 1240,
-        "cited_by_count": 13116,
-        "h_index": 44,
-        "i10_index": 404,
-        "mean_citations_2yr": 0.3333333333333333,
-        "is_oa": true,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "CL",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Educational Innovations and Technology",
-          "Educational theories and practices",
-          "Higher Education Teaching and Evaluation",
-          "Educational Outcomes and Influences",
-          "Educational Practices and Policies",
-          "Education in Rural Contexts",
-          "E-Learning and Knowledge Management"
-        ],
-        "homepage_url": "http://www.scielo.cl/estped.htm"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0716-050X",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0716-050X",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0716-050X",
-        "openalex": "https://openalex.org/S4210230295",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
@@ -1363,6 +894,12 @@
       "rss_url": "http://forodeeducacion.com/ojs/index.php/fde/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "educación",
         "filosofía de la educación",
@@ -1407,38 +944,8 @@
           "summary": "En este trabajo analizamos la situación educativa de la etnia gitana desde la perspectiva de ocho maestras andaluzas que son gitanas. Se presenta como un estudio pionero, dado que no existen trabajos previos similares; y se destaca el interés personal, académico y profesional de la primera autora de"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2737327955",
-        "openalex_url": "https://openalex.org/S2737327955",
-        "works_count": 442,
-        "cited_by_count": 2154,
-        "h_index": 20,
-        "i10_index": 61,
-        "mean_citations_2yr": 0.0,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Educational Practices and Policies",
-          "History of Education in Spain",
-          "Social Sciences and Policies",
-          "Educational Innovations and Technology",
-          "Education in Rural Contexts",
-          "Educational theories and practices",
-          "Spanish History and Politics"
-        ],
-        "homepage_url": "http://www.forodeeducacion.com/"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1698-7799",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1698-7799",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1698-7799",
-        "openalex": "https://openalex.org/S2737327955",
-        "doaj": "https://doaj.org/toc/16987799"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "c925c528-9c44-4fdf-bfab-3a8ae6cfd913",
@@ -1451,6 +958,8 @@
       "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10734",
       "impact_factor": 4.6,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "higher education",
         "university policy"
@@ -1494,38 +1003,8 @@
           "summary": ""
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S94908168",
-        "openalex_url": "https://openalex.org/S94908168",
-        "works_count": 4944,
-        "cited_by_count": 211378,
-        "h_index": 195,
-        "i10_index": 2832,
-        "mean_citations_2yr": 3.4725050916496945,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 2990,
-        "country_code": "NL",
-        "type": "journal",
-        "topics": [
-          "Higher Education Governance and Development",
-          "Evaluation of Teaching Practices",
-          "Higher Education Research Studies",
-          "Higher Education Learning Practices",
-          "Higher Education and Employability",
-          "Global Educational Policies and Reforms",
-          "International Student and Expatriate Challenges",
-          "Higher Education Practises and Engagement"
-        ],
-        "homepage_url": "http://www.springer.com/10734"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0018-1560",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0018-1560",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0018-1560",
-        "openalex": "https://openalex.org/S94908168",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "4bec5771-e69e-41fb-b705-7bd2b14153d9",
@@ -1538,6 +1017,8 @@
       "rss_url": "https://www.tandfonline.com/feed/rss/riie20",
       "impact_factor": 3.5,
       "quartile": "Q2",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "teaching innovation",
         "higher education"
@@ -1581,38 +1062,8 @@
           "summary": "Volume 63, Issue 2, April 2026, Page 696-710 ."
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S146713389",
-        "openalex_url": "https://openalex.org/S146713389",
-        "works_count": 1764,
-        "cited_by_count": 45192,
-        "h_index": 91,
-        "i10_index": 838,
-        "mean_citations_2yr": 2.4357366771159876,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Online and Blended Learning",
-          "Evaluation of Teaching Practices",
-          "Reflective Practices in Education",
-          "Innovative Teaching and Learning Methods",
-          "Higher Education Practises and Engagement",
-          "Student Assessment and Feedback",
-          "Doctoral Education Challenges and Solutions",
-          "Higher Education and Employability"
-        ],
-        "homepage_url": "https://www.tandfonline.com/toc/riie20/current"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1470-3297",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1470-3297",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1470-3297",
-        "openalex": "https://openalex.org/S146713389",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "1dc1a709-1f45-4b38-b7f7-ac2b1530863e",
@@ -1625,6 +1076,8 @@
       "rss_url": "https://link.springer.com/search.rss?search-within=Journal&query=call+for+papers&facet-journal-id=41239",
       "impact_factor": 6.6,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "educational technology",
         "higher education",
@@ -1669,38 +1122,8 @@
           "summary": "This study explores the effectiveness of chatbots empowered by generative artificial intelligence (GAI) in assisting university students’ creative problem-solving (CPS). We used quasi-experiments to compare the performance of dialogue dynamics, learner perceptions, and practical competencies in CPS "
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210201537",
-        "openalex_url": "https://openalex.org/S4210201537",
-        "works_count": 583,
-        "cited_by_count": 52721,
-        "h_index": 111,
-        "i10_index": 456,
-        "mean_citations_2yr": 31.838709677419356,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "CH",
-        "type": "journal",
-        "topics": [
-          "Online Learning and Analytics",
-          "Online and Blended Learning",
-          "Innovative Teaching and Learning Methods",
-          "E-Learning and Knowledge Management",
-          "Artificial Intelligence in Healthcare and Education",
-          "Impact of Technology on Adolescents",
-          "Innovative Teaching Methods",
-          "Educational Games and Gamification"
-        ],
-        "homepage_url": "https://link.springer.com/journal/41239"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2365-9440",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2365-9440",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2365-9440",
-        "openalex": "https://openalex.org/S4210201537",
-        "doaj": "https://doaj.org/toc/23659440"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "3ca307f9-04df-4e67-802b-4e5951461f91",
@@ -1713,6 +1136,8 @@
       "rss_url": "https://onlinelibrary.wiley.com/action/showFeed?jc=13652729&type=etoc&feed=rss",
       "impact_factor": 5.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "computer-assisted learning",
         "educational technology"
@@ -1750,38 +1175,8 @@
           "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S5743915",
-        "openalex_url": "https://openalex.org/S5743915",
-        "works_count": 2746,
-        "cited_by_count": 108004,
-        "h_index": 157,
-        "i10_index": 1477,
-        "mean_citations_2yr": 5.267857142857143,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 3760,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Innovative Teaching and Learning Methods",
-          "Online and Blended Learning",
-          "Online Learning and Analytics",
-          "Visual and Cognitive Learning Processes",
-          "Educational Games and Gamification",
-          "Education and Technology Integration",
-          "Child Development and Digital Technology",
-          "Intelligent Tutoring Systems and Adaptive Learning"
-        ],
-        "homepage_url": "https://onlinelibrary.wiley.com/journal/13652729"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0266-4909",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0266-4909",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0266-4909",
-        "openalex": "https://openalex.org/S5743915",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "fd86c37a-3ee6-4169-80fc-475e697bcb01",
@@ -1794,6 +1189,8 @@
       "rss_url": null,
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "areas": [
         "educational research",
         "educational technology",
@@ -1801,38 +1198,8 @@
       ],
       "notes": "Open Access (Unpaywall). English and Spanish.",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738710002",
-        "openalex_url": "https://openalex.org/S2738710002",
-        "works_count": 285,
-        "cited_by_count": 7283,
-        "h_index": 40,
-        "i10_index": 163,
-        "mean_citations_2yr": 3.2096774193548385,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Digital literacy in education",
-          "Impact of Technology on Adolescents",
-          "Child Development and Digital Technology",
-          "Educational Games and Gamification",
-          "Online and Blended Learning",
-          "Education and Teacher Training"
-        ],
-        "homepage_url": "http://naerjournal.ua.es/"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2254-7339",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2254-7339",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2254-7339",
-        "openalex": "https://openalex.org/S2738710002",
-        "doaj": "https://doaj.org/toc/22547339"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "c29a7519-71cd-4e40-bed6-a37692862aa6",
@@ -1845,6 +1212,8 @@
       "rss_url": "https://rss.sciencedirect.com/publication/science/09594752",
       "impact_factor": 6.5,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "learning sciences",
         "instructional psychology"
@@ -1888,38 +1257,8 @@
           "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): K. Skylar Powell, Panagiotis Rentzelas, Maria Kambouri"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S78398831",
-        "openalex_url": "https://openalex.org/S78398831",
-        "works_count": 2338,
-        "cited_by_count": 164312,
-        "h_index": 198,
-        "i10_index": 1506,
-        "mean_citations_2yr": 4.982673267326732,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 4280,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Innovative Teaching and Learning Methods",
-          "Visual and Cognitive Learning Processes",
-          "Educational Strategies and Epistemologies",
-          "Human auditory perception and evaluation",
-          "Education, Achievement, and Giftedness",
-          "Diverse Scientific and Economic Studies",
-          "Reading and Literacy Development",
-          "Cognitive and developmental aspects of mathematical skills"
-        ],
-        "homepage_url": "https://www.journals.elsevier.com/learning-and-instruction"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0959-4752",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0959-4752",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0959-4752",
-        "openalex": "https://openalex.org/S78398831",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "ced5ace0-9155-494d-95d7-fe27c6e3aaf3",
@@ -1932,6 +1271,13 @@
       "rss_url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "areas": [
         "educación",
         "investigación educativa",
@@ -1946,38 +1292,8 @@
           "summary": ""
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2898244632",
-        "openalex_url": "https://openalex.org/S2898244632",
-        "works_count": 2121,
-        "cited_by_count": 8675,
-        "h_index": 34,
-        "i10_index": 249,
-        "mean_citations_2yr": 0.7362637362637363,
-        "is_oa": true,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "MX",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Higher Education Teaching and Evaluation",
-          "Educational theories and practices",
-          "Social Sciences and Policies",
-          "Educational Practices and Policies",
-          "Educational Innovations and Technology",
-          "Education in Rural Contexts",
-          "Higher Education in Latin America"
-        ],
-        "homepage_url": "https://www.sciencedirect.com/journal/perfiles-educativos"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0185-2698",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0185-2698",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0185-2698",
-        "openalex": "https://openalex.org/S2898244632",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "36e05325-ab09-4b36-b2cc-d1084ef98c3b",
@@ -1990,6 +1306,13 @@
       "rss_url": "https://recyt.fecyt.es/index.php/pixel/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "areas": [
         "medios de comunicación",
         "tecnología educativa",
@@ -2034,38 +1357,8 @@
           "summary": "La irrupción de la inteligencia artificial generativa en la educación plantea desafíos y oportunidades sin precedentes para la formación inicial docente. En este contexto, el diseño de prompts emerge como una competencia clave que articula saberes pedagógicos, lingüísticos, digitales y éticos. Este "
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210205217",
-        "openalex_url": "https://openalex.org/S4210205217",
-        "works_count": 374,
-        "cited_by_count": 4595,
-        "h_index": 32,
-        "i10_index": 147,
-        "mean_citations_2yr": 3.2753623188405796,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Digital literacy in education",
-          "Educational Technology in Learning",
-          "Media and Digital Communication",
-          "Higher Education Teaching and Evaluation",
-          "Literacy and Educational Practices",
-          "Education and Teacher Training"
-        ],
-        "homepage_url": "https://recyt.fecyt.es/index.php/pixel/inicio"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1133-8482",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1133-8482",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1133-8482",
-        "openalex": "https://openalex.org/S4210205217",
-        "doaj": "https://doaj.org/toc/11338482"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "0fb4284a-a75b-45ea-ae6f-16a8ba1d6baf",
@@ -2078,6 +1371,12 @@
       "rss_url": "https://revistas.um.es/red/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "distance education",
         "e-learning",
@@ -2122,38 +1421,8 @@
           "summary": "La comprensión y el manejo de la instrumentación es una habilidad fundamental para los estudiantes, especialmente en los campos de ciencia, tecnología, ingeniería y matemáticas (STEM). No obstante, el acceso restringido a laboratorios, la complejidad en el manejo de equipos reales y la exigencia de "
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738267768",
-        "openalex_url": "https://openalex.org/S2738267768",
-        "works_count": 787,
-        "cited_by_count": 9883,
-        "h_index": 47,
-        "i10_index": 235,
-        "mean_citations_2yr": 2.5671641791044775,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "E-Learning and Knowledge Management",
-          "Educational Innovations and Technology",
-          "Educational Technology in Learning",
-          "Higher Education Teaching and Evaluation",
-          "Digital literacy in education",
-          "Online Learning and Analytics",
-          "Education and Digital Technologies",
-          "Online and Blended Learning"
-        ],
-        "homepage_url": "http://revistas.uned.es/index.php/ried"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1138-2783",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1138-2783",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1138-2783",
-        "openalex": "https://openalex.org/S2738267768",
-        "doaj": "https://doaj.org/toc/11382783"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "82b52ca7-ade6-49db-8010-06d03fbf3257",
@@ -2166,6 +1435,13 @@
       "rss_url": "https://revistas.um.es/reifop/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "formación del profesorado",
         "didáctica",
@@ -2210,38 +1486,8 @@
           "summary": "Este estudio examina el autoconcepto artístico-musical del profesorado en formación del Grado en Educación Primaria en dos universidades españolas. A través de un diseño cuantitativo mediante cuestionario (n = 278), se analizan las percepciones de competencia en diversas dimensiones de la expresión "
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738706804",
-        "openalex_url": "https://openalex.org/S2738706804",
-        "works_count": 882,
-        "cited_by_count": 6043,
-        "h_index": 32,
-        "i10_index": 188,
-        "mean_citations_2yr": 2.0555555555555554,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Higher Education Teaching and Evaluation",
-          "Educational Innovations and Technology",
-          "Educational theories and practices",
-          "Educational Practices and Policies",
-          "Social Sciences and Policies",
-          "E-Learning and Knowledge Management",
-          "Educational Technology in Learning"
-        ],
-        "homepage_url": "http://revistas.um.es/reifop"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1575-0965",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1575-0965",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1575-0965",
-        "openalex": "https://openalex.org/S2738706804",
-        "doaj": "https://doaj.org/toc/15750965"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "1b1e713d-8be4-4eb5-a50c-31170e6969d7",
@@ -2254,6 +1500,13 @@
       "rss_url": "https://revistaseug.ugr.es/index.php/RELIEVE/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "investigación educativa",
         "evaluación",
@@ -2298,38 +1551,8 @@
           "summary": "El ciberacoso es un fenómeno que salpica la realidad universitaria y que ha sido poco estudiado en países como Perú. El presente estudio analiza la prevalencia y los patrones del ciberacoso en estudiantes universitarios peruanos, utilizando una muestra de 1258 participantes de tres universidades. Co"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2737823951",
-        "openalex_url": "https://openalex.org/S2737823951",
-        "works_count": 443,
-        "cited_by_count": 5050,
-        "h_index": 35,
-        "i10_index": 166,
-        "mean_citations_2yr": 0.972972972972973,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Higher Education Teaching and Evaluation",
-          "Educational Innovations and Technology",
-          "Educational Outcomes and Influences",
-          "E-Learning and Knowledge Management",
-          "Social Sciences and Policies",
-          "Education in Rural Contexts",
-          "Educational Practices and Policies"
-        ],
-        "homepage_url": "https://ojs.uv.es/index.php/RELIEVE/index"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1134-4032",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1134-4032",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1134-4032",
-        "openalex": "https://openalex.org/S2737823951",
-        "doaj": "https://doaj.org/toc/11344032"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "ea472c4a-b8b6-49a5-bea8-a21cfecdb325",
@@ -2342,82 +1565,22 @@
       "rss_url": "https://revistas.uned.es/index.php/ried/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "ERIH Plus"
+      ],
       "areas": [
         "educación a distancia",
         "e-learning",
         "tecnología educativa"
       ],
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS.",
-      "recent_entries": [
-        {
-          "title": "Inteligencia artificial generativa y autonomía educativa: metáforas históricas y principios éticos para la transformación pedagógica",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45536",
-          "published": "2026-01-01",
-          "summary": "Este artículo analiza la integración de la inteligencia artificial generativa en educación desde una perspectiva crítica, histórica y ética. Se identifica una creciente preocupación por la opacidad de las herramientas de inteligencia artificial actuales, especialmente en sistemas de aprendizaje. El "
-        },
-        {
-          "title": "Inteligencia artificial e inteligencia colectiva en la educación superior digital: estudio cuasi-experimental con la plataforma Kampal",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45560",
-          "published": "2026-01-01",
-          "summary": "La irrupción de la Inteligencia Artificial (IA) en educación superior plantea el desafío de integrar el aprendizaje personalizado con aprendizaje colaborativo. La inteligencia colectiva se sitúa en este estudio como una herramienta que permite articular ambos enfoques, al transformar aportaciones in"
-        },
-        {
-          "title": "Impacto de la IA generativa en competencias digitales universitarias: evidencia experimental basada en el marco DigComp",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45533",
-          "published": "2026-01-01",
-          "summary": "Este estudio analiza el impacto del uso formativo de inteligencia artificial (IA) generativa en el desarrollo de competencias digitales en estudiantes universitarios. La intervención se implementó mediante un ensayo controlado aleatorizado. El grupo experimental recibió formación orientada a utiliza"
-        },
-        {
-          "title": "AI-ED-SAT: diseño y validación de un cuestionario para autoevaluar competencias docentes en IA educativa",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45413",
-          "published": "2026-01-01",
-          "summary": "La integración acelerada de la Inteligencia Artificial (IA) en el ámbito educativo plantea nuevos retos para la formación y evaluación de competencias docentes. Este estudio presenta el diseño, validación y análisis psicométrico del cuestionario AI-ED-SAT, una herramienta de autoevaluación dirigida "
-        },
-        {
-          "title": "Autopercepción y utilidad de la inteligencia artificial generativa en docentes en formación",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45480",
-          "published": "2026-01-01",
-          "summary": "La irrupción de la Inteligencia Artificial Generativa (IA-Gen) en el ámbito educativo ofrece oportunidades, pero también plantea desafíos éticos y pedagógicos. En este contexto, resulta fundamental comprender la percepción de los docentes en formación hacia esta tecnología. Este estudio analizó la a"
-        },
-        {
-          "title": "Docentes y divulgación científica en redes sociales: desarrollo y validación inicial de instrumentos de evaluación",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45461",
-          "published": "2026-01-01",
-          "summary": "En el contexto actual de educación digital y ciencia abierta, el profesorado universitario no solo genera conocimiento mediante su producción científica y profesional, sino que además debe saber divulgarlo a públicos académicos y no especializados. Aunque vinculada a la competencia digital, la compe"
-        }
-      ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738267768",
-        "openalex_url": "https://openalex.org/S2738267768",
-        "works_count": 787,
-        "cited_by_count": 9883,
-        "h_index": 47,
-        "i10_index": 235,
-        "mean_citations_2yr": 2.5671641791044775,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "E-Learning and Knowledge Management",
-          "Educational Innovations and Technology",
-          "Educational Technology in Learning",
-          "Higher Education Teaching and Evaluation",
-          "Digital literacy in education",
-          "Online Learning and Analytics",
-          "Education and Digital Technologies",
-          "Online and Blended Learning"
-        ],
-        "homepage_url": "http://revistas.uned.es/index.php/ried"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1138-2783",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1138-2783",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1138-2783",
-        "openalex": "https://openalex.org/S2738267768",
-        "doaj": "https://doaj.org/toc/11382783"
-      }
+      "recent_entries": [],
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "541c2d29-4f4d-46e5-9037-460f7f8dbfe4",
@@ -2430,6 +1593,8 @@
       "rss_url": "https://journal.alt.ac.uk/index.php/rlt/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "areas": [
         "learning technology",
         "open access education"
@@ -2473,38 +1638,8 @@
           "summary": "Graphical reasoning in rotational kinematics remains a persistent challenge for secondary students, largely due to difficulties in interpreting and connecting angular displacement, velocity, and acceleration graphs. Similarly, the integration of science process skills (SPS) in physics instruction is"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S148039198",
-        "openalex_url": "https://openalex.org/S148039198",
-        "works_count": 949,
-        "cited_by_count": 21406,
-        "h_index": 69,
-        "i10_index": 439,
-        "mean_citations_2yr": 2.3043478260869565,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Online and Blended Learning",
-          "Innovative Teaching and Learning Methods",
-          "Open Education and E-Learning",
-          "Online Learning and Analytics",
-          "Mobile Learning in Education",
-          "Reflective Practices in Education",
-          "Impact of Technology on Adolescents",
-          "E-Learning and Knowledge Management"
-        ],
-        "homepage_url": "http://www.researchinlearningtechnology.net/"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2156-7069",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2156-7069",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2156-7069",
-        "openalex": "https://openalex.org/S148039198",
-        "doaj": "https://doaj.org/toc/21567069"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
@@ -2517,82 +1652,22 @@
       "rss_url": "https://revistascientificas.us.es/index.php/fuentes/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "educación",
         "ciencias sociales",
         "investigación educativa"
       ],
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072.",
-      "recent_entries": [
-        {
-          "title": "Impacto del Diseño Universal para el Aprendizaje en estudiantes universitarios con discapacidad: Revisión y metaanálisis",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28573",
-          "published": "2026-01-19",
-          "summary": "El Diseño Universal para el Aprendizaje (DUA) se ha consolidado como un enfoque pedagógico emergente que promueve el aprendizaje integral del estudiantado mediante un currículo flexible y accesible a la diversidad. Su implementación responde a la necesidad de garantizar oportunidades equitativas de "
-        },
-        {
-          "title": "Validación de una batería socioemocional para aspirantes de educación superior en línea",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28828",
-          "published": "2026-01-19",
-          "summary": "Introducción : Este estudio tuvo como objetivo validar una batería socioemocional institucional para aspirantes a licenciatura en línea en México, dada la importancia de estas variables para el éxito académico. Método : Participaron dos muestras: Muestra 1 (N=5272) para el análisis exploratorio y Mu"
-        },
-        {
-          "title": "Relación entre nomofobia y variables académicas y emocionales en estudiantes de secundaria",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28506",
-          "published": "2026-01-19",
-          "summary": "El uso problemático de dispositivos móviles en adolescentes ha dado lugar a fenómenos como la nomofobia, cuyos efectos en el ámbito educativo todavía no han sido suficientemente explorados. Este estudio analiza la relación entre la nomofobia, el bienestar percibido, los estilos de aprendizaje (super"
-        },
-        {
-          "title": "Patrones de significado sobre la educación inclusiva desde la dirección escolar chilena",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28418",
-          "published": "2026-01-19",
-          "summary": "Pese a que la educación inclusiva se ha posicionado como un eje central en la agenda educativa internacional, su conceptualización, propósitos y ámbitos de acción siguen siendo objeto de discusión. Este artículo tiene como objetivo explorar y analizar los significados de educación inclusiva que pose"
-        },
-        {
-          "title": "Desarrollo de agencia y orientación a metas académicas en estudiantes de posgrado",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28132",
-          "published": "2026-01-19",
-          "summary": "Los programas de posgrado presentan una variedad de retos para los estudiantes, debido a su naturaleza más especializada, que requiere de un trabajo constante y autoexigente. En este contexto, una mayor autonomía puede favorecer la agencia personal, para establecer metas y enfocar el esfuerzo, gene2"
-        },
-        {
-          "title": "Patrones del ciberacoso universitario con perspectiva de género en Puebla-México",
-          "url": "https://revistascientificas.us.es/index.php/fuentes/article/view/28523",
-          "published": "2026-01-19",
-          "summary": "El ciberacoso en entornos universitarios representa una forma creciente de violencia digital que afecta de manera diferenciada a estudiantes según su género. Se aplicó una encuesta estructurada a 495 estudiantes de licenciatura y posgrado pertenecientes a instituciones públicas y privadas con el pro"
-        }
-      ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2737944971",
-        "openalex_url": "https://openalex.org/S2737944971",
-        "works_count": 517,
-        "cited_by_count": 1993,
-        "h_index": 19,
-        "i10_index": 42,
-        "mean_citations_2yr": 2.161290322580645,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Higher Education Teaching and Evaluation",
-          "Education and Teacher Training",
-          "Educational Innovations and Technology",
-          "E-Learning and Knowledge Management",
-          "Educational Practices and Policies",
-          "Educational theories and practices",
-          "Digital literacy in education",
-          "Social Sciences and Policies"
-        ],
-        "homepage_url": "http://www.revistafuentes.es/editorial.php"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1575-7072",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1575-7072",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1575-7072",
-        "openalex": "https://openalex.org/S2737944971",
-        "doaj": "https://doaj.org/toc/15757072"
-      }
+      "recent_entries": [],
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "cbe7d9bc-74d0-4de1-9a85-879cea837bec",
@@ -2605,6 +1680,13 @@
       "rss_url": "https://recyt.fecyt.es/index.php/RIFOP/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "formación del profesorado",
         "didáctica",
@@ -2649,38 +1731,8 @@
           "summary": "La virtualización de la educación superior ha cobrado protagonismo en España, impulsada por factores como el desarrollo tecnológico y la creciente demanda de flexibilidad formativa. En este contexto, se analiza el impacto de la virtualización en el Máster de Formación del Profesorado (MESOB) en el p"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2738609645",
-        "openalex_url": "https://openalex.org/S2738609645",
-        "works_count": 1135,
-        "cited_by_count": 2720,
-        "h_index": 18,
-        "i10_index": 76,
-        "mean_citations_2yr": 0.47115384615384615,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational theories and practices",
-          "Higher Education Teaching and Evaluation",
-          "Educational Practices and Policies",
-          "Education and Teacher Training",
-          "Social Sciences and Policies",
-          "Educational Innovations and Technology",
-          "Literacy and Educational Practices",
-          "Education in Rural Contexts"
-        ],
-        "homepage_url": "https://recyt.fecyt.es/index.php/RIFOP/index"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0213-8646",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0213-8646",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0213-8646",
-        "openalex": "https://openalex.org/S2738609645",
-        "doaj": "https://doaj.org/toc/02138646"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "9b608f0f-ea5c-4603-8ed4-e8b5e0f867a8",
@@ -2693,6 +1745,13 @@
       "rss_url": null,
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "areas": [
         "investigación educativa",
         "metodología",
@@ -2700,38 +1759,8 @@
       ],
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S4210172987",
-        "openalex_url": "https://openalex.org/S4210172987",
-        "works_count": 482,
-        "cited_by_count": 6638,
-        "h_index": 38,
-        "i10_index": 215,
-        "mean_citations_2yr": 1.17,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "ES",
-        "type": "journal",
-        "topics": [
-          "Educational Innovations and Technology",
-          "Education and Teacher Training",
-          "Higher Education Teaching and Evaluation",
-          "E-Learning and Knowledge Management",
-          "Educational Outcomes and Influences",
-          "Inclusive Education and Diversity",
-          "Educational Practices and Policies",
-          "Social Sciences and Policies"
-        ],
-        "homepage_url": "http://www.um.es/rie"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0212-4068",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0212-4068",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0212-4068",
-        "openalex": "https://openalex.org/S4210172987",
-        "doaj": "https://doaj.org/toc/02124068"
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "6ccdae4e-ebbc-4d12-bfdb-5bbc5e12c4ed",
@@ -2744,6 +1773,8 @@
       "rss_url": "https://www.tandfonline.com/feed/rss/cshe20",
       "impact_factor": 4.3,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "higher education",
         "academic policy"
@@ -2787,38 +1818,8 @@
           "summary": "Volume 51, Issue 4, April 2026, Page 836-854 ."
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S162196882",
-        "openalex_url": "https://openalex.org/S162196882",
-        "works_count": 3635,
-        "cited_by_count": 189663,
-        "h_index": 187,
-        "i10_index": 2306,
-        "mean_citations_2yr": 5.204845814977974,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": null,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Higher Education Governance and Development",
-          "Evaluation of Teaching Practices",
-          "Higher Education and Employability",
-          "Higher Education Practises and Engagement",
-          "Higher Education Research Studies",
-          "Doctoral Education Challenges and Solutions",
-          "Higher Education Learning Practices",
-          "Reflective Practices in Education"
-        ],
-        "homepage_url": "http://www.tandfonline.com/toc/cshe20/current"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0307-5079",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0307-5079",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0307-5079",
-        "openalex": "https://openalex.org/S162196882",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "1c4966ab-24a8-4158-8ca7-2c0f617b9240",
@@ -2831,6 +1832,8 @@
       "rss_url": "https://rss.sciencedirect.com/publication/science/0742051X",
       "impact_factor": 4.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "teacher education",
         "pedagogy"
@@ -2874,38 +1877,8 @@
           "summary": "Publication date: July 2026 Source: Teaching and Teacher Education, Volume 176 Author(s): Zhuotao Fang, Qian Huang, Jinkai Zhang, Weixing Zou"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S94618750",
-        "openalex_url": "https://openalex.org/S94618750",
-        "works_count": 5477,
-        "cited_by_count": 344808,
-        "h_index": 244,
-        "i10_index": 3764,
-        "mean_citations_2yr": 3.8602673147023085,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 2660,
-        "country_code": "GB",
-        "type": "journal",
-        "topics": [
-          "Teacher Education and Leadership Studies",
-          "Collaborative Teaching and Inclusion",
-          "Educator Training and Historical Pedagogy",
-          "Reflective Practices in Education",
-          "Innovative Teaching and Learning Methods",
-          "Early Childhood Education and Development",
-          "Global Education and Multiculturalism",
-          "Teacher Professional Development and Motivation"
-        ],
-        "homepage_url": "https://www.journals.elsevier.com/teaching-and-teacher-education"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/0742-051X",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/0742-051X",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=0742-051X",
-        "openalex": "https://openalex.org/S94618750",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "acd0efc1-f3c2-449b-a791-27f514e143eb",
@@ -2918,6 +1891,8 @@
       "rss_url": "https://rss.sciencedirect.com/publication/science/10967516",
       "impact_factor": 8.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "areas": [
         "higher education",
         "online learning",
@@ -2962,38 +1937,8 @@
           "summary": "Publication date: April 2026 Source: The Internet and Higher Education, Volume 69 Author(s): Fan Zhang, Wanli Xing, Chenglu Li, Yihan Jiang"
         }
       ],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S166850901",
-        "openalex_url": "https://openalex.org/S166850901",
-        "works_count": 1036,
-        "cited_by_count": 108404,
-        "h_index": 157,
-        "i10_index": 685,
-        "mean_citations_2yr": 7.888888888888889,
-        "is_oa": false,
-        "is_in_doaj": false,
-        "apc_usd": 4440,
-        "country_code": "US",
-        "type": "journal",
-        "topics": [
-          "Online and Blended Learning",
-          "Innovative Teaching and Learning Methods",
-          "Online Learning and Analytics",
-          "Diverse Scientific and Economic Studies",
-          "Human auditory perception and evaluation",
-          "Educational Robotics and Engineering",
-          "Impact of Technology on Adolescents",
-          "Communication in Education and Healthcare"
-        ],
-        "homepage_url": "https://www.journals.elsevier.com/the-internet-and-higher-education"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/1096-7516",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/1096-7516",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1096-7516",
-        "openalex": "https://openalex.org/S166850901",
-        "doaj": null
-      }
+      "openalex": null,
+      "links": {}
     },
     {
       "id": "65e4f698-005d-4724-8e46-5e9e4dccef98",
@@ -3006,6 +1951,12 @@
       "rss_url": null,
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR"
+      ],
       "areas": [
         "investigación educativa",
         "educación internacional",
@@ -3013,38 +1964,8 @@
       ],
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [],
-      "openalex": {
-        "openalex_id": "https://openalex.org/S2739290193",
-        "openalex_url": "https://openalex.org/S2739290193",
-        "works_count": 394,
-        "cited_by_count": 2190,
-        "h_index": 20,
-        "i10_index": 80,
-        "mean_citations_2yr": 0.6206896551724138,
-        "is_oa": true,
-        "is_in_doaj": true,
-        "apc_usd": null,
-        "country_code": "CO",
-        "type": "journal",
-        "topics": [
-          "Education and Teacher Training",
-          "Educational Innovations and Technology",
-          "Educational theories and practices",
-          "Higher Education Teaching and Evaluation",
-          "E-Learning and Knowledge Management",
-          "Literacy and Educational Practices",
-          "Education in Rural Contexts",
-          "Social Sciences and Policies"
-        ],
-        "homepage_url": "https://revistas.javeriana.edu.co/index.php/MAGIS"
-      },
-      "links": {
-        "miar": "https://miar.ub.edu/issn/2027-1174",
-        "issn_portal": "https://portal.issn.org/resource/ISSN/2027-1174",
-        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=2027-1174",
-        "openalex": "https://openalex.org/S2739290193",
-        "doaj": "https://doaj.org/toc/20271174"
-      }
+      "openalex": null,
+      "links": {}
     }
   ],
   "conferences": [
@@ -3061,10 +1982,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: ACM DL. Organiza: ACM.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://learningatscale.acm.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "8204d8d1-69ae-46e4-8a83-15d5add37580",
@@ -3079,10 +1997,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Research in Learning Technology. Organiza: ALT.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.alt.ac.uk/altc/"
-      }
+      "recent_entries": []
     },
     {
       "id": "2ce1a324-0c10-4609-9de0-e1d7e765d06b",
@@ -3097,10 +2012,7 @@
       ],
       "periodicity": "annual",
       "notes": "Premier European CS education conference since 1996. Publicación: ACM DL.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://iticse.acm.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "a1ae49e3-c0b5-42e2-99f1-7a73fd8e7b84",
@@ -3115,10 +2027,7 @@
       ],
       "periodicity": "biennial",
       "notes": "Publicación: Learning and Instruction. Organiza: EARLI.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.earli.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "7c8e65fc-d3a4-4c61-8ee3-0009a16ddf8c",
@@ -3133,10 +2042,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Springer LNCS. Organiza: EATEL.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://ea-tel.eu/"
-      }
+      "recent_entries": []
     },
     {
       "id": "53cbf86e-27cc-4fb1-88f7-56a1dde66149",
@@ -3151,10 +2057,37 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.fie-conference.org/"
-      }
+      "recent_entries": []
+    },
+    {
+      "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
+      "name": "I Congreso Internacional y XVIII Jornadas de Innovaci?n Docente",
+      "acronym": "INNOVA Uniovi",
+      "url": "https://congresoinnova.uniovi.es/contribuciones",
+      "rss_url": null,
+      "areas": [
+        "innovaci?n docente",
+        "educaci?n superior",
+        "metodolog?as activas"
+      ],
+      "periodicity": "annual",
+      "notes": "Congreso de la Universidad de Oviedo sobre innovaci?n docente y difusi?n de contribuciones.",
+      "recent_entries": []
+    },
+    {
+      "id": "4ebb9cd2-cd22-4093-9d31-92dc72cea955",
+      "name": "I Congreso Internacional y XVIII Jornadas de Innovación Docente",
+      "acronym": "INNOVA Uniovi",
+      "url": "https://congresoinnova.uniovi.es/contribuciones",
+      "rss_url": null,
+      "areas": [
+        "innovación docente",
+        "educación superior",
+        "metodologías activas"
+      ],
+      "periodicity": "annual",
+      "notes": "Congreso de la Universidad de Oviedo sobre innovación docente y difusión de contribuciones.",
+      "recent_entries": []
     },
     {
       "id": "719f25e9-a658-4156-9936-01931c98a11b",
@@ -3169,10 +2102,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://educon-conference.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "0c333fd8-598c-4dd7-bb96-697d0c52ff4f",
@@ -3187,10 +2117,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Computer Society.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://tc.computer.org/tclt/"
-      }
+      "recent_entries": []
     },
     {
       "id": "2ef1a72d-3998-460f-9b1b-90665fcdb5f2",
@@ -3205,10 +2132,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://edunine.eu/"
-      }
+      "recent_entries": []
     },
     {
       "id": "0ae8e170-10e9-41f1-96df-741f8484cba9",
@@ -3223,10 +2147,7 @@
       ],
       "periodicity": "annual",
       "notes": "Organiza: Tecnológico de Monterrey.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://ifeconference.tec.mx/"
-      }
+      "recent_entries": []
     },
     {
       "id": "a7b8286b-40ae-4246-824c-b6d4ad3a8b9e",
@@ -3241,10 +2162,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: ICERI Proceedings (IATED). Suele celebrarse en Sevilla en noviembre.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://iated.org/iceri/"
-      }
+      "recent_entries": []
     },
     {
       "id": "9b8e3b12-c522-4f6d-857d-b177fff9466c",
@@ -3259,10 +2177,7 @@
       ],
       "periodicity": "biennial",
       "notes": "Publicación: ISLS Digital Library. Combina ICLS y CSCL desde 2018.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.isls.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "8621e5f4-870e-4b08-b387-99954980c8fe",
@@ -3277,10 +2192,7 @@
       ],
       "periodicity": "annual",
       "notes": null,
-      "recent_entries": [],
-      "links": {
-        "website": "https://acit.tech/"
-      }
+      "recent_entries": []
     },
     {
       "id": "b99458a1-2918-447e-9cd0-28365cad80d1",
@@ -3295,10 +2207,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Springer LNAI. Organiza: International AIED Society.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://iaied.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "47bb2d9a-4c97-480c-81ee-6a12242d9e97",
@@ -3313,10 +2222,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Elsevier Scopus / CPCI. Organiza: APSCE.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://apsce.net/icce/"
-      }
+      "recent_entries": []
     },
     {
       "id": "ed02b3a1-2cab-47bc-a665-2f541bf6efc2",
@@ -3331,10 +2237,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: ACM DL.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.icetc.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "c55b8ac1-5751-48d2-8457-48e80a7246f7",
@@ -3349,10 +2252,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: EDULEARN Proceedings (IATED). Generalmente en julio.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.iated.org/edulearn/"
-      }
+      "recent_entries": []
     },
     {
       "id": "8b354602-0d8f-48cd-8657-62dde945d7b8",
@@ -3367,10 +2267,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: actas indexadas en Elsevier Scopus y Thomson Reuters CPCI.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://educationaldatamining.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "7b2d2a2c-17d2-4b07-935e-5a61ee75bb0c",
@@ -3385,10 +2282,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: ACM DL. Organiza: SoLAR.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.solaresearch.org/events/lak/"
-      }
+      "recent_entries": []
     },
     {
       "id": "0a4244c2-c362-4417-922b-5f6d0f556894",
@@ -3403,10 +2297,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Springer LNNS.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://rie.science/"
-      }
+      "recent_entries": []
     },
     {
       "id": "08ac4a4a-3a69-427e-ad8f-836407767285",
@@ -3421,10 +2312,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: INTED Proceedings (IATED). Suele celebrarse en Valencia en marzo.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://iated.org/inted/"
-      }
+      "recent_entries": []
     },
     {
       "id": "f998f15b-aa5a-444a-8506-f4863387657b",
@@ -3439,10 +2327,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Scopus. América Latina y Caribe.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://laccei.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "ed864484-56ce-4e48-acfe-23cbcb0ce445",
@@ -3457,10 +2342,7 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: LearnTechLib. Organiza: AACE.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://site.aace.org/"
-      }
+      "recent_entries": []
     },
     {
       "id": "29eebcf1-98ec-4c24-8f9b-22ef52bd5a65",
@@ -3475,10 +2357,7 @@
       ],
       "periodicity": "annual",
       "notes": "Organiza: AACE.",
-      "recent_entries": [],
-      "links": {
-        "website": "https://www.aace.org/conf/edmedia/"
-      }
+      "recent_entries": []
     }
   ],
   "funding_sources": [

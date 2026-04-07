@@ -32,12 +32,13 @@ async function loadData() {
 
 function render(data) {
   renderStats(data);
-  renderCalls(data.calls || [], {});
+  renderCalls(getMainCalls(data.calls || []), {});
   renderJournals(data.journals || []);
   renderConferences(data.conferences || []);
   renderFundingSources(data.funding_sources || []);
   renderFilters(data);
   renderBlogspotSnippet();
+  initTabs();
 }
 
 function renderStats(data) {
@@ -143,7 +144,7 @@ function renderFilters(data) {
   });
 
   const apply = () => {
-    renderCalls(data.calls || [], {
+    renderCalls(getMainCalls(data.calls || []), {
       area: document.getElementById("filter-area")?.value,
       type: document.getElementById("filter-type")?.value,
       days: document.getElementById("filter-days")?.value,
@@ -225,11 +226,11 @@ function renderSourceList(config) {
           <div class="source-meta">${escHtml(config.metaText(item) || "")}</div>
           <div class="src-detail" id="src-detail-${config.keyPrefix}-${index}" style="display:none">
             ${item.notes ? `<p class="src-notes">${escHtml(item.notes)}</p>` : ""}
+            ${detailHref ? `<div style="padding:.25rem 0 .5rem"><a href="${detailHref}" class="btn btn-xs btn-outline src-detail-btn"><i class="fa-solid fa-circle-info"></i> ${config.detailLabel} -&gt;</a></div>` : ""}
             ${(item.areas || []).length > 3 ? `<div class="area-tags" style="margin:.35rem 0">${item.areas.map((area) => `<span class="area-tag">${escHtml(area)}</span>`).join("")}</div>` : ""}
             <div class="src-articles-wrap" id="src-articles-${config.keyPrefix}-${index}">
               <p class="src-articles-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Cargando feed...</p>
             </div>
-            ${detailHref ? `<div style="padding:.5rem 0 .25rem"><a href="${detailHref}" class="btn btn-xs btn-outline src-detail-btn"><i class="fa-solid fa-circle-info"></i> ${config.detailLabel} -&gt;</a></div>` : ""}
           </div>
         </li>
       `;
@@ -237,6 +238,30 @@ function renderSourceList(config) {
     .join("");
 
   wireExpandable(config.listId);
+}
+
+function initTabs() {
+  const tabs = document.querySelectorAll(".rw-tab");
+  const panels = document.querySelectorAll(".rw-tab-panel");
+  if (!tabs.length || !panels.length) return;
+
+  const activate = (targetId) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tabTarget === targetId;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.id === targetId;
+      panel.classList.toggle("is-active", isActive);
+      panel.hidden = !isActive;
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => activate(tab.dataset.tabTarget));
+  });
 }
 
 function wireExpandable(listId) {
@@ -356,6 +381,12 @@ function renderSourceLabel(source) {
       ? "Congreso"
       : "Programa";
   return `<span title="${escHtml(source.name)}">${escHtml(source.name)} <span class="text-muted">(${kind})</span></span>`;
+}
+
+function getMainCalls(calls) {
+  return (calls || []).filter(
+    (call) => call.source && (call.source.type === "journal" || call.source.type === "conference")
+  );
 }
 
 function daysBadge(days) {

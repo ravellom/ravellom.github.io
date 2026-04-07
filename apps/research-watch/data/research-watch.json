@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T09:57:41.922091+00:00",
+    "generated_at": "2026-04-07T11:53:02.699525+00:00",
     "version": "2",
-    "total_calls": 5
+    "total_calls": 2
   },
   "journals": [
     {
@@ -20,6 +20,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -37,6 +44,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -54,6 +67,8 @@
       ],
       "impact_factor": 6.0,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -72,6 +87,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": false,
       "notes": "SCOPUS: marcada como Inactive en Feb 2026."
     },
@@ -90,6 +111,8 @@
       ],
       "impact_factor": 8.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -108,6 +131,8 @@
       ],
       "impact_factor": 9.0,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -126,6 +151,13 @@
       ],
       "impact_factor": 5.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "scopus_active": false,
       "notes": "JCR Q1. SCOPUS: marcada como Inactive en Feb 2026 (verificar posible cambio de ISSN)."
     },
@@ -144,6 +176,8 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open access. Indexed in SCOPUS."
     },
@@ -162,6 +196,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -180,6 +220,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
@@ -198,6 +245,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -216,6 +270,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": null,
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1699-2105."
     },
@@ -234,6 +294,8 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -252,6 +314,8 @@
       ],
       "impact_factor": 4.8,
       "quartile": "Q2",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -270,6 +334,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": false,
       "notes": "Open Access (Unpaywall). SCOPUS: marcada como Inactive en Feb 2026."
     },
@@ -287,6 +357,8 @@
       ],
       "impact_factor": 4.9,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -305,6 +377,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": true,
       "notes": "Open access. Indexada en SCOPUS."
     },
@@ -323,6 +401,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": null,
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799."
     },
@@ -340,6 +424,8 @@
       ],
       "impact_factor": 4.6,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -357,6 +443,8 @@
       ],
       "impact_factor": 3.5,
       "quartile": "Q2",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -375,6 +463,8 @@
       ],
       "impact_factor": 6.6,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Formerly RUSC."
     },
@@ -392,6 +482,8 @@
       ],
       "impact_factor": 5.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -410,6 +502,8 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). English and Spanish."
     },
@@ -427,6 +521,8 @@
       ],
       "impact_factor": 6.5,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -445,6 +541,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "scopus_active": true,
       "notes": "Indexada en SCOPUS."
     },
@@ -463,6 +566,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "Redalyc"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -481,6 +591,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -499,6 +615,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -517,6 +640,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -535,6 +665,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 1,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "ERIH Plus"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
@@ -552,6 +689,8 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Published by the Association for Learning Technology."
     },
@@ -570,6 +709,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 3,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": null,
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072."
     },
@@ -588,6 +734,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -606,6 +759,13 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "Dialnet",
+        "Latindex",
+        "MIAR",
+        "FECYT"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -623,6 +783,8 @@
       ],
       "impact_factor": 4.3,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -640,6 +802,8 @@
       ],
       "impact_factor": 4.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -658,6 +822,8 @@
       ],
       "impact_factor": 8.1,
       "quartile": "Q1",
+      "indexing_level": 1,
+      "regional_indexes": [],
       "scopus_active": true,
       "notes": null
     },
@@ -676,6 +842,12 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [
+        "SciELO",
+        "Latindex",
+        "MIAR"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     }
@@ -764,6 +936,34 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society."
+    },
+    {
+      "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
+      "name": "I Congreso Internacional y XVIII Jornadas de Innovaci?n Docente",
+      "acronym": "INNOVA Uniovi",
+      "url": "https://congresoinnova.uniovi.es/contribuciones",
+      "rss_url": null,
+      "areas": [
+        "innovaci?n docente",
+        "educaci?n superior",
+        "metodolog?as activas"
+      ],
+      "periodicity": "annual",
+      "notes": "Congreso de la Universidad de Oviedo sobre innovaci?n docente y difusi?n de contribuciones."
+    },
+    {
+      "id": "4ebb9cd2-cd22-4093-9d31-92dc72cea955",
+      "name": "I Congreso Internacional y XVIII Jornadas de Innovación Docente",
+      "acronym": "INNOVA Uniovi",
+      "url": "https://congresoinnova.uniovi.es/contribuciones",
+      "rss_url": null,
+      "areas": [
+        "innovación docente",
+        "educación superior",
+        "metodologías activas"
+      ],
+      "periodicity": "annual",
+      "notes": "Congreso de la Universidad de Oviedo sobre innovación docente y difusión de contribuciones."
     },
     {
       "id": "719f25e9-a658-4156-9936-01931c98a11b",
@@ -1054,64 +1254,46 @@
   ],
   "calls": [
     {
-      "id": "5013c371-ceb2-40bd-96ce-dd8007321b84",
-      "type": "cfp",
-      "title": "International Journal of Teacher Education and Teaching",
-      "deadline": "2026-04-15",
-      "days_until": 8,
-      "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192316&copyownerid=197211",
+      "id": "ec7d8adf-2f41-4039-aa83-94dd0996e5a8",
+      "type": "special_issue",
+      "title": "Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
+      "deadline": "2026-06-01",
+      "days_until": 55,
+      "url": "https://revistas.uned.es/index.php/ried/announcement/view/502",
       "status": "active",
-      "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
+      "source_url": "https://revistas.uned.es/index.php/ried/announcement",
       "notes": null,
-      "source": null
+      "source": {
+        "type": "journal",
+        "id": "ea472c4a-b8b6-49a5-bea8-a21cfecdb325",
+        "name": "RIED. Revista Iberoamericana de Educación a Distancia",
+        "areas": [
+          "educación a distancia",
+          "e-learning",
+          "tecnología educativa"
+        ]
+      }
     },
     {
-      "id": "bda117ef-1cda-414b-9d6a-1833751139bf",
+      "id": "5e38822a-1796-45ee-8eb7-4eace2659ab8",
       "type": "cfp",
-      "title": "19th International Conference on Information Society",
-      "deadline": "2026-04-16",
-      "days_until": 9,
-      "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192257&copyownerid=18301",
+      "title": "I Congreso Internacional y XVIII Jornadas de Innovación Docente - UNIOVI",
+      "deadline": "2026-06-07",
+      "days_until": 61,
+      "url": "https://congresoinnova.uniovi.es/contribuciones",
       "status": "active",
-      "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
-      "notes": null,
-      "source": null
-    },
-    {
-      "id": "49ff56c0-7855-4eb4-b20c-6604c45c8963",
-      "type": "cfp",
-      "title": "The 3rd International Conference on Intelligent Technology for Educational Applications",
-      "deadline": "2026-04-18",
-      "days_until": 11,
-      "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191561&copyownerid=194712",
-      "status": "active",
-      "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
-      "notes": null,
-      "source": null
-    },
-    {
-      "id": "e6d1d8c1-7507-448d-907a-c1bb6ba9f802",
-      "type": "cfp",
-      "title": "Malaysia-China International Conference on  Educational Development",
-      "deadline": "2026-09-25",
-      "days_until": 171,
-      "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191526&copyownerid=196539",
-      "status": "active",
-      "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
-      "notes": null,
-      "source": null
-    },
-    {
-      "id": "20386bb5-8683-4406-beb6-76b8e9ab2847",
-      "type": "cfp",
-      "title": "Malaysia-China International Conference on  Educational Development",
-      "deadline": "2026-09-25",
-      "days_until": 171,
-      "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191527&copyownerid=196539",
-      "status": "active",
-      "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
-      "notes": null,
-      "source": null
+      "source_url": "https://congresoinnova.uniovi.es/contribuciones",
+      "notes": "Resumen hasta el 7 de junio de 2026. La comunicaci?n oral virtual debe estar subida antes del 21 de junio de 2026.",
+      "source": {
+        "type": "conference",
+        "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
+        "name": "I Congreso Internacional y XVIII Jornadas de Innovaci?n Docente",
+        "areas": [
+          "innovaci?n docente",
+          "educaci?n superior",
+          "metodolog?as activas"
+        ]
+      }
     }
   ]
 }

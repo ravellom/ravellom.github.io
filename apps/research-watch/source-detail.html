@@ -179,6 +179,7 @@
       const badges = [];
       if (source.quartile) badges.push(`<span class="source-if">${escHtml(source.quartile)}</span>`);
       if (source.impact_factor) badges.push(`<span class="source-if">IF ${escHtml(String(source.impact_factor))}</span>`);
+      if (type === "journal" && source.indexing_level) badges.push(`<span class="source-if">Nivel ${escHtml(String(source.indexing_level))}</span>`);
       if (type === "journal" && source.scopus_active === true) badges.push('<span class="source-if">SCOPUS activa</span>');
       if (type === "journal" && source.scopus_active === false) badges.push('<span class="source-if">SCOPUS inactiva</span>');
       document.getElementById("d-badges").innerHTML = badges.join("");
@@ -222,7 +223,12 @@
         show("d-areas-wrap");
       }
 
-      if ((metrics.topics || []).length) {
+      if (type === "journal" && (source.regional_indexes || []).length) {
+        const target = document.getElementById("d-topics");
+        target.innerHTML = source.regional_indexes.map((item) => `<span class="area-tag" style="background:#ecfccb;color:#3f6212">${escHtml(item)}</span>`).join("");
+        document.querySelector("#d-topics-wrap .section-title").textContent = "Índices regionales";
+        show("d-topics-wrap");
+      } else if ((metrics.topics || []).length) {
         document.getElementById("d-topics").innerHTML = metrics.topics.map((topic) => `<span class="area-tag" style="background:#ede9fe;color:#6d28d9">${escHtml(topic)}</span>`).join("");
         show("d-topics-wrap");
       }

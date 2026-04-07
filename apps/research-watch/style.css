@@ -55,6 +55,33 @@
 /* Main layout */
 .app-main { display: flex; flex-direction: column; gap: 1.75rem; padding-top: 2rem; padding-bottom: 3rem; }
 
+/* Tabs */
+.rw-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.rw-tab {
+  border: 1px solid var(--border, #cbd5e1);
+  background: var(--bg-card, #fff);
+  color: var(--text-main, #0f172a);
+  border-radius: 999px;
+  padding: .5rem .9rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.rw-tab:hover {
+  border-color: var(--primary, #3b82f6);
+  color: var(--primary, #3b82f6);
+}
+.rw-tab.is-active {
+  background: var(--primary, #3b82f6);
+  border-color: var(--primary, #3b82f6);
+  color: #fff;
+}
+.rw-tab-panel[hidden] { display: none !important; }
+
 /* Card */
 .rw-card { padding: 0; overflow: hidden; border: 1px solid var(--border, #e2e8f0); border-radius: 10px; }
 .rw-card-header {
@@ -174,14 +201,6 @@
   color: var(--text-muted, #475569);
   font-size: .9rem;
 }
-
-/* Two-column grid */
-.rw-grid-two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-}
-@media (max-width: 700px) { .rw-grid-two { grid-template-columns: 1fr; } }
 
 /* Source list (journals / conferences) */
 .source-list {
