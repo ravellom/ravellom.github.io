@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T11:53:02.699525+00:00",
+    "generated_at": "2026-04-07T20:17:11.254441+00:00",
     "version": "2",
-    "total_calls": 2
+    "total_calls": 4
   },
   "journals": [
     {
@@ -857,7 +857,7 @@
       "id": "c42bbb2e-cc06-4d19-bda7-de73535aa9bb",
       "name": "ACM Conference on Learning at Scale",
       "acronym": "L@S",
-      "url": "https://learningatscale.acm.org/",
+      "url": "https://learningatscale.acm.org/las2026/",
       "rss_url": null,
       "areas": [
         "MOOCs",
@@ -865,13 +865,13 @@
         "online learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: ACM DL. Organiza: ACM."
+      "notes": "L@S 2026: Seoul, South Korea, 29 Jun-3 Jul 2026, at COEX Conference Center. Part of Festival of Learning 2026. Workshops on 29 Jun and paper/poster sessions 30 Jun-3 Jul. Proceedings: ACM Digital Library."
     },
     {
       "id": "8204d8d1-69ae-46e4-8a83-15d5add37580",
       "name": "ALT Annual Conference",
       "acronym": "ALT-C",
-      "url": "https://www.alt.ac.uk/altc/",
+      "url": "https://www.alt.ac.uk/altc",
       "rss_url": null,
       "areas": [
         "learning technology",
@@ -879,7 +879,7 @@
         "UK"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Research in Learning Technology. Organiza: ALT."
+      "notes": "ALT-C is the ALT Annual Conference series run by the Association for Learning Technology. ALT is already recruiting conference committee members for ALTC 2026; the annual conference remains one of the main UK-facing events in learning technology and digital education."
     },
     {
       "id": "2ce1a324-0c10-4609-9de0-e1d7e765d06b",
@@ -893,7 +893,7 @@
         "pedagogy"
       ],
       "periodicity": "annual",
-      "notes": "Premier European CS education conference since 1996. Publicación: ACM DL."
+      "notes": "ITiCSE 2026: Madrid, Spain, 13-15 Jul 2026. Premier European conference on computing/informatics education, held annually since 1996. Organized with ACM SIGCSE, ACM Europe Council and Informatics Europe. Proceedings: ACM Digital Library."
     },
     {
       "id": "a1ae49e3-c0b5-42e2-99f1-7a73fd8e7b84",
@@ -907,13 +907,13 @@
         "educational research"
       ],
       "periodicity": "biennial",
-      "notes": "Publicación: Learning and Instruction. Organiza: EARLI."
+      "notes": "EARLI Biennial Conference is the flagship conference of the European Association for Research on Learning and Instruction. The main series is biennial; 2026 activity on the official site is concentrated in SIG conferences while the core EARLI/JURE cycle continues on its biennial cadence."
     },
     {
       "id": "7c8e65fc-d3a4-4c61-8ee3-0009a16ddf8c",
       "name": "European Conference on Technology Enhanced Learning",
       "acronym": "EC-TEL",
-      "url": "https://ea-tel.eu/",
+      "url": "https://ea-tel.eu/ectel2026",
       "rss_url": null,
       "areas": [
         "technology enhanced learning",
@@ -921,13 +921,13 @@
         "learning design"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Springer LNCS. Organiza: EATEL."
+      "notes": "ECTEL 2026: Valencia, Spain, 14-18 Sep 2026. Theme: \"Mindful TEL: Learning Technologies Shaped with Intention\". Face-to-face conference organized by EATEL. Proceedings: Springer LNCS/LNAI series."
     },
     {
       "id": "53cbf86e-27cc-4fb1-88f7-56a1dde66149",
       "name": "Frontiers in Education Conference",
       "acronym": "FIE",
-      "url": "https://www.fie-conference.org/",
+      "url": "https://fie-conference.org/2026",
       "rss_url": null,
       "areas": [
         "engineering education",
@@ -935,7 +935,7 @@
         "active learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society."
+      "notes": "FIE 2026: Paphos, Cyprus, 11-14 Oct 2026. Theme: \"Engineering and Computing Education in the Large Language Model Era\". Co-sponsored by IEEE Education Society, IEEE Computer Society, and ASEE ERM Division. Proceedings: IEEE Xplore."
     },
     {
       "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
@@ -949,21 +949,7 @@
         "metodolog?as activas"
       ],
       "periodicity": "annual",
-      "notes": "Congreso de la Universidad de Oviedo sobre innovaci?n docente y difusi?n de contribuciones."
-    },
-    {
-      "id": "4ebb9cd2-cd22-4093-9d31-92dc72cea955",
-      "name": "I Congreso Internacional y XVIII Jornadas de Innovación Docente",
-      "acronym": "INNOVA Uniovi",
-      "url": "https://congresoinnova.uniovi.es/contribuciones",
-      "rss_url": null,
-      "areas": [
-        "innovación docente",
-        "educación superior",
-        "metodologías activas"
-      ],
-      "periodicity": "annual",
-      "notes": "Congreso de la Universidad de Oviedo sobre innovación docente y difusión de contribuciones."
+      "notes": "I Congreso Internacional y XVIII Jornadas de Innovacion Docente (Universidad de Oviedo). Current contributions page includes a call with summary deadline 7 Jun 2026 and oral communication delivery before 21 Jun 2026. Maintained as a manually curated conference in the local catalog."
     },
     {
       "id": "719f25e9-a658-4156-9936-01931c98a11b",
@@ -977,7 +963,7 @@
         "STEAM"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society."
+      "notes": "EDUCON 2026: Cairo, Egypt, 27-30 Apr 2026. Annual IEEE Global Engineering Education Conference sponsored by the IEEE Education Society. Accepted peer-reviewed papers are submitted to IEEE Xplore."
     },
     {
       "id": "0c333fd8-598c-4dd7-bb96-697d0c52ff4f",
@@ -997,7 +983,7 @@
       "id": "2ef1a72d-3998-460f-9b1b-90665fcdb5f2",
       "name": "IEEE World Engineering Education Conference",
       "acronym": "EDUNINE",
-      "url": "https://edunine.eu/",
+      "url": "https://edunine.eu/edunine2026/eng/index.php",
       "rss_url": null,
       "areas": [
         "engineering education",
@@ -1005,7 +991,7 @@
         "Latin America"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society."
+      "notes": "EDUNINE 2026: Mexico City, Mexico, 8-11 Mar 2026, hosted by Tecnologico de Monterrey in hybrid format. Theme: \"The Role of Engineering and Computer Technology as Artificial Intelligence turns into Reality: a Challenge for Professional Education\". Proceedings: IEEE Xplore."
     },
     {
       "id": "0ae8e170-10e9-41f1-96df-741f8484cba9",
@@ -1019,7 +1005,7 @@
         "tecnología"
       ],
       "periodicity": "annual",
-      "notes": "Organiza: Tecnológico de Monterrey."
+      "notes": "IFE Conference is Tecnologico de Monterrey's innovation-in-education conference series. The official site remains the best source; current metadata in the local catalog is maintained as a tracked conference of interest for educational innovation."
     },
     {
       "id": "a7b8286b-40ae-4246-824c-b6d4ad3a8b9e",
@@ -1033,7 +1019,7 @@
         "innovation"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: ICERI Proceedings (IATED). Suele celebrarse en Sevilla en noviembre."
+      "notes": "ICERI is IATED's annual International Conference of Education, Research and Innovation. The official site already announces the next edition for Nov 2026 after ICERI2025 in Seville. Proceedings are published in the IATED Digital Library with DOI assignment."
     },
     {
       "id": "9b8e3b12-c522-4f6d-857d-b177fff9466c",
@@ -1053,7 +1039,7 @@
       "id": "8621e5f4-870e-4b08-b387-99954980c8fe",
       "name": "International Conference on Advanced Computer Information Technologies",
       "acronym": "ACIT",
-      "url": "https://acit.tech/",
+      "url": "https://www.acit.tech/",
       "rss_url": null,
       "areas": [
         "computer information technologies",
@@ -1061,13 +1047,13 @@
         "education"
       ],
       "periodicity": "annual",
-      "notes": null
+      "notes": "ACIT 2026: Zlin, Czech Republic, 2-4 Sep 2026, hybrid format, hosted by Tomas Bata University in Zlin. Accepted papers are submitted to IEEE Xplore; prior proceedings are indexed in IEEE Xplore, Scopus, Web of Science, DBLP and Google Scholar. ISSN online 2770-5226, print 2770-5218."
     },
     {
       "id": "b99458a1-2918-447e-9cd0-28365cad80d1",
       "name": "International Conference on Artificial Intelligence in Education",
       "acronym": "AIED",
-      "url": "https://iaied.org/",
+      "url": "https://aied-conference.org/2026",
       "rss_url": null,
       "areas": [
         "AI in education",
@@ -1075,13 +1061,13 @@
         "adaptive learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Springer LNAI. Organiza: International AIED Society."
+      "notes": "AIED 2026: Seoul, Republic of Korea, 29 Jun-3 Jul 2026, at COEX Center. Theme: \"From Tools To Teammates: Human-AI Synergy For Augmented Learning\". Organized by the IAIED Society and co-located within Festival of Learning 2026. Proceedings: Springer LNAI."
     },
     {
       "id": "47bb2d9a-4c97-480c-81ee-6a12242d9e97",
       "name": "International Conference on Computers in Education",
       "acronym": "ICCE",
-      "url": "https://apsce.net/icce/",
+      "url": "https://apsce.net/events/icce-2025",
       "rss_url": null,
       "areas": [
         "computers in education",
@@ -1089,7 +1075,7 @@
         "collaborative learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Elsevier Scopus / CPCI. Organiza: APSCE."
+      "notes": "ICCE is APSCE's flagship annual conference series. The latest fully documented edition in the official proceedings is ICCE 2025, hosted by IIT Madras in Chennai, India, 1-5 Dec 2025. Proceedings are maintained in the APSCE conference library."
     },
     {
       "id": "ed02b3a1-2cab-47bc-a665-2f541bf6efc2",
@@ -1103,7 +1089,7 @@
         "e-learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: ACM DL."
+      "notes": "ICETC 2026: Amsterdam, The Netherlands, 20-23 Sep 2026. 18th International Conference on Education Technology and Computers. Accepted papers/proceedings are handled through ACM Digital Library and the site tracks indexing of prior editions in Ei Compendex and Scopus."
     },
     {
       "id": "c55b8ac1-5751-48d2-8457-48e80a7246f7",
@@ -1117,13 +1103,13 @@
         "digital tools"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: EDULEARN Proceedings (IATED). Generalmente en julio."
+      "notes": "EDULEARN is IATED's annual conference on education and new learning technologies. 2026 edition is reflected in the current Edinburgh material from other sources? Keep as active IATED annual series. Proceedings are published in the IATED Digital Library with DOI assignment."
     },
     {
       "id": "8b354602-0d8f-48cd-8657-62dde945d7b8",
       "name": "International Conference on Educational Data Mining",
       "acronym": "EDM",
-      "url": "https://educationaldatamining.org/",
+      "url": "https://educationaldatamining.org/edm2026/",
       "rss_url": null,
       "areas": [
         "educational data mining",
@@ -1131,13 +1117,13 @@
         "machine learning"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: actas indexadas en Elsevier Scopus y Thomson Reuters CPCI."
+      "notes": "EDM 2026: Seoul, South Korea, 29 Jun-3 Jul 2026, as part of Festival of Learning 2026. Theme: \"Educational Data Mining Across Borders: Bridging Disciplines, Contexts, and Perspectives\". International Educational Data Mining Society conference."
     },
     {
       "id": "7b2d2a2c-17d2-4b07-935e-5a61ee75bb0c",
       "name": "International Conference on Learning Analytics & Knowledge",
       "acronym": "LAK",
-      "url": "https://www.solaresearch.org/events/lak/",
+      "url": "https://www.solaresearch.org/events/lak/lak26/",
       "rss_url": null,
       "areas": [
         "learning analytics",
@@ -1145,7 +1131,7 @@
         "personalisation"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: ACM DL. Organiza: SoLAR."
+      "notes": "LAK26: Bergen, Norway, 27 Apr-1 May 2026. Organized by SoLAR with the University of Bergen. Theme: \"Learning Analytics and AI Synergy\". Proceedings archived in the ACM Digital Library."
     },
     {
       "id": "0a4244c2-c362-4417-922b-5f6d0f556894",
@@ -1159,7 +1145,7 @@
         "robot programming"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Springer LNNS."
+      "notes": "RiE 2026 is the 17th International Conference on Robotics in Education. Current call materials on the official site show Jan 15 2026 paper submission and Apr 5 2026 camera-ready milestone. Proceedings: Springer LNNS."
     },
     {
       "id": "08ac4a4a-3a69-427e-ad8f-836407767285",
@@ -1173,13 +1159,13 @@
         "higher education"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: INTED Proceedings (IATED). Suele celebrarse en Valencia en marzo."
+      "notes": "INTED2026: Valencia, Spain, 2-4 Mar 2026. IATED's 20th annual International Technology, Education and Development Conference. Proceedings published in the IATED Digital Library with DOI assignment."
     },
     {
       "id": "f998f15b-aa5a-444a-8506-f4863387657b",
       "name": "LACCEI International Multi-Conference for Engineering, Education and Technology",
       "acronym": "LACCEI",
-      "url": "https://laccei.org/",
+      "url": "https://laccei.org/laccei2026/",
       "rss_url": null,
       "areas": [
         "engineering education",
@@ -1187,13 +1173,13 @@
         "technology"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: Scopus. América Latina y Caribe."
+      "notes": "LACCEI 2026: Santiago, Chile, 15-17 Jul 2026, hybrid format, in person at InterContinental Santiago and virtually via Agora Meetings Platform. Theme: \"Engineering without Borders: Artificial Intelligence, Knowledge, Innovation, and Alliances for a Future from the Americas\"."
     },
     {
       "id": "ed864484-56ce-4e48-acfe-23cbcb0ce445",
       "name": "Society for Information Technology and Teacher Education International Conference",
       "acronym": "SITE",
-      "url": "https://site.aace.org/",
+      "url": "https://site.aace.org/conf",
       "rss_url": null,
       "areas": [
         "teacher education",
@@ -1201,13 +1187,13 @@
         "digital competence"
       ],
       "periodicity": "annual",
-      "notes": "Publicación: LearnTechLib. Organiza: AACE."
+      "notes": "SITE 2026: Philadelphia, Pennsylvania, 23-27 Mar 2026. 37th annual conference of the Society for Information Technology and Teacher Education (AACE). Focused on instructional technologies in teacher education. Proceedings available via LearnTechLib."
     },
     {
       "id": "29eebcf1-98ec-4c24-8f9b-22ef52bd5a65",
       "name": "World Conference on Educational Media and Technology",
       "acronym": "EdMedia",
-      "url": "https://www.aace.org/conf/edmedia/",
+      "url": "https://conf.aace.org/edmedia/",
       "rss_url": null,
       "areas": [
         "educational media",
@@ -1215,7 +1201,7 @@
         "instructional design"
       ],
       "periodicity": "annual",
-      "notes": "Organiza: AACE."
+      "notes": "EdMedia 2026: Edinburgh, Scotland, 25-29 May 2026. Organized by AACE with University of Edinburgh as 2026 co-host. Premier international conference in educational media and technology since 1987. Proceedings and related publications flow through LearnTechLib/AACE."
     }
   ],
   "funding_sources": [
@@ -1292,6 +1278,48 @@
           "innovaci?n docente",
           "educaci?n superior",
           "metodolog?as activas"
+        ]
+      }
+    },
+    {
+      "id": "c494b740-b40c-4c72-bc72-b48c3862d56f",
+      "type": "monographic",
+      "title": "Videojuegos y educación. Más allá de la gamificación y los enfoques instruccionales",
+      "deadline": "2026-06-15",
+      "days_until": 69,
+      "url": "https://www.edutec.es/revista/index.php/edutec-e/announcement/view/57",
+      "status": "active",
+      "source_url": "https://www.edutec.es/revista/index.php/edutec-e/announcement",
+      "notes": null,
+      "source": {
+        "type": "journal",
+        "id": "58236087-1fef-4260-a345-04ac43b1a94a",
+        "name": "EDUTEC. Revista Electrónica de Tecnología Educativa",
+        "areas": [
+          "tecnología educativa",
+          "innovación docente",
+          "e-learning"
+        ]
+      }
+    },
+    {
+      "id": "c3df12f9-daa7-4672-9d44-77f57543c583",
+      "type": "special_issue",
+      "title": "Educar: Monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
+      "deadline": null,
+      "days_until": null,
+      "url": "https://educar.uab.cat/announcement/view/63",
+      "status": "active",
+      "source_url": "https://educar.uab.cat/index.php/educar/announcement",
+      "notes": null,
+      "source": {
+        "type": "journal",
+        "id": "01234efb-2929-4c02-84d4-a32441995caf",
+        "name": "Educar",
+        "areas": [
+          "educación",
+          "pedagogía",
+          "formación"
         ]
       }
     }
