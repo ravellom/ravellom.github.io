@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated_at": "2026-04-03T14:43:04.916983+00:00",
-    "version": "1",
+    "generated_at": "2026-04-07T09:57:41.922091+00:00",
+    "version": "2",
     "total_calls": 5
   },
   "journals": [
@@ -9,8 +9,10 @@
       "id": "ba6db7fc-bad4-4ea7-a872-006918cf45f0",
       "name": "Aula Abierta",
       "issn": "0210-2773",
+      "eissn": "2341-2313",
       "publisher": "Universidad de Oviedo",
       "url": "https://reunido.uniovi.es/index.php/AA/index",
+      "rss_url": "https://reunido.uniovi.es/index.php/AA/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "didáctica",
@@ -18,42 +20,51 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "cfb67e04-cce2-44a6-816f-fe29368d79d6",
       "name": "Avances de Investigación en Educación Matemática (AIEM)",
       "issn": "2254-4313",
-      "publisher": "SEIEM",
+      "eissn": "2254-4313",
+      "publisher": "Spanish Society of Research in Mathematics Education",
       "url": "https://aiem.es/",
+      "rss_url": "https://aiem.es/index.php/aiem/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación matemática",
         "didáctica de las matemáticas"
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "9384a76a-0f92-49b4-94e2-fce2d818ddc8",
       "name": "British Journal of Educational Technology",
       "issn": "0007-1013",
-      "publisher": "Wiley / BERA",
+      "eissn": "1467-8535",
+      "publisher": "Wiley-Blackwell Publishing Ltd",
       "url": "https://bera-journals.onlinelibrary.wiley.com/journal/14678535",
+      "rss_url": "https://bera-journals.onlinelibrary.wiley.com/action/showFeed?jc=14678535&type=etoc&feed=rss",
       "areas": [
         "educational technology",
         "digital learning"
       ],
       "impact_factor": 6.0,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "afcd33d0-9775-4add-98dc-c009ab985f51",
       "name": "Campus Virtuales",
       "issn": "2255-1514",
-      "publisher": "UAJOURNALS",
+      "eissn": "2255-1514",
+      "publisher": "Red Universitaria de Campus Virtuales",
       "url": "http://www.uajournals.com/campusvirtuales/es/",
+      "rss_url": null,
       "areas": [
         "campus virtuales",
         "e-learning",
@@ -61,14 +72,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": false,
+      "notes": "SCOPUS: marcada como Inactive en Feb 2026."
     },
     {
       "id": "781ec7ab-1424-4556-be58-51bd00aa9faa",
       "name": "Computers & Education",
       "issn": "0360-1315",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/computers-and-education",
+      "rss_url": "https://rss.sciencedirect.com/publication/science/03601315",
       "areas": [
         "educational technology",
         "e-learning",
@@ -76,14 +90,17 @@
       ],
       "impact_factor": 8.9,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "cfc5a7ca-73ac-4047-9505-e6a2cb16caf3",
       "name": "Computers in Human Behavior",
       "issn": "0747-5632",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/computers-in-human-behavior",
+      "rss_url": "https://rss.sciencedirect.com/publication/science/07475632",
       "areas": [
         "human-computer interaction",
         "educational technology",
@@ -91,14 +108,17 @@
       ],
       "impact_factor": 9.0,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "16fcd1fe-b98f-4601-bc90-571f4c3f8d67",
       "name": "Comunicar",
       "issn": "1134-3478",
-      "publisher": "Grupo Comunicar",
+      "eissn": "1988-3293",
+      "publisher": "Grupo Comunicar Ediciones",
       "url": "https://www.revistacomunicar.com/",
+      "rss_url": null,
       "areas": [
         "media literacy",
         "educational communication",
@@ -106,14 +126,17 @@
       ],
       "impact_factor": 5.9,
       "quartile": "Q1",
-      "notes": "Revista iberoamericana de comunicación y educación. JCR Q1."
+      "scopus_active": false,
+      "notes": "JCR Q1. SCOPUS: marcada como Inactive en Feb 2026 (verificar posible cambio de ISSN)."
     },
     {
       "id": "fe4949e2-6ecc-43b5-b775-967b7e5adbf9",
       "name": "Digital Education Review",
       "issn": "2013-9144",
-      "publisher": "University of Barcelona",
+      "eissn": "2013-9144",
+      "publisher": "Universitat de Barcelona",
       "url": "https://revistes.ub.edu/index.php/der/index",
+      "rss_url": "https://revistes.ub.edu/index.php/der/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "digital education",
         "e-learning",
@@ -121,14 +144,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "scopus_active": true,
       "notes": "Open access. Indexed in SCOPUS."
     },
     {
       "id": "58236087-1fef-4260-a345-04ac43b1a94a",
       "name": "EDUTEC. Revista Electrónica de Tecnología Educativa",
       "issn": "1135-9250",
-      "publisher": "EDUTEC",
+      "eissn": "1135-9250",
+      "publisher": "GTE-Educational Technology Group, University of Balearic Islands",
       "url": "https://www.edutec.es/revista/index.php/edutec-e",
+      "rss_url": "https://www.edutec.es/revista/index.php/edutec-e/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "tecnología educativa",
         "innovación docente",
@@ -136,14 +162,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "f5250cb2-1ac8-4326-b8f9-35786735f93e",
       "name": "Educación XX1",
       "issn": "1139-613X",
-      "publisher": "UNED",
+      "eissn": "2174-5374",
+      "publisher": "Universidad Nacional de Educacion a Distancia",
       "url": "https://revistas.uned.es/index.php/educacionXX1/index",
+      "rss_url": "https://revistas.uned.es/index.php/educacionXX1/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "investigación educativa",
@@ -151,14 +180,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en JCR y SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
     {
       "id": "01234efb-2929-4c02-84d4-a32441995caf",
       "name": "Educar",
       "issn": "0211-819X",
-      "publisher": "Universitat Autònoma de Barcelona",
+      "eissn": "2014-8801",
+      "publisher": "Universitat Autonoma de Barcelona",
       "url": "https://educar.uab.cat/index",
+      "rss_url": "https://educar.uab.cat/index.php/educar/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "pedagogía",
@@ -166,14 +198,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "3fdcbef0-a84b-43c4-90f9-59e76e1b5fc2",
       "name": "Educatio Siglo XXI",
       "issn": "1699-2105",
+      "eissn": null,
       "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/educatio",
+      "rss_url": null,
       "areas": [
         "educación",
         "didáctica",
@@ -181,29 +216,35 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": null,
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1699-2105."
     },
     {
       "id": "cffa0cd0-a028-4ce4-80e3-027c5497938c",
       "name": "Education Sciences (MDPI)",
       "issn": "2227-7102",
-      "publisher": "MDPI",
+      "eissn": "2227-7102",
+      "publisher": "Multidisciplinary Digital Publishing Institute (MDPI)",
       "url": "https://www.mdpi.com/journal/education",
+      "rss_url": "https://www.mdpi.com/rss/journal/education",
       "areas": [
-        "educational technology",
-        "education sciences",
-        "higher education"
+        "educational sciences",
+        "pedagogy",
+        "e-learning"
       ],
-      "impact_factor": 3.3,
+      "impact_factor": null,
       "quartile": null,
-      "notes": null
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "4cc97c44-e7d7-444f-89b3-30d729dedcf4",
       "name": "Education and Information Technologies",
       "issn": "1360-2357",
+      "eissn": "1573-7608",
       "publisher": "Springer",
       "url": "https://link.springer.com/journal/10639",
+      "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10639",
       "areas": [
         "educational technology",
         "information technology",
@@ -211,14 +252,17 @@
       ],
       "impact_factor": 4.8,
       "quartile": "Q2",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "bf8f0854-9c05-4c97-ac11-e7288e82aadc",
       "name": "Education in the Knowledge Society (EKS)",
       "issn": "2444-8729",
-      "publisher": "Universidad de Salamanca",
+      "eissn": "2444-8729",
+      "publisher": "Ediciones Universidad de Salamanca",
       "url": "https://revistas.usal.es/tres/index.php/eks/index",
+      "rss_url": "https://revistas.usal.es/tres/index.php/eks/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "sociedad del conocimiento",
         "tecnología educativa",
@@ -226,28 +270,34 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": false,
+      "notes": "Open Access (Unpaywall). SCOPUS: marcada como Inactive en Feb 2026."
     },
     {
       "id": "3ab22e40-823a-4f27-8ae4-ce2b9a09963a",
       "name": "Educational Technology Research and Development",
       "issn": "1042-1629",
+      "eissn": "1556-6501",
       "publisher": "Springer",
       "url": "https://link.springer.com/journal/11423",
+      "rss_url": "https://link.springer.com/search.rss?facet-journal-id=11423",
       "areas": [
         "educational technology",
         "instructional design"
       ],
       "impact_factor": 4.9,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "140e3d65-157e-4783-a315-65439f895ea4",
       "name": "Estudios Pedagógicos",
       "issn": "0716-050X",
+      "eissn": "0718-0705",
       "publisher": "Universidad Austral de Chile",
       "url": "http://revistas.uach.cl/index.php/estped/index",
+      "rss_url": "http://revistas.uach.cl/index.php/estped/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "pedagogía",
         "educación",
@@ -255,14 +305,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "scopus_active": true,
       "notes": "Open access. Indexada en SCOPUS."
     },
     {
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
       "name": "Foro de Educación",
       "issn": "1698-7799",
+      "eissn": null,
       "publisher": "FahrenHouse",
       "url": "http://forodeeducacion.com/ojs/index.php/fde",
+      "rss_url": "http://forodeeducacion.com/ojs/index.php/fde/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "filosofía de la educación",
@@ -270,42 +323,51 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": null,
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799."
     },
     {
       "id": "c925c528-9c44-4fdf-bfab-3a8ae6cfd913",
       "name": "Higher Education",
       "issn": "0018-1560",
-      "publisher": "Springer",
+      "eissn": "1573-174X",
+      "publisher": "Springer Netherlands",
       "url": "https://link.springer.com/journal/10734",
+      "rss_url": "https://link.springer.com/search.rss?facet-journal-id=10734",
       "areas": [
         "higher education",
         "university policy"
       ],
       "impact_factor": 4.6,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "4bec5771-e69e-41fb-b705-7bd2b14153d9",
       "name": "Innovations in Education and Teaching International",
       "issn": "1470-3297",
-      "publisher": "Taylor & Francis",
+      "eissn": "1470-3300",
+      "publisher": "Taylor and Francis Ltd.",
       "url": "https://www.tandfonline.com/journals/riie20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/riie20",
       "areas": [
         "teaching innovation",
         "higher education"
       ],
       "impact_factor": 3.5,
       "quartile": "Q2",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "1dc1a709-1f45-4b38-b7f7-ac2b1530863e",
       "name": "International Journal of Educational Technology in Higher Education",
       "issn": "2365-9440",
-      "publisher": "Springer Open",
+      "eissn": "2365-9440",
+      "publisher": "Springer Netherlands",
       "url": "https://educationaltechnologyjournal.springeropen.com/",
+      "rss_url": "https://link.springer.com/search.rss?search-within=Journal&query=call+for+papers&facet-journal-id=41239",
       "areas": [
         "educational technology",
         "higher education",
@@ -313,28 +375,34 @@
       ],
       "impact_factor": 6.6,
       "quartile": "Q1",
-      "notes": "Open access. Formerly RUSC."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall). Formerly RUSC."
     },
     {
       "id": "3ca307f9-04df-4e67-802b-4e5951461f91",
       "name": "Journal of Computer Assisted Learning",
       "issn": "0266-4909",
-      "publisher": "Wiley",
+      "eissn": "1365-2729",
+      "publisher": "Wiley-Blackwell Publishing Ltd",
       "url": "https://onlinelibrary.wiley.com/journal/13652729",
+      "rss_url": "https://onlinelibrary.wiley.com/action/showFeed?jc=13652729&type=etoc&feed=rss",
       "areas": [
         "computer-assisted learning",
         "educational technology"
       ],
       "impact_factor": 5.1,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "fd86c37a-3ee6-4169-80fc-475e697bcb01",
       "name": "Journal of New Approaches in Educational Research",
       "issn": "2254-7339",
-      "publisher": "University of Alicante",
+      "eissn": "2254-7339",
+      "publisher": "Springer International Publishing",
       "url": "https://naerjournal.com/",
+      "rss_url": null,
       "areas": [
         "educational research",
         "educational technology",
@@ -342,28 +410,34 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexed in SCOPUS. English and Spanish."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall). English and Spanish."
     },
     {
       "id": "c29a7519-71cd-4e40-bed6-a37692862aa6",
       "name": "Learning and Instruction",
       "issn": "0959-4752",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "publisher": "Elsevier B.V.",
       "url": "https://www.sciencedirect.com/journal/learning-and-instruction",
+      "rss_url": "https://rss.sciencedirect.com/publication/science/09594752",
       "areas": [
         "learning sciences",
         "instructional psychology"
       ],
       "impact_factor": 6.5,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "ced5ace0-9155-494d-95d7-fe27c6e3aaf3",
       "name": "Perfiles Educativos",
       "issn": "0185-2698",
-      "publisher": "UNAM / IISUE",
+      "eissn": "2448-6167",
+      "publisher": "Universidad Nacional Autonoma de Mexico",
       "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/",
+      "rss_url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "investigación educativa",
@@ -371,14 +445,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
+      "scopus_active": true,
       "notes": "Indexada en SCOPUS."
     },
     {
       "id": "36e05325-ab09-4b36-b2cc-d1084ef98c3b",
       "name": "Pixel-Bit. Revista de Medios y Educación",
       "issn": "1133-8482",
+      "eissn": "2171-7966",
       "publisher": "Universidad de Sevilla",
       "url": "https://recyt.fecyt.es/index.php/pixel/index",
+      "rss_url": "https://recyt.fecyt.es/index.php/pixel/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "medios de comunicación",
         "tecnología educativa",
@@ -386,14 +463,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "0fb4284a-a75b-45ea-ae6f-16a8ba1d6baf",
       "name": "RED. Revista de Educación a Distancia",
       "issn": "1138-2783",
-      "publisher": "Universidad de Murcia",
+      "eissn": "1390-3306",
+      "publisher": "Ibero-American Association for Distance Education",
       "url": "https://revistas.um.es/red",
+      "rss_url": "https://revistas.um.es/red/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "distance education",
         "e-learning",
@@ -401,14 +481,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "82b52ca7-ade6-49db-8010-06d03fbf3257",
       "name": "REIFOP. Revista Electrónica Interuniversitaria de Formación del Profesorado",
       "issn": "1575-0965",
-      "publisher": "AUFOP",
+      "eissn": "1575-0965",
+      "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/reifop/",
+      "rss_url": "https://revistas.um.es/reifop/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "formación del profesorado",
         "didáctica",
@@ -416,14 +499,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": null
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "1b1e713d-8be4-4eb5-a50c-31170e6969d7",
       "name": "RELIEVE. Revista Electrónica de Investigación y Evaluación Educativa",
       "issn": "1134-4032",
+      "eissn": "1134-4032",
       "publisher": "Universidad de Granada",
       "url": "https://revistaseug.ugr.es/index.php/RELIEVE",
+      "rss_url": "https://revistaseug.ugr.es/index.php/RELIEVE/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "investigación educativa",
         "evaluación",
@@ -431,14 +517,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "ea472c4a-b8b6-49a5-bea8-a21cfecdb325",
       "name": "RIED. Revista Iberoamericana de Educación a Distancia",
       "issn": "1138-2783",
-      "publisher": "UNED / AIESAD",
+      "eissn": "1390-3306",
+      "publisher": "Ibero-American Association for Distance Education",
       "url": "https://revistas.uned.es/index.php/ried/index",
+      "rss_url": "https://revistas.uned.es/index.php/ried/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación a distancia",
         "e-learning",
@@ -446,28 +535,34 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en JCR y SCOPUS. Iberoamérica."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
     {
       "id": "541c2d29-4f4d-46e5-9037-460f7f8dbfe4",
       "name": "Research in Learning Technology",
       "issn": "2156-7069",
-      "publisher": "Taylor & Francis / ALT",
+      "eissn": "2156-7077",
+      "publisher": "Association for Learning Technology",
       "url": "https://journal.alt.ac.uk/index.php/rlt",
+      "rss_url": "https://journal.alt.ac.uk/index.php/rlt/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "learning technology",
         "open access education"
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Published by the Association for Learning Technology."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall). Published by the Association for Learning Technology."
     },
     {
       "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
       "name": "Revista Fuentes",
       "issn": "1575-7072",
+      "eissn": null,
       "publisher": "Universidad de Sevilla",
       "url": "https://revistascientificas.us.es/index.php/fuentes/index",
+      "rss_url": "https://revistascientificas.us.es/index.php/fuentes/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "educación",
         "ciencias sociales",
@@ -475,14 +570,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": null
+      "scopus_active": null,
+      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072."
     },
     {
       "id": "cbe7d9bc-74d0-4de1-9a85-879cea837bec",
       "name": "Revista Interuniversitaria de Formación del Profesorado (RIFOP)",
       "issn": "0213-8646",
-      "publisher": "AUFOP",
+      "eissn": "2530-3791",
+      "publisher": "Asociacion Universitaria de Formacion del Profesorado",
       "url": "https://recyt.fecyt.es/index.php/RIFOP/about",
+      "rss_url": "https://recyt.fecyt.es/index.php/RIFOP/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "areas": [
         "formación del profesorado",
         "didáctica",
@@ -490,14 +588,17 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "9b608f0f-ea5c-4603-8ed4-e8b5e0f867a8",
       "name": "Revista de Investigación Educativa",
       "issn": "0212-4068",
-      "publisher": "Universidad de Murcia / AIDIPE",
+      "eissn": "1989-9106",
+      "publisher": "Universidad de Murcia",
       "url": "https://revistas.um.es/rie",
+      "rss_url": null,
       "areas": [
         "investigación educativa",
         "metodología",
@@ -505,42 +606,51 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     },
     {
       "id": "6ccdae4e-ebbc-4d12-bfdb-5bbc5e12c4ed",
       "name": "Studies in Higher Education",
       "issn": "0307-5079",
-      "publisher": "Taylor & Francis",
+      "eissn": "1470-174X",
+      "publisher": "Routledge",
       "url": "https://www.tandfonline.com/journals/cshe20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/cshe20",
       "areas": [
         "higher education",
         "academic policy"
       ],
       "impact_factor": 4.3,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "1c4966ab-24a8-4158-8ca7-2c0f617b9240",
       "name": "Teaching and Teacher Education",
       "issn": "0742-051X",
-      "publisher": "Elsevier",
+      "eissn": null,
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/teaching-and-teacher-education",
+      "rss_url": "https://rss.sciencedirect.com/publication/science/0742051X",
       "areas": [
         "teacher education",
         "pedagogy"
       ],
       "impact_factor": 4.1,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "acd0efc1-f3c2-449b-a791-27f514e143eb",
       "name": "The Internet and Higher Education",
       "issn": "1096-7516",
-      "publisher": "Elsevier",
+      "eissn": "1873-5525",
+      "publisher": "Elsevier Ltd",
       "url": "https://www.sciencedirect.com/journal/the-internet-and-higher-education",
+      "rss_url": "https://rss.sciencedirect.com/publication/science/10967516",
       "areas": [
         "higher education",
         "online learning",
@@ -548,14 +658,17 @@
       ],
       "impact_factor": 8.1,
       "quartile": "Q1",
+      "scopus_active": true,
       "notes": null
     },
     {
       "id": "65e4f698-005d-4724-8e46-5e9e4dccef98",
       "name": "magis. Revista Internacional de Investigación en Educación",
       "issn": "2027-1174",
+      "eissn": "2027-1182",
       "publisher": "Pontificia Universidad Javeriana",
       "url": "https://revistas.javeriana.edu.co/index.php/MAGIS",
+      "rss_url": null,
       "areas": [
         "investigación educativa",
         "educación internacional",
@@ -563,7 +676,8 @@
       ],
       "impact_factor": null,
       "quartile": null,
-      "notes": "Open access. Indexada en SCOPUS."
+      "scopus_active": true,
+      "notes": "Open Access (Unpaywall)."
     }
   ],
   "conferences": [
@@ -572,6 +686,7 @@
       "name": "ACM Conference on Learning at Scale",
       "acronym": "L@S",
       "url": "https://learningatscale.acm.org/",
+      "rss_url": null,
       "areas": [
         "MOOCs",
         "large-scale education",
@@ -585,6 +700,7 @@
       "name": "ALT Annual Conference",
       "acronym": "ALT-C",
       "url": "https://www.alt.ac.uk/altc/",
+      "rss_url": null,
       "areas": [
         "learning technology",
         "higher education",
@@ -598,6 +714,7 @@
       "name": "Annual Conference on Innovation and Technology in Computer Science Education",
       "acronym": "ITiCSE",
       "url": "https://iticse.acm.org/",
+      "rss_url": null,
       "areas": [
         "computer science education",
         "computing education",
@@ -611,6 +728,7 @@
       "name": "EARLI Biennial Conference",
       "acronym": "EARLI",
       "url": "https://www.earli.org/",
+      "rss_url": null,
       "areas": [
         "learning",
         "instruction",
@@ -624,6 +742,7 @@
       "name": "European Conference on Technology Enhanced Learning",
       "acronym": "EC-TEL",
       "url": "https://ea-tel.eu/",
+      "rss_url": null,
       "areas": [
         "technology enhanced learning",
         "digital education",
@@ -637,6 +756,7 @@
       "name": "Frontiers in Education Conference",
       "acronym": "FIE",
       "url": "https://www.fie-conference.org/",
+      "rss_url": null,
       "areas": [
         "engineering education",
         "STEM",
@@ -650,6 +770,7 @@
       "name": "IEEE Global Engineering Education Conference",
       "acronym": "EDUCON",
       "url": "https://educon-conference.org/",
+      "rss_url": null,
       "areas": [
         "engineering education",
         "digital education",
@@ -663,6 +784,7 @@
       "name": "IEEE International Conference on Advanced Learning Technologies",
       "acronym": "ICALT",
       "url": "https://tc.computer.org/tclt/",
+      "rss_url": null,
       "areas": [
         "advanced learning technologies",
         "adaptive learning",
@@ -676,6 +798,7 @@
       "name": "IEEE World Engineering Education Conference",
       "acronym": "EDUNINE",
       "url": "https://edunine.eu/",
+      "rss_url": null,
       "areas": [
         "engineering education",
         "digital education",
@@ -689,6 +812,7 @@
       "name": "IFE Conference — Innovación en Educación",
       "acronym": "IFE",
       "url": "https://ifeconference.tec.mx/",
+      "rss_url": null,
       "areas": [
         "innovación educativa",
         "educación superior",
@@ -702,6 +826,7 @@
       "name": "International Conference of Education, Research and Innovation",
       "acronym": "ICERI",
       "url": "https://iated.org/iceri/",
+      "rss_url": null,
       "areas": [
         "education",
         "research",
@@ -715,6 +840,7 @@
       "name": "International Conference of the Learning Sciences",
       "acronym": "ICLS",
       "url": "https://www.isls.org/",
+      "rss_url": null,
       "areas": [
         "learning sciences",
         "cognition",
@@ -728,6 +854,7 @@
       "name": "International Conference on Advanced Computer Information Technologies",
       "acronym": "ACIT",
       "url": "https://acit.tech/",
+      "rss_url": null,
       "areas": [
         "computer information technologies",
         "AI",
@@ -741,6 +868,7 @@
       "name": "International Conference on Artificial Intelligence in Education",
       "acronym": "AIED",
       "url": "https://iaied.org/",
+      "rss_url": null,
       "areas": [
         "AI in education",
         "intelligent tutoring systems",
@@ -754,6 +882,7 @@
       "name": "International Conference on Computers in Education",
       "acronym": "ICCE",
       "url": "https://apsce.net/icce/",
+      "rss_url": null,
       "areas": [
         "computers in education",
         "e-learning",
@@ -767,6 +896,7 @@
       "name": "International Conference on Education Technology and Computers",
       "acronym": "ICETC",
       "url": "https://www.icetc.org/",
+      "rss_url": null,
       "areas": [
         "education technology",
         "computers in education",
@@ -780,6 +910,7 @@
       "name": "International Conference on Education and New Learning Technologies",
       "acronym": "EDULEARN",
       "url": "https://www.iated.org/edulearn/",
+      "rss_url": null,
       "areas": [
         "e-learning",
         "educational innovation",
@@ -793,6 +924,7 @@
       "name": "International Conference on Educational Data Mining",
       "acronym": "EDM",
       "url": "https://educationaldatamining.org/",
+      "rss_url": null,
       "areas": [
         "educational data mining",
         "learning analytics",
@@ -806,6 +938,7 @@
       "name": "International Conference on Learning Analytics & Knowledge",
       "acronym": "LAK",
       "url": "https://www.solaresearch.org/events/lak/",
+      "rss_url": null,
       "areas": [
         "learning analytics",
         "big data in education",
@@ -819,6 +952,7 @@
       "name": "International Conference on Robotics in Education",
       "acronym": "RiE",
       "url": "https://rie.science/",
+      "rss_url": null,
       "areas": [
         "educational robotics",
         "STEM",
@@ -832,6 +966,7 @@
       "name": "International Technology, Education and Development Conference",
       "acronym": "INTED",
       "url": "https://iated.org/inted/",
+      "rss_url": null,
       "areas": [
         "educational technology",
         "e-learning",
@@ -845,6 +980,7 @@
       "name": "LACCEI International Multi-Conference for Engineering, Education and Technology",
       "acronym": "LACCEI",
       "url": "https://laccei.org/",
+      "rss_url": null,
       "areas": [
         "engineering education",
         "Latin America",
@@ -858,6 +994,7 @@
       "name": "Society for Information Technology and Teacher Education International Conference",
       "acronym": "SITE",
       "url": "https://site.aace.org/",
+      "rss_url": null,
       "areas": [
         "teacher education",
         "technology integration",
@@ -871,6 +1008,7 @@
       "name": "World Conference on Educational Media and Technology",
       "acronym": "EdMedia",
       "url": "https://www.aace.org/conf/edmedia/",
+      "rss_url": null,
       "areas": [
         "educational media",
         "e-learning",
@@ -880,13 +1018,47 @@
       "notes": "Organiza: AACE."
     }
   ],
+  "funding_sources": [
+    {
+      "id": "95c057ea-e275-4eeb-b4d9-b77054817413",
+      "name": "EU Funding & Tenders Portal",
+      "acronym": "EU F&T",
+      "program_type": "eu_projects",
+      "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-search",
+      "rss_url": null,
+      "areas": [
+        "research",
+        "innovation",
+        "education",
+        "digital transformation"
+      ],
+      "notes": "Buscador general para convocatorias europeas; util para Horizon y otras lineas.",
+      "is_active": true
+    },
+    {
+      "id": "1aff83ce-9578-4d2a-907c-41e22e01fc9a",
+      "name": "Erasmus+",
+      "acronym": "ERASMUS+",
+      "program_type": "erasmus",
+      "url": "https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-organisations/cooperation-among-organisations-and-institutions",
+      "rss_url": null,
+      "areas": [
+        "teacher education",
+        "digital education",
+        "vet",
+        "higher education"
+      ],
+      "notes": "Fuente principal para convocatorias de cooperacion y asociaciones vinculadas a educacion.",
+      "is_active": true
+    }
+  ],
   "calls": [
     {
       "id": "5013c371-ceb2-40bd-96ce-dd8007321b84",
       "type": "cfp",
       "title": "International Journal of Teacher Education and Teaching",
       "deadline": "2026-04-15",
-      "days_until": 12,
+      "days_until": 8,
       "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192316&copyownerid=197211",
       "status": "active",
       "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
@@ -898,7 +1070,7 @@
       "type": "cfp",
       "title": "19th International Conference on Information Society",
       "deadline": "2026-04-16",
-      "days_until": 13,
+      "days_until": 9,
       "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=192257&copyownerid=18301",
       "status": "active",
       "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
@@ -910,7 +1082,7 @@
       "type": "cfp",
       "title": "The 3rd International Conference on Intelligent Technology for Educational Applications",
       "deadline": "2026-04-18",
-      "days_until": 15,
+      "days_until": 11,
       "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191561&copyownerid=194712",
       "status": "active",
       "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
@@ -922,7 +1094,7 @@
       "type": "cfp",
       "title": "Malaysia-China International Conference on  Educational Development",
       "deadline": "2026-09-25",
-      "days_until": 175,
+      "days_until": 171,
       "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191526&copyownerid=196539",
       "status": "active",
       "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
@@ -934,7 +1106,7 @@
       "type": "cfp",
       "title": "Malaysia-China International Conference on  Educational Development",
       "deadline": "2026-09-25",
-      "days_until": 175,
+      "days_until": 171,
       "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=191527&copyownerid=196539",
       "status": "active",
       "source_url": "http://www.wikicfp.com/cfp/call?conference=educational+technology",
