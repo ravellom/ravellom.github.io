@@ -1,4 +1,13 @@
 # Ignorar archivos y carpetas no rastreados
+.venv/
+node_modules/
+**/node_modules/
+**/.next*/
+**/coverage/
+**/playwright-report/
+**/test-results/
+**/dist-ssr/
+**/SKILLS/
 apps/ia-apps/eco-map.html
 server.js
 temp-origin-index.html

@@ -1,0 +1,25 @@
+theme: jekyll-theme-primer
+
+exclude:
+  - .git/
+  - .github/
+  - .gitignore
+  - .venv/
+  - node_modules/
+  - vendor/
+  - tmp/
+  - temp/
+  - temp-origin-index.html
+  - temp_docx_extract.txt
+  - temp_pdf_extract.txt
+  - server.js
+  - test-render.html
+  - TOPBAR_INSTRUCTIONS.md
+  - apps/**/node_modules/
+  - apps/**/SKILLS/
+  - apps/**/.next*/
+  - apps/**/coverage/
+  - apps/**/dist-ssr/
+  - apps/**/playwright-report/
+  - apps/**/test-results/
+
