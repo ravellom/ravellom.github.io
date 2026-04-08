@@ -1,5 +1,6 @@
 import { KDE } from '../core/KDE.js';
 import { drawAnnotations, drawGroupMetricMarker } from './Annotations.js';
+import { clampLabelLines, drawRightAlignedMultiline, getLabelLineHeight, wrapLabelLines } from './LabelUtils.js';
 
 function stdDev(values) {
     const n = values.length;
@@ -56,7 +57,18 @@ export default {
             bottom: options.marginBottom || 70,
             left: options.marginLeft || 220
         };
-        const dynamicHeight = margin.top + margin.bottom + groups.length * (groupSize + groupGap);
+        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
+        const showJitter = options.showJitter === true;
+        const showOutliers = options.showOutliers !== false;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
+        const showGrid = options.showGrid !== false;
+        const title = typeof options.title === 'string' ? options.title : 'Violin';
+        const fontFamily = options.fontFamily || 'Arial, sans-serif';
+        const titleFontSize = options.titleFontSize || 20;
+        const labelFontSize = options.labelFontSize || 12;
+        const labelMaxLines = clampLabelLines(options.labelMaxLines, 2);
+        const labelBandHeight = Math.max(groupSize, getLabelLineHeight(labelFontSize) * labelMaxLines);
+        const dynamicHeight = margin.top + margin.bottom + groups.length * (labelBandHeight + groupGap);
         const height = Math.max(minCanvasHeight, dynamicHeight);
 
         canvas.width = width;
@@ -72,16 +84,6 @@ export default {
             ctx.fillRect(0, 0, width, height);
         }
         if (!groups.length) return;
-
-        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
-        const showJitter = options.showJitter === true;
-        const showOutliers = options.showOutliers !== false;
-        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
-        const showGrid = options.showGrid !== false;
-        const title = typeof options.title === 'string' ? options.title : 'Violin';
-        const fontFamily = options.fontFamily || 'Arial, sans-serif';
-        const titleFontSize = options.titleFontSize || 20;
-        const labelFontSize = options.labelFontSize || 12;
         const jitterSize = clamp(options.jitterSize, 1, 8, 1.6);
         const jitterAlpha = clamp(options.jitterAlpha, 0.1, 1, 0.4);
         const outlierSize = clamp(options.outlierSize, 1, 10, 2.2);
@@ -148,6 +150,8 @@ export default {
             showGrid,
             fontFamily,
             labelFontSize,
+            labelMaxLines,
+            labelBandHeight,
             lineWidth,
             jitterSize,
             jitterAlpha,
@@ -192,7 +196,7 @@ export default {
         }
 
         groups.forEach((group, index) => {
-            const y = cfg.margin.top + index * (cfg.groupSize + cfg.groupGap) + cfg.groupSize / 2;
+            const y = cfg.margin.top + index * (cfg.labelBandHeight + cfg.groupGap) + cfg.labelBandHeight / 2;
             const color = cfg.palette[index % cfg.palette.length];
             const bandwidth = silvermanBandwidth(group.values, cfg.minValue, cfg.minValue + cfg.safeRange) * cfg.kdeBandwidthFactor;
             const density = KDE.estimate(group.values, cfg.domain, bandwidth);
@@ -260,7 +264,8 @@ export default {
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
-            ctx.fillText(label, cfg.margin.left - 10, y);
+            const lines = wrapLabelLines(ctx, label, Math.max(60, cfg.margin.left - 24), cfg.labelMaxLines);
+            drawRightAlignedMultiline(ctx, lines, cfg.margin.left - 10, y, getLabelLineHeight(cfg.labelFontSize));
         });
 
         drawAnnotations(ctx, {

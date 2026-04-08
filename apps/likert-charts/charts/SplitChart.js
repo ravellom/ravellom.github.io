@@ -429,4 +429,3 @@ export default {
         return items && items.length > 0 && stats && scaleConfig;
     }
 };
-

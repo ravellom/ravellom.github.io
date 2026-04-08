@@ -1,4 +1,5 @@
 import { drawAnnotations, drawGroupMetricMarker } from './Annotations.js';
+import { clampLabelLines, drawRightAlignedMultiline, getLabelLineHeight, wrapLabelLines } from './LabelUtils.js';
 
 export default {
     id: 'boxplot',
@@ -19,12 +20,6 @@ export default {
             bottom: options.marginBottom || 70,
             left: options.marginLeft || 220
         };
-        const dynamicHeight = margin.top + margin.bottom + groups.length * (groupSize + groupGap);
-        const height = Math.max(minCanvasHeight, dynamicHeight);
-
-        canvas.width = width;
-        canvas.height = height;
-        ctx.clearRect(0, 0, width, height);
         const palette = options.palette || ['#3b82f6', '#38bdf8', '#06b6d4', '#2563eb'];
         const showOutliers = options.showOutliers !== false;
         const showSampleSizeLabel = options.showSampleSizeLabel !== false;
@@ -32,6 +27,14 @@ export default {
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const titleFontSize = options.titleFontSize || 20;
         const labelFontSize = options.labelFontSize || 12;
+        const labelMaxLines = clampLabelLines(options.labelMaxLines, 2);
+        const labelBandHeight = Math.max(groupSize, getLabelLineHeight(labelFontSize) * labelMaxLines);
+        const dynamicHeight = margin.top + margin.bottom + groups.length * (labelBandHeight + groupGap);
+        const height = Math.max(minCanvasHeight, dynamicHeight);
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.clearRect(0, 0, width, height);
         const outlierSize = options.outlierSize || 2.2;
         const outlierColor = options.outlierColor || '#ef4444';
         const canvasBackground = options.canvasBackground || '#ffffff';
@@ -63,7 +66,7 @@ export default {
             this.drawHorizontal(ctx, groups, {
                 width, height, margin, groupSize, groupGap, lineWidth, palette, showOutliers,
                 fontFamily, labelFontSize, outlierSize, outlierColor, showGrid, showSampleSizeLabel,
-                gridColor, axisColor, textColor,
+                gridColor, axisColor, textColor, labelMaxLines, labelBandHeight,
                 minValue, safeRange, annotations: options.annotations || {}
             });
             return;
@@ -102,7 +105,7 @@ export default {
         }
 
         groups.forEach((group, index) => {
-            const y = cfg.margin.top + index * (cfg.groupSize + cfg.groupGap) + cfg.groupSize / 2;
+            const y = cfg.margin.top + index * (cfg.labelBandHeight + cfg.groupGap) + cfg.labelBandHeight / 2;
             const s = group.summary;
             const xMin = scaleX(s.lowerWhisker);
             const xQ1 = scaleX(s.q1);
@@ -168,7 +171,8 @@ export default {
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             const label = cfg.showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
-            ctx.fillText(label, cfg.margin.left - 10, y);
+            const lines = wrapLabelLines(ctx, label, Math.max(60, cfg.margin.left - 24), cfg.labelMaxLines);
+            drawRightAlignedMultiline(ctx, lines, cfg.margin.left - 10, y, getLabelLineHeight(cfg.labelFontSize));
         });
 
         drawAnnotations(ctx, {

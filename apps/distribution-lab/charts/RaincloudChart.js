@@ -1,5 +1,6 @@
 import { KDE } from '../core/KDE.js';
 import { drawAnnotations, drawGroupMetricMarker } from './Annotations.js';
+import { clampLabelLines, drawRightAlignedMultiline, getLabelLineHeight, wrapLabelLines } from './LabelUtils.js';
 
 function stdDev(values) {
     const n = values.length;
@@ -56,7 +57,25 @@ export default {
             bottom: options.marginBottom || 70,
             left: options.marginLeft || 220
         };
-        const height = Math.max(minCanvasHeight, margin.top + margin.bottom + groups.length * (groupHeight + groupGap));
+        const showGrid = options.showGrid !== false;
+        const showOutliers = options.showOutliers !== false;
+        const showJitter = options.showJitter !== false;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
+        const fontFamily = options.fontFamily || 'Arial, sans-serif';
+        const labelFontSize = options.labelFontSize || 12;
+        const labelMaxLines = clampLabelLines(options.labelMaxLines, 2);
+        const labelBandHeight = Math.max(groupHeight, getLabelLineHeight(labelFontSize) * labelMaxLines);
+        const title = typeof options.title === 'string' ? options.title : 'Raincloud';
+        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
+        const lineWidth = options.lineWidth || 1.8;
+        const jitterSize = options.jitterSize || 1.6;
+        const jitterAlpha = options.jitterAlpha || 0.35;
+        const outlierSize = options.outlierSize || 2.2;
+        const outlierColor = options.outlierColor || '#ef4444';
+        const violinOpacity = options.violinOpacity || 0.45;
+        const kdeSteps = Math.max(40, Number(options.kdeSteps || 70));
+        const kdeBandwidthFactor = Math.max(0.2, Number(options.kdeBandwidthFactor || 1));
+        const height = Math.max(minCanvasHeight, margin.top + margin.bottom + groups.length * (labelBandHeight + groupGap));
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
@@ -76,22 +95,6 @@ export default {
         const chartTop = margin.top;
         const chartBottom = height - margin.bottom;
         const chartWidth = chartRight - chartLeft;
-        const showGrid = options.showGrid !== false;
-        const showOutliers = options.showOutliers !== false;
-        const showJitter = options.showJitter !== false;
-        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
-        const fontFamily = options.fontFamily || 'Arial, sans-serif';
-        const labelFontSize = options.labelFontSize || 12;
-        const title = typeof options.title === 'string' ? options.title : 'Raincloud';
-        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
-        const lineWidth = options.lineWidth || 1.8;
-        const jitterSize = options.jitterSize || 1.6;
-        const jitterAlpha = options.jitterAlpha || 0.35;
-        const outlierSize = options.outlierSize || 2.2;
-        const outlierColor = options.outlierColor || '#ef4444';
-        const violinOpacity = options.violinOpacity || 0.45;
-        const kdeSteps = Math.max(40, Number(options.kdeSteps || 70));
-        const kdeBandwidthFactor = Math.max(0.2, Number(options.kdeBandwidthFactor || 1));
 
         const allValues = groups.flatMap((g) => g.values || []);
         const minValue = Math.min(...allValues);
@@ -125,7 +128,7 @@ export default {
         }
 
         groups.forEach((group, index) => {
-            const yCenter = chartTop + index * (groupHeight + groupGap) + groupHeight / 2;
+            const yCenter = chartTop + index * (labelBandHeight + groupGap) + labelBandHeight / 2;
             const color = palette[index % palette.length];
             const s = group.summary;
             const halfWidth = Math.max(8, groupHeight / 2 - 2);
@@ -222,7 +225,8 @@ export default {
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             const label = showSampleSizeLabel ? `${group.label} (n=${s.n})` : `${group.label}`;
-            ctx.fillText(label, margin.left - 10, yCenter + 2);
+            const lines = wrapLabelLines(ctx, label, Math.max(60, margin.left - 24), labelMaxLines);
+            drawRightAlignedMultiline(ctx, lines, margin.left - 10, yCenter + 2, getLabelLineHeight(labelFontSize));
         });
 
         drawAnnotations(ctx, {

@@ -96,9 +96,17 @@
         <main class="chart-main">
             <div class="chart-header">
                 <h2 data-i18n="preview_title">Visualización</h2>
-                <div class="dataset-chip">
-                    <span data-i18n="active_dataset">Active dataset</span>:
-                    <strong id="active-dataset-name">-</strong>
+                <div class="chart-header-actions">
+                    <div class="chart-toolbar">
+                        <button id="dist-zoom-out" class="icon-btn" type="button" title="Zoom out"><i class="ph ph-magnifying-glass-minus"></i></button>
+                        <button id="dist-zoom-reset" class="icon-btn" type="button" title="Reset zoom"><i class="ph ph-arrow-counter-clockwise"></i></button>
+                        <button id="dist-zoom-in" class="icon-btn" type="button" title="Zoom in"><i class="ph ph-magnifying-glass-plus"></i></button>
+                        <button id="dist-fullscreen" class="icon-btn" type="button" title="Fullscreen"><i class="ph ph-arrows-out-simple"></i></button>
+                    </div>
+                    <div class="dataset-chip">
+                        <span data-i18n="active_dataset">Active dataset</span>:
+                        <strong id="active-dataset-name">-</strong>
+                    </div>
                 </div>
             </div>
 
@@ -383,6 +391,16 @@
                             <div>
                                 <label class="option-label" data-i18n="margin_bottom">Margin bottom</label>
                                 <input id="margin-bottom" type="number" min="40" max="220" value="70" class="number-input">
+                            </div>
+                        </div>
+                        <div class="option-group two-col">
+                            <div>
+                                <label class="option-label">Label max lines</label>
+                                <input id="label-max-lines" type="number" min="1" max="4" value="2" class="number-input">
+                            </div>
+                            <div>
+                                <label class="option-label">Canvas zoom (%)</label>
+                                <input id="dist-zoom-display" class="text-input" value="100%" readonly>
                             </div>
                         </div>
                         <div class="option-group">

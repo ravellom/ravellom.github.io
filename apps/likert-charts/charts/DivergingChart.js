@@ -69,7 +69,7 @@ export default {
         // Reset font for labels
         ctx.font = `${config.fontSizeLabels}px ${config.fontFamily}`;
         
-        // Draw grid if enabled
+        // Draw grid as background behind bars
         if (config.showGrid) {
             this.drawGrid(ctx, centerX, barWidth / 2, margin.top, chartHeight - margin.bottom, config);
         }
@@ -217,7 +217,7 @@ export default {
                 }
             }
         });
-        
+
         // Draw axis frame and labels if enabled
         if (config.showAxisLabels !== false) {
             this.drawAxisFrame(ctx, centerX, barWidth / 2, margin.top, chartHeight - margin.bottom, config);

@@ -1256,10 +1256,16 @@ const UI = {
 
     setupReactiveControls() {
         const controls = document.querySelectorAll('.reactive-control');
+        const showGridControl = document.getElementById('show-grid');
         controls.forEach(control => {
             const updateChart = () => {
                 const id = control.id;
                 const value = control.type === 'checkbox' ? control.checked : control.value;
+
+                if ((id === 'grid-dashed' || id === 'grid-vertical' || id === 'grid-horizontal') && value === true && showGridControl) {
+                    showGridControl.checked = true;
+                    AppState.chartConfig.showGrid = true;
+                }
 
                 switch (id) {
                     case 'analysis-mode':

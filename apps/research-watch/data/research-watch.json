@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T20:17:11.254441+00:00",
+    "generated_at": "2026-04-07T20:22:35.072086+00:00",
     "version": "2",
-    "total_calls": 4
+    "total_calls": 6
   },
   "journals": [
     {
@@ -1240,6 +1240,48 @@
   ],
   "calls": [
     {
+      "id": "9e8a3238-b3c5-414c-93c1-916dd72ef612",
+      "type": "special_issue",
+      "title": "Diversidad cultural en las periferias de la educación inclusiva",
+      "deadline": "2026-04-30",
+      "days_until": 23,
+      "url": "https://revistascientificas.us.es/index.php/fuentes/announcement/view/535",
+      "status": "active",
+      "source_url": "https://revistascientificas.us.es/index.php/fuentes/announcement",
+      "notes": null,
+      "source": {
+        "type": "journal",
+        "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
+        "name": "Revista Fuentes",
+        "areas": [
+          "educación",
+          "ciencias sociales",
+          "investigación educativa"
+        ]
+      }
+    },
+    {
+      "id": "9718af88-01b9-415c-a092-ec7b90c9efd2",
+      "type": "special_issue",
+      "title": "\"Teachers’ Working Conditions and Capitalism in the Digital Era\"",
+      "deadline": "2026-05-05",
+      "days_until": 28,
+      "url": "https://revistes.ub.edu/index.php/der/announcement/view/992",
+      "status": "active",
+      "source_url": "https://revistes.ub.edu/index.php/der/announcement",
+      "notes": null,
+      "source": {
+        "type": "journal",
+        "id": "fe4949e2-6ecc-43b5-b775-967b7e5adbf9",
+        "name": "Digital Education Review",
+        "areas": [
+          "digital education",
+          "e-learning",
+          "educational technology"
+        ]
+      }
+    },
+    {
       "id": "ec7d8adf-2f41-4039-aa83-94dd0996e5a8",
       "type": "special_issue",
       "title": "Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
@@ -1306,8 +1348,8 @@
       "id": "c3df12f9-daa7-4672-9d44-77f57543c583",
       "type": "special_issue",
       "title": "Educar: Monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
-      "deadline": null,
-      "days_until": null,
+      "deadline": "2026-08-31",
+      "days_until": 146,
       "url": "https://educar.uab.cat/announcement/view/63",
       "status": "active",
       "source_url": "https://educar.uab.cat/index.php/educar/announcement",

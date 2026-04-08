@@ -19,7 +19,10 @@ const AppState = {
     dataRows: [],
     activeDatasetName: '',
     activePanel: 'data',
-    lastRender: null
+    lastRender: null,
+    view: {
+        zoom: 1
+    }
 };
 
 const I18n = {
@@ -230,6 +233,7 @@ const ChartController = {
             marginRight: this.parseNumber('margin-right', 80, 30, 400),
             marginTop: this.parseNumber('margin-top', 60, 30, 300),
             marginBottom: this.parseNumber('margin-bottom', 70, 30, 300),
+            labelMaxLines: this.parseNumber('label-max-lines', 2, 1, 4),
             showMeanLine: document.getElementById('show-mean-line')?.checked === true,
             meanLineColor: document.getElementById('mean-line-color')?.value || '#0f172a',
             meanLineWidth: this.parseNumber('mean-line-width', 1.6, 1, 8),
@@ -393,6 +397,7 @@ const ChartController = {
             marginRight: cfg.marginRight,
             marginTop: cfg.marginTop,
             marginBottom: cfg.marginBottom,
+            labelMaxLines: cfg.labelMaxLines,
             kdeBandwidthFactor: cfg.kdeBandwidthFactor,
             kdeSteps: cfg.kdeSteps,
             errorMetric: cfg.errorMetric,
@@ -462,6 +467,8 @@ const ChartController = {
                 BoxPlotChart.render(canvas, groups, renderOptions);
                 break;
         }
+
+        updateCanvasZoom();
     },
 
     getResponsiveWidth(requestedWidth) {
@@ -508,6 +515,18 @@ function bindUI() {
     });
     document.getElementById('btn-refresh-dataset')?.addEventListener('click', () => {
         DataBridge.refreshFromStorage();
+    });
+    document.getElementById('dist-zoom-in')?.addEventListener('click', () => setCanvasZoom(AppState.view.zoom + 0.1));
+    document.getElementById('dist-zoom-out')?.addEventListener('click', () => setCanvasZoom(AppState.view.zoom - 0.1));
+    document.getElementById('dist-zoom-reset')?.addEventListener('click', () => setCanvasZoom(1));
+    document.getElementById('dist-fullscreen')?.addEventListener('click', async () => {
+        const target = document.querySelector('.chart-container');
+        if (!target) return;
+        if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+        }
+        await target.requestFullscreen();
     });
     document.querySelectorAll('.layout-tab[data-style-tab]').forEach((tab) => {
         tab.addEventListener('click', () => {
@@ -692,6 +711,7 @@ function bindUI() {
         'margin-right',
         'margin-top',
         'margin-bottom',
+        'label-max-lines',
         'show-mean-line',
         'mean-line-color',
         'mean-line-width',
@@ -764,6 +784,7 @@ function applyConfigToUI(config = {}) {
         marginRight: 'margin-right',
         marginTop: 'margin-top',
         marginBottom: 'margin-bottom',
+        labelMaxLines: 'label-max-lines',
         chartTitle: 'chart-title-input',
         showChartTitle: 'show-chart-title',
         showOutliers: 'show-outliers',
@@ -842,6 +863,22 @@ async function init() {
     await I18n.load(AppState.currentLanguage);
     document.getElementById('language-select').value = AppState.currentLanguage;
     DataBridge.refreshFromStorage();
+    updateCanvasZoom();
+}
+
+function setCanvasZoom(nextZoom) {
+    AppState.view.zoom = Math.max(0.5, Math.min(2.5, Number(nextZoom.toFixed(2))));
+    updateCanvasZoom();
+}
+
+function updateCanvasZoom() {
+    const canvas = document.getElementById('chart-canvas');
+    const display = document.getElementById('dist-zoom-display');
+    if (display) {
+        display.value = `${Math.round(AppState.view.zoom * 100)}%`;
+    }
+    if (!canvas) return;
+    canvas.style.transform = `scale(${AppState.view.zoom})`;
 }
 
 document.addEventListener('DOMContentLoaded', init);

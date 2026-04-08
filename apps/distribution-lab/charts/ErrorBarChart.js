@@ -1,4 +1,5 @@
 import { drawAnnotations } from './Annotations.js';
+import { clampLabelLines, drawRightAlignedMultiline, getLabelLineHeight, wrapLabelLines } from './LabelUtils.js';
 
 function computeError(values = [], summary = {}, mode = 'sd', ciLevel = 95) {
     const n = Number(summary.n || values.length || 0);
@@ -60,6 +61,8 @@ export default {
 
         const fontFamily = options.fontFamily || 'Arial, sans-serif';
         const labelFontSize = options.labelFontSize || 12;
+        const labelMaxLines = clampLabelLines(options.labelMaxLines, 2);
+        const labelBandHeight = Math.max(groupHeight, getLabelLineHeight(labelFontSize) * labelMaxLines);
         const titleSize = options.titleFontSize || 20;
         const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
         const lineWidth = options.lineWidth || 2;
@@ -177,7 +180,15 @@ export default {
             bottom: options.marginBottom || 70,
             left: options.marginLeft || 220
         };
-        const height = Math.max(minCanvasHeight, margin.top + margin.bottom + groups.length * (groupHeight + groupGap));
+        const fontFamily = options.fontFamily || 'Arial, sans-serif';
+        const labelFontSize = options.labelFontSize || 12;
+        const labelMaxLines = clampLabelLines(options.labelMaxLines, 2);
+        const labelBandHeight = Math.max(groupHeight, getLabelLineHeight(labelFontSize) * labelMaxLines);
+        const titleSize = options.titleFontSize || 20;
+        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
+        const lineWidth = options.lineWidth || 2;
+        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
+        const height = Math.max(minCanvasHeight, margin.top + margin.bottom + groups.length * (labelBandHeight + groupGap));
         canvas.width = width;
         canvas.height = height;
         ctx.clearRect(0, 0, width, height);
@@ -192,12 +203,6 @@ export default {
         }
         if (!groups.length) return;
 
-        const fontFamily = options.fontFamily || 'Arial, sans-serif';
-        const labelFontSize = options.labelFontSize || 12;
-        const titleSize = options.titleFontSize || 20;
-        const palette = options.palette || ['#2563eb', '#3b82f6', '#38bdf8'];
-        const lineWidth = options.lineWidth || 2;
-        const showSampleSizeLabel = options.showSampleSizeLabel !== false;
         const chartLeft = margin.left;
         const chartRight = width - margin.right;
         const chartTop = margin.top;
@@ -245,7 +250,7 @@ export default {
         }
 
         enriched.forEach((g, i) => {
-            const y = chartTop + i * (groupHeight + groupGap) + groupHeight / 2;
+            const y = chartTop + i * (labelBandHeight + groupGap) + labelBandHeight / 2;
             const barH = Math.max(10, groupHeight * 0.7);
             const x0 = scaleX(0);
             const xMean = scaleX(g.err.mean);
@@ -279,7 +284,8 @@ export default {
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             const label = showSampleSizeLabel ? `${g.label} (n=${g.summary?.n || 0})` : `${g.label}`;
-            ctx.fillText(label, margin.left - 10, y);
+            const lines = wrapLabelLines(ctx, label, Math.max(60, margin.left - 24), labelMaxLines);
+            drawRightAlignedMultiline(ctx, lines, margin.left - 10, y, getLabelLineHeight(labelFontSize));
         });
 
         drawAnnotations(ctx, {

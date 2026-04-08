@@ -43,6 +43,7 @@
         btnExportJSON: document.getElementById('btn-export-json'),
         btnExportCSV: document.getElementById('btn-export-csv'),
         btnSaveDataset: document.getElementById('btn-save-dataset'),
+        btnSaveDatasetPanel: document.getElementById('btn-save-dataset-panel'),
 
         // Transform controls
         likertColumns: document.getElementById('likert-columns'),
@@ -141,6 +142,7 @@
         setText('#btn-export-json', 'Export JSON');
         setText('#btn-export-csv', 'Export CSV');
         setText('#btn-save-dataset', 'Save to Storage');
+        setText('#btn-save-dataset-panel', 'Save to Storage');
         setText('#btn-upload-trigger', 'Upload CSV/JSON/XLSX');
         setText('#btn-load-csv', 'Process Data');
         setText('#btn-remove-nulls', 'Remove Empty Rows');
@@ -412,6 +414,9 @@
         }
         if (elements.btnSaveDataset) {
             elements.btnSaveDataset.addEventListener('click', () => openSaveModal());
+        }
+        if (elements.btnSaveDatasetPanel) {
+            elements.btnSaveDatasetPanel.addEventListener('click', () => openSaveModal());
         }
 
         // Transform
@@ -830,6 +835,10 @@ Alternativamente, exporta tu archivo como CSV desde Excel/MS Forms.
         if (elements.btnSaveDataset) {
             elements.btnSaveDataset.disabled = false;
             elements.btnSaveDataset.title = tr('Guardar en localStorage compartido', 'Save to shared localStorage');
+        }
+        if (elements.btnSaveDatasetPanel) {
+            elements.btnSaveDatasetPanel.disabled = false;
+            elements.btnSaveDatasetPanel.title = tr('Guardar en localStorage compartido', 'Save to shared localStorage');
         }
         console.log('✅ Controles activados');
     }
