@@ -69,6 +69,14 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 - **Persistencia:** localStorage (en apps que lo requieren)
 - **Dependencias:** principalmente via CDN
 - **Flujo:** desarrollo sin build system (edicion directa)
+- **Criterio del repositorio:** este sitio se mantiene orientado a apps estaticas para GitHub Pages; prototipos con backend o frameworks como Next.js se archivan fuera de la publicacion principal.
+
+---
+
+## Archivado
+
+- `survey-suite-next` fue retirado del repositorio publico y del despliegue de GitHub Pages.
+- Su version con backend, base de datos y servicios Docker queda archivada para posible reanudacion futura fuera del sitio principal.
 
 ---
 
