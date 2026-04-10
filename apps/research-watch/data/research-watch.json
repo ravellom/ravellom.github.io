@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T20:22:35.072086+00:00",
+    "generated_at": "2026-04-10T07:51:13.578999+00:00",
     "version": "2",
-    "total_calls": 6
+    "total_calls": 7
   },
   "journals": [
     {
@@ -1244,7 +1244,7 @@
       "type": "special_issue",
       "title": "Diversidad cultural en las periferias de la educación inclusiva",
       "deadline": "2026-04-30",
-      "days_until": 23,
+      "days_until": 20,
       "url": "https://revistascientificas.us.es/index.php/fuentes/announcement/view/535",
       "status": "active",
       "source_url": "https://revistascientificas.us.es/index.php/fuentes/announcement",
@@ -1261,11 +1261,32 @@
       }
     },
     {
+      "id": "1499b3cf-285d-467d-8a13-e2cfa6cf48dd",
+      "type": "cfp",
+      "title": "Recepción de manuscritos",
+      "deadline": "2026-04-30",
+      "days_until": 20,
+      "url": "https://revistas.uned.es/index.php/educacionXX1/announcement/view/526",
+      "status": "active",
+      "source_url": "https://revistas.uned.es/index.php/educacionXX1/announcement",
+      "notes": "Aviso de Educaci?n XX1 publicado el 2026-04-10. El texto indica recepci?n de manuscritos abierta entre el 1 y el 30 de abril de 2026.",
+      "source": {
+        "type": "journal",
+        "id": "f5250cb2-1ac8-4326-b8f9-35786735f93e",
+        "name": "Educación XX1",
+        "areas": [
+          "educación",
+          "investigación educativa",
+          "tecnología educativa"
+        ]
+      }
+    },
+    {
       "id": "9718af88-01b9-415c-a092-ec7b90c9efd2",
       "type": "special_issue",
       "title": "\"Teachers’ Working Conditions and Capitalism in the Digital Era\"",
       "deadline": "2026-05-05",
-      "days_until": 28,
+      "days_until": 25,
       "url": "https://revistes.ub.edu/index.php/der/announcement/view/992",
       "status": "active",
       "source_url": "https://revistes.ub.edu/index.php/der/announcement",
@@ -1286,7 +1307,7 @@
       "type": "special_issue",
       "title": "Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
       "deadline": "2026-06-01",
-      "days_until": 55,
+      "days_until": 52,
       "url": "https://revistas.uned.es/index.php/ried/announcement/view/502",
       "status": "active",
       "source_url": "https://revistas.uned.es/index.php/ried/announcement",
@@ -1307,7 +1328,7 @@
       "type": "cfp",
       "title": "I Congreso Internacional y XVIII Jornadas de Innovación Docente - UNIOVI",
       "deadline": "2026-06-07",
-      "days_until": 61,
+      "days_until": 58,
       "url": "https://congresoinnova.uniovi.es/contribuciones",
       "status": "active",
       "source_url": "https://congresoinnova.uniovi.es/contribuciones",
@@ -1328,7 +1349,7 @@
       "type": "monographic",
       "title": "Videojuegos y educación. Más allá de la gamificación y los enfoques instruccionales",
       "deadline": "2026-06-15",
-      "days_until": 69,
+      "days_until": 66,
       "url": "https://www.edutec.es/revista/index.php/edutec-e/announcement/view/57",
       "status": "active",
       "source_url": "https://www.edutec.es/revista/index.php/edutec-e/announcement",
@@ -1349,7 +1370,7 @@
       "type": "special_issue",
       "title": "Educar: Monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
       "deadline": "2026-08-31",
-      "days_until": 146,
+      "days_until": 143,
       "url": "https://educar.uab.cat/announcement/view/63",
       "status": "active",
       "source_url": "https://educar.uab.cat/index.php/educar/announcement",
