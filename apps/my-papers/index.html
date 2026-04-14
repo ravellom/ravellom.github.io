@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Papers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-row">
+        <div class="hero-title-block">
+          <p class="eyebrow">Archivo personal de publicaciones</p>
+          <h1>Publicaciones y venues</h1>
+        </div>
+        <div class="hero-actions">
+          <div class="hero-metrics" id="hero-stats"></div>
+          <button id="export-json" class="secondary-button" type="button">Exportar JSON</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="filter-ribbon">
+        <div class="search-block">
+          <label class="field-label" for="search-input">Buscar</label>
+          <input id="search-input" class="text-input" type="search" placeholder="Título, autor, DOI, revista...">
+        </div>
+
+        <div class="filters-grid">
+          <div>
+            <label class="field-label" for="year-filter">Año</label>
+            <select id="year-filter" class="select-input"></select>
+          </div>
+          <div>
+            <label class="field-label" for="type-filter">Tipo</label>
+            <select id="type-filter" class="select-input"></select>
+          </div>
+          <div>
+            <label class="field-label" for="venue-filter">Venue</label>
+            <select id="venue-filter" class="select-input"></select>
+          </div>
+          <div>
+            <label class="field-label" for="language-filter">Idioma</label>
+            <select id="language-filter" class="select-input"></select>
+          </div>
+          <div>
+            <label class="field-label" for="oa-filter">Acceso abierto</label>
+            <select id="oa-filter" class="select-input">
+              <option value="all">Todos</option>
+              <option value="yes">Sí</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="sort-filter">Ordenar por</label>
+            <select id="sort-filter" class="select-input">
+              <option value="year-desc">Año reciente</option>
+              <option value="citations-desc">Más citas</option>
+              <option value="title-asc">Título A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button id="reset-filters" class="ghost-button" type="button">Limpiar</button>
+        </div>
+      </section>
+
+      <section class="summary-strip">
+        <div id="summary-list" class="summary-list"></div>
+      </section>
+
+      <section class="content-panel">
+        <div class="content-toolbar">
+          <div>
+            <p class="eyebrow">Colección</p>
+            <h2 id="results-title">Cargando publicaciones...</h2>
+          </div>
+          <div class="view-switch" role="tablist" aria-label="Vistas">
+            <button id="view-publications" class="view-button is-active" type="button">Publicaciones</button>
+            <button id="view-venues" class="view-button" type="button">Venues</button>
+          </div>
+        </div>
+
+        <div id="active-filters" class="active-filters"></div>
+
+        <section id="publications-view" class="view-panel is-active">
+          <div class="split-layout">
+            <div id="publications-list" class="list-grid"></div>
+            <aside id="detail-panel" class="detail-panel">
+              <div class="detail-empty">Selecciona una publicación para ver sus detalles.</div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="venues-view" class="view-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Venues</p>
+              <h2>Dónde has publicado</h2>
+            </div>
+          </div>
+          <div id="venues-list" class="venues-table"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <template id="paper-card-template">
+    <button type="button" class="paper-item">
+      <div class="paper-index"></div>
+      <div class="paper-main">
+        <div class="paper-top">
+          <h3 class="paper-title"></h3>
+          <span class="paper-year"></span>
+        </div>
+        <p class="paper-authors"></p>
+        <p class="paper-venue"></p>
+        <div class="paper-meta"></div>
+      </div>
+    </button>
+  </template>
+
+  <script src="./assets/app.js" defer></script>
+</body>
+</html>
