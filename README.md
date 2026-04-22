@@ -56,6 +56,11 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 - Demo: [https://ravellom.github.io/apps/word-cloud/](https://ravellom.github.io/apps/word-cloud/)
 - Generador de nubes de palabras para exploracion de texto, independiente del flujo de Survey Suite.
 
+### Mis Publicaciones
+- Carpeta: [apps/my-papers](apps/my-papers)
+- Demo: [https://ravellom.github.io/apps/my-papers/](https://ravellom.github.io/apps/my-papers/)
+- Archivo personal de publicaciones cientificas con busqueda, filtros y exportacion bibliografica.
+
 ### Otras apps publicadas
 - Simulador Multiagente: [apps/ia-apps/simulador-multiagente](apps/ia-apps/simulador-multiagente) - [Demo](https://ravellom.github.io/apps/ia-apps/simulador-multiagente/)
 - AI Ref Extractor: [apps/ai-ref-extractor](apps/ai-ref-extractor) - [Demo](https://ravellom.github.io/apps/ai-ref-extractor/)
