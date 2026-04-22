@@ -1,4 +1,29 @@
 TY  - JOUR
+AU  - Bellas Bouza, F. J.
+AU  - Avello-Martínez, R.
+TI  - Explainable artificial intelligence in education: Structural limitations, human oversight, and the role of pedagogical design
+T1  - Explainable artificial intelligence in education: Structural limitations, human oversight, and the role of pedagogical design
+JO  - Revija Inovativna Pedagogika (Journal of Innovative Pedagogy)
+T2  - Revija Inovativna Pedagogika (Journal of Innovative Pedagogy)
+PY  - 2026
+DA  - 2026-01-01
+VL  - 2
+IS  - 2
+SP  - 388
+EP  - 408
+M3  - 388-408
+DO  - 10.63069/e083db11
+UR  - https://doi.org/10.63069/e083db11
+LA  - en
+AB  - The rapid incorporation of artificial intelligence (AI) tools into educational settings has intensified debates about teacher responsibility, transparency, and human oversight. While explainable AI (XAI) is increasingly recognized as a necessary condition for responsible use, this paper argues that explainability alone may not be sufficient in contexts where complex systems evolve and operate continuously. Even when individual recommendations are accompanied by coherent explanations, the cumulative effects of algorithmic decisions can shape learning trajectories in ways that are difficult to fully monitor. Building on recent discussions in AI governance and educational design, the paper examines the structural limits of monitoring advanced AI systems in classrooms and proposes that pedagogical architecture must complement technical transparency. In particular, Universal Design for Learning is discussed not as an alternative to XAI, but as a design framework that reinforces explainability by promoting diversified instructional pathways and reducing excessive dependency on a single algorithmic logic. To illustrate these principles, the paper presents a supervised exercise generation tool that integrates pedagogical invariants, controlled variability, progressive explainability, and explicit human review requirements. The example demonstrates how explainability can be embedded not only in algorithmic outputs but in the architecture of instructional design itself. The paper concludes that educational contexts may benefit from prioritizing supervised, modular, and explainable AI systems that preserve professional judgment and pedagogical pluralism, rather than increasingly autonomous architectures that risk narrowing the space for human decision-making.
+KW  - Explainable artificial intelligence
+KW  - Artificial intelligence in education
+KW  - Human oversight
+KW  - Pedagogical design
+KW  - Universal Design for Learning
+ID  - https://doi.org/10.63069/e083db11
+
+TY  - JOUR
 AU  - Carlos Enrique George-Reyes
 AU  - Edgar Omar López-Caudana
 AU  - Raidell Avello Martínez

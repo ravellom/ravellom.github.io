@@ -287,7 +287,7 @@ function renderDetail(item) {
     return;
   }
 
-  const abstract = rebuildAbstract(item.abstract_inverted_index) || "Sin resumen disponible.";
+  const abstract = item.abstract || rebuildAbstract(item.abstract_inverted_index) || "Sin resumen disponible.";
   const topics = (item.topics || []).map((topic) => topic.display_name || topic).filter(Boolean).slice(0, 8);
   const details = [
     ["Año", item.year || "—"],

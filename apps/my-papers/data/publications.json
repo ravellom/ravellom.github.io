@@ -1,5 +1,123 @@
 [
   {
+    "id": "https://doi.org/10.63069/e083db11",
+    "slug": "explainable-artificial-intelligence-in-education-structural-limitations-human-oversight-and-the-role-of-pedagogical-design",
+    "title": "Explainable artificial intelligence in education: Structural limitations, human oversight, and the role of pedagogical design",
+    "normalized_title": "explainable artificial intelligence in education structural limitations human oversight and the role of pedagogical design",
+    "year": 2026,
+    "publication_date": "2026-01-01",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "F. J. Bellas Bouza",
+      "R. Avello-Martínez"
+    ],
+    "author_count": 2,
+    "venue": "Revija Inovativna Pedagogika (Journal of Innovative Pedagogy)",
+    "publisher": null,
+    "doi": "10.63069/e083db11",
+    "issn": null,
+    "isbn": null,
+    "language": "en",
+    "volume": "2",
+    "issue": "2",
+    "first_page": "388",
+    "last_page": "408",
+    "page_range": "388-408",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "unknown",
+    "oa_pdf_url": null,
+    "oa_landing_page_url": "https://doi.org/10.63069/e083db11",
+    "source_url": "https://doi.org/10.63069/e083db11",
+    "abstract": "The rapid incorporation of artificial intelligence (AI) tools into educational settings has intensified debates about teacher responsibility, transparency, and human oversight. While explainable AI (XAI) is increasingly recognized as a necessary condition for responsible use, this paper argues that explainability alone may not be sufficient in contexts where complex systems evolve and operate continuously. Even when individual recommendations are accompanied by coherent explanations, the cumulative effects of algorithmic decisions can shape learning trajectories in ways that are difficult to fully monitor. Building on recent discussions in AI governance and educational design, the paper examines the structural limits of monitoring advanced AI systems in classrooms and proposes that pedagogical architecture must complement technical transparency. In particular, Universal Design for Learning is discussed not as an alternative to XAI, but as a design framework that reinforces explainability by promoting diversified instructional pathways and reducing excessive dependency on a single algorithmic logic. To illustrate these principles, the paper presents a supervised exercise generation tool that integrates pedagogical invariants, controlled variability, progressive explainability, and explicit human review requirements. The example demonstrates how explainability can be embedded not only in algorithmic outputs but in the architecture of instructional design itself. The paper concludes that educational contexts may benefit from prioritizing supervised, modular, and explainable AI systems that preserve professional judgment and pedagogical pluralism, rather than increasingly autonomous architectures that risk narrowing the space for human decision-making.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Artificial Intelligence in Education",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Educational Technology in Learning",
+        "score": null,
+        "subfield": "Information Systems",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      }
+    ],
+    "keywords": [
+      "Explainable artificial intelligence",
+      "Artificial intelligence in education",
+      "Human oversight",
+      "Pedagogical design",
+      "Universal Design for Learning"
+    ],
+    "concepts": [
+      {
+        "display_name": "Artificial intelligence",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Pedagogy",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Educational technology",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "F. J. Bellas Bouza",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": true,
+        "author_position": "first",
+        "raw_affiliation_strings": []
+      },
+      {
+        "author": "R. Avello-Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": []
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.63069/e083db11",
+      "type": "journal-article",
+      "publisher": null,
+      "language": "en",
+      "url": "https://doi.org/10.63069/e083db11",
+      "page": "388-408",
+      "volume": "2",
+      "issue": "2",
+      "container_title": "Revija Inovativna Pedagogika (Journal of Innovative Pedagogy)",
+      "issn": null,
+      "isbn": null,
+      "subject": null,
+      "abstract": null,
+      "year": 2026
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "",
+      "indexed_in": []
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://openalex.org/W4410957224",
     "slug": "artificial-intelligence-adoption-test-based-on-utaut2-and-complex-thinking-design-with-k-coefficient-and-reliability-analysis-using-structural-equation-modeling",
     "title": "Artificial intelligence adoption test based on UTAUT2 and complex thinking: design with K coefficient and reliability analysis using structural equation modeling",
