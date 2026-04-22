@@ -1352,12 +1352,12 @@
       },
       {
         "display_name": "Neuroscience",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       },
       {
         "display_name": "Law",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -2146,6 +2146,9 @@
     "oa_landing_page_url": "https://doi.org/10.5209/rgid.95019",
     "source_url": "https://doi.org/10.5209/rgid.95019",
     "abstract_inverted_index": {
+      "2014": [
+        13
+      ],
       "This": [
         0
       ],
@@ -2219,9 +2222,6 @@
       ],
       "between": [
         12
-      ],
-      "2014": [
-        13
       ],
       "and": [
         14,
@@ -2653,7 +2653,7 @@
       },
       {
         "display_name": "Law",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -3371,6 +3371,22 @@
     "oa_landing_page_url": "https://doi.org/10.6018/red.638541",
     "source_url": "https://doi.org/10.6018/red.638541",
     "abstract_inverted_index": {
+      "7": [
+        32,
+        209
+      ],
+      "91": [
+        65,
+        242
+      ],
+      "152": [
+        56,
+        234
+      ],
+      "243": [
+        52,
+        231
+      ],
       "This": [
         0
       ],
@@ -3516,10 +3532,6 @@
         31,
         152
       ],
-      "7": [
-        32,
-        209
-      ],
       "Affordable": [
         33
       ],
@@ -3557,16 +3569,8 @@
       "which": [
         51
       ],
-      "243": [
-        52,
-        231
-      ],
       "participated,": [
         55
-      ],
-      "152": [
-        56,
-        234
       ],
       "Tecnológico": [
         59,
@@ -3598,10 +3602,6 @@
       "(Tec)": [
         63,
         240
-      ],
-      "91": [
-        65,
-        242
       ],
       "Universidad": [
         68,
@@ -4513,6 +4513,9 @@
     "oa_landing_page_url": "https://doi.org/10.56048/mqr20225.9.2.2025.e736",
     "source_url": "https://doi.org/10.56048/mqr20225.9.2.2025.e736",
     "abstract_inverted_index": {
+      "20": [
+        107
+      ],
       "En": [
         0
       ],
@@ -4841,9 +4844,6 @@
       ],
       "grupo": [
         105
-      ],
-      "20": [
-        107
       ],
       "docentes,": [
         108
@@ -5905,6 +5905,9 @@
     "oa_landing_page_url": "https://doi.org/10.53591/iti.v17i23.2291",
     "source_url": "https://doi.org/10.53591/iti.v17i23.2291",
     "abstract_inverted_index": {
+      "80": [
+        109
+      ],
       "Contexto:": [
         0
       ],
@@ -6208,9 +6211,6 @@
       ],
       "conformada": [
         107
-      ],
-      "80": [
-        109
       ],
       "contrastaron": [
         115
@@ -6570,6 +6570,10 @@
     "oa_landing_page_url": "https://doi.org/10.6018/red.604621",
     "source_url": "https://doi.org/10.6018/red.604621",
     "abstract_inverted_index": {
+      "41": [
+        18,
+        222
+      ],
       "This": [
         0
       ],
@@ -6670,10 +6674,6 @@
       ],
       "sample": [
         16
-      ],
-      "41": [
-        18,
-        222
       ],
       "master's": [
         19
@@ -8336,6 +8336,9 @@
     "oa_landing_page_url": "https://doi.org/10.19136/etie.a6n12.6032",
     "source_url": "https://doi.org/10.19136/etie.a6n12.6032",
     "abstract_inverted_index": {
+      "25": [
+        53
+      ],
       "The": [
         0,
         49,
@@ -8505,9 +8508,6 @@
       ],
       "consisted": [
         51
-      ],
-      "25": [
-        53
       ],
       "first-": [
         54
@@ -8873,6 +8873,9 @@
     "oa_landing_page_url": "https://doi.org/10.33262/cienciadigital.v8i2.2967",
     "source_url": "https://doi.org/10.33262/cienciadigital.v8i2.2967",
     "abstract_inverted_index": {
+      "15": [
+        83
+      ],
       "Introducción:": [
         0
       ],
@@ -9127,9 +9130,6 @@
       ],
       "analizaron": [
         82
-      ],
-      "15": [
-        83
       ],
       "artículos": [
         84
@@ -10029,7 +10029,7 @@
       },
       {
         "display_name": "Mathematics",
-        "score": 0.0,
+        "score": 0,
         "level": 0
       }
     ],
@@ -10158,6 +10158,9 @@
     "oa_landing_page_url": "https://doi.org/10.53591/iti.v16i22.1864",
     "source_url": "https://doi.org/10.53591/iti.v16i22.1864",
     "abstract_inverted_index": {
+      "30": [
+        85
+      ],
       "Contexto:": [
         0
       ],
@@ -10454,9 +10457,6 @@
       ],
       "incluyó": [
         84
-      ],
-      "30": [
-        85
       ],
       "primero": [
         88
@@ -10925,6 +10925,20 @@
     "oa_landing_page_url": "http://dx.doi.org/10.56048/mqr20225.8.4.2024.3010-3028",
     "source_url": "http://dx.doi.org/10.56048/mqr20225.8.4.2024.3010-3028",
     "abstract_inverted_index": {
+      "2": [
+        89,
+        116,
+        142
+      ],
+      "3": [
+        177
+      ],
+      "30": [
+        99
+      ],
+      "90": [
+        81
+      ],
       "Esta": [
         0
       ],
@@ -11180,9 +11194,6 @@
       "población": [
         79
       ],
-      "90": [
-        81
-      ],
       "octavo": [
         84
       ],
@@ -11197,11 +11208,6 @@
         114,
         124
       ],
-      "2": [
-        89,
-        116,
-        142
-      ],
       "docentes,": [
         90
       ],
@@ -11213,9 +11219,6 @@
       ],
       "muestra": [
         97
-      ],
-      "30": [
-        99
       ],
       "mediante": [
         101
@@ -11341,9 +11344,6 @@
       "aplicación": [
         175,
         190
-      ],
-      "3": [
-        177
       ],
       "periodos": [
         178
@@ -11560,6 +11560,12 @@
     "oa_landing_page_url": "http://dx.doi.org/10.54988/cisde.2024.1.1311",
     "source_url": "http://dx.doi.org/10.54988/cisde.2024.1.1311",
     "abstract_inverted_index": {
+      "15": [
+        62
+      ],
+      "254": [
+        80
+      ],
       "&lt;p&gt;El": [
         0
       ],
@@ -11752,9 +11758,6 @@
       "Participaron": [
         61
       ],
-      "15": [
-        62
-      ],
       "expertos": [
         63
       ],
@@ -11781,9 +11784,6 @@
       ],
       "colaboraron": [
         79
-      ],
-      "254": [
-        80
       ],
       "estudiantes.": [
         81
@@ -12556,6 +12556,12 @@
     "oa_landing_page_url": "https://doi.org/10.53591/conug.v2i2.1965",
     "source_url": "https://doi.org/10.53591/conug.v2i2.1965",
     "abstract_inverted_index": {
+      "23": [
+        37
+      ],
+      "57": [
+        32
+      ],
       "Este": [
         0
       ],
@@ -12686,9 +12692,6 @@
         110,
         144
       ],
-      "57": [
-        32
-      ],
       "estudiantes": [
         33,
         122
@@ -12698,9 +12701,6 @@
       ],
       "Paralelo": [
         36
-      ],
-      "23": [
-        37
       ],
       "durante": [
         38
@@ -13568,6 +13568,9 @@
     "oa_landing_page_url": "https://doi.org/10.56712/latam.v4i3.1165",
     "source_url": "https://doi.org/10.56712/latam.v4i3.1165",
     "abstract_inverted_index": {
+      "32": [
+        121
+      ],
       "La": [
         0,
         90,
@@ -13888,9 +13891,6 @@
       ],
       "consistente": [
         119
-      ],
-      "32": [
-        121
       ],
       "estudiantes.": [
         122
@@ -14876,6 +14876,9 @@
     "oa_landing_page_url": "https://doi.org/10.37611/ib7ol231-41",
     "source_url": "https://doi.org/10.37611/ib7ol231-41",
     "abstract_inverted_index": {
+      "2016": [
+        80
+      ],
       "Los": [
         0,
         83,
@@ -15124,9 +15127,6 @@
       ],
       "desde": [
         79
-      ],
-      "2016": [
-        80
       ],
       "–": [
         81
@@ -15580,6 +15580,18 @@
     "oa_landing_page_url": "http://dx.doi.org/10.56712/latam.v4i3.1167",
     "source_url": "http://dx.doi.org/10.56712/latam.v4i3.1167",
     "abstract_inverted_index": {
+      "3": [
+        187
+      ],
+      "32": [
+        73
+      ],
+      "55": [
+        143
+      ],
+      "82": [
+        152
+      ],
       "La": [
         0
       ],
@@ -15811,9 +15823,6 @@
       "participación": [
         70
       ],
-      "32": [
-        73
-      ],
       "Cumbres,": [
         79
       ],
@@ -15932,9 +15941,6 @@
       "aunque": [
         141
       ],
-      "55": [
-        143
-      ],
       "%": [
         144,
         153
@@ -15953,9 +15959,6 @@
       ],
       "tecnologías,": [
         150
-      ],
-      "82": [
-        152
       ],
       "no": [
         154
@@ -16013,9 +16016,6 @@
       ],
       "sexos": [
         185
-      ],
-      "3": [
-        187
       ],
       "ítems.": [
         190
@@ -16205,6 +16205,10 @@
     "oa_landing_page_url": "https://doi.org/10.6018/red.444751",
     "source_url": "https://doi.org/10.6018/red.444751",
     "abstract_inverted_index": {
+      "138": [
+        102,
+        292
+      ],
       "La": [
         0
       ],
@@ -16497,10 +16501,6 @@
       ],
       "examinó": [
         101
-      ],
-      "138": [
-        102,
-        292
       ],
       "artículos": [
         103
@@ -17207,6 +17207,15 @@
     "oa_landing_page_url": "https://doi.org/10.21071/edmetic.v10i1.12713",
     "source_url": "https://doi.org/10.21071/edmetic.v10i1.12713",
     "abstract_inverted_index": {
+      "25": [
+        113
+      ],
+      "62": [
+        115
+      ],
+      "122": [
+        106
+      ],
       "En": [
         0,
         102
@@ -17490,9 +17499,6 @@
       "participaron": [
         105
       ],
-      "122": [
-        106
-      ],
       "con": [
         108,
         177
@@ -17502,12 +17508,6 @@
       ],
       "comprendidas": [
         110
-      ],
-      "25": [
-        113
-      ],
-      "62": [
-        115
       ],
       "años.": [
         116
@@ -17776,6 +17776,18 @@
     "oa_landing_page_url": null,
     "source_url": null,
     "abstract_inverted_index": {
+      "0": [
+        101
+      ],
+      "128": [
+        40
+      ],
+      "350": [
+        103
+      ],
+      "2019": [
+        56
+      ],
       "Background": [
         0
       ],
@@ -17914,9 +17926,6 @@
       "included": [
         39
       ],
-      "128": [
-        40
-      ],
       "samples": [
         41,
         157
@@ -17949,9 +17958,6 @@
       ],
       "between": [
         55
-      ],
-      "2019": [
-        56
       ],
       "and": [
         57,
@@ -18049,12 +18055,6 @@
       ],
       "range,": [
         99
-      ],
-      "0": [
-        101
-      ],
-      "350": [
-        103
       ],
       "mmol": [
         104
@@ -18923,20 +18923,19 @@
       "Dennis Arias-Chávez"
     ],
     "author_count": 3,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Revista MENDIVE",
+    "publisher": "Universidad de Pinar del Río Hermanos Saíz Montes de Oca",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1815-7696"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "19",
+    "issue": "4",
+    "first_page": "1359",
+    "last_page": "1375",
+    "page_range": "1359-1375",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
@@ -19420,13 +19419,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Revista MENDIVE",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1815-7696",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1815-7696"
         ],
         "is_in_doaj": true
       }
@@ -19456,27 +19454,38 @@
       "Aida María Reyes Pérez"
     ],
     "author_count": 4,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "19",
+    "issue": "4",
+    "first_page": "706",
+    "last_page": "711",
+    "page_range": "706-711",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/fb02428f8cca42f986c6114e3d00a592",
-    "source_url": "https://doaj.org/article/fb02428f8cca42f986c6114e3d00a592",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=110836",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=110836",
     "abstract_inverted_index": {
+      "0": [
+        94
+      ],
+      "128": [
+        35
+      ],
+      "350": [
+        96
+      ],
+      "2019": [
+        51
+      ],
       "<strong>Background</strong>:": [
         0
       ],
@@ -19608,9 +19617,6 @@
       "included": [
         34
       ],
-      "128": [
-        35
-      ],
       "samples": [
         36,
         148
@@ -19643,9 +19649,6 @@
       ],
       "between": [
         50
-      ],
-      "2019": [
-        51
       ],
       "and": [
         52,
@@ -19743,12 +19746,6 @@
       ],
       "range,": [
         92
-      ],
-      "0": [
-        94
-      ],
-      "350": [
-        96
       ],
       "mmol": [
         97
@@ -20015,13 +20012,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -20074,6 +20070,9 @@
     "oa_landing_page_url": "https://repositorio.uca.edu.ar/handle/123456789/9924",
     "source_url": "https://repositorio.uca.edu.ar/handle/123456789/9924",
     "abstract_inverted_index": {
+      "18": [
+        172
+      ],
       "Abstract": [
         0
       ],
@@ -20501,9 +20500,6 @@
       "both": [
         170
       ],
-      "18": [
-        172
-      ],
       "students.": [
         173,
         225
@@ -20851,6 +20847,10 @@
     "oa_landing_page_url": "https://doi.org/10.6018/red.413021",
     "source_url": "https://doi.org/10.6018/red.413021",
     "abstract_inverted_index": {
+      "10": [
+        84,
+        272
+      ],
       "Nuevas": [
         0
       ],
@@ -21103,10 +21103,6 @@
       ],
       "publicados": [
         80
-      ],
-      "10": [
-        84,
-        272
       ],
       "recuperados": [
         86
@@ -21892,6 +21888,12 @@
     "oa_landing_page_url": "https://doi.org/10.24320/redie.2020.22.e09.2284",
     "source_url": "https://doi.org/10.24320/redie.2020.22.e09.2284",
     "abstract_inverted_index": {
+      "62": [
+        79
+      ],
+      "355": [
+        82
+      ],
       "El": [
         0,
         40
@@ -22103,14 +22105,8 @@
       "por": [
         78
       ],
-      "62": [
-        79
-      ],
       "profesores": [
         80
-      ],
-      "355": [
-        82
       ],
       "estudiantes.": [
         83
@@ -24984,12 +24980,11 @@
       "Amanda Avello Rodríguez"
     ],
     "author_count": 5,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
@@ -24997,14 +24992,41 @@
     "issue": "3",
     "first_page": "485",
     "last_page": "491",
-    "page_range": null,
+    "page_range": "485-491",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/e32b846f59e643279c61d0f8f0655570",
-    "source_url": "https://doaj.org/article/e32b846f59e643279c61d0f8f0655570",
+    "oa_landing_page_url": "https://www.redalyc.org/journal/1800/180063437020/html/",
+    "source_url": "https://www.redalyc.org/journal/1800/180063437020/html/",
     "abstract_inverted_index": {
+      "1": [
+        16
+      ],
+      "6": [
+        106
+      ],
+      "8": [
+        125,
+        145,
+        165
+      ],
+      "10": [
+        61,
+        127
+      ],
+      "11": [
+        80
+      ],
+      "17": [
+        84
+      ],
+      "74": [
+        147
+      ],
+      "300": [
+        30
+      ],
       "<strong>Fundamento:</strong>": [
         0
       ],
@@ -25103,9 +25125,6 @@
         224,
         228
       ],
-      "1": [
-        16
-      ],
       "millón": [
         17
       ],
@@ -25137,9 +25156,6 @@
       "a": [
         27,
         66
-      ],
-      "300": [
-        30
       ],
       "000": [
         31
@@ -25216,10 +25232,6 @@
         167,
         194
       ],
-      "10": [
-        61,
-        127
-      ],
       "semanas": [
         62,
         104,
@@ -25253,17 +25265,11 @@
       "día": [
         79
       ],
-      "11": [
-        80
-      ],
       "marzo": [
         82
       ],
       "al": [
         83
-      ],
-      "17": [
-        84
       ],
       "mayo": [
         86
@@ -25313,9 +25319,6 @@
       "5,": [
         105
       ],
-      "6": [
-        106
-      ],
       "7,": [
         108
       ],
@@ -25345,11 +25348,6 @@
       "3,": [
         124
       ],
-      "8": [
-        125,
-        145,
-        165
-      ],
       "son": [
         128
       ],
@@ -25367,9 +25365,6 @@
       ],
       "semana": [
         144
-      ],
-      "74": [
-        147
       ],
       "viernes": [
         150
@@ -25672,13 +25667,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -25729,6 +25723,33 @@
     "oa_landing_page_url": "http://scielo.sld.cu/pdf/ms/v18n3/1727-897X-ms-18-03-485.pdf",
     "source_url": "http://scielo.sld.cu/pdf/ms/v18n3/1727-897X-ms-18-03-485.pdf",
     "abstract_inverted_index": {
+      "1": [
+        19
+      ],
+      "6": [
+        114
+      ],
+      "8": [
+        133,
+        153,
+        173
+      ],
+      "10": [
+        68,
+        135
+      ],
+      "11": [
+        87
+      ],
+      "17": [
+        91
+      ],
+      "74": [
+        155
+      ],
+      "300": [
+        33
+      ],
       "RESUMEN": [
         0
       ],
@@ -25830,9 +25851,6 @@
         234,
         238
       ],
-      "1": [
-        19
-      ],
       "millon": [
         20
       ],
@@ -25864,9 +25882,6 @@
       "a": [
         30,
         73
-      ],
-      "300": [
-        33
       ],
       "000": [
         34
@@ -25943,10 +25958,6 @@
         175,
         204
       ],
-      "10": [
-        68,
-        135
-      ],
       "semanas": [
         69,
         112,
@@ -25980,17 +25991,11 @@
       "dia": [
         86
       ],
-      "11": [
-        87
-      ],
       "marzo": [
         89
       ],
       "al": [
         90
-      ],
-      "17": [
-        91
       ],
       "mayo": [
         93
@@ -26037,9 +26042,6 @@
       "5,": [
         113
       ],
-      "6": [
-        114
-      ],
       "7,": [
         116
       ],
@@ -26069,11 +26071,6 @@
       "3,": [
         132
       ],
-      "8": [
-        133,
-        153,
-        173
-      ],
       "son": [
         136
       ],
@@ -26091,9 +26088,6 @@
       ],
       "semana": [
         152
-      ],
-      "74": [
-        155
       ],
       "viernes": [
         158
@@ -26286,12 +26280,12 @@
       },
       {
         "display_name": "Infectious disease (medical specialty)",
-        "score": 0.0,
+        "score": 0,
         "level": 3
       },
       {
         "display_name": "Disease",
-        "score": 0.0,
+        "score": 0,
         "level": 2
       }
     ],
@@ -26383,20 +26377,19 @@
       "Moisés Quintana Álvarez"
     ],
     "author_count": 5,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Revista Cubana de Medicina Militar",
+    "publisher": "Editorial Ciencias Médicas - ECIMED",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1561-3046"
     ],
     "isbn": null,
     "language": "es",
     "volume": "48",
-    "issue": null,
+    "issue": "2 (Supl.)",
     "first_page": "441",
     "last_page": "450",
-    "page_range": null,
+    "page_range": "441-450",
     "citations": 23,
     "is_open_access": true,
     "oa_status": "green",
@@ -26759,13 +26752,12 @@
       "cited_by_count": 23,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Revista Cubana de Medicina Militar",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1561-3046",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1561-3046"
         ],
         "is_in_doaj": true
       }
@@ -27075,6 +27067,24 @@
     "oa_landing_page_url": null,
     "source_url": "http://scielo.sld.cu/pdf/ems/v33n3/1561-2902-ems-33-03-e1845.pdf",
     "abstract_inverted_index": {
+      "10": [
+        160
+      ],
+      "18": [
+        83
+      ],
+      "30": [
+        153
+      ],
+      "36": [
+        85
+      ],
+      "40": [
+        74
+      ],
+      "60": [
+        144
+      ],
       "Introduccion": [
         0
       ],
@@ -27296,9 +27306,6 @@
       "muestra": [
         72
       ],
-      "40": [
-        74
-      ],
       "un": [
         78,
         135
@@ -27313,12 +27320,6 @@
         82,
         169,
         200
-      ],
-      "18": [
-        83
-      ],
-      "36": [
-        85
       ],
       "anos.": [
         86
@@ -27391,9 +27392,6 @@
       "represento": [
         142
       ],
-      "60": [
-        144
-      ],
       "%": [
         145
       ],
@@ -27403,17 +27401,11 @@
       "“alto”,": [
         151
       ],
-      "30": [
-        153
-      ],
       "%;": [
         154
       ],
       "“medio”,": [
         158
-      ],
-      "10": [
-        160
       ],
       "%.": [
         161
@@ -27598,26 +27590,25 @@
       "Raidell Avello Martínez"
     ],
     "author_count": 4,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Revista Cubana de Medicina Militar",
+    "publisher": "Editorial Ciencias Médicas - ECIMED",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1561-3046"
     ],
     "isbn": null,
     "language": "es",
     "volume": "48",
-    "issue": null,
+    "issue": "Supl. 1",
     "first_page": "451",
     "last_page": "461",
-    "page_range": null,
+    "page_range": "451-461",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/91dab901bf50460e8d86bfecb9133d03",
-    "source_url": "https://doaj.org/article/91dab901bf50460e8d86bfecb9133d03",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=97386",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=97386",
     "abstract_inverted_index": {
       "La": [
         0
@@ -28116,13 +28107,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Revista Cubana de Medicina Militar",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1561-3046",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1561-3046"
         ],
         "is_in_doaj": true
       }
@@ -28154,26 +28144,25 @@
       "Rodrigo Leandro Rodríguez Cubela"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "17",
+    "issue": "1",
+    "first_page": "10",
+    "last_page": "12",
+    "page_range": "10-12",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/4074509a454044a6898c542cac5b87e8",
-    "source_url": "https://doaj.org/article/4074509a454044a6898c542cac5b87e8",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=88572",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=88572",
     "abstract_inverted_index": {
       "Expressing": [
         0
@@ -28541,13 +28530,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -28579,12 +28567,11 @@
       "Rodrigo Leandro Rodríguez Cubela"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
@@ -28592,13 +28579,13 @@
     "issue": "1",
     "first_page": "10",
     "last_page": "12",
-    "page_range": null,
+    "page_range": "10-12",
     "citations": 7,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/ccfcc7482966438e8193778300357ed5",
-    "source_url": "https://doaj.org/article/ccfcc7482966438e8193778300357ed5",
+    "oa_landing_page_url": "https://www.redalyc.org/journal/1800/180061172004/html/",
+    "source_url": "https://www.redalyc.org/journal/1800/180061172004/html/",
     "abstract_inverted_index": {
       "Expresar": [
         0
@@ -29049,13 +29036,12 @@
       "cited_by_count": 7,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -29232,26 +29218,25 @@
       "Alexey Seisdedo Losa"
     ],
     "author_count": 2,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "15",
+    "issue": "5",
+    "first_page": "583",
+    "last_page": "586",
+    "page_range": "583-586",
     "citations": 2,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/fc5583e3371d4793bd50f7566cbb4f52",
-    "source_url": "https://doaj.org/article/fc5583e3371d4793bd50f7566cbb4f52",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=77573",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumenI.cgi?IDARTICULO=77573",
     "abstract_inverted_index": null,
     "topics": [
       {
@@ -29315,13 +29300,12 @@
       "cited_by_count": 2,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -29458,12 +29442,11 @@
       "Alexey Seisdedo Losa"
     ],
     "author_count": 2,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
@@ -29471,13 +29454,13 @@
     "issue": "5",
     "first_page": "583",
     "last_page": "586",
-    "page_range": null,
+    "page_range": "583-586",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/bdb679e816e44fed814a1379e5df72f4",
-    "source_url": "https://doaj.org/article/bdb679e816e44fed814a1379e5df72f4",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=77573",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=77573",
     "abstract_inverted_index": null,
     "topics": [
       {
@@ -29542,13 +29525,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -29994,7 +29976,7 @@
       },
       {
         "display_name": "Psychoanalysis",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -30074,26 +30056,25 @@
       "Raidell Avello Martínez"
     ],
     "author_count": 3,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "15",
+    "issue": "6",
+    "first_page": "860",
+    "last_page": "869",
+    "page_range": "860-869",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/669583bb2b3b414da5966f040aca643c",
-    "source_url": "https://doaj.org/article/669583bb2b3b414da5966f040aca643c",
+    "oa_landing_page_url": "https://doaj.org/article/cdafb2e16ef2492fa004e79a8e359577",
+    "source_url": "https://doaj.org/article/cdafb2e16ef2492fa004e79a8e359577",
     "abstract_inverted_index": {
       "Curriculum": [
         0
@@ -30500,13 +30481,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -30916,7 +30896,7 @@
       },
       {
         "display_name": "Operating system",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -31507,26 +31487,25 @@
       "Ronald Mauricio Alvarado Flores"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "14",
+    "issue": "1",
+    "first_page": "42",
+    "last_page": "52",
+    "page_range": "42-52",
     "citations": 4,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/c0e6f6afcdf2475d83219b5be1cc1cca",
-    "source_url": "https://doaj.org/article/c0e6f6afcdf2475d83219b5be1cc1cca",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=64288",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=64288",
     "abstract_inverted_index": {
       "<strong>Fundamento</strong>:": [
         0
@@ -32196,13 +32175,12 @@
       "cited_by_count": 4,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -32249,6 +32227,10 @@
     "oa_landing_page_url": null,
     "source_url": "http://scielo.sld.cu/pdf/rus/v8n1/rus09116.pdf",
     "abstract_inverted_index": {
+      "68": [
+        86,
+        209
+      ],
       "Entre": [
         0,
         101
@@ -32472,10 +32454,6 @@
       "a": [
         85,
         204
-      ],
-      "68": [
-        86,
-        209
       ],
       "turismo,": [
         94
@@ -33457,12 +33435,12 @@
       },
       {
         "display_name": "Archaeology",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       },
       {
         "display_name": "Law",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -34073,6 +34051,9 @@
     "oa_landing_page_url": null,
     "source_url": "http://www.um.es/ead/red/49/avello.pdf",
     "abstract_inverted_index": {
+      "14": [
+        110
+      ],
       "From": [
         0
       ],
@@ -34348,9 +34329,6 @@
       ],
       "by": [
         109
-      ],
-      "14": [
-        110
       ],
       "experts": [
         111
@@ -35591,6 +35569,18 @@
     "oa_landing_page_url": "https://doi.org/10.19173/irrodl.v16i3.1754",
     "source_url": "https://doi.org/10.19173/irrodl.v16i3.1754",
     "abstract_inverted_index": {
+      "3": [
+        110
+      ],
+      "6": [
+        112
+      ],
+      "50": [
+        117
+      ],
+      "111": [
+        119
+      ],
       "&lt;p": [
         0
       ],
@@ -35904,12 +35894,6 @@
         188,
         219
       ],
-      "3": [
-        110
-      ],
-      "6": [
-        112
-      ],
       "issues": [
         113
       ],
@@ -35919,12 +35903,6 @@
       "with": [
         115,
         153
-      ],
-      "50": [
-        117
-      ],
-      "111": [
-        119
       ],
       "research": [
         120,
@@ -36198,7 +36176,7 @@
       },
       {
         "display_name": "Law",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -37391,26 +37369,25 @@
       "Samuel Sánchez Gálvez"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "13",
+    "issue": "1",
+    "first_page": "7",
+    "last_page": "15",
+    "page_range": "7-15",
     "citations": 0,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/8415d25639064834ac0cd5281f496f37",
-    "source_url": "https://doaj.org/article/8415d25639064834ac0cd5281f496f37",
+    "oa_landing_page_url": "https://www.redalyc.org/pdf/1800/180037139003.pdf",
+    "source_url": "https://www.redalyc.org/pdf/1800/180037139003.pdf",
     "abstract_inverted_index": {
       "La": [
         0
@@ -37844,13 +37821,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -37877,17 +37853,16 @@
       "Raidell Avello Martínez"
     ],
     "author_count": 1,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
-    "doi": null,
+    "venue": "Journal of Technology Education",
+    "publisher": "Virginia Tech Libraries",
+    "doi": "10.21061/jte.v26i1.a.7",
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1045-1064"
     ],
     "isbn": null,
     "language": "en",
-    "volume": null,
-    "issue": null,
+    "volume": "26",
+    "issue": "1",
     "first_page": null,
     "last_page": null,
     "page_range": null,
@@ -37895,8 +37870,8 @@
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/ffe4f66bc6984090bad54cfe981ccca7",
-    "source_url": "https://doaj.org/article/ffe4f66bc6984090bad54cfe981ccca7",
+    "oa_landing_page_url": "https://doi.org/10.21061/jte.v26i1.a.7",
+    "source_url": "https://doi.org/10.21061/jte.v26i1.a.7",
     "abstract_inverted_index": null,
     "topics": [
       {
@@ -37963,15 +37938,14 @@
       "cited_by_count": 21,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Journal of Technology Education",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1045-1064",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1045-1064"
         ],
-        "is_in_doaj": true
+        "is_in_doaj": false
       }
     },
     "crossref": null,
@@ -38170,26 +38144,25 @@
       "Walter Álvarez"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "12",
+    "issue": "1",
+    "first_page": "289",
+    "last_page": "294",
+    "page_range": "289-294",
     "citations": 10,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/2a50e24c976142c29a26e2c8aed274af",
-    "source_url": "https://doaj.org/article/2a50e24c976142c29a26e2c8aed274af",
+    "oa_landing_page_url": "http://www.medisur.sld.cu/index.php/medisur/article/view/2751",
+    "source_url": "http://www.medisur.sld.cu/index.php/medisur/article/view/2751",
     "abstract_inverted_index": {
       "Es": [
         0
@@ -38654,13 +38627,12 @@
       "cited_by_count": 10,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -39537,27 +39509,56 @@
       "M. Monteagudo"
     ],
     "author_count": 3,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
-    "volume": null,
-    "issue": null,
-    "first_page": null,
-    "last_page": null,
-    "page_range": null,
+    "volume": "12",
+    "issue": "1",
+    "first_page": "130",
+    "last_page": "134",
+    "page_range": "130-134",
     "citations": 2,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/c65a9c51df4e4e9c833c64d1280ceb06",
-    "source_url": "https://doaj.org/article/c65a9c51df4e4e9c833c64d1280ceb06",
+    "oa_landing_page_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=48113",
+    "source_url": "https://www.medigraphic.com/cgi-bin/new/resumen.cgi?IDARTICULO=48113",
     "abstract_inverted_index": {
+      "9": [
+        163
+      ],
+      "11": [
+        147
+      ],
+      "13": [
+        155
+      ],
+      "15": [
+        200
+      ],
+      "26": [
+        139
+      ],
+      "43": [
+        159
+      ],
+      "95": [
+        135
+      ],
+      "153": [
+        121
+      ],
+      "860": [
+        127
+      ],
+      "2008": [
+        101
+      ],
       "<strong>Fundamento:</strong>": [
         0
       ],
@@ -39866,9 +39867,6 @@
       "temporal": [
         99
       ],
-      "2008": [
-        101
-      ],
       "octubre": [
         103
       ],
@@ -39903,9 +39901,6 @@
       "encontraron": [
         120
       ],
-      "153": [
-        121
-      ],
       "artículos": [
         122,
         140,
@@ -39915,9 +39910,6 @@
       ],
       "total": [
         125
-      ],
-      "860": [
-        127
       ],
       "citas": [
         128,
@@ -39932,9 +39924,6 @@
       "ellas,": [
         134
       ],
-      "95": [
-        135
-      ],
       "fueron": [
         136
       ],
@@ -39942,18 +39931,12 @@
         137,
         190
       ],
-      "26": [
-        139
-      ],
       "lo": [
         143,
         216
       ],
       "significa": [
         145
-      ],
-      "11": [
-        147
       ],
       "%.": [
         148
@@ -39967,15 +39950,9 @@
       "2010,": [
         153
       ],
-      "13": [
-        155
-      ],
       "recibieron": [
         158,
         169
-      ],
-      "43": [
-        159
       ],
       "citas.": [
         160
@@ -39985,9 +39962,6 @@
       ],
       "16,": [
         162
-      ],
-      "9": [
-        163
       ],
       "%": [
         164,
@@ -40052,9 +40026,6 @@
       ],
       "del": [
         199
-      ],
-      "15": [
-        200
       ],
       "reciben": [
         206,
@@ -40178,13 +40149,12 @@
       "cited_by_count": 2,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -40235,6 +40205,9 @@
     "oa_landing_page_url": "https://dialnet.unirioja.es/servlet/articulo?codigo=4904043",
     "source_url": "https://dialnet.unirioja.es/servlet/articulo?codigo=4904043",
     "abstract_inverted_index": {
+      "68": [
+        106
+      ],
       "En": [
         0
       ],
@@ -40504,9 +40477,6 @@
       ],
       "a": [
         105
-      ],
-      "68": [
-        106
       ],
       "Cienfuegos": [
         116
@@ -41376,17 +41346,16 @@
       "Raidell Avello Martínez"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
-    "volume": null,
-    "issue": null,
+    "volume": "12",
+    "issue": "1 (n.esp)",
     "first_page": null,
     "last_page": null,
     "page_range": null,
@@ -41394,8 +41363,8 @@
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/d166ca9722274fa9abaad66ff46116a3",
-    "source_url": "https://doaj.org/article/d166ca9722274fa9abaad66ff46116a3",
+    "oa_landing_page_url": "https://www.redalyc.org/pdf/1800/180032233021.pdf",
+    "source_url": "https://www.redalyc.org/pdf/1800/180032233021.pdf",
     "abstract_inverted_index": {
       "El": [
         0,
@@ -42029,13 +41998,12 @@
       "cited_by_count": 0,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -42067,12 +42035,11 @@
       "Francisco Marcelo Obando Freire"
     ],
     "author_count": 6,
-    "venue": "SHILAP Revista de lepidopterología",
-    "publisher": null,
+    "venue": "Medisur",
+    "publisher": "Centro Provincial de Información de Ciencias Médicas. Cienfuegos",
     "doi": null,
     "issn": [
-      "0300-5267",
-      "2340-4078"
+      "1727-897X"
     ],
     "isbn": null,
     "language": "es",
@@ -42080,13 +42047,13 @@
     "issue": "4",
     "first_page": "450",
     "last_page": "457",
-    "page_range": null,
+    "page_range": "450-457",
     "citations": 27,
     "is_open_access": true,
     "oa_status": "green",
     "oa_pdf_url": null,
-    "oa_landing_page_url": "https://doaj.org/article/0f0d2d1fc2ce4dfd8b7329287d1d2505",
-    "source_url": "https://doaj.org/article/0f0d2d1fc2ce4dfd8b7329287d1d2505",
+    "oa_landing_page_url": "http://scielo.sld.cu/scielo.php?script=sci_abstract&pid=S1727-897X2013000400009&lng=en&nrm=iso&tlng=en",
+    "source_url": "http://scielo.sld.cu/scielo.php?script=sci_abstract&pid=S1727-897X2013000400009&lng=en&nrm=iso&tlng=en",
     "abstract_inverted_index": {
       "El": [
         0
@@ -42524,13 +42491,12 @@
       "cited_by_count": 27,
       "referenced_works_count": 0,
       "primary_source": {
-        "id": "https://openalex.org/S112646816",
-        "display_name": "SHILAP Revista de lepidopterología",
+        "id": null,
+        "display_name": "Medisur",
         "type": "journal",
-        "issn_l": "0300-5267",
+        "issn_l": "1727-897X",
         "issn": [
-          "0300-5267",
-          "2340-4078"
+          "1727-897X"
         ],
         "is_in_doaj": true
       }
@@ -43946,7 +43912,7 @@
       },
       {
         "display_name": "Programming language",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -44239,7 +44205,7 @@
       },
       {
         "display_name": "Programming language",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       }
     ],
@@ -44812,12 +44778,12 @@
       },
       {
         "display_name": "Law",
-        "score": 0.0,
+        "score": 0,
         "level": 1
       },
       {
         "display_name": "Politics",
-        "score": 0.0,
+        "score": 0,
         "level": 2
       }
     ],
@@ -44895,6 +44861,9 @@
     "oa_landing_page_url": null,
     "source_url": "https://ddd.uab.cat/pub/dim/16993748n19/16993748n19a2.pdf",
     "abstract_inverted_index": {
+      "5": [
+        158
+      ],
       "Hacer": [
         0
       ],
@@ -45276,9 +45245,6 @@
       ],
       "estructurado": [
         156
-      ],
-      "5": [
-        158
       ],
       "temas": [
         159
@@ -45895,6 +45861,9 @@
     "oa_landing_page_url": null,
     "source_url": "https://pubmed.ncbi.nlm.nih.gov/2481427",
     "abstract_inverted_index": {
+      "140": [
+        7
+      ],
       "We": [
         0
       ],
@@ -45938,9 +45907,6 @@
         6,
         68,
         163
-      ],
-      "140": [
-        7
       ],
       "infertile": [
         8,
