@@ -91,7 +91,10 @@ function renderCalls(calls, filters) {
   if (filters.days) {
     const maxDays = Number.parseInt(filters.days, 10);
     filtered = filtered.filter(
-      (call) => call.days_until !== null && call.days_until !== undefined && call.days_until <= maxDays
+      (call) => {
+        const days = daysUntil(call.deadline);
+        return days !== null && days >= 0 && days <= maxDays;
+      }
     );
   }
 
@@ -116,7 +119,7 @@ function renderCalls(calls, filters) {
       (call) => `
         <tr>
           <td class="col-deadline">${call.deadline ? formatDate(call.deadline) : '<span class="badge-days badge-none">-</span>'}</td>
-          <td class="col-days">${daysBadge(call.days_until)}</td>
+          <td class="col-days">${daysBadge(daysUntil(call.deadline))}</td>
           <td class="col-type">${typeBadge(call.type)}</td>
           <td class="col-title call-title">
             ${call.url ? `<a href="${escHtml(call.url)}" target="_blank" rel="noopener">${escHtml(call.title)}</a>` : escHtml(call.title)}
@@ -391,9 +394,20 @@ function getMainCalls(calls) {
 
 function daysBadge(days) {
   if (days === null || days === undefined) return '<span class="badge-days badge-none">-</span>';
+  if (days < 0) return `<span class="badge-days badge-urgent">vencido</span>`;
   if (days <= 10) return `<span class="badge-days badge-urgent">${days}d</span>`;
   if (days <= 30) return `<span class="badge-days badge-warning">${days}d</span>`;
   return `<span class="badge-days badge-ok">${days}d</span>`;
+}
+
+function daysUntil(iso) {
+  if (!iso) return null;
+  const [year, month, day] = iso.split("-").map(Number);
+  if (!year || !month || !day) return null;
+  const deadline = Date.UTC(year, month - 1, day);
+  const now = new Date();
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((deadline - today) / 86400000);
 }
 
 function typeBadge(type) {

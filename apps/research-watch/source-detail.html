@@ -254,6 +254,7 @@
             <thead>
               <tr>
                 <th class="col-deadline">Deadline</th>
+                <th class="col-days">Dias</th>
                 <th class="col-type">Tipo</th>
                 <th class="col-title">Titulo</th>
               </tr>
@@ -262,6 +263,7 @@
               ${calls.map((call) => `
                 <tr>
                   <td class="col-deadline">${call.deadline ? fmtDate(call.deadline) : "-"}</td>
+                  <td class="col-days">${daysBadge(daysUntil(call.deadline))}</td>
                   <td class="col-type"><span class="type-badge type-${call.type}">${escHtml(TYPE_LABELS[call.type] || call.type)}</span></td>
                   <td class="col-title call-title">
                     ${call.url ? `<a href="${escHtml(call.url)}" target="_blank" rel="noopener">${escHtml(call.title)}</a>` : escHtml(call.title)}
@@ -297,6 +299,24 @@
       if (!iso) return "-";
       const [year, month, day] = iso.split("-");
       return `${day}/${month}/${year}`;
+    }
+
+    function daysBadge(days) {
+      if (days === null || days === undefined) return '<span class="badge-days badge-none">-</span>';
+      if (days < 0) return '<span class="badge-days badge-urgent">vencido</span>';
+      if (days <= 10) return `<span class="badge-days badge-urgent">${days}d</span>`;
+      if (days <= 30) return `<span class="badge-days badge-warning">${days}d</span>`;
+      return `<span class="badge-days badge-ok">${days}d</span>`;
+    }
+
+    function daysUntil(iso) {
+      if (!iso) return null;
+      const [year, month, day] = iso.split("-").map(Number);
+      if (!year || !month || !day) return null;
+      const deadline = Date.UTC(year, month - 1, day);
+      const now = new Date();
+      const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      return Math.round((deadline - today) / 86400000);
     }
 
     function fmtNum(value) {
