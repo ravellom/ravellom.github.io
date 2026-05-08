@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-04-23T08:32:26.194112+00:00",
+    "generated_at": "2026-05-08T17:15:58.618292+00:00",
     "version": "3",
-    "total_calls": 8
+    "total_calls": 5
   },
   "journals": [
     {
@@ -1268,66 +1268,6 @@
   ],
   "calls": [
     {
-      "id": "9e8a3238-b3c5-414c-93c1-916dd72ef612",
-      "type": "special_issue",
-      "title": "Diversidad cultural en las periferias de la educación inclusiva",
-      "deadline": "2026-04-30",
-      "url": "https://revistascientificas.us.es/index.php/fuentes/announcement/view/535",
-      "status": "active",
-      "source_url": "https://revistascientificas.us.es/index.php/fuentes/announcement",
-      "notes": null,
-      "source": {
-        "type": "journal",
-        "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
-        "name": "Revista Fuentes",
-        "areas": [
-          "educación",
-          "ciencias sociales",
-          "investigación educativa"
-        ]
-      }
-    },
-    {
-      "id": "1499b3cf-285d-467d-8a13-e2cfa6cf48dd",
-      "type": "cfp",
-      "title": "Recepción de manuscritos",
-      "deadline": "2026-04-30",
-      "url": "https://revistas.uned.es/index.php/educacionXX1/announcement/view/526",
-      "status": "active",
-      "source_url": "https://revistas.uned.es/index.php/educacionXX1/announcement",
-      "notes": "Aviso de Educaci?n XX1 publicado el 2026-04-10. El texto indica recepci?n de manuscritos abierta entre el 1 y el 30 de abril de 2026.",
-      "source": {
-        "type": "journal",
-        "id": "f5250cb2-1ac8-4326-b8f9-35786735f93e",
-        "name": "Educación XX1",
-        "areas": [
-          "educación",
-          "investigación educativa",
-          "tecnología educativa"
-        ]
-      }
-    },
-    {
-      "id": "9718af88-01b9-415c-a092-ec7b90c9efd2",
-      "type": "special_issue",
-      "title": "\"Teachers’ Working Conditions and Capitalism in the Digital Era\"",
-      "deadline": "2026-05-05",
-      "url": "https://revistes.ub.edu/index.php/der/announcement/view/992",
-      "status": "active",
-      "source_url": "https://revistes.ub.edu/index.php/der/announcement",
-      "notes": null,
-      "source": {
-        "type": "journal",
-        "id": "fe4949e2-6ecc-43b5-b775-967b7e5adbf9",
-        "name": "Digital Education Review",
-        "areas": [
-          "digital education",
-          "e-learning",
-          "educational technology"
-        ]
-      }
-    },
-    {
       "id": "63e158a6-cae4-4bc7-a360-4925f97f0ac5",
       "type": "cfp",
       "title": "ETCM 2026 - Call for Papers",
@@ -1350,7 +1290,7 @@
     {
       "id": "ec7d8adf-2f41-4039-aa83-94dd0996e5a8",
       "type": "special_issue",
-      "title": "Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
+      "title": "NUEVO CALL FOR PAPERS - Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
       "deadline": "2026-06-01",
       "url": "https://revistas.uned.es/index.php/ried/announcement/view/502",
       "status": "active",
@@ -1390,7 +1330,7 @@
     {
       "id": "c494b740-b40c-4c72-bc72-b48c3862d56f",
       "type": "monographic",
-      "title": "Videojuegos y educación. Más allá de la gamificación y los enfoques instruccionales",
+      "title": "Call for papers TEMÁTICA ESPECIAL: Videojuegos y educación. Más allá de la gamificación y los enfoques instruccionales",
       "deadline": "2026-06-15",
       "url": "https://www.edutec.es/revista/index.php/edutec-e/announcement/view/57",
       "status": "active",
@@ -1410,7 +1350,7 @@
     {
       "id": "c3df12f9-daa7-4672-9d44-77f57543c583",
       "type": "special_issue",
-      "title": "Educar: Monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
+      "title": "Abierto el plazo de recepción de artículos para el monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
       "deadline": "2026-08-31",
       "url": "https://educar.uab.cat/announcement/view/63",
       "status": "active",
