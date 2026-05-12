@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-05-08T17:16:29.598364+00:00",
+    "generated_at": "2026-05-12T18:58:57.243511+00:00",
     "version": "2",
-    "total_journals": 38,
+    "total_journals": 39,
     "total_conferences": 27,
     "total_funding_sources": 2
   },
@@ -73,7 +73,7 @@
         "openalex_id": "https://openalex.org/S2898580591",
         "openalex_url": "https://openalex.org/S2898580591",
         "works_count": 1399,
-        "cited_by_count": 5572,
+        "cited_by_count": 5574,
         "h_index": 31,
         "i10_index": 170,
         "mean_citations_2yr": 0.6831683168316832,
@@ -254,11 +254,11 @@
       "openalex": {
         "openalex_id": "https://openalex.org/S110346167",
         "openalex_url": "https://openalex.org/S110346167",
-        "works_count": 4851,
-        "cited_by_count": 178848,
+        "works_count": 4852,
+        "cited_by_count": 179071,
         "h_index": 179,
-        "i10_index": 2375,
-        "mean_citations_2yr": 13.65034965034965,
+        "i10_index": 2376,
+        "mean_citations_2yr": 13.80836236933798,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 3860,
@@ -362,6 +362,18 @@
       "notes": null,
       "recent_entries": [
         {
+          "title": "Preservice language teachers’ agency in self-directed informal learning with GenAI",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000278?dgcid=rss_sd_all",
+          "published": null,
+          "summary": "Publication date: October 2026 Source: Computers & Education, Volume 251 Author(s): Chun Lai, Jingjing Qin, Lianjiang Jiang, Mingyue Gu, Chin-Hsi Lin"
+        },
+        {
+          "title": "Simulation supported directed self-guided learning of blended math-science sensemaking for historically marginalized STEM learners",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000771?dgcid=rss_sd_all",
+          "published": null,
+          "summary": "Publication date: October 2026 Source: Computers & Education, Volume 251 Author(s): Leonora Kaldaras, Carl Wieman"
+        },
+        {
           "title": "From building robots to cultivating robotics literacy? A systematic review of educational robotics research and its future directions",
           "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000989?dgcid=rss_sd_all",
           "published": null,
@@ -384,28 +396,16 @@
           "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000734?dgcid=rss_sd_all",
           "published": null,
           "summary": "Publication date: October 2026 Source: Computers & Education, Volume 251 Author(s): Ruofei Zhang, Di Zou, Haoran Xie, Gary Cheng"
-        },
-        {
-          "title": "Development and validation of a scenario-based multiple-choice test of AI ethical competence (AIEC) using item response theory",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000795?dgcid=rss_sd_all",
-          "published": null,
-          "summary": "Publication date: October 2026 Source: Computers & Education, Volume 251 Author(s): Yun Dai, Chen Chen, Ziyan Lin, Jianjun Qin, Yanmei Guo"
-        },
-        {
-          "title": "Social inequality in digital competencies among students in Germany: A trend analysis using ICILS data 2013-2023",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0360131526000758?dgcid=rss_sd_all",
-          "published": null,
-          "summary": "Publication date: October 2026 Source: Computers & Education, Volume 251 Author(s): Markus Lörz, Birgit Becker, Jan Niemann, Kerstin Drossel, Birgit Eickelmann"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S4210172634",
         "openalex_url": "https://openalex.org/S4210172634",
-        "works_count": 6139,
-        "cited_by_count": 526399,
+        "works_count": 6140,
+        "cited_by_count": 526772,
         "h_index": 320,
-        "i10_index": 4283,
-        "mean_citations_2yr": 10.63771712158809,
+        "i10_index": 4284,
+        "mean_citations_2yr": 10.772277227722773,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 4220,
@@ -452,6 +452,12 @@
       "notes": null,
       "recent_entries": [
         {
+          "title": "Not warm or cold, but appropriate: How outcome severity shifts moral-mind inferences and trust in AI chatbots",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0747563226001366?dgcid=rss_sd_all",
+          "published": null,
+          "summary": "Publication date: October 2026 Source: Computers in Human Behavior, Volume 183 Author(s): Lianshan Zhang, Mei Yin Zhao"
+        },
+        {
           "title": "Decision-making in esports: Identifying and understanding heuristics in League of Legends teamfights",
           "url": "https://www.sciencedirect.com/science/article/pii/S0747563226001329?dgcid=rss_sd_all",
           "published": null,
@@ -480,22 +486,16 @@
           "url": "https://www.sciencedirect.com/science/article/pii/S0747563226001287?dgcid=rss_sd_all",
           "published": null,
           "summary": "Publication date: October 2026 Source: Computers in Human Behavior, Volume 183 Author(s): Renbiao Yang, Gaohui Cao"
-        },
-        {
-          "title": "Efficacy of a context-aware mobile app with adaptive feedback for promoting behavioral change in problematic smartphone use: Evidence from a randomized controlled trial",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0747563226001305?dgcid=rss_sd_all",
-          "published": null,
-          "summary": "Publication date: October 2026 Source: Computers in Human Behavior, Volume 183 Author(s): Sandy C. Li, Stella Cheung, Ming Lui, Andrew K.F. Lui, Jackie W.W. Chan"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S204030396",
         "openalex_url": "https://openalex.org/S204030396",
-        "works_count": 9031,
-        "cited_by_count": 790886,
+        "works_count": 9034,
+        "cited_by_count": 791605,
         "h_index": 350,
-        "i10_index": 7450,
-        "mean_citations_2yr": 9.683844011142062,
+        "i10_index": 7453,
+        "mean_citations_2yr": 9.742024965325935,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 3440,
@@ -550,7 +550,7 @@
         "openalex_id": "https://openalex.org/S98708256",
         "openalex_url": "https://openalex.org/S98708256",
         "works_count": 2518,
-        "cited_by_count": 29014,
+        "cited_by_count": 29027,
         "h_index": 80,
         "i10_index": 600,
         "mean_citations_2yr": 2.0454545454545454,
@@ -640,10 +640,10 @@
         "openalex_id": "https://openalex.org/S2737239682",
         "openalex_url": "https://openalex.org/S2737239682",
         "works_count": 377,
-        "cited_by_count": 4035,
+        "cited_by_count": 4040,
         "h_index": 31,
         "i10_index": 114,
-        "mean_citations_2yr": 4.138888888888889,
+        "mean_citations_2yr": 4.166666666666667,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -734,9 +734,9 @@
         "openalex_id": "https://openalex.org/S2738810609",
         "openalex_url": "https://openalex.org/S2738810609",
         "works_count": 870,
-        "cited_by_count": 5668,
+        "cited_by_count": 5669,
         "h_index": 29,
-        "i10_index": 166,
+        "i10_index": 167,
         "mean_citations_2yr": 1.793103448275862,
         "is_oa": true,
         "is_in_doaj": true,
@@ -829,10 +829,10 @@
         "openalex_id": "https://openalex.org/S1018412103",
         "openalex_url": "https://openalex.org/S1018412103",
         "works_count": 701,
-        "cited_by_count": 10803,
+        "cited_by_count": 10808,
         "h_index": 48,
         "i10_index": 313,
-        "mean_citations_2yr": 2.075,
+        "mean_citations_2yr": 2.1,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -884,50 +884,50 @@
       "notes": "Open Access (Unpaywall).",
       "recent_entries": [
         {
-          "title": "Juegos digitales y tradicionales en el aula de educación infantil",
-          "url": "https://educar.uab.cat/article/view/v62-n1-genoguin",
-          "published": "2025-09-23",
-          "summary": "La enseñanza basada en juegos ofrece múltiples oportunidades de aprendizaje, especialmente para los niños pequeños. Este estudio examinó la efectividad del aprendizaje basado en juegos en la educación infantil y determinó si el juego digital o el tradicional mejoran más eficazmente la numeración en "
+          "title": "Presentación",
+          "url": "https://educar.uab.cat/article/view/v62-n1-essomba-et-al",
+          "published": "2026-02-19",
+          "summary": "La educación sigue siendo un terreno de disputa ideológica y política. En él confluyen las diversas fuerzas sociales, dispuestas a apropiarse de ella para favorecer el modelo de sociedad que anhelan. Simplificando, diríamos que son dos las fuerzas mayoritarias que actúan por una educación favorable "
         },
         {
-          "title": "Relación entre la competencia digital docente y la actitud hacia la innovación educativa del profesorado en servicio",
-          "url": "https://educar.uab.cat/article/view/v62-n1-duenas-tapia",
-          "published": "2025-07-18",
-          "summary": "La competencia digital docente (CDD) es esencial para la integración efectiva de tecnologías en el aula, y su desarrollo podría influir en la disposición del profesorado hacia la innovación. Este estudio tiene por objetivo analizar la relación entre la competencia digital docente y la actitud hacia "
+          "title": "Escuela, diversidad cultural y recursos comunitarios: Hacia la corresponsabilidad educativa",
+          "url": "https://educar.uab.cat/article/view/v62-n1-vecina-et-al",
+          "published": "2026-02-19",
+          "summary": "El contexto actual requiere de instituciones educativas abiertas al trabajo colaborativo junto con otros recursos comunitarios para fomentar una educación de calidad. Este estudio analiza la relación entre centros de educación primaria y diversos recursos comunitarios. Considerando las variables tip"
         },
         {
-          "title": "Variables personales asociadas a la transición de educación primaria a educación secundaria del alumnado rural y urbano",
-          "url": "https://educar.uab.cat/article/view/v62-n1-vicien-chocarro",
-          "published": "2025-09-23",
-          "summary": "Una actividad palanca del Programa de Refuerzo, Orientación y Apoyo se centra en facilitar y mejorar las transiciones educativas. Este es un proceso complejo influenciado por diversas variables, tanto académicas como personales o sociales. La percepción de la transición, las habilidades sociales y e"
+          "title": "Ayudar a las familias a respirar: del trabajo en paralelo al empoderamiento colaborativo en la participación escolar mediada por la comunidad",
+          "url": "https://educar.uab.cat/article/view/v62-n1-teklemariam-et-al",
+          "published": "2026-02-19",
+          "summary": "La educación comunitaria sostiene las trayectorias académicas de muchos estudiantes refugiados y migrantes; sin embargo, esta labor esencial a menudo no se reconoce dentro de los marcos formales de las agendas de colaboración escuela-familia. Esta desconexión genera un ciclo de falta de reconocimien"
         },
         {
-          "title": "Etapas educativas, transiciones y abandono escolar: los casos de España y Portugal",
-          "url": "https://educar.uab.cat/article/view/v62-n1-abrantes-et-al",
-          "published": "2025-12-09",
-          "summary": "El objetivo del artículo es explorar cómo la estructuración de las distintas etapas educativas en diferentes países se relaciona con el fenómeno del abandono escolar temprano. Se parte del diálogo entre dos líneas de investigación internacionales, una sobre las transiciones entre etapas educativas y"
+          "title": "Participación y educación comunitaria desde el modelo de comunidades de aprendizaje en Andalucía",
+          "url": "https://educar.uab.cat/article/view/v62-n1-dominguez-prados",
+          "published": "2026-02-19",
+          "summary": "En las comunidades de aprendizaje, la formación y la participación de la comunidad educativa es fundamental. Se manifiesta mediante su implicación en la toma de decisiones, la colaboración en actividades educativas y la evaluación de procesos. Esta participación no solo busca mejorar el aprendizaje "
         },
         {
-          "title": "Adhesión a la formación y orientación laboral del alumnado universitario",
-          "url": "https://educar.uab.cat/article/view/v62-n1-sanchez-bolivar-et-al",
-          "published": "2025-09-30",
-          "summary": "Para la transición a la vida activa del estudiante universitario de Ceuta se hace imprescindible establecer itinerarios educativos y profesionales óptimos para dar respuesta a su contexto geopolítico transnacional y, por ende, a su entorno vulnerable. Este estudio tiene como objetivo describir el pe"
+          "title": "El Proceso Diverze como pedagogía social comunitaria: Una apuesta por la inclusión socioeducativa a través del ocio inclusivo",
+          "url": "https://educar.uab.cat/article/view/v62-n1-cepeda-garcia",
+          "published": "2026-02-19",
+          "summary": "Este artículo examina el Proceso Diverze, una iniciativa de ocio inclusivo de la Asociación para la Mediación Social (EQUA) y la Universidad de Cádiz (UCA) con el objetivo de comprender en profundidad el alcance de este desde las claves que ofrece la pedagogía social comunitaria. Mediante un estudio"
         },
         {
-          "title": "Diseño y validación del instrumento DigCompEdu Check-In para la medición de la competencia digital docente en los centros no universitarios de la Comunidad de Madrid",
-          "url": "https://educar.uab.cat/article/view/v62-n1-fernandez-et-al",
-          "published": "2025-09-23",
-          "summary": "La aplicación del marco DigCompEdu para definir la competencia digital del docente (CDD) ha sido ampliamente analizada en numerosos trabajos de investigación. El presente estudio tiene como objetivo validar el instrumento DigCompEdu Check-In para medir la competencia digital docente en centros no un"
+          "title": "Educación comunitaria no adultocéntrica: El enfoque de los comunes educativos para el reconocimiento de las infancias y adolescencias",
+          "url": "https://educar.uab.cat/article/view/v62-n1-servan-et-al",
+          "published": "2026-02-19",
+          "summary": "Este artículo analiza cómo los comunes educativos, concebidos como prácticas pedagógicas comunitarias, contribuyen a desestabilizar las lógicas adultocéntricas y a conseguir que niñas, niños y adolescentes disputen espacios de participación y agencia en la comunidad. La investigación, basada en una "
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S4210168775",
         "openalex_url": "https://openalex.org/S4210168775",
         "works_count": 1128,
-        "cited_by_count": 4619,
+        "cited_by_count": 4621,
         "h_index": 29,
         "i10_index": 147,
-        "mean_citations_2yr": 0.7282608695652174,
+        "mean_citations_2yr": 0.7391304347826086,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -981,7 +981,7 @@
         "openalex_id": "https://openalex.org/S4210214660",
         "openalex_url": "https://openalex.org/S4210214660",
         "works_count": 425,
-        "cited_by_count": 3500,
+        "cited_by_count": 3501,
         "h_index": 24,
         "i10_index": 102,
         "mean_citations_2yr": 0.8301886792452831,
@@ -1033,11 +1033,11 @@
       "openalex": {
         "openalex_id": "https://openalex.org/S2738008561",
         "openalex_url": "https://openalex.org/S2738008561",
-        "works_count": 8387,
-        "cited_by_count": 106219,
-        "h_index": 109,
-        "i10_index": 2646,
-        "mean_citations_2yr": 3.9020794946038433,
+        "works_count": 8403,
+        "cited_by_count": 106723,
+        "h_index": 110,
+        "i10_index": 2661,
+        "mean_citations_2yr": 3.9536041939711666,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": 1515,
@@ -1084,6 +1084,18 @@
       "notes": null,
       "recent_entries": [
         {
+          "title": "Cognitive load pathways linking generative AI dependency to university students' higher-order thinking skills and academic enjoyment",
+          "url": "https://link.springer.com/article/10.1007/s10639-026-14026-9",
+          "published": "2026-05-12",
+          "summary": "Generative artificial intelligence (GenAI) is rapidly reshaping higher education, yet evidence remains limited on how students’ AI dependency relates to cognitive load and learning-related outcomes. Drawing on Technology Dependency Theory and Cognitive Load Theory, this study examines the curvilinea"
+        },
+        {
+          "title": "Innovativeness and self-efficacy in lecturers’ intentions to use cloud computing services in teaching and learning in South African higher education",
+          "url": "https://link.springer.com/article/10.1007/s10639-026-14016-x",
+          "published": "2026-05-09",
+          "summary": "There has been an acceleration of the adoption of cloud computing in higher education institutions (HEIs), especially in response to the COVID-19 pandemic. This shift to virtual and blended learning environments, led to a migration of HEIs’ information management processes to cloud-based systems. De"
+        },
+        {
           "title": "Differentiated instruction through learning management systems: Insights from teachers in Germany",
           "url": "https://link.springer.com/article/10.1007/s10639-026-13997-z",
           "published": "2026-05-06",
@@ -1106,28 +1118,16 @@
           "url": "https://link.springer.com/article/10.1007/s10639-026-14014-z",
           "published": "2026-05-05",
           "summary": "As desktop virtual reality (VR) technologies become more accessible, universities face the challenge not of adoption, but of achieving meaningful and scalable integration. While prior research has examined the pedagogical affordances of VR, little is known about how these tools can be embedded withi"
-        },
-        {
-          "title": "From disengaged to self-determined: A latent transition analysis of students’ AI learning motivation",
-          "url": "https://link.springer.com/article/10.1007/s10639-026-13998-y",
-          "published": "2026-05-05",
-          "summary": "As AI education expands, understanding whether and how students sustain their engagement in AI learning has become increasingly important. Current research has predominantly focused on students’ AI literacy over shorter timeframes, with limited attention to their motivational development. Grounded i"
-        },
-        {
-          "title": "Lost in the middle? examining scoring reliability and position bias in LLM-based automated essay scoring",
-          "url": "https://link.springer.com/article/10.1007/s10639-026-14019-8",
-          "published": "2026-05-05",
-          "summary": "This study investigates position bias in ChatGPT’s scoring patterns for automated essay scoring, with a focus on primacy and recency effects. Position bias, originating from the serial position effect in cognitive psychology, refers to the tendency of Large Language Models (LLMs) to emphasize the in"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S166722454",
         "openalex_url": "https://openalex.org/S166722454",
-        "works_count": 5302,
-        "cited_by_count": 150305,
+        "works_count": 5303,
+        "cited_by_count": 150761,
         "h_index": 149,
-        "i10_index": 2980,
-        "mean_citations_2yr": 9.18922305764411,
+        "i10_index": 2989,
+        "mean_citations_2yr": 9.304946775203506,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 3190,
@@ -1178,6 +1178,12 @@
       "notes": "Open Access (Unpaywall). SCOPUS: marcada como Inactive en Feb 2026.",
       "recent_entries": [
         {
+          "title": "Lista de revisores del Volumen 26 (2025)",
+          "url": "https://revistas.usal.es/tres/index.php/eks/article/view/33345",
+          "published": "2025-12-30",
+          "summary": "Lista de revisores del Volumen 26 (2025)"
+        },
+        {
           "title": "Tres escenarios para la IA en educación: del apoyo responsable a la cocreación",
           "url": "https://revistas.usal.es/tres/index.php/eks/article/view/32932",
           "published": "2025-11-12",
@@ -1206,22 +1212,16 @@
           "url": "https://revistas.usal.es/tres/index.php/eks/article/view/32300",
           "published": "2025-12-30",
           "summary": "La integración de la inteligencia artificial (IA) en la educación primaria ha despertado un gran interés debido a su potencial para transformar la enseñanza y el aprendizaje. Sin embargo, su implementación carece de una base empírica sólida que valide sus beneficios pedagógicos en esta etapa educati"
-        },
-        {
-          "title": "Prediciendo el abandono universitario utilizando técnicas de aprendizaje automático: Aplicaciones sobre bases de datos multidisciplinarias",
-          "url": "https://revistas.usal.es/tres/index.php/eks/article/view/31711",
-          "published": "2025-12-18",
-          "summary": "La deserción estudiantil constituye un desafío para las instituciones de Educación Superior debido, entre otras razones, a la diversidad de los estudiantes en cuanto a su origen social, educativo y económico, así como a las disciplinas y grados académicos en los que se matriculan, produciendo una am"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S2736693445",
         "openalex_url": "https://openalex.org/S2736693445",
         "works_count": 822,
-        "cited_by_count": 7693,
+        "cited_by_count": 7695,
         "h_index": 36,
         "i10_index": 193,
-        "mean_citations_2yr": 2.0930232558139537,
+        "mean_citations_2yr": 2.116279069767442,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -1273,16 +1273,16 @@
           "summary": "Although recommender systems have the potential to advance self-regulated learning (SRL) in online environments, implementation challenges impede their development. To systematically investigate the barriers to the effective use of recommender systems to enhance SRL, this study developed a three-tie"
         },
         {
-          "title": "Measuring presence in virtual world teacher education: validation of the eXtended Reality Presence Scale",
-          "url": "https://link.springer.com/article/10.1007/s11423-026-10619-w",
-          "published": "2026-04-25",
-          "summary": "Extended reality technologies are increasingly used in teacher education. For instance, innovations like 360 videos and virtual reality have been shown to be effective in improving future educators’ noticing, self-efficacy, and sense of presence, particularly in simulations of real classrooms. Howev"
-        },
-        {
           "title": "Immersive virtual reality–based manual therapy training: a mixed-methods trial",
           "url": "https://link.springer.com/article/10.1007/s11423-026-10620-3",
           "published": "2026-04-25",
           "summary": "Manual therapy mobilizations are common therapeutic practices for musculoskeletal conditions, but their acquisition presents significant challenges as it requires the precise, coordinated, and safe execution of specific movements. Traditional teaching approaches often rely on subjective feedback and"
+        },
+        {
+          "title": "Measuring presence in virtual world teacher education: validation of the eXtended Reality Presence Scale",
+          "url": "https://link.springer.com/article/10.1007/s11423-026-10619-w",
+          "published": "2026-04-25",
+          "summary": "Extended reality technologies are increasingly used in teacher education. For instance, innovations like 360 videos and virtual reality have been shown to be effective in improving future educators’ noticing, self-efficacy, and sense of presence, particularly in simulations of real classrooms. Howev"
         },
         {
           "title": "Authenticity in a high school data science curriculum",
@@ -1307,10 +1307,10 @@
         "openalex_id": "https://openalex.org/S114840262",
         "openalex_url": "https://openalex.org/S114840262",
         "works_count": 2706,
-        "cited_by_count": 148332,
+        "cited_by_count": 148432,
         "h_index": 171,
         "i10_index": 1568,
-        "mean_citations_2yr": 6.320689655172414,
+        "mean_citations_2yr": 6.372413793103449,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 3090,
@@ -1401,7 +1401,7 @@
         "openalex_id": "https://openalex.org/S4210230295",
         "openalex_url": "https://openalex.org/S4210230295",
         "works_count": 1241,
-        "cited_by_count": 13209,
+        "cited_by_count": 13211,
         "h_index": 44,
         "i10_index": 406,
         "mean_citations_2yr": 0.4148936170212766,
@@ -1455,10 +1455,28 @@
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799.",
       "recent_entries": [
         {
+          "title": "Cognition as the Missing Link: Explaining Student Moral Behavior through Teachers’ Ethical Leadership in Chongqing Universities",
+          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/1034",
+          "published": "2026-05-09",
+          "summary": "Chinese higher education has witnessed accelerated growth, which has raised academic standards but at the same time revealed lingering integrity problems. While studies have demonstrated that teachers’ ethical leadership can influence students’ moral cognition and, ultimately, moral behavior, there "
+        },
+        {
           "title": "Center of Excellence for Developmental Stimulation, Learning Behavior, And Services for Children, La-Orutis Demonstration Lampang School, Suan Dusit University",
           "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/1013",
           "published": "2026-04-20",
           "summary": "The project titled Development of a Center of Excellence for Services to Stimulate Child Development and Learning Behavior at the La-orutis Demonstration School, Suan Dusit University, Lampang Center aimed to establish a Center of Excellence for screening, diagnosis, service planning, and interventi"
+        },
+        {
+          "title": "Sport Education as a Catalyst for Mental Health: A Predictive Model of Sports Enjoyment and Digital Challenges in China and South Asia",
+          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/1005",
+          "published": "2026-05-09",
+          "summary": "This study investigates the complex relationships among sport education, digital behaviors, and mental health in university students from China and South Asia. We developed an integrated conceptual framework grounded in Self-Determination Theory (SDT) to examine how sports enjoyment and social media"
+        },
+        {
+          "title": "Representación social de la práctica pedagógica de profesores universitarios de Iberoamérica en tiempos de confinamiento",
+          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/984",
+          "published": "2026-05-08",
+          "summary": "A nivel mundial el confinamiento generado por la pandemia de COVID-19, generó cambios forzados e inesperados en las prácticas pedagógicas de los profesores, incidiendo en los procesos de enseñanza aprendizaje de todo el mundo. En este trabajo se plantea como objetivo identificar el contenido y la or"
         },
         {
           "title": "Ethical Leadership as a Psychological Mechanism Linking Teacher Self-Efficacy and Classroom Management to Online Professional Development Engagement",
@@ -1467,35 +1485,17 @@
           "summary": "This study examines the psychological mechanisms underlying engagement in online professional development among university teachers by investigating the roles of classroom management, teacher self-efficacy, and ethical leadership. Although teacher competencies are known to influence professional lea"
         },
         {
-          "title": "Evaluation of King Faisal University Students’ Awareness of the Code of Ethical and Professional Conduct: A Student Perspective",
-          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/957",
-          "published": "2026-01-14",
-          "summary": "During last few years, higher education is going through rapid transformation because of which professional and ethical values have become critical to shape personalities of students. Professional and ethical values are important tools for regulatory behavior. Therefore, this research aimed to explo"
-        },
-        {
-          "title": "Wariga Ethnomathematics: Mathematical Structures and Sasak Cultural Values in the Traditional Calendar System",
-          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/864",
-          "published": "2026-03-19",
-          "summary": "Mathematics is considered difficult for some students because it tends to be irrelevant to everyday life practices or culture. This study aims to investigate the mathematical structures inherent in the Wariga system and identify its unique characteristics as a form of cultural mathematics to serve a"
-        },
-        {
-          "title": "The Model of Metaverse in Higher Education: A Systematic Literature Review",
-          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/889",
-          "published": "2025-12-25",
-          "summary": "The advancement of modern technology has accelerated the emergence of the metaverse, allowing it to surpass physical constraints and facilitate the distribution and exchange of high-quality educational content. This progression has generated growing interest in integrating metaverse technology withi"
-        },
-        {
-          "title": "Research On the Application of Radio-directed Movement in Middle and High School History Teaching",
-          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/884",
-          "published": "2026-01-25",
-          "summary": "This research aims to find out whether the use of radio-directed movement tasks enhances middle and high school students’ history knowledge, interest, critical thinking abilities, participation rate, and teamwork skills in group projects when implemented in classroom teaching. This study was done in"
+          "title": "Musical Innovation and Creativity in Music Education: A Systematic Literature Review",
+          "url": "http://forodeeducacion.com/ojs/index.php/fde/article/view/972",
+          "published": "2026-05-08",
+          "summary": "As education increasingly focuses on 21st-century skills, musical creativity has become a key priority, but there is still no unified theoretical framework. This study addresses this issue by systematically reviewing how musical creativity is defined, its measurable effects, and the factors that inf"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S2737327955",
         "openalex_url": "https://openalex.org/S2737327955",
         "works_count": 442,
-        "cited_by_count": 2165,
+        "cited_by_count": 2167,
         "h_index": 20,
         "i10_index": 61,
         "mean_citations_2yr": 0.0,
@@ -1544,6 +1544,18 @@
       "notes": null,
       "recent_entries": [
         {
+          "title": "What does it mean to widen participation? a machine learning analysis of historical and contemporary access discourses",
+          "url": "https://link.springer.com/article/10.1007/s10734-025-01612-y",
+          "published": "2026-05-09",
+          "summary": ""
+        },
+        {
+          "title": "Does free tuition impact academic performance of low-income undergraduate students? A response to Barroilhet, Silva and Quiroga",
+          "url": "https://link.springer.com/article/10.1007/s10734-026-01678-2",
+          "published": "2026-05-09",
+          "summary": "This article responds to the critiques formulated by Barroilhet, Silva, and Quiroga (2026) on our study examining the relationship between free tuition and academic performance in Chilean higher education. The commentary raises concerns regarding the interpretation of results, the treatment of missi"
+        },
+        {
           "title": "Diversification over the scientific career: the impact of seniority, mobility, and collaboration",
           "url": "https://link.springer.com/article/10.1007/s10734-026-01677-3",
           "published": "2026-05-06",
@@ -1566,28 +1578,16 @@
           "url": "https://link.springer.com/article/10.1007/s10734-026-01663-9",
           "published": "2026-05-02",
           "summary": "When it comes to opening Confucius Institutes (CIs) universities navigate uncertainty, from the prospects of cultural exchange to concerns voiced by those who see CIs as a form of ‘soft power’. Drawing on sociological and institutional theories, I explore whether changing notions of university auton"
-        },
-        {
-          "title": "Interdisciplinary educational ecosystem and students’ interdisciplinary competence: evidence from research universities in China",
-          "url": "https://link.springer.com/article/10.1007/s10734-026-01673-7",
-          "published": "2026-05-02",
-          "summary": ""
-        },
-        {
-          "title": "Will I be successful in my PhD? The role of person-environment fit for doctoral success",
-          "url": "https://link.springer.com/article/10.1007/s10734-026-01656-8",
-          "published": "2026-05-02",
-          "summary": ""
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S94908168",
         "openalex_url": "https://openalex.org/S94908168",
-        "works_count": 4958,
-        "cited_by_count": 212863,
+        "works_count": 4960,
+        "cited_by_count": 212976,
         "h_index": 196,
-        "i10_index": 2838,
-        "mean_citations_2yr": 3.714851485148515,
+        "i10_index": 2839,
+        "mean_citations_2yr": 3.7238658777120315,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 2990,
@@ -1633,50 +1633,50 @@
       "notes": null,
       "recent_entries": [
         {
-          "title": "The research-teaching nexus: A bibliometric mapping of the research literature from 2000 to 2023",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2467310?af=R",
-          "published": "2025-02-21",
-          "summary": "Volume 63, Issue 2, April 2026, Page 336-355 ."
+          "title": "An empirical study on the factors influencing the research competence of direct-entry PhD students",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2499893?af=R",
+          "published": "2025-05-01",
+          "summary": "Volume 63, Issue 3, June 2026, Page 998-1012 ."
         },
         {
-          "title": "MOOCs and economic disadvantage: A path analysis of 3.5 million MITx learners",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2471410?af=R",
-          "published": "2025-03-04",
-          "summary": "Volume 63, Issue 2, April 2026, Page 508-525 ."
+          "title": "Voices of preservice teachers: An evaluation of interactive online oral assessment to assess learning",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2507295?af=R",
+          "published": "2025-05-29",
+          "summary": "Volume 63, Issue 3, June 2026, Page 922-935 ."
         },
         {
-          "title": "Students’ experiences of pre-recorded lectures, flipped classrooms, and their impact on exam performance",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2481256?af=R",
-          "published": "2025-03-21",
-          "summary": "Volume 63, Issue 2, April 2026, Page 434-449 ."
+          "title": "Design education and NEP 2020: Understanding the shift towards animation in pedagogy",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2514241?af=R",
+          "published": "2025-06-02",
+          "summary": "Volume 63, Issue 3, June 2026, Page 941-955 ."
         },
         {
-          "title": "Teaching with the case method to build and teach management theory in offline and online courses",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2482074?af=R",
-          "published": "2025-03-20",
-          "summary": "Volume 63, Issue 2, April 2026, Page 526-537 ."
+          "title": "Faculty perceptions of effectiveness of a peer coaching model as professional development for teaching",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2517294?af=R",
+          "published": "2025-06-11",
+          "summary": "Volume 63, Issue 3, June 2026, Page 1013-1025 ."
         },
         {
-          "title": "Lived experience of international students within a volunteering program: A hermeneutic phenomenological study",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2489976?af=R",
-          "published": "2025-04-14",
-          "summary": "Volume 63, Issue 2, April 2026, Page 481-493 ."
+          "title": "Modelling the impact of emotional intelligence on academic performance: A conceptual and empirical approach in higher education",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2498529?af=R",
+          "published": "2025-05-02",
+          "summary": "Volume 63, Issue 3, June 2026, Page 797-814 ."
         },
         {
-          "title": "The successes, challenges and considerations for the enhancement of a university teaching development scheme",
-          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2489977?af=R",
-          "published": "2025-04-09",
-          "summary": "Volume 63, Issue 2, April 2026, Page 696-710 ."
+          "title": "GenAI enabling the high-quality development of higher education: Operational mechanisms and pathways",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/14703297.2025.2499888?af=R",
+          "published": "2025-04-29",
+          "summary": "Volume 63, Issue 3, June 2026, Page 888-903 ."
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S146713389",
         "openalex_url": "https://openalex.org/S146713389",
-        "works_count": 1780,
-        "cited_by_count": 45612,
+        "works_count": 1782,
+        "cited_by_count": 45666,
         "h_index": 91,
         "i10_index": 849,
-        "mean_citations_2yr": 2.592814371257485,
+        "mean_citations_2yr": 2.607142857142857,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": null,
@@ -1763,10 +1763,10 @@
         "openalex_id": "https://openalex.org/S4210201537",
         "openalex_url": "https://openalex.org/S4210201537",
         "works_count": 587,
-        "cited_by_count": 54287,
+        "cited_by_count": 54547,
         "h_index": 112,
-        "i10_index": 461,
-        "mean_citations_2yr": 34.094339622641506,
+        "i10_index": 462,
+        "mean_citations_2yr": 34.59119496855346,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -1812,6 +1812,24 @@
       "notes": null,
       "recent_entries": [
         {
+          "title": "Artificial Intelligence Chatbot‐Empowered Critical Thinking: Voices From English Majors",
+          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70258?af=R",
+          "published": "2026-05-11",
+          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
+        },
+        {
+          "title": "An Interdisciplinary Method of Applying AI‐Empowered Chatbots in Chinese Quatrains' Learning for Chinese Young Pupils",
+          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70260?af=R",
+          "published": "2026-05-11",
+          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
+        },
+        {
+          "title": "AI Chatbot as a Revision Aid in Second Language Writing: From Error Correction to Lexical Sophistication",
+          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70259?af=R",
+          "published": "2026-05-11",
+          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
+        },
+        {
           "title": "Information and Communication Technology Assisted Experiments in K‐12 Science Education: A Systematic Literature Review",
           "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70242?af=R",
           "published": "2026-05-01",
@@ -1828,34 +1846,16 @@
           "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70255?af=R",
           "published": "2026-04-27",
           "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
-        },
-        {
-          "title": "Learning From Errors in Simulations: How Individual Error Responses Shape Collaborative Problem‐Solving Skills",
-          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70251?af=R",
-          "published": "2026-04-27",
-          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
-        },
-        {
-          "title": "Contribution to Teaching Analytics: Measuring Teachers' Digital Maturity With Large‐Scale VLE Logs Dataset",
-          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70253?af=R",
-          "published": "2026-04-27",
-          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
-        },
-        {
-          "title": "Primary School Teachers' Competence With Learning Analytics Dashboards: Beliefs, Skills and Teaching Behaviour",
-          "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcal.70243?af=R",
-          "published": "2026-04-27",
-          "summary": "Journal of Computer Assisted Learning, Volume 42, Issue 3, June 2026."
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S5743915",
         "openalex_url": "https://openalex.org/S5743915",
         "works_count": 2763,
-        "cited_by_count": 108873,
+        "cited_by_count": 108959,
         "h_index": 157,
-        "i10_index": 1493,
-        "mean_citations_2yr": 5.591397849462366,
+        "i10_index": 1496,
+        "mean_citations_2yr": 5.640860215053763,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 3760,
@@ -1905,10 +1905,10 @@
         "openalex_id": "https://openalex.org/S2738710002",
         "openalex_url": "https://openalex.org/S2738710002",
         "works_count": 287,
-        "cited_by_count": 7375,
+        "cited_by_count": 7386,
         "h_index": 41,
         "i10_index": 163,
-        "mean_citations_2yr": 3.359375,
+        "mean_citations_2yr": 3.375,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -1935,6 +1935,96 @@
       }
     },
     {
+      "id": "e26c2012-e013-44dd-9dee-f8c54f517d36",
+      "name": "Journal of Vocational Education & Training",
+      "issn": "1363-6820",
+      "eissn": "1747-5090",
+      "scopus_active": true,
+      "publisher": "Taylor and Francis Ltd.",
+      "url": "https://www.tandfonline.com/journals/rjve20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/rjve20",
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "areas": [
+        "vocational education",
+        "professional learning",
+        "training"
+      ],
+      "notes": "Hybrid open access. Indexed in SCOPUS and ESCI.",
+      "recent_entries": [
+        {
+          "title": "Beginning teachers’ knowledge in Further Education: insights from teacher educators working with dual professionals",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2543592?af=R",
+          "published": "2025-08-04",
+          "summary": "Volume 78, Issue 2, May 2026, Page 291-310 ."
+        },
+        {
+          "title": "Assuring workplace training quality in firms: Insights into the work of inspectors in the dual Swiss VET system",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2543594?af=R",
+          "published": "2025-08-14",
+          "summary": "Volume 78, Issue 2, May 2026, Page 311-330 ."
+        },
+        {
+          "title": "The rising issue of dropouts from upper secondary vocational schools in the Czech Republic: perspectives of career counsellors",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2552798?af=R",
+          "published": "2025-08-29",
+          "summary": "Volume 78, Issue 2, May 2026, Page 369-387 ."
+        },
+        {
+          "title": "Exploring the logics of governing Australian VET markets: accommodations and ambivalence between institutional orders",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2556832?af=R",
+          "published": "2025-09-08",
+          "summary": "Volume 78, Issue 2, May 2026, Page 407-423 ."
+        },
+        {
+          "title": "Project-based learning in Chilean vocational secondary schools: the role of collaboration and collective agency for successful implementation",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2507586?af=R",
+          "published": "2025-05-19",
+          "summary": "Volume 78, Issue 2, May 2026, Page 227-243 ."
+        },
+        {
+          "title": "Temporally displaced and dispossessed: the ‘failure’ of vocational students under global capitalism and neoliberal meritocracy",
+          "url": "https://www.tandfonline.com/doi/full/10.1080/13636820.2025.2521611?af=R",
+          "published": "2025-06-17",
+          "summary": "Volume 78, Issue 2, May 2026, Page 244-266 ."
+        }
+      ],
+      "openalex": {
+        "openalex_id": "https://openalex.org/S4210171403",
+        "openalex_url": "https://openalex.org/S4210171403",
+        "works_count": 1338,
+        "cited_by_count": 24023,
+        "h_index": 64,
+        "i10_index": 635,
+        "mean_citations_2yr": 1.7936507936507937,
+        "is_oa": false,
+        "is_in_doaj": false,
+        "apc_usd": null,
+        "country_code": "GB",
+        "type": "journal",
+        "topics": [
+          "Education Systems and Policy",
+          "Higher Education and Employability",
+          "Innovative Education and Learning Practices",
+          "Higher Education Learning Practices",
+          "Youth Education and Societal Dynamics",
+          "Global Educational Policies and Reforms",
+          "Labor market dynamics and wage inequality",
+          "Teacher Education and Leadership Studies"
+        ],
+        "homepage_url": "https://www.tandfonline.com/toc/rjve20/current"
+      },
+      "links": {
+        "miar": "https://miar.ub.edu/issn/1363-6820",
+        "issn_portal": "https://portal.issn.org/resource/ISSN/1363-6820",
+        "sherpa": "https://v2.sherpa.ac.uk/cgi/romeo/search_advanced?issn=1363-6820",
+        "openalex": "https://openalex.org/S4210171403",
+        "doaj": null
+      }
+    },
+    {
       "id": "c29a7519-71cd-4e40-bed6-a37692862aa6",
       "name": "Learning and Instruction",
       "issn": "0959-4752",
@@ -1953,6 +2043,18 @@
       ],
       "notes": null,
       "recent_entries": [
+        {
+          "title": "Promoting behavioral assessment with a function-based tool",
+          "url": "https://www.sciencedirect.com/science/article/pii/S095947522600068X?dgcid=rss_sd_all",
+          "published": null,
+          "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): Sarah Burkhardt, Anja Böhnke, Felicitas Thiel"
+        },
+        {
+          "title": "How does gesture mimicry improve children's memory of spatial information?",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0959475226000733?dgcid=rss_sd_all",
+          "published": null,
+          "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): Xiaoxue Leng, Yunyi Wu, Qi Zhang, Fuxing Wang"
+        },
         {
           "title": "Supporting multi-perspectivity and depolarisation: The role of preparatory reading in classroom discussions of a controversial issue",
           "url": "https://www.sciencedirect.com/science/article/pii/S0959475226000563?dgcid=rss_sd_all",
@@ -1976,28 +2078,16 @@
           "url": "https://www.sciencedirect.com/science/article/pii/S0959475226000721?dgcid=rss_sd_all",
           "published": null,
           "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): Rui Dong, Li Yin, Yanyan Ye, Catherine McBride, Keran Chen, Kun Zheng"
-        },
-        {
-          "title": "Cognition of social rules and routine behavioral adjustment in young children with and without disabilities in inclusive preschools in China",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0959475226000691?dgcid=rss_sd_all",
-          "published": null,
-          "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): Yanfang Zhou, Zehua Zhang, Tiantian Wan, Leishan Shi, Pei Wang"
-        },
-        {
-          "title": "Epistemic beliefs predict evaluation and critical reading when learning from multiple texts",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0959475226000551?dgcid=rss_sd_all",
-          "published": null,
-          "summary": "Publication date: August 2026 Source: Learning and Instruction, Volume 104 Author(s): Hongcui Du, Alexandra List"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S78398831",
         "openalex_url": "https://openalex.org/S78398831",
-        "works_count": 2352,
-        "cited_by_count": 165512,
+        "works_count": 2354,
+        "cited_by_count": 165619,
         "h_index": 199,
         "i10_index": 1513,
-        "mean_citations_2yr": 5.332535885167464,
+        "mean_citations_2yr": 5.3428571428571425,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 4280,
@@ -2049,10 +2139,16 @@
       "notes": "Indexada en SCOPUS.",
       "recent_entries": [
         {
-          "title": "Evaluación educativa y justicia social, de M. Teresa Flórez, Tamara Rozas, José M. Olave y Felipe J. Hevia (coords.)",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62119",
-          "published": "2026-05-07",
-          "summary": ""
+          "title": "Desarrollo infantil postpandemia",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
+          "published": "2026-05-05",
+          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
+        },
+        {
+          "title": "Evaluación del pensamiento crítico en el estudiantado universitario español",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61950",
+          "published": "2026-05-05",
+          "summary": "El objetivo de este estudio es valorar el nivel de pensamiento crítico del estudiantado universitario español con el fin de identificar sus principales áreas de mejora y facilitar el diseño de propuestas educativas. Para ello, se diseñó un instrumento tipo Likert con alta fiabilidad (α=0.86) y valid"
         },
         {
           "title": "Experiencias de los participantes en el concurso de ingreso a la educación media superior Comipems",
@@ -2067,21 +2163,15 @@
           "summary": "Este artículo surge de un proyecto de investigación de corte cualitativo que se propuso analizar cómo el conocimiento extraescolar ingresa y se resignifica en la construcción del conocimiento escolar en la educación secundaria. Para ello, se configuró un estudio de caso a partir del registro discurs"
         },
         {
-          "title": "Desarrollo infantil postpandemia",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
+          "title": "La OCDE y la gobernanza global de la educación",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62403",
           "published": "2026-05-05",
-          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
+          "summary": ""
         },
         {
-          "title": "Evaluación del pensamiento crítico en el estudiantado universitario español",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61950",
-          "published": "2026-05-05",
-          "summary": "El objetivo de este estudio es valorar el nivel de pensamiento crítico del estudiantado universitario español con el fin de identificar sus principales áreas de mejora y facilitar el diseño de propuestas educativas. Para ello, se diseñó un instrumento tipo Likert con alta fiabilidad (α=0.86) y valid"
-        },
-        {
-          "title": "Editorial",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62404",
-          "published": "2026-05-05",
+          "title": "Evaluación educativa y justicia social, de M. Teresa Flórez, Tamara Rozas, José M. Olave y Felipe J. Hevia (coords.)",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62119",
+          "published": "2026-05-07",
           "summary": ""
         }
       ],
@@ -2277,11 +2367,11 @@
       "openalex": {
         "openalex_id": "https://openalex.org/S2738267768",
         "openalex_url": "https://openalex.org/S2738267768",
-        "works_count": 787,
-        "cited_by_count": 9977,
+        "works_count": 804,
+        "cited_by_count": 9987,
         "h_index": 47,
         "i10_index": 236,
-        "mean_citations_2yr": 2.746268656716418,
+        "mean_citations_2yr": 2.1904761904761907,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -2372,11 +2462,11 @@
       "openalex": {
         "openalex_id": "https://openalex.org/S2738706804",
         "openalex_url": "https://openalex.org/S2738706804",
-        "works_count": 882,
-        "cited_by_count": 6076,
+        "works_count": 881,
+        "cited_by_count": 6078,
         "h_index": 32,
         "i10_index": 189,
-        "mean_citations_2yr": 2.1777777777777776,
+        "mean_citations_2yr": 2.188888888888889,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -2468,7 +2558,7 @@
         "openalex_id": "https://openalex.org/S2737823951",
         "openalex_url": "https://openalex.org/S2737823951",
         "works_count": 443,
-        "cited_by_count": 5081,
+        "cited_by_count": 5082,
         "h_index": 35,
         "i10_index": 166,
         "mean_citations_2yr": 1.027027027027027,
@@ -2523,50 +2613,50 @@
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS.",
       "recent_entries": [
         {
-          "title": "Inteligencia artificial generativa y autonomía educativa: metáforas históricas y principios éticos para la transformación pedagógica",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45536",
-          "published": "2026-01-01",
-          "summary": "Este artículo analiza la integración de la inteligencia artificial generativa en educación desde una perspectiva crítica, histórica y ética. Se identifica una creciente preocupación por la opacidad de las herramientas de inteligencia artificial actuales, especialmente en sistemas de aprendizaje. El "
+          "title": "El profundo impacto de la inteligencia artificial en la educación superior",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47295",
+          "published": "2026-04-29",
+          "summary": "Partimos de la premisa de que la Inteligencia Artificial (IA) supone un cambio de era, incluso más allá que el cambio producido en la Era Digital, y por ello impacta profundamente en toda la sociedad y, en particular, en la Educación Superior. Después de justificar esta hipótesis, analizamos en prim"
         },
         {
-          "title": "Inteligencia artificial e inteligencia colectiva en la educación superior digital: estudio cuasi-experimental con la plataforma Kampal",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45560",
-          "published": "2026-01-01",
-          "summary": "La irrupción de la Inteligencia Artificial (IA) en educación superior plantea el desafío de integrar el aprendizaje personalizado con aprendizaje colaborativo. La inteligencia colectiva se sitúa en este estudio como una herramienta que permite articular ambos enfoques, al transformar aportaciones in"
+          "title": "IA generativa y transformación de la enseñanza en la educación superior: Revisión sistemática y modelo conceptual",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47225",
+          "published": "2026-03-28",
+          "summary": "La rápida expansión de la IA generativa está transformando la profesión docente en la educación superior, redefiniendo los roles tradicionales, la autoridad académica y el diseño de entornos de aprendizaje. Este estudio presenta una revisión sistemática de investigaciones publicadas entre 2022 y 202"
         },
         {
-          "title": "Impacto de la IA generativa en competencias digitales universitarias: evidencia experimental basada en el marco DigComp",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45533",
-          "published": "2026-01-01",
-          "summary": "Este estudio analiza el impacto del uso formativo de inteligencia artificial (IA) generativa en el desarrollo de competencias digitales en estudiantes universitarios. La intervención se implementó mediante un ensayo controlado aleatorizado. El grupo experimental recibió formación orientada a utiliza"
+          "title": "La verdad y lo veraz: La universidad ante la encrucijada de la IA generativa",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47174",
+          "published": "2026-03-12",
+          "summary": "La expansión de la inteligencia artificial generativa está transformando el ecosistema del conocimiento y obligando a las universidades a replantear sus fundamentos epistémicos, organizativos y pedagógicos. Este artículo analiza cómo la indiferencia hacia la verdad erosiona la confianza pública, cóm"
         },
         {
-          "title": "AI-ED-SAT: diseño y validación de un cuestionario para autoevaluar competencias docentes en IA educativa",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45413",
-          "published": "2026-01-01",
-          "summary": "La integración acelerada de la Inteligencia Artificial (IA) en el ámbito educativo plantea nuevos retos para la formación y evaluación de competencias docentes. Este estudio presenta el diseño, validación y análisis psicométrico del cuestionario AI-ED-SAT, una herramienta de autoevaluación dirigida "
+          "title": "Dependencia funcional a la inteligencia artificial en la universidad: Una lectura desde la disrupción cognitiva",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47025",
+          "published": "2026-04-16",
+          "summary": "La irrupción de la inteligencia artificial (IA) en la educación no solo viene optimizando las tareas académicas, sino que transforma las prácticas educativas y el aprendizaje universitario. En el presente estudio se analiza la dependencia funcional a la IA como un cambio en la manera de pensar y afr"
         },
         {
-          "title": "Autopercepción y utilidad de la inteligencia artificial generativa en docentes en formación",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45480",
-          "published": "2026-01-01",
-          "summary": "La irrupción de la Inteligencia Artificial Generativa (IA-Gen) en el ámbito educativo ofrece oportunidades, pero también plantea desafíos éticos y pedagógicos. En este contexto, resulta fundamental comprender la percepción de los docentes en formación hacia esta tecnología. Este estudio analizó la a"
+          "title": "Conciencia del pensamiento crítico como clave para la autoeficacia docente en tiempos de inteligencia artificial",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47046",
+          "published": "2026-04-21",
+          "summary": "La expansión de la inteligencia artificial (IA) en la educación ha generado nuevas demandas de formación para el profesorado que trascienden las habilidades técnicas, requiriendo competencias críticas capaces de abordar los desafíos éticos, pedagógicos y sociales que plantea esta tecnología. Compren"
         },
         {
-          "title": "Docentes y divulgación científica en redes sociales: desarrollo y validación inicial de instrumentos de evaluación",
-          "url": "https://revistas.uned.es/index.php/ried/article/view/45461",
-          "published": "2026-01-01",
-          "summary": "En el contexto actual de educación digital y ciencia abierta, el profesorado universitario no solo genera conocimiento mediante su producción científica y profesional, sino que además debe saber divulgarlo a públicos académicos y no especializados. Aunque vinculada a la competencia digital, la compe"
+          "title": "¿Cuáles son las preocupaciones reales de los profesores universitarios sobre la inteligencia artificial en educación?",
+          "url": "https://revistas.uned.es/index.php/ried/article/view/47294",
+          "published": "2026-03-18",
+          "summary": "El uso de la Inteligencia Artificial (IA) en cualquier sector, como Educación, no sólo supone un reto tecnológico sino, también, un reto de concienciación e integración que debe estar debidamente estructurado. La IA generativa es un instrumento popular que permite mejorar o reemplazar la productivid"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S2738267768",
         "openalex_url": "https://openalex.org/S2738267768",
-        "works_count": 787,
-        "cited_by_count": 9977,
+        "works_count": 804,
+        "cited_by_count": 9987,
         "h_index": 47,
         "i10_index": 236,
-        "mean_citations_2yr": 2.746268656716418,
+        "mean_citations_2yr": 2.1904761904761907,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -2615,7 +2705,7 @@
         "openalex_id": "https://openalex.org/S148039198",
         "openalex_url": "https://openalex.org/S148039198",
         "works_count": 949,
-        "cited_by_count": 21507,
+        "cited_by_count": 21511,
         "h_index": 69,
         "i10_index": 443,
         "mean_citations_2yr": 2.652173913043478,
@@ -2710,10 +2800,10 @@
         "openalex_id": "https://openalex.org/S2737944971",
         "openalex_url": "https://openalex.org/S2737944971",
         "works_count": 516,
-        "cited_by_count": 2011,
+        "cited_by_count": 2014,
         "h_index": 19,
         "i10_index": 43,
-        "mean_citations_2yr": 2.3225806451612905,
+        "mean_citations_2yr": 2.338709677419355,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -2805,7 +2895,7 @@
         "openalex_id": "https://openalex.org/S2738609645",
         "openalex_url": "https://openalex.org/S2738609645",
         "works_count": 1135,
-        "cited_by_count": 2733,
+        "cited_by_count": 2739,
         "h_index": 18,
         "i10_index": 76,
         "mean_citations_2yr": 0.5096153846153846,
@@ -2863,10 +2953,10 @@
         "openalex_id": "https://openalex.org/S4210172987",
         "openalex_url": "https://openalex.org/S4210172987",
         "works_count": 483,
-        "cited_by_count": 6680,
+        "cited_by_count": 6682,
         "h_index": 38,
         "i10_index": 216,
-        "mean_citations_2yr": 1.2475247524752475,
+        "mean_citations_2yr": 1.2574257425742574,
         "is_oa": true,
         "is_in_doaj": true,
         "apc_usd": null,
@@ -2951,11 +3041,11 @@
       "openalex": {
         "openalex_id": "https://openalex.org/S162196882",
         "openalex_url": "https://openalex.org/S162196882",
-        "works_count": 3649,
-        "cited_by_count": 191241,
+        "works_count": 3652,
+        "cited_by_count": 191452,
         "h_index": 188,
-        "i10_index": 2316,
-        "mean_citations_2yr": 5.628205128205129,
+        "i10_index": 2317,
+        "mean_citations_2yr": 5.6687898089171975,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": null,
@@ -3013,38 +3103,38 @@
           "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Xinghua Wang, Zaipeng Zhang, Zhongmei Han, Wei Wei"
         },
         {
-          "title": "Drivers, pedagogical uses, and barriers of teachers’ AI adoption: Cross-national evidence from TALIS 2024",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26002180?dgcid=rss_sd_all",
+          "title": "Promoting teacher and student flourishing through feedback, engagement, and well-being: A case study",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26002106?dgcid=rss_sd_all",
           "published": null,
-          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Yaxian Lei, Zhenjie Lu, Yunkai Deng"
+          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Jon Eckert, Hannah Kapitaniuk"
         },
         {
-          "title": "Mental well-being in rural schools: Can regular teachers effectively teach mental health courses and improve students’ mental health?",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26001897?dgcid=rss_sd_all",
+          "title": "University-based learning experiences, social support, and the development of teaching motivation in student teachers",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26002271?dgcid=rss_sd_all",
           "published": null,
-          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Tianli Feng, Jia Li, Huan Wang, Lei Yu, Hanwen Zhang, Blake Jaffe, Jihong Wu, Zitong Luo, Scott Rozelle"
+          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Yanan Zhang, Xi Wu, Wei Wu"
         },
         {
-          "title": "Just breathe! The impact of a slow-paced breathing intervention for teachers",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26001861?dgcid=rss_sd_all",
+          "title": "From technique to emancipatory practice: Re-conceptualizing critical reflection for disability equity in teacher preparation and professional learning",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26002015?dgcid=rss_sd_all",
           "published": null,
-          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Tony Carroll, Ben Piggott, Jenny Conlon, Ashley Cripps, Lauren Bloomfield, Michael Newton"
+          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Marie L. Wagner, Elizabeth B. Kozleski"
         },
         {
-          "title": "Identity in transition: A collaborative autoethnography of teachers becoming academics",
-          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X26001903?dgcid=rss_sd_all",
+          "title": "Tension, emotion, and agency in Chinese novice English teachers’ practical knowledge development: A narrative inquiry with activity theory",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0742051X2600212X?dgcid=rss_sd_all",
           "published": null,
-          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Mu'alimin, Abd Muhith, Mashudi"
+          "summary": "Publication date: August 2026 Source: Teaching and Teacher Education, Volume 178 Author(s): Ting Peng, Feng Ding"
         }
       ],
       "openalex": {
         "openalex_id": "https://openalex.org/S94618750",
         "openalex_url": "https://openalex.org/S94618750",
-        "works_count": 5529,
-        "cited_by_count": 347320,
+        "works_count": 5535,
+        "cited_by_count": 347670,
         "h_index": 245,
-        "i10_index": 3784,
-        "mean_citations_2yr": 4.027428571428572,
+        "i10_index": 3786,
+        "mean_citations_2yr": 4.051078320090806,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 2660,
@@ -3131,10 +3221,10 @@
         "openalex_id": "https://openalex.org/S166850901",
         "openalex_url": "https://openalex.org/S166850901",
         "works_count": 1038,
-        "cited_by_count": 108917,
+        "cited_by_count": 108962,
         "h_index": 158,
-        "i10_index": 686,
-        "mean_citations_2yr": 8.684782608695652,
+        "i10_index": 687,
+        "mean_citations_2yr": 8.76086956521739,
         "is_oa": false,
         "is_in_doaj": false,
         "apc_usd": 4440,

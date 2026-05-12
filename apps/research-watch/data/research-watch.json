@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-05-08T17:15:58.618292+00:00",
+    "generated_at": "2026-05-12T18:58:20.127246+00:00",
     "version": "3",
-    "total_calls": 5
+    "total_calls": 4
   },
   "journals": [
     {
@@ -506,6 +506,26 @@
       "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). English and Spanish."
+    },
+    {
+      "id": "e26c2012-e013-44dd-9dee-f8c54f517d36",
+      "name": "Journal of Vocational Education & Training",
+      "issn": "1363-6820",
+      "eissn": "1747-5090",
+      "publisher": "Taylor and Francis Ltd.",
+      "url": "https://www.tandfonline.com/journals/rjve20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/rjve20",
+      "areas": [
+        "vocational education",
+        "professional learning",
+        "training"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Hybrid open access. Indexed in SCOPUS and ESCI."
     },
     {
       "id": "c29a7519-71cd-4e40-bed6-a37692862aa6",
@@ -1267,26 +1287,6 @@
     }
   ],
   "calls": [
-    {
-      "id": "63e158a6-cae4-4bc7-a360-4925f97f0ac5",
-      "type": "cfp",
-      "title": "ETCM 2026 - Call for Papers",
-      "deadline": "2026-05-10",
-      "url": "https://attend.ieee.org/etcm-2026/call-for-papers/",
-      "status": "active",
-      "source_url": "https://attend.ieee.org/etcm-2026/call-for-papers/",
-      "notes": "Deadline corroborated from EasyChair CFP listing because the IEEE CFP page returns 403 to the current scraper.",
-      "source": {
-        "type": "conference",
-        "id": "a75673da-a08c-4496-a3ec-5245f6aa485e",
-        "name": "IEEE Ecuador Technical Chapters Meeting",
-        "areas": [
-          "engineering education",
-          "computer & software engineering",
-          "computational intelligence"
-        ]
-      }
-    },
     {
       "id": "ec7d8adf-2f41-4039-aa83-94dd0996e5a8",
       "type": "special_issue",
