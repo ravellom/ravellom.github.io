@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-05-12T18:58:20.127246+00:00",
+    "generated_at": "2026-05-21T08:43:59.240426+00:00",
     "version": "3",
     "total_calls": 4
   },
@@ -387,6 +387,26 @@
       "notes": "Open access. Indexada en SCOPUS."
     },
     {
+      "id": "f0917774-cd3d-41bb-99b2-ff4a59d239a7",
+      "name": "European Journal of Teacher Education",
+      "issn": "0261-9768",
+      "eissn": "1469-5928",
+      "publisher": "Routledge",
+      "url": "https://www.tandfonline.com/journals/cete20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/cete20",
+      "areas": [
+        "teacher education",
+        "professional development",
+        "educational research"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Published on behalf of the Association for Teacher Education in Europe."
+    },
+    {
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
       "name": "Foro de Educación",
       "issn": "1698-7799",
@@ -428,6 +448,26 @@
       "regional_indexes": [],
       "scopus_active": true,
       "notes": null
+    },
+    {
+      "id": "5c5ddfd2-fb9b-4481-a69d-07649c344f9f",
+      "name": "Informatics in Education",
+      "issn": "1648-5831",
+      "eissn": "2335-8971",
+      "publisher": "Vilnius University",
+      "url": "https://infedu.vu.lt/journal/INFEDU",
+      "rss_url": "https://infedu.vu.lt/journal/INFEDU/feeds/latest",
+      "areas": [
+        "informatics education",
+        "computer science education",
+        "computational thinking"
+      ],
+      "impact_factor": 2.8,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Diamond Open Access. Published by Vilnius University in cooperation with Tallinn University."
     },
     {
       "id": "4bec5771-e69e-41fb-b705-7bd2b14153d9",
@@ -486,6 +526,26 @@
       "regional_indexes": [],
       "scopus_active": true,
       "notes": null
+    },
+    {
+      "id": "8e0d738f-510e-4f17-8135-7b16628df762",
+      "name": "Journal of Digital Learning in Teacher Education",
+      "issn": "2153-2974",
+      "eissn": "2332-7383",
+      "publisher": "Taylor and Francis Ltd.",
+      "url": "https://www.tandfonline.com/journals/ujdl20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/ujdl20",
+      "areas": [
+        "digital learning",
+        "teacher education",
+        "educational technology"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Hybrid Open Select journal. Official journal of ISTE; Q1 CiteScore Best Quartile."
     },
     {
       "id": "fd86c37a-3ee6-4169-80fc-475e697bcb01",
@@ -595,6 +655,26 @@
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
+    },
+    {
+      "id": "6881606d-67be-408c-9805-089d6608b72b",
+      "name": "Professional Development in Education",
+      "issn": "1941-5257",
+      "eissn": "1941-5265",
+      "publisher": "Routledge",
+      "url": "https://www.tandfonline.com/journals/rjie20",
+      "rss_url": "https://www.tandfonline.com/feed/rss/rjie20",
+      "areas": [
+        "professional development",
+        "professional learning",
+        "teacher education"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Published on behalf of the International Professional Development Association."
     },
     {
       "id": "0fb4284a-a75b-45ea-ae6f-16a8ba1d6baf",
