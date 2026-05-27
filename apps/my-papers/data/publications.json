@@ -1,5 +1,155 @@
 [
   {
+    "id": "https://conrado.ucf.edu.cu/index.php/conrado/article/view/5364",
+    "slug": "diseno-e-implementacion-de-un-entorno-digital-basado-en-el-metodo-troncoso-para-el-desarrollo-de-la-lectoescritura-en-personas-con-discapacidad-intelectual-moderada",
+    "title": "Diseño e implementación de un entorno digital basado en el método Troncoso para el desarrollo de la lectoescritura en personas con discapacidad intelectual moderada",
+    "normalized_title": "diseno e implementacion de un entorno digital basado en el metodo troncoso para el desarrollo de la lectoescritura en personas con discapacidad intelectual moderada",
+    "year": 2026,
+    "publication_date": "2026-04-23",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "Hernan Jiménez",
+      "Karina Elisabeth Cango Castillo",
+      "Raidell Avello Martínez",
+      "Raúl López-Fernández"
+    ],
+    "author_count": 4,
+    "venue": "Revista Conrado",
+    "publisher": "Universidad de Cienfuegos Carlos Rafael Rodríguez",
+    "doi": null,
+    "issn": [
+      "1990-8644",
+      "2519-7320"
+    ],
+    "isbn": null,
+    "language": "es",
+    "volume": "22",
+    "issue": "110",
+    "first_page": "e5364",
+    "last_page": "e5364",
+    "page_range": "e5364",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "gold",
+    "oa_pdf_url": "https://conrado.ucf.edu.cu/index.php/conrado/article/download/5364/4651",
+    "oa_landing_page_url": "https://conrado.ucf.edu.cu/index.php/conrado/article/view/5364",
+    "source_url": "https://conrado.ucf.edu.cu/index.php/conrado/article/view/5364",
+    "abstract": "Esta investigación tiene como objetivo desarrollar un entorno digital didáctico para apoyar al método Troncoso y mejorar la lectoescritura en estudiantes con discapacidad intelectual moderada, enmarcado en un enfoque cualitativo, con diseño de estudio de caso, aplicado a 8 estudiantes de octavo año de educación básica en una unidad educativa especializada. Mediante Google Sites se diseñó un entorno virtual, integrando recursos digitales y material concreto, estructurando una secuencia didáctica basada en las tres etapas del método; esta se desarrolló durante tres meses, usando las horas de clases para realizar las sesiones de forma organizada, combinando estrategias visuales, auditivas y kinestésicas. Los resultados evidenciaron un aumento en la motivación para el aprendizaje, la atención y la autonomía de los estudiantes, mejoras en el reconocimiento de imágenes, palabras e imagen-texto, también la construcción de oraciones simples, concluyendo que la integración de los recursos digitales con metodologías tradicionales favorece el aprendizaje significativo, fortaleciendo la inclusión educativa y es adecuada a las necesidades individuales de los estudiantes con discapacidad intelectual moderada.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Inclusive Education",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Educational Technology in Learning",
+        "score": null,
+        "subfield": "Information Systems",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      },
+      {
+        "display_name": "Literacy Development",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "Lectoescritura",
+      "Discapacidad Intelectual",
+      "Método Troncoso",
+      "Recursos Digitales",
+      "Educación Inclusiva",
+      "Aprendizaje significativo"
+    ],
+    "concepts": [
+      {
+        "display_name": "Inclusive education",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Educational technology",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Literacy",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Hernan Jiménez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": [
+          "universidad bolivariana del ecuador"
+        ],
+        "orcid": "https://orcid.org/0009-0007-4193-2225"
+      },
+      {
+        "author": "Karina Elisabeth Cango Castillo",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [],
+        "orcid": "https://orcid.org/0009-0008-7385-3828"
+      },
+      {
+        "author": "Raidell Avello Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [],
+        "orcid": "https://orcid.org/0000-0001-7200-632X"
+      },
+      {
+        "author": "Raúl López-Fernández",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": [],
+        "orcid": "https://orcid.org/0000-0001-5316-2300"
+      }
+    ],
+    "openalex": null,
+    "crossref": null,
+    "classification": {
+      "level": "ESCI",
+      "quartile": "",
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Web of Science ESCI",
+        "SciELO",
+        "Latindex",
+        "CLASE",
+        "CIRC"
+      ]
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://doi.org/10.69639/arandu.v13i2.2202",
     "slug": "uso-pedagogico-de-lumio-y-aprendizaje-de-fracciones-en-septimo-grado-estudio-cuasi-experimental-en-educacion-basica",
     "title": "Uso pedagógico de Lumio y aprendizaje de fracciones en séptimo grado: estudio cuasi experimental en educación básica",
