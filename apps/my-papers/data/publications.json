@@ -145,7 +145,8 @@
         "Latindex",
         "CLASE",
         "CIRC"
-      ]
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "manual"
   },
@@ -316,8 +317,12 @@
       "quartile": "",
       "scope": "Otras bases",
       "indexed_in": [
-        "Otras bases"
-      ]
+        "Latindex",
+        "Dialnet",
+        "LatinREV",
+        "ROAD"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "manual"
   },
@@ -434,8 +439,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Sin clasificar",
+      "indexed_in": [
+        "Sin datos de indexación"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "manual"
   },
@@ -1049,10 +1057,15 @@
       "year": 2025
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "DOAJ"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -1749,8 +1762,15 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "EBSCO",
+        "ProQuest",
+        "MLA"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -2424,8 +2444,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "ROAD",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -3099,10 +3125,16 @@
       "year": 2025
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -3652,8 +3684,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -4598,8 +4634,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -4792,10 +4834,15 @@
       "year": 2025
     },
     "classification": {
-      "level": "",
+      "level": "CPCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science CPCI",
+        "DBLP"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -5528,8 +5575,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "ROAD",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -6185,8 +6238,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "ROAD",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -6852,8 +6910,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -7983,8 +8046,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -8618,10 +8687,15 @@
       "year": 2024
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "DOAJ"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -9154,8 +9228,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -9797,8 +9875,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Dialnet",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -10436,10 +10519,15 @@
       "year": 2024
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "DOAJ"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -11206,8 +11294,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -11841,8 +11934,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "ROAD",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -12358,8 +12457,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -12840,8 +12943,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -13374,8 +13480,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -13850,8 +13960,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -14517,8 +14631,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -15157,8 +15276,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -15863,8 +15987,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -16488,8 +16616,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "Crossref",
+        "Google Scholar"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -17490,8 +17623,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -18057,10 +18196,15 @@
       "year": 2021
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Web of Science ESCI",
+        "DOAJ",
+        "Dialnet"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -18694,8 +18838,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Sin clasificar",
+      "indexed_in": [
+        "Sin datos de indexación"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -19225,8 +19372,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -19755,8 +19907,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -20348,8 +20505,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -21127,10 +21289,15 @@
       "year": 2021
     },
     "classification": {
-      "level": "",
+      "level": "SCIE",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science SCIE",
+        "Ei Compendex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -22170,8 +22337,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -22640,8 +22813,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "Latindex",
+        "Redalyc"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -22982,8 +23160,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -23444,8 +23625,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -24216,10 +24402,15 @@
       "year": 2021
     },
     "classification": {
-      "level": "",
+      "level": "SSCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science SSCI",
+        "EconLit"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -24756,8 +24947,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -25280,8 +25476,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -26003,8 +26204,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -26677,8 +26883,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -27088,8 +27299,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -27352,8 +27568,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -27891,8 +28111,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -28443,8 +28667,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -28866,8 +29095,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -29372,8 +29606,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -29521,8 +29760,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -29636,8 +29879,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -29745,8 +29993,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -29861,8 +30113,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -30358,8 +30615,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "Latindex",
+        "Redalyc"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -30817,8 +31079,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -31284,8 +31551,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -31784,10 +32056,16 @@
       "year": 2016
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -32511,8 +32789,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -33247,8 +33530,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -33649,8 +33936,14 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -33830,8 +34123,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -34335,8 +34632,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -34860,8 +35161,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Sin clasificar",
+      "indexed_in": [
+        "Sin datos de indexación"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -35434,8 +35738,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "ERIH PLUS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -35852,8 +36161,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio institucional"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -36564,10 +36876,15 @@
       "year": 2015
     },
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "DOAJ"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -37118,8 +37435,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -37668,8 +37988,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Sin clasificar",
+      "indexed_in": [
+        "Sin datos de indexación"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -38157,8 +38480,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -38274,8 +38602,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "ERIC",
+        "EBSCO"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -38441,10 +38774,15 @@
     },
     "crossref": null,
     "classification": {
-      "level": "",
+      "level": "ESCI",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "Web of Science ESCI",
+        "Dialnet"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -38963,8 +39301,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -39554,8 +39897,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -39811,8 +40158,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "ERIC",
+        "EBSCO"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -40485,8 +40837,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -41013,8 +41370,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "DOAJ",
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -41645,8 +42007,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -42334,8 +42700,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -42827,8 +43198,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -43202,8 +43578,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -43401,8 +43781,13 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "SciELO",
+        "DOAJ",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -43973,8 +44358,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio temático E-LIS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -44266,8 +44654,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio temático E-LIS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -44559,8 +44950,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio temático E-LIS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -44848,8 +45242,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio temático E-LIS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -45146,8 +45543,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Repositorio temático E-LIS"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -45717,8 +46117,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -45830,8 +46234,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -46142,8 +46550,12 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Dialnet",
+        "Latindex"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   },
@@ -46709,8 +47121,11 @@
     "classification": {
       "level": "",
       "quartile": "",
-      "scope": "",
-      "indexed_in": []
+      "scope": "Otras bases",
+      "indexed_in": [
+        "PubMed"
+      ],
+      "indexing_checked_at": "2026-05-27"
     },
     "source": "openalex"
   }

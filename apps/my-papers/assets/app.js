@@ -162,6 +162,9 @@ function getIndexedSources(item) {
 
 function getIndexingGroup(item) {
   const indexedIn = getIndexedSources(item).map((source) => String(source).toLowerCase());
+  if (!indexedIn.length || indexedIn.some((source) => source.includes("sin datos") || source.includes("sin clasificar"))) {
+    return "unclassified";
+  }
   if (indexedIn.some((source) => source.includes("scopus") || source.includes("web of science") || source === "wos")) {
     return "scopus-wos";
   }
