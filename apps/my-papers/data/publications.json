@@ -12455,12 +12455,15 @@
       "year": 2024
     },
     "classification": {
-      "level": "",
-      "quartile": "",
-      "scope": "Otras bases",
+      "level": "SJR Q1, Scopus coverage 2019-2024",
+      "quartile": "Q1",
+      "scope": "Scopus/WoS",
       "indexed_in": [
+        "Scopus",
+        "SCImago SJR",
         "Dialnet",
-        "Latindex"
+        "ERIH PLUS",
+        "Crossref"
       ],
       "indexing_checked_at": "2026-05-27"
     },
