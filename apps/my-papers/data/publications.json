@@ -1,5 +1,177 @@
 [
   {
+    "id": "https://doi.org/10.69639/arandu.v13i2.2202",
+    "slug": "uso-pedagogico-de-lumio-y-aprendizaje-de-fracciones-en-septimo-grado-estudio-cuasi-experimental-en-educacion-basica",
+    "title": "Uso pedagógico de Lumio y aprendizaje de fracciones en séptimo grado: estudio cuasi experimental en educación básica",
+    "normalized_title": "uso pedagogico de lumio y aprendizaje de fracciones en septimo grado estudio cuasi experimental en educacion basica",
+    "year": 2026,
+    "publication_date": "2026-05-21",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "Lorena Elizabeth Guallpa Auqui",
+      "Holger Jacinto Jaramillo Jaramillo",
+      "Raidell Avello Martínez",
+      "Raúl López Fernandez"
+    ],
+    "author_count": 4,
+    "venue": "Arandu UTIC",
+    "publisher": "Universidad Tecnológica Intercontinental",
+    "doi": "10.69639/arandu.v13i2.2202",
+    "issn": [
+      "2409-2401",
+      "2311-7559"
+    ],
+    "isbn": null,
+    "language": "es",
+    "volume": "13",
+    "issue": "2",
+    "first_page": "540",
+    "last_page": "566",
+    "page_range": "540-566",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "gold",
+    "oa_pdf_url": "https://www.uticvirtual.edu.py/revista.ojs/index.php/revistas/article/download/2202/3585/9746",
+    "oa_landing_page_url": "https://www.uticvirtual.edu.py/revista.ojs/index.php/revistas/article/view/2202",
+    "source_url": "https://www.uticvirtual.edu.py/revista.ojs/index.php/revistas/article/view/2202",
+    "abstract": "El objetivo de este estudio fue analizar el efecto del uso de la plataforma Lumio en el aprendizaje de las fracciones en 27 estudiantes de séptimo año de Educación General Básica de la Unidad Educativa “Libertador Simón Bolívar”. Se empleó un enfoque mixto con diseño cuasi experimental de pretest-postest y una fase cualitativa complementaria basada en observación sistemática, entrevista docente y cuestionario de percepción estudiantil. La intervención pedagógica tuvo una duración de cuatro semanas. Los resultados mostraron mejoras en el rendimiento académico, con incremento de los puntajes entre la evaluación inicial y final, así como mayor motivación, participación y comprensión conceptual. La prueba de rangos con signo de Wilcoxon evidenció diferencias estadísticamente significativas entre pretest y postest (Z = -4.87, p < .001). Se concluye que Lumio, integrado dentro de una estrategia didáctica activa, favorece el aprendizaje de las fracciones y mejora la participación estudiantil en el aula de Matemática.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Educational Technology in Learning",
+        "score": null,
+        "subfield": "Information Systems",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      },
+      {
+        "display_name": "Mathematics Education",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "aprendizaje de fracciones",
+      "tecnología educativa",
+      "lumio",
+      "aprendizaje significativo",
+      "educación matemática"
+    ],
+    "concepts": [
+      {
+        "display_name": "Educational technology",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Mathematics education",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Fractions",
+        "score": null,
+        "level": 2
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Lorena Elizabeth Guallpa Auqui",
+        "author_id": null,
+        "institutions": [
+          "Investigador Independiente"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": [
+          "Investigador Independiente"
+        ]
+      },
+      {
+        "author": "Holger Jacinto Jaramillo Jaramillo",
+        "author_id": null,
+        "institutions": [
+          "Investigador Independiente"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Investigador Independiente"
+        ]
+      },
+      {
+        "author": "Raidell Avello Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [
+          "Investigador Independiente"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Investigador Independiente"
+        ]
+      },
+      {
+        "author": "Raúl López Fernandez",
+        "author_id": null,
+        "institutions": [
+          "Investigador Independiente"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": [
+          "Investigador Independiente"
+        ]
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.69639/arandu.v13i2.2202",
+      "type": "journal-article",
+      "publisher": "Universidad Tecnológica Intercontinental",
+      "language": "es",
+      "url": "https://doi.org/10.69639/arandu.v13i2.2202",
+      "page": "540-566",
+      "volume": "13",
+      "issue": "2",
+      "container_title": "Arandu UTIC",
+      "issn": [
+        "2409-2401",
+        "2311-7559"
+      ],
+      "isbn": null,
+      "subject": [
+        "Ciencias de la Educación"
+      ],
+      "abstract": null,
+      "year": 2026
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Otras bases"
+      ]
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://doi.org/10.63069/e083db11",
     "slug": "explainable-artificial-intelligence-in-education-structural-limitations-human-oversight-and-the-role-of-pedagogical-design",
     "title": "Explainable artificial intelligence in education: Structural limitations, human oversight, and the role of pedagogical design",

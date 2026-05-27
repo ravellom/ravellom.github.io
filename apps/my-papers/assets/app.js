@@ -8,7 +8,7 @@ const state = {
     year: "all",
     type: "all",
     venue: "all",
-    language: "all",
+    indexing: "all",
     oa: "all",
     sort: "year-desc",
   },
@@ -31,7 +31,7 @@ const els = {
   year: document.querySelector("#year-filter"),
   type: document.querySelector("#type-filter"),
   venue: document.querySelector("#venue-filter"),
-  language: document.querySelector("#language-filter"),
+  indexing: document.querySelector("#indexing-filter"),
   oa: document.querySelector("#oa-filter"),
   sort: document.querySelector("#sort-filter"),
   reset: document.querySelector("#reset-filters"),
@@ -70,7 +70,6 @@ function populateFilters() {
   populateSelect(els.year, uniqueValues("year").sort((a, b) => b - a), "Todos");
   populateSelect(els.type, uniqueValues("type").sort(), "Todos");
   populateSelect(els.venue, uniqueValues("venue").sort((a, b) => a.localeCompare(b, "es")), "Todos");
-  populateSelect(els.language, uniqueValues("language").sort(), "Todos");
 }
 
 function bindEvents() {
@@ -79,7 +78,7 @@ function bindEvents() {
     render();
   });
 
-  ["year", "type", "venue", "language", "oa", "sort"].forEach((key) => {
+  ["year", "type", "venue", "indexing", "oa", "sort"].forEach((key) => {
     els[key].addEventListener("change", (event) => {
       state.filters[key] = event.target.value;
       render();
@@ -92,7 +91,7 @@ function bindEvents() {
       year: "all",
       type: "all",
       venue: "all",
-      language: "all",
+      indexing: "all",
       oa: "all",
       sort: "year-desc",
     };
@@ -100,7 +99,7 @@ function bindEvents() {
     els.year.value = "all";
     els.type.value = "all";
     els.venue.value = "all";
-    els.language.value = "all";
+    els.indexing.value = "all";
     els.oa.value = "all";
     els.sort.value = "year-desc";
     render();
@@ -156,13 +155,26 @@ function matchesSearch(item, search) {
   return haystack.includes(search);
 }
 
+function getIndexedSources(item) {
+  const indexedIn = item.classification?.indexed_in || item.indexed_in || [];
+  return Array.isArray(indexedIn) ? indexedIn.filter(Boolean) : [];
+}
+
+function getIndexingGroup(item) {
+  const indexedIn = getIndexedSources(item).map((source) => String(source).toLowerCase());
+  if (indexedIn.some((source) => source.includes("scopus") || source.includes("web of science") || source === "wos")) {
+    return "scopus-wos";
+  }
+  return indexedIn.length ? "other" : "unclassified";
+}
+
 function getFilteredPublications() {
   const filtered = state.publications.filter((item) => {
     if (!matchesSearch(item, state.filters.search)) return false;
     if (state.filters.year !== "all" && String(item.year) !== state.filters.year) return false;
     if (state.filters.type !== "all" && item.type !== state.filters.type) return false;
     if (state.filters.venue !== "all" && item.venue !== state.filters.venue) return false;
-    if (state.filters.language !== "all" && item.language !== state.filters.language) return false;
+    if (state.filters.indexing !== "all" && getIndexingGroup(item) !== state.filters.indexing) return false;
     if (state.filters.oa === "yes" && !item.is_open_access) return false;
     if (state.filters.oa === "no" && item.is_open_access) return false;
     return true;
@@ -205,7 +217,8 @@ function renderStats(items) {
   els.summaryList.innerHTML = [
     summaryCard("Acceso abierto", items.filter((item) => item.is_open_access).length),
     summaryCard("Con DOI", items.filter((item) => item.doi).length),
-    summaryCard("Idiomas", new Set(items.map((item) => item.language).filter(Boolean)).size),
+    summaryCard("Scopus/WoS", items.filter((item) => getIndexingGroup(item) === "scopus-wos").length),
+    summaryCard("Otras bases", items.filter((item) => getIndexingGroup(item) === "other").length),
     summaryCard("Tipos", new Set(items.map((item) => item.type).filter(Boolean)).size),
   ].join("");
 }
@@ -254,22 +267,30 @@ function renderActiveFilters() {
     year: "año",
     type: "tipo",
     venue: "venue",
-    language: "idioma",
+    indexing: "indexación",
     oa: "oa",
     sort: "orden",
+  };
+  const valueLabels = {
+    "scopus-wos": "Scopus/WoS",
+    other: "Otras bases",
+    unclassified: "Sin clasificar",
+    yes: "Sí",
+    no: "No",
   };
   const pills = [];
   Object.entries(state.filters).forEach(([key, value]) => {
     if (!value || value === "all" || (key === "sort" && value === "year-desc")) return;
-    pills.push(`<span class="filter-pill">${labels[key]}: ${escapeHtml(String(value))}</span>`);
+    pills.push(`<span class="filter-pill">${labels[key]}: ${escapeHtml(String(valueLabels[value] || value))}</span>`);
   });
   els.activeFilters.innerHTML = pills.join("");
 }
 
 function createMetaBits(item) {
   const bits = [];
+  const indexedIn = getIndexedSources(item);
   if (item.type) bits.push(item.type);
-  if (item.language) bits.push(item.language.toUpperCase());
+  if (indexedIn.length) bits.push(indexedIn.join(", "));
   if (item.volume) bits.push(`Vol. ${item.volume}`);
   if (item.issue) bits.push(`N. ${item.issue}`);
   if (item.citations || item.citations === 0) bits.push(`Citas ${item.citations}`);
@@ -289,7 +310,9 @@ function renderDetail(item) {
 
   const abstract = item.abstract || rebuildAbstract(item.abstract_inverted_index) || "Sin resumen disponible.";
   const topics = (item.topics || []).map((topic) => topic.display_name || topic).filter(Boolean).slice(0, 8);
+  const indexedIn = getIndexedSources(item);
   const details = [
+    ["Indexación", indexedIn.length ? indexedIn.join(", ") : "Sin clasificar"],
     ["Año", item.year || "—"],
     ["Tipo", item.type || "—"],
     ["Idioma", item.language || "—"],
