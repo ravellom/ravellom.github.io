@@ -1,5 +1,122 @@
 [
   {
+    "id": "https://doi.org/10.64092/OIRJ9616",
+    "slug": "revision-de-literatura-y-analisis-de-datos-cientificos-con-inteligencia-artificial-un-enfoque-innovador",
+    "title": "Revisión de literatura y análisis de datos científicos con inteligencia artificial: Un enfoque innovador",
+    "normalized_title": "revision de literatura y analisis de datos cientificos con inteligencia artificial un enfoque innovador",
+    "year": 2026,
+    "publication_date": "2026-04-01",
+    "type": "book-chapter",
+    "subtype": null,
+    "authors": [
+      "Raidell Avello Martínez",
+      "H. M. Pérez Barrera"
+    ],
+    "author_count": 2,
+    "venue": "Universidad, innovación e inteligencia artificial: Nuevos horizontes para la enseñanza, la investigación y la inclusión educativa",
+    "publisher": "Sophia Editions",
+    "doi": "10.64092/OIRJ9616",
+    "issn": null,
+    "isbn": [
+      "978-1-968794-41-5"
+    ],
+    "language": "es",
+    "volume": null,
+    "issue": null,
+    "first_page": "1",
+    "last_page": null,
+    "page_range": "1",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "gold",
+    "oa_pdf_url": "https://zenodo.org/records/19378809/files/E-book_978-1-968794-41-5.pdf",
+    "oa_landing_page_url": "https://zenodo.org/records/19378809",
+    "source_url": "https://zenodo.org/records/19378809",
+    "abstract": "Capítulo sobre el uso de inteligencia artificial para apoyar la revisión de literatura y el análisis de datos científicos desde un enfoque innovador en la educación superior y la investigación.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Artificial Intelligence in Research",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Scientific Literature Review",
+        "score": null,
+        "subfield": "Information Systems",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      },
+      {
+        "display_name": "Research Data Analysis",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "inteligencia artificial",
+      "revisión de literatura",
+      "análisis de datos científicos",
+      "investigación",
+      "educación superior"
+    ],
+    "concepts": [
+      {
+        "display_name": "Artificial intelligence",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Literature review",
+        "score": null,
+        "level": 2
+      },
+      {
+        "display_name": "Data analysis",
+        "score": null,
+        "level": 2
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Raidell Avello Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": []
+      },
+      {
+        "author": "H. M. Pérez Barrera",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": []
+      }
+    ],
+    "openalex": null,
+    "crossref": null,
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Zenodo",
+        "ISBN",
+        "DOI"
+      ],
+      "indexing_checked_at": "2026-06-01"
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://doi.org/10.66473/rcmg.v7i1.1174",
     "slug": "tinkercad-como-herramienta-didactica-para-mejorar-el-proceso-de-ensenanza-de-circuitos-electricos-en-el-area-de-robotica-educativa-en-docentes-del-nivel-primario",
     "title": "Tinkercad como herramienta didáctica para mejorar el proceso de enseñanza de circuitos eléctricos en el área de Robótica Educativa en docentes del nivel primario",
