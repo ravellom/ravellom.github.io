@@ -1,5 +1,192 @@
 [
   {
+    "id": "https://doi.org/10.66473/rcmg.v7i1.1174",
+    "slug": "tinkercad-como-herramienta-didactica-para-mejorar-el-proceso-de-ensenanza-de-circuitos-electricos-en-el-area-de-robotica-educativa-en-docentes-del-nivel-primario",
+    "title": "Tinkercad como herramienta didáctica para mejorar el proceso de enseñanza de circuitos eléctricos en el área de Robótica Educativa en docentes del nivel primario",
+    "normalized_title": "tinkercad como herramienta didactica para mejorar el proceso de ensenanza de circuitos electricos en el area de robotica educativa en docentes del nivel primario",
+    "year": 2026,
+    "publication_date": "2026-05-22",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "Melissa Maritza Ruiz Ramirez",
+      "Katherine Elizabeth Quinde Bonilla",
+      "Raidell Avello Martinez",
+      "Raúl Lopez Fernandez"
+    ],
+    "author_count": 4,
+    "venue": "Revista Científica Multidisciplinar G-Nerando",
+    "publisher": "Revista Científica Multidisciplinar G-Nerando",
+    "doi": "10.66473/rcmg.v7i1.1174",
+    "issn": [
+      "2806-5905"
+    ],
+    "isbn": null,
+    "language": "es",
+    "volume": "7",
+    "issue": "1",
+    "first_page": "5563",
+    "last_page": "5584",
+    "page_range": "5563-5584",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "gold",
+    "oa_pdf_url": "https://revista.gnerando.org/revista/index.php/RCMG/article/download/1174/1210",
+    "oa_landing_page_url": "https://revista.gnerando.org/revista/index.php/RCMG/article/view/1174",
+    "source_url": "https://revista.gnerando.org/revista/index.php/RCMG/article/view/1174",
+    "abstract": "La incorporación de herramientas digitales en la enseñanza de la robótica educativa representa una oportunidad para fortalecer la comprensión de contenidos técnicos como los circuitos eléctricos, especialmente en contextos escolares con recursos limitados. En este marco, la presente investigación tuvo como objetivo elaborar una estrategia didáctica fundamentada en el uso de Tinkercad para fortalecer la enseñanza de la robótica educativa en docentes de séptimo grado de Educación General Básica, mediante un curso intensivo en modalidad virtual. El estudio se desarrolló desde un enfoque cualitativo, mediante un estudio de caso de alcance descriptivo, con una muestra intencional de seis docentes de la Unidad Educativa Cardenal Richard Cushing. Para la recolección de la información se emplearon entrevista semiestructurada, observación de clases, rúbrica de evaluación docente y encuesta final. Los resultados evidenciaron una situación inicial caracterizada por una integración limitada de recursos digitales, predominio de enfoques teóricos y escasa articulación entre teoría y práctica. Tras la implementación de la propuesta, se observaron mejoras en el dominio funcional de Tinkercad, en la integración pedagógica de la plataforma y en la participación estudiantil. Asimismo, la valoración final del profesorado fue favorable, destacando la utilidad de la estrategia para facilitar la comprensión de circuitos electrónicos, promover el aprendizaje práctico y fortalecer competencias digitales docentes. Se concluye que Tinkercad constituye un recurso didáctico pertinente para la enseñanza de circuitos eléctricos cuando se integra en una propuesta metodológica estructurada y contextualizada.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Educational Robotics",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Educational Technology in Learning",
+        "score": null,
+        "subfield": "Information Systems",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      },
+      {
+        "display_name": "Teacher Digital Competence",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "Robótica educativa",
+      "Tinkercad",
+      "circuitos eléctricos",
+      "formación docente",
+      "competencias digitales"
+    ],
+    "concepts": [
+      {
+        "display_name": "Educational robotics",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Educational technology",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Teacher education",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Melissa Maritza Ruiz Ramirez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "orcid": "https://orcid.org/0009-0007-9072-4502"
+      },
+      {
+        "author": "Katherine Elizabeth Quinde Bonilla",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "orcid": "https://orcid.org/0009-0000-0367-3428"
+      },
+      {
+        "author": "Raidell Avello Martinez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [
+          "Universidade da Coruña"
+        ],
+        "countries": [
+          "ES"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Universidade da Coruña"
+        ],
+        "orcid": "https://orcid.org/0000-0001-7200-632X"
+      },
+      {
+        "author": "Raúl Lopez Fernandez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "orcid": "https://orcid.org/0000-0001-5316-2300"
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.66473/rcmg.v7i1.1174",
+      "type": "journal-article",
+      "publisher": "Revista Científica Multidisciplinar G-Nerando",
+      "language": "es",
+      "url": "https://doi.org/10.66473/rcmg.v7i1.1174",
+      "page": "5563-5584",
+      "volume": "7",
+      "issue": "1",
+      "container_title": "Revista Científica Multidisciplinar G-Nerando",
+      "issn": [
+        "2806-5905"
+      ],
+      "isbn": null,
+      "subject": [
+        "Educación",
+        "Robótica educativa"
+      ],
+      "abstract": null,
+      "year": 2026
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex",
+        "LatinREV",
+        "Dialnet Métricas",
+        "I2OR",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-06-01"
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://conrado.ucf.edu.cu/index.php/conrado/article/view/5364",
     "slug": "diseno-e-implementacion-de-un-entorno-digital-basado-en-el-metodo-troncoso-para-el-desarrollo-de-la-lectoescritura-en-personas-con-discapacidad-intelectual-moderada",
     "title": "Diseño e implementación de un entorno digital basado en el método Troncoso para el desarrollo de la lectoescritura en personas con discapacidad intelectual moderada",
