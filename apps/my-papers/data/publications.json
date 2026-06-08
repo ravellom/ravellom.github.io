@@ -1,5 +1,191 @@
 [
   {
+    "id": "https://doi.org/10.33262/exploradordigital.v10i2.3683",
+    "slug": "gamification-in-mathematics-the-impact-of-kahoot-on-the-students-motivation-of-elementary-school",
+    "title": "Gamification in mathematics: the impact of Kahoot on the students' motivation of elementary school",
+    "normalized_title": "gamification in mathematics the impact of kahoot on the students motivation of elementary school",
+    "year": 2026,
+    "publication_date": "2026-06-02",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "Katherine Yesenia Reyes Benitez",
+      "Anderson Fernando Reyes Benitez",
+      "Raidell Avello Mart?nez",
+      "Ra?l L?pez Fern?ndez"
+    ],
+    "author_count": 4,
+    "venue": "Explorador Digital",
+    "publisher": "Ciencia Digital",
+    "doi": "10.33262/exploradordigital.v10i2.3683",
+    "issn": [
+      "2661-6831"
+    ],
+    "isbn": null,
+    "language": "en",
+    "volume": "10",
+    "issue": "2",
+    "first_page": "89",
+    "last_page": "108",
+    "page_range": "89-108",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "gold",
+    "oa_pdf_url": "https://cienciadigital.org/revistacienciadigital2/index.php/exploradordigital/article/view/3683/10520",
+    "oa_landing_page_url": "https://www.cienciadigital.org/revistacienciadigital2/index.php/exploradordigital/article/view/3683",
+    "source_url": "https://www.cienciadigital.org/revistacienciadigital2/index.php/exploradordigital/article/view/3683",
+    "abstract": "Introduction: the teaching of mathematics in basic general education presents difficulties related to motivation, which is why gamification becomes an emerging strategy to promote learning through digital platforms such as Kahoot. Objectives: The objective of this research was to analyze the changes in motivation towards learning mathematics, in the dimensions of attention, relevance, trust and satisfaction of the ARCS model, after the implementation of a gamified intervention with Kahoot in eighth-grade students of basic general education of a rural educational institution in southern Ecuador. Methodology: The present study was developed from a quantitative approach, through a pre-experimental design of a particular group with measurement before and after the intervention (pre-test and post-test). The study population was made up of 37 students, which are all the students enrolled in the eighth year of Higher Basic General Education of the \"Teniente Maximiliano Rodr?guez\" Educational Unit, located in the rural parish of P?zul in the Celica canton of the province of Loja. Results: The results of the comparative analysis between the pre-test and the post-test applied to the participating students, in order to identify changes in the motivation towards learning mathematics after the implementation of the gamified strategy with Kahoot, are organized based on the dimensions of the ARCS model, increases were observed in the four dimensions evaluated (attention, relevance, trust and satisfaction) after the intervention. Conclusions: The results suggest an improvement in the perceived motivation of students in relation to the learning of mathematics in the context analyzed. The comparison between the pre-test and the post-test showed increases in the dimensions of attention, relevance, confidence, and satisfaction, which allows this tool to be considered as a pertinent didactic alternative to dynamize the learning experience of mathematics. General area of study: Education. Specific area of study: Mathematics.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Mathematics Education",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Gamification in Education",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Student Motivation",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "Gamification",
+      "Kahoot",
+      "motivation",
+      "Mathematics",
+      "Basic education"
+    ],
+    "concepts": [
+      {
+        "display_name": "Gamification",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Mathematics education",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Motivation",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Katherine Yesenia Reyes Benitez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador (UBE), Dur?n, Ecuador."
+        ],
+        "orcid": "https://orcid.org/0009-0000-7284-2029"
+      },
+      {
+        "author": "Anderson Fernando Reyes Benitez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador (UBE), Dur?n, Ecuador."
+        ]
+      },
+      {
+        "author": "Raidell Avello Mart?nez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [
+          "Universidade da Coru?a"
+        ],
+        "countries": [
+          "ES"
+        ],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": [
+          "Universidade da Coru?a (UDC), Espa?a, La Coru?a, Espa?a"
+        ],
+        "orcid": "https://orcid.org/0000-0001-7200-632X"
+      },
+      {
+        "author": "Ra?l L?pez Fern?ndez",
+        "author_id": null,
+        "institutions": [
+          "Universidad Bolivariana del Ecuador"
+        ],
+        "countries": [
+          "EC"
+        ],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": [
+          "Universidad Bolivariana del Ecuador (UBE), Dur?n, Ecuador."
+        ],
+        "orcid": "https://orcid.org/0000-0001-5316-2300"
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.33262/exploradordigital.v10i2.3683",
+      "type": "journal-article",
+      "publisher": "Ciencia Digital",
+      "language": "en",
+      "url": "https://doi.org/10.33262/exploradordigital.v10i2.3683",
+      "page": "89-108",
+      "volume": "10",
+      "issue": "2",
+      "container_title": "Explorador Digital",
+      "issn": [
+        "2661-6831"
+      ],
+      "isbn": null,
+      "subject": [
+        "Education",
+        "Mathematics education",
+        "Gamification"
+      ],
+      "abstract": null,
+      "year": 2026
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Otras bases",
+      "indexed_in": [
+        "Latindex Cat?logo 2.0",
+        "LatinREV",
+        "Google Scholar",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-06-08"
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://doi.org/10.64092/OIRJ9616",
     "slug": "revision-de-literatura-y-analisis-de-datos-cientificos-con-inteligencia-artificial-un-enfoque-innovador",
     "title": "Revisión de literatura y análisis de datos científicos con inteligencia artificial: Un enfoque innovador",
