@@ -69,6 +69,11 @@
       <div class="area-tags" id="d-areas"></div>
     </div>
 
+    <div id="d-scopus-wrap" style="display:none">
+      <p class="section-title">Categorías Scopus+</p>
+      <div class="area-tags" id="d-scopus"></div>
+    </div>
+
     <div id="d-topics-wrap" style="display:none">
       <p class="section-title">Topics</p>
       <div class="area-tags" id="d-topics"></div>
@@ -221,6 +226,11 @@
       if ((source.areas || []).length) {
         document.getElementById("d-areas").innerHTML = source.areas.map((area) => `<span class="area-tag">${escHtml(area)}</span>`).join("");
         show("d-areas-wrap");
+      }
+
+      if (type === "journal" && (source.scopus_categories || []).length) {
+        document.getElementById("d-scopus").innerHTML = source.scopus_categories.map((category) => `<span class="area-tag" style="background:#ccfbf1;color:#115e59">${escHtml(category)}</span>`).join("");
+        show("d-scopus-wrap");
       }
 
       if (type === "journal" && (source.regional_indexes || []).length) {

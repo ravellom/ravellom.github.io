@@ -274,6 +274,7 @@
   color: var(--text-main, #0f172a);
 }
 .journal-group-header h3 i { color: var(--primary, #2563eb); }
+.journal-scopus-header h3 i { color: #0f766e; }
 .journal-group-count {
   min-width: 1.65rem;
   text-align: center;

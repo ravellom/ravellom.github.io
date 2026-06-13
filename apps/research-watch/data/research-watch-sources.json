@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-13T07:52:34.461105+00:00",
+    "generated_at": "2026-06-13T07:59:58.807264+00:00",
     "version": "2",
     "total_journals": 46,
     "total_conferences": 27,
@@ -24,6 +24,9 @@
         "Latindex",
         "MIAR",
         "FECYT"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "areas": [
         "educación",
@@ -119,6 +122,9 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "educación matemática",
         "didáctica de las matemáticas"
@@ -208,6 +214,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational technology",
         "digital learning"
@@ -301,6 +311,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "areas": [
         "campus virtuales",
         "e-learning",
@@ -354,6 +365,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational technology",
         "e-learning",
@@ -444,6 +459,12 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications",
+        "Developmental and Educational Psychology",
+        "Human-Computer Interaction"
+      ],
       "areas": [
         "human-computer interaction",
         "educational technology",
@@ -539,6 +560,7 @@
         "MIAR",
         "Redalyc"
       ],
+      "scopus_categories": [],
       "areas": [
         "media literacy",
         "educational communication",
@@ -592,6 +614,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "digital education",
         "e-learning",
@@ -685,6 +711,10 @@
         "Dialnet",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
       ],
       "areas": [
         "tecnología educativa",
@@ -781,6 +811,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "educación",
         "investigación educativa",
@@ -876,6 +909,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "educación",
         "pedagogía",
@@ -970,6 +1006,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "areas": [
         "educación",
         "didáctica",
@@ -1023,6 +1060,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational sciences",
         "pedagogy",
@@ -1076,6 +1117,10 @@
       "quartile": "Q2",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational technology",
         "information technology",
@@ -1170,6 +1215,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "areas": [
         "sociedad del conocimiento",
         "tecnología educativa",
@@ -1230,6 +1276,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational technology",
         "instructional design"
@@ -1319,6 +1369,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "vocational education",
         "vocational training",
@@ -1413,6 +1466,9 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "pedagogía",
         "educación",
@@ -1503,6 +1559,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "teacher education",
         "professional development",
@@ -1600,6 +1659,9 @@
         "ERIH Plus",
         "DOAJ"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "educación",
         "filosofía de la educación",
@@ -1690,6 +1752,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Sociology and Political Science"
+      ],
       "areas": [
         "higher education",
         "university policy"
@@ -1779,6 +1845,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "informatics education",
         "computer science education",
@@ -1869,6 +1939,9 @@
       "quartile": "Q2",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "teaching innovation",
         "higher education"
@@ -1958,6 +2031,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "vocational education",
         "vocational training",
@@ -2048,6 +2124,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational technology",
         "higher education",
@@ -2138,6 +2218,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "information technology",
         "educational technology",
@@ -2191,6 +2275,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "computer-assisted learning",
         "educational technology"
@@ -2280,6 +2368,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "digital learning",
         "teacher education",
@@ -2370,6 +2462,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educational research",
         "educational technology",
@@ -2423,6 +2519,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "vocational education",
         "professional learning",
@@ -2513,6 +2612,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Developmental and Educational Psychology"
+      ],
       "areas": [
         "learning sciences",
         "instructional psychology"
@@ -2607,6 +2710,9 @@
         "MIAR",
         "Redalyc"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "educación",
         "investigación educativa",
@@ -2614,12 +2720,6 @@
       ],
       "notes": "Indexada en SCOPUS.",
       "recent_entries": [
-        {
-          "title": "Desarrollo infantil postpandemia",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
-          "published": "2026-05-05",
-          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
-        },
         {
           "title": "Evaluación del pensamiento crítico en el estudiantado universitario español",
           "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61950",
@@ -2637,6 +2737,12 @@
           "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61746",
           "published": "2026-05-05",
           "summary": "Este artículo surge de un proyecto de investigación de corte cualitativo que se propuso analizar cómo el conocimiento extraescolar ingresa y se resignifica en la construcción del conocimiento escolar en la educación secundaria. Para ello, se configuró un estudio de caso a partir del registro discurs"
+        },
+        {
+          "title": "Desarrollo infantil postpandemia",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
+          "published": "2026-05-05",
+          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
         },
         {
           "title": "La OCDE y la gobernanza global de la educación",
@@ -2701,6 +2807,11 @@
         "Latindex",
         "MIAR",
         "Redalyc"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications",
+        "Sociology and Political Science"
       ],
       "areas": [
         "medios de comunicación",
@@ -2792,6 +2903,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "professional development",
         "professional learning",
@@ -2885,6 +2999,10 @@
         "Dialnet",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
       ],
       "areas": [
         "distance education",
@@ -2981,6 +3099,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "formación del profesorado",
         "didáctica",
@@ -3075,6 +3196,9 @@
         "Latindex",
         "MIAR",
         "FECYT"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "areas": [
         "investigación educativa",
@@ -3171,6 +3295,10 @@
         "MIAR",
         "ERIH Plus"
       ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "educación a distancia",
         "e-learning",
@@ -3261,6 +3389,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "learning technology",
         "open access education"
@@ -3341,26 +3473,32 @@
       "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
       "name": "Revista Fuentes",
       "issn": "1575-7072",
-      "eissn": null,
-      "scopus_active": null,
+      "eissn": "2172-7775",
+      "scopus_active": true,
       "publisher": "Universidad de Sevilla",
       "url": "https://revistascientificas.us.es/index.php/fuentes/index",
       "rss_url": "https://revistascientificas.us.es/index.php/fuentes/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
-      "quartile": null,
-      "indexing_level": 3,
+      "quartile": "Q2",
+      "indexing_level": 1,
       "regional_indexes": [
         "Dialnet",
         "Latindex",
         "MIAR",
-        "FECYT"
+        "FECYT",
+        "DOAJ"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Developmental and Educational Psychology",
+        "Sociology and Political Science"
       ],
       "areas": [
         "educación",
         "ciencias sociales",
         "investigación educativa"
       ],
-      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072.",
+      "notes": "Diamond Open Access. Indexed in Scopus and ESCI.",
       "recent_entries": [
         {
           "title": "La Formación Profesional en foros informales: dudas sobre niveles, familias profesionales y género",
@@ -3449,6 +3587,9 @@
         "Latindex",
         "MIAR",
         "FECYT"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "areas": [
         "formación del profesorado",
@@ -3545,6 +3686,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "investigación educativa",
         "metodología",
@@ -3598,6 +3742,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Sociology and Political Science"
+      ],
       "areas": [
         "higher education",
         "academic policy"
@@ -3687,6 +3835,9 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "areas": [
         "teacher education",
         "pedagogy"
@@ -3776,6 +3927,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "areas": [
         "higher education",
         "online learning",
@@ -3869,6 +4024,9 @@
         "SciELO",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "areas": [
         "investigación educativa",

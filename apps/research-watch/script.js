@@ -161,6 +161,7 @@ function renderFilters(data) {
 
 function renderJournals(journals) {
   renderGroupedJournals(journals);
+  renderScopusGroupedJournals(journals);
   renderSourceList({
     listId: "journals-list",
     items: journals,
@@ -227,6 +228,36 @@ function renderGroupedJournals(journals) {
   `).join("");
 }
 
+function renderScopusGroupedJournals(journals) {
+  const container = document.getElementById("journals-scopus");
+  if (!container) return;
+
+  const grouped = new Map();
+  journals.forEach((journal) => {
+    const categories = journal.scopus_categories?.length
+      ? journal.scopus_categories
+      : ["Sin categoría Scopus+"];
+    categories.forEach((category) => {
+      if (!grouped.has(category)) grouped.set(category, []);
+      grouped.get(category).push(journal);
+    });
+  });
+
+  container.innerHTML = [...grouped.entries()]
+    .sort(([a], [b]) => a.localeCompare(b, "es"))
+    .map(([category, items]) => `
+      <section class="journal-group">
+        <div class="journal-group-header journal-scopus-header">
+          <h3><i class="fa-solid fa-tag"></i> ${escHtml(category)}</h3>
+          <span class="journal-group-count">${items.length}</span>
+        </div>
+        <ul class="journal-group-list">
+          ${items.sort((a, b) => a.name.localeCompare(b.name, "es")).map(renderGroupedJournal).join("")}
+        </ul>
+      </section>
+    `).join("");
+}
+
 function renderGroupedJournal(journal) {
   const detailHref = journal.id
     ? `source-detail.html?type=journal&id=${encodeURIComponent(journal.id)}`
@@ -255,15 +286,17 @@ function renderGroupedJournal(journal) {
 
 function initJournalViewToggle() {
   const grouped = document.getElementById("journals-grouped");
+  const scopus = document.getElementById("journals-scopus");
   const alphabetical = document.getElementById("journals-list");
   const buttons = document.querySelectorAll("[data-journal-view]");
-  if (!grouped || !alphabetical || !buttons.length) return;
+  if (!grouped || !scopus || !alphabetical || !buttons.length) return;
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      const showGrouped = button.dataset.journalView === "grouped";
-      grouped.hidden = !showGrouped;
-      alphabetical.hidden = showGrouped;
+      const view = button.dataset.journalView;
+      grouped.hidden = view !== "grouped";
+      alphabetical.hidden = view !== "alphabetical";
+      scopus.hidden = view !== "scopus";
       buttons.forEach((candidate) => {
         const isActive = candidate === button;
         candidate.classList.toggle("is-active", isActive);

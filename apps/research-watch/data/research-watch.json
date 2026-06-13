@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-13T07:52:02.824562+00:00",
+    "generated_at": "2026-06-13T07:59:27.487252+00:00",
     "version": "3",
     "total_calls": 2
   },
@@ -27,6 +27,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -50,6 +53,9 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -69,6 +75,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -93,6 +103,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "scopus_active": false,
       "notes": "SCOPUS: marcada como Inactive en Feb 2026."
     },
@@ -113,6 +124,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -133,6 +148,12 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications",
+        "Developmental and Educational Psychology",
+        "Human-Computer Interaction"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -158,6 +179,7 @@
         "MIAR",
         "Redalyc"
       ],
+      "scopus_categories": [],
       "scopus_active": false,
       "notes": "JCR Q1. SCOPUS: marcada como Inactive en Feb 2026 (verificar posible cambio de ISSN)."
     },
@@ -178,6 +200,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open access. Indexed in SCOPUS."
     },
@@ -201,6 +227,10 @@
         "Dialnet",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
@@ -227,6 +257,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
@@ -252,6 +285,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -276,6 +312,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "scopus_active": null,
       "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1699-2105."
     },
@@ -296,6 +333,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -316,6 +357,10 @@
       "quartile": "Q2",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -340,6 +385,7 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [],
       "scopus_active": false,
       "notes": "Open Access (Unpaywall). SCOPUS: marcada como Inactive en Feb 2026."
     },
@@ -359,6 +405,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -379,6 +429,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access. Published by Springer Nature."
     },
@@ -403,6 +456,9 @@
         "Latindex",
         "MIAR"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open access. Indexada en SCOPUS."
     },
@@ -423,6 +479,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Published on behalf of the Association for Teacher Education in Europe."
     },
@@ -450,6 +509,9 @@
         "ERIH Plus",
         "DOAJ"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Diamond Open Access. Indexed in Scopus and ESCI."
     },
@@ -469,6 +531,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Sociology and Political Science"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -489,6 +555,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Diamond Open Access. Published by Vilnius University in cooperation with Tallinn University."
     },
@@ -508,6 +578,9 @@
       "quartile": "Q2",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -528,6 +601,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Diamond Open Access. Indexed in Scopus and ESCI."
     },
@@ -548,6 +624,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Formerly RUSC."
     },
@@ -568,6 +648,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access. Monthly publication; official website reports a CiteScore of 3.2."
     },
@@ -587,6 +671,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -607,6 +695,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Hybrid Open Select journal. Official journal of ISTE; Q1 CiteScore Best Quartile."
     },
@@ -627,6 +719,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). English and Spanish."
     },
@@ -647,6 +743,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Hybrid open access. Indexed in SCOPUS and ESCI."
     },
@@ -666,6 +765,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Developmental and Educational Psychology"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -690,6 +793,9 @@
         "Latindex",
         "MIAR",
         "Redalyc"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "scopus_active": true,
       "notes": "Indexada en SCOPUS."
@@ -716,6 +822,11 @@
         "MIAR",
         "Redalyc"
       ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications",
+        "Sociology and Political Science"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -736,6 +847,9 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Published on behalf of the International Professional Development Association."
     },
@@ -759,6 +873,10 @@
         "Dialnet",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
@@ -785,6 +903,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -809,6 +930,9 @@
         "Latindex",
         "MIAR",
         "FECYT"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
@@ -835,6 +959,10 @@
         "MIAR",
         "ERIH Plus"
       ],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Indexada en JCR y SCOPUS."
     },
@@ -854,6 +982,10 @@
       "quartile": null,
       "indexing_level": 2,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Published by the Association for Learning Technology."
     },
@@ -861,7 +993,7 @@
       "id": "898c8dd6-ef12-46a3-8ad7-15760d0bba6e",
       "name": "Revista Fuentes",
       "issn": "1575-7072",
-      "eissn": null,
+      "eissn": "2172-7775",
       "publisher": "Universidad de Sevilla",
       "url": "https://revistascientificas.us.es/index.php/fuentes/index",
       "rss_url": "https://revistascientificas.us.es/index.php/fuentes/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -871,16 +1003,22 @@
         "investigación educativa"
       ],
       "impact_factor": null,
-      "quartile": null,
-      "indexing_level": 3,
+      "quartile": "Q2",
+      "indexing_level": 1,
       "regional_indexes": [
         "Dialnet",
         "Latindex",
         "MIAR",
-        "FECYT"
+        "FECYT",
+        "DOAJ"
       ],
-      "scopus_active": null,
-      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1575-7072."
+      "scopus_categories": [
+        "Education",
+        "Developmental and Educational Psychology",
+        "Sociology and Political Science"
+      ],
+      "scopus_active": true,
+      "notes": "Diamond Open Access. Indexed in Scopus and ESCI."
     },
     {
       "id": "cbe7d9bc-74d0-4de1-9a85-879cea837bec",
@@ -903,6 +1041,9 @@
         "Latindex",
         "MIAR",
         "FECYT"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
@@ -929,6 +1070,9 @@
         "MIAR",
         "FECYT"
       ],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
     },
@@ -948,6 +1092,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Sociology and Political Science"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -967,6 +1115,9 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -987,6 +1138,10 @@
       "quartile": "Q1",
       "indexing_level": 1,
       "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
       "scopus_active": true,
       "notes": null
     },
@@ -1010,6 +1165,9 @@
         "SciELO",
         "Latindex",
         "MIAR"
+      ],
+      "scopus_categories": [
+        "Education"
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
