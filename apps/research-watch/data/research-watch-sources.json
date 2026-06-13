@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-13T07:37:28.601477+00:00",
+    "generated_at": "2026-06-13T07:52:34.461105+00:00",
     "version": "2",
     "total_journals": 46,
     "total_conferences": 27,
@@ -1584,25 +1584,28 @@
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
       "name": "Foro de Educación",
       "issn": "1698-7799",
-      "eissn": null,
-      "scopus_active": null,
+      "eissn": "1698-7802",
+      "scopus_active": true,
       "publisher": "FahrenHouse",
       "url": "http://forodeeducacion.com/ojs/index.php/fde",
       "rss_url": "http://forodeeducacion.com/ojs/index.php/fde/gateway/plugin/WebFeedGatewayPlugin/rss2",
       "impact_factor": null,
-      "quartile": null,
-      "indexing_level": 3,
+      "quartile": "Q3",
+      "indexing_level": 1,
       "regional_indexes": [
         "Dialnet",
         "Latindex",
-        "MIAR"
+        "MIAR",
+        "FECYT",
+        "ERIH Plus",
+        "DOAJ"
       ],
       "areas": [
         "educación",
         "filosofía de la educación",
         "pedagogía social"
       ],
-      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799.",
+      "notes": "Diamond Open Access. Indexed in Scopus and ESCI.",
       "recent_entries": [
         {
           "title": "Cognition as the Missing Link: Explaining Student Moral Behavior through Teachers’ Ethical Leadership in Chongqing Universities",
@@ -2612,6 +2615,12 @@
       "notes": "Indexada en SCOPUS.",
       "recent_entries": [
         {
+          "title": "Desarrollo infantil postpandemia",
+          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
+          "published": "2026-05-05",
+          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
+        },
+        {
           "title": "Evaluación del pensamiento crítico en el estudiantado universitario español",
           "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61950",
           "published": "2026-05-05",
@@ -2628,12 +2637,6 @@
           "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/61746",
           "published": "2026-05-05",
           "summary": "Este artículo surge de un proyecto de investigación de corte cualitativo que se propuso analizar cómo el conocimiento extraescolar ingresa y se resignifica en la construcción del conocimiento escolar en la educación secundaria. Para ello, se configuró un estudio de caso a partir del registro discurs"
-        },
-        {
-          "title": "Desarrollo infantil postpandemia",
-          "url": "https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/62093",
-          "published": "2026-05-05",
-          "summary": "Cuatro años después de la pandemia y dos desde que se retomó la presencialidad en las escuelas, el desarrollo infantil se ha visto afectado por el confinamiento, clases virtuales y otros factores socioeconómicos. El objetivo de la investigación es evaluar el desarrollo de las funciones básicas en ni"
         },
         {
           "title": "La OCDE y la gobernanza global de la educación",

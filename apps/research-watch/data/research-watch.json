@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-13T07:36:48.928420+00:00",
+    "generated_at": "2026-06-13T07:52:02.824562+00:00",
     "version": "3",
     "total_calls": 2
   },
@@ -430,7 +430,7 @@
       "id": "b33ee47f-003d-4ca1-bf11-1041716474a8",
       "name": "Foro de Educación",
       "issn": "1698-7799",
-      "eissn": null,
+      "eissn": "1698-7802",
       "publisher": "FahrenHouse",
       "url": "http://forodeeducacion.com/ojs/index.php/fde",
       "rss_url": "http://forodeeducacion.com/ojs/index.php/fde/gateway/plugin/WebFeedGatewayPlugin/rss2",
@@ -440,15 +440,18 @@
         "pedagogía social"
       ],
       "impact_factor": null,
-      "quartile": null,
-      "indexing_level": 3,
+      "quartile": "Q3",
+      "indexing_level": 1,
       "regional_indexes": [
         "Dialnet",
         "Latindex",
-        "MIAR"
+        "MIAR",
+        "FECYT",
+        "ERIH Plus",
+        "DOAJ"
       ],
-      "scopus_active": null,
-      "notes": "No aparece en la lista SCOPUS Feb 2026 con ISSN 1698-7799."
+      "scopus_active": true,
+      "notes": "Diamond Open Access. Indexed in Scopus and ESCI."
     },
     {
       "id": "c925c528-9c44-4fdf-bfab-3a8ae6cfd913",
