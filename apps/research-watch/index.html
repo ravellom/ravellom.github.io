@@ -130,8 +130,17 @@
       <section class="card rw-card" id="section-journals">
         <div class="rw-card-header">
           <h2><i class="fa-solid fa-book-open"></i> Revistas</h2>
+          <div class="journal-view-toggle" role="group" aria-label="Vista de revistas">
+            <button class="journal-view-btn is-active" type="button" data-journal-view="grouped" aria-pressed="true">
+              <i class="fa-solid fa-layer-group"></i> Agrupada
+            </button>
+            <button class="journal-view-btn" type="button" data-journal-view="alphabetical" aria-pressed="false">
+              <i class="fa-solid fa-arrow-down-a-z"></i> Alfabética
+            </button>
+          </div>
         </div>
-        <ul class="source-list" id="journals-list"></ul>
+        <div id="journals-grouped"></div>
+        <ul class="source-list" id="journals-list" hidden></ul>
       </section>
     </section>
 

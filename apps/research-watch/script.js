@@ -160,6 +160,7 @@ function renderFilters(data) {
 }
 
 function renderJournals(journals) {
+  renderGroupedJournals(journals);
   renderSourceList({
     listId: "journals-list",
     items: journals,
@@ -172,6 +173,103 @@ function renderJournals(journals) {
       [journal.issn, journal.publisher, (journal.areas || []).slice(0, 3).join(", ")]
         .filter(Boolean)
         .join(" · "),
+  });
+  initJournalViewToggle();
+}
+
+const JOURNAL_GROUPS = [
+  { id: "education-computer-science", label: "Educación + Computer Science", icon: "fa-code-branch" },
+  { id: "education", label: "Educación", icon: "fa-graduation-cap" },
+  { id: "computer-science", label: "Computer Science", icon: "fa-laptop-code" },
+];
+
+const EDUCATION_TERMS = [
+  "education", "educación", "educational", "learning", "teaching", "teacher",
+  "pedagogy", "pedagogía", "didáctica", "instruction", "training", "formación",
+  "university", "higher education", "vocational",
+];
+
+const COMPUTER_SCIENCE_TERMS = [
+  "computer", "computing", "informatics", "information technology", "digital",
+  "e-learning", "learning technology", "educational technology", "online learning",
+  "artificial intelligence", "machine learning", "data mining", "analytics",
+  "human-computer", "virtual", "software", "robot",
+];
+
+function journalGroup(journal) {
+  const searchable = [journal.name, ...(journal.areas || [])].join(" ").toLowerCase();
+  const isEducation = EDUCATION_TERMS.some((term) => searchable.includes(term));
+  const isComputerScience = COMPUTER_SCIENCE_TERMS.some((term) => searchable.includes(term));
+  if (isEducation && isComputerScience) return "education-computer-science";
+  if (isComputerScience) return "computer-science";
+  return "education";
+}
+
+function renderGroupedJournals(journals) {
+  const container = document.getElementById("journals-grouped");
+  if (!container) return;
+
+  const grouped = Object.fromEntries(JOURNAL_GROUPS.map((group) => [group.id, []]));
+  [...journals]
+    .sort((a, b) => a.name.localeCompare(b.name, "es"))
+    .forEach((journal) => grouped[journalGroup(journal)].push(journal));
+
+  container.innerHTML = JOURNAL_GROUPS.map((group) => `
+    <section class="journal-group">
+      <div class="journal-group-header">
+        <h3><i class="fa-solid ${group.icon}"></i> ${group.label}</h3>
+        <span class="journal-group-count">${grouped[group.id].length}</span>
+      </div>
+      <ul class="journal-group-list">
+        ${grouped[group.id].map(renderGroupedJournal).join("")}
+      </ul>
+    </section>
+  `).join("");
+}
+
+function renderGroupedJournal(journal) {
+  const detailHref = journal.id
+    ? `source-detail.html?type=journal&id=${encodeURIComponent(journal.id)}`
+    : journal.url;
+  const indexing = [
+    journal.quartile,
+    journal.scopus_active === true ? "Scopus" : "",
+    journal.indexing_level === 1 ? "WoS" : "",
+  ].filter(Boolean);
+  const meta = [journal.publisher, (journal.areas || []).slice(0, 3).join(", ")]
+    .filter(Boolean)
+    .join(" · ");
+  return `
+    <li class="journal-group-item">
+      <div class="journal-group-main">
+        <a class="journal-group-name" href="${escHtml(detailHref || journal.url)}">${escHtml(journal.name)}</a>
+        ${journal.url ? `<a href="${escHtml(journal.url)}" target="_blank" rel="noopener" class="src-ext-link" title="Abrir sitio web"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ""}
+        <span class="journal-group-badges">
+          ${indexing.map((badge) => `<span class="source-if">${escHtml(badge)}</span>`).join("")}
+        </span>
+      </div>
+      <div class="source-meta">${escHtml(meta)}</div>
+    </li>
+  `;
+}
+
+function initJournalViewToggle() {
+  const grouped = document.getElementById("journals-grouped");
+  const alphabetical = document.getElementById("journals-list");
+  const buttons = document.querySelectorAll("[data-journal-view]");
+  if (!grouped || !alphabetical || !buttons.length) return;
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const showGrouped = button.dataset.journalView === "grouped";
+      grouped.hidden = !showGrouped;
+      alphabetical.hidden = showGrouped;
+      buttons.forEach((candidate) => {
+        const isActive = candidate === button;
+        candidate.classList.toggle("is-active", isActive);
+        candidate.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    });
   });
 }
 

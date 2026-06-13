@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-05-21T08:43:59.240426+00:00",
+    "generated_at": "2026-06-13T07:36:48.928420+00:00",
     "version": "3",
-    "total_calls": 4
+    "total_calls": 2
   },
   "journals": [
     {
@@ -363,6 +363,26 @@
       "notes": null
     },
     {
+      "id": "d38005ce-fbd5-4f05-908d-07ef129ea929",
+      "name": "Empirical Research in Vocational Education and Training",
+      "issn": "1877-6337",
+      "eissn": "1877-6345",
+      "publisher": "Springer Nature",
+      "url": "https://link.springer.com/journal/40461",
+      "rss_url": "https://link.springer.com/search.rss?facet-journal-id=40461",
+      "areas": [
+        "vocational education",
+        "vocational training",
+        "educational research"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Open Access. Published by Springer Nature."
+    },
+    {
       "id": "140e3d65-157e-4783-a315-65439f895ea4",
       "name": "Estudios Pedagógicos",
       "issn": "0716-050X",
@@ -489,6 +509,26 @@
       "notes": null
     },
     {
+      "id": "9b564d36-d904-4a4d-a315-b52c61f37037",
+      "name": "International Journal for Research in Vocational Education and Training",
+      "issn": "2197-8638",
+      "eissn": "2197-8646",
+      "publisher": "VETNET European Research Network in Vocational Education and Training",
+      "url": "https://journals.suub.uni-bremen.de/index.php/ijrvet",
+      "rss_url": "https://journals.suub.uni-bremen.de/index.php/ijrvet/gateway/plugin/WebFeedGatewayPlugin/rss2",
+      "areas": [
+        "vocational education",
+        "vocational training",
+        "educational research"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Diamond Open Access. Indexed in Scopus and ESCI."
+    },
+    {
       "id": "1dc1a709-1f45-4b38-b7f7-ac2b1530863e",
       "name": "International Journal of Educational Technology in Higher Education",
       "issn": "2365-9440",
@@ -507,6 +547,26 @@
       "regional_indexes": [],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall). Formerly RUSC."
+    },
+    {
+      "id": "ef1a4319-0c24-4e75-b63d-7ce6c0de39fe",
+      "name": "International Journal of Information and Education Technology",
+      "issn": "2010-3689",
+      "eissn": "2010-3689",
+      "publisher": "IACSIT Press",
+      "url": "https://www.ijiet.org/",
+      "rss_url": null,
+      "areas": [
+        "information technology",
+        "educational technology",
+        "digital learning"
+      ],
+      "impact_factor": null,
+      "quartile": null,
+      "indexing_level": 2,
+      "regional_indexes": [],
+      "scopus_active": true,
+      "notes": "Open Access. Monthly publication; official website reports a CiteScore of 3.2."
     },
     {
       "id": "3ca307f9-04df-4e67-802b-4e5951461f91",
@@ -1367,46 +1427,6 @@
     }
   ],
   "calls": [
-    {
-      "id": "ec7d8adf-2f41-4039-aa83-94dd0996e5a8",
-      "type": "special_issue",
-      "title": "NUEVO CALL FOR PAPERS - Monográfico - Vol. 30(1) - Tecnologías emergentes en educación superior a distancia e híbrida: evidencias de impacto",
-      "deadline": "2026-06-01",
-      "url": "https://revistas.uned.es/index.php/ried/announcement/view/502",
-      "status": "active",
-      "source_url": "https://revistas.uned.es/index.php/ried/announcement",
-      "notes": null,
-      "source": {
-        "type": "journal",
-        "id": "ea472c4a-b8b6-49a5-bea8-a21cfecdb325",
-        "name": "RIED. Revista Iberoamericana de Educación a Distancia",
-        "areas": [
-          "educación a distancia",
-          "e-learning",
-          "tecnología educativa"
-        ]
-      }
-    },
-    {
-      "id": "5e38822a-1796-45ee-8eb7-4eace2659ab8",
-      "type": "cfp",
-      "title": "I Congreso Internacional y XVIII Jornadas de Innovación Docente - UNIOVI",
-      "deadline": "2026-06-07",
-      "url": "https://congresoinnova.uniovi.es/contribuciones",
-      "status": "active",
-      "source_url": "https://congresoinnova.uniovi.es/contribuciones",
-      "notes": "Resumen hasta el 7 de junio de 2026. La comunicaci?n oral virtual debe estar subida antes del 21 de junio de 2026.",
-      "source": {
-        "type": "conference",
-        "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
-        "name": "I Congreso Internacional y XVIII Jornadas de Innovaci?n Docente",
-        "areas": [
-          "innovaci?n docente",
-          "educaci?n superior",
-          "metodolog?as activas"
-        ]
-      }
-    },
     {
       "id": "c494b740-b40c-4c72-bc72-b48c3862d56f",
       "type": "monographic",
