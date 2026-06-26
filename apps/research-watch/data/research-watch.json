@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-06-13T07:59:27.487252+00:00",
+    "generated_at": "2026-06-26T08:31:43.455815+00:00",
     "version": "3",
-    "total_calls": 2
+    "total_calls": 1
   },
   "journals": [
     {
@@ -537,6 +537,30 @@
       ],
       "scopus_active": true,
       "notes": null
+    },
+    {
+      "id": "d1a6e490-8fd2-4bdc-8095-7655dff19f8b",
+      "name": "IEEE Revista Iberoamericana de Tecnologías del Aprendizaje",
+      "issn": "1932-8540",
+      "eissn": "1932-8540",
+      "publisher": "IEEE Education Society",
+      "url": "https://ieee-edusociety.org/publication/about-publications/rita",
+      "rss_url": null,
+      "areas": [
+        "educational technology",
+        "engineering education",
+        "computer science education"
+      ],
+      "impact_factor": 0.9,
+      "quartile": "Q4",
+      "indexing_level": 1,
+      "regional_indexes": [],
+      "scopus_categories": [
+        "Education",
+        "Computer Science Applications"
+      ],
+      "scopus_active": true,
+      "notes": "Hybrid Open Access. Indexed in Scopus, Ei Compendex and ESCI."
     },
     {
       "id": "5c5ddfd2-fb9b-4481-a69d-07649c344f9f",
@@ -1588,26 +1612,6 @@
     }
   ],
   "calls": [
-    {
-      "id": "c494b740-b40c-4c72-bc72-b48c3862d56f",
-      "type": "monographic",
-      "title": "Call for papers TEMÁTICA ESPECIAL: Videojuegos y educación. Más allá de la gamificación y los enfoques instruccionales",
-      "deadline": "2026-06-15",
-      "url": "https://www.edutec.es/revista/index.php/edutec-e/announcement/view/57",
-      "status": "active",
-      "source_url": "https://www.edutec.es/revista/index.php/edutec-e/announcement",
-      "notes": null,
-      "source": {
-        "type": "journal",
-        "id": "58236087-1fef-4260-a345-04ac43b1a94a",
-        "name": "EDUTEC. Revista Electrónica de Tecnología Educativa",
-        "areas": [
-          "tecnología educativa",
-          "innovación docente",
-          "e-learning"
-        ]
-      }
-    },
     {
       "id": "c3df12f9-daa7-4672-9d44-77f57543c583",
       "type": "special_issue",
