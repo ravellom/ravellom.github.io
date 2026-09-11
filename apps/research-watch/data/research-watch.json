@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-06-26T08:31:43.455815+00:00",
+    "generated_at": "2026-09-11T10:17:13.147464+00:00",
     "version": "3",
-    "total_calls": 1
+    "total_calls": 0
   },
   "journals": [
     {
@@ -58,6 +58,30 @@
       ],
       "scopus_active": true,
       "notes": "Open Access (Unpaywall)."
+    },
+    {
+      "id": "3111f9ea-f69d-41c3-9f3c-9d2960d54e6b",
+      "name": "Baltic Journal of Modern Computing",
+      "issn": "2255-8942",
+      "eissn": "2255-8950",
+      "publisher": "University of Latvia",
+      "url": "https://www.bjmc.lu.lv/",
+      "rss_url": null,
+      "areas": [
+        "computer science",
+        "software engineering",
+        "computing didactics",
+        "e-learning"
+      ],
+      "impact_factor": 0.7,
+      "quartile": "Q4",
+      "indexing_level": 1,
+      "regional_indexes": [],
+      "scopus_categories": [
+        "Computer Science (miscellaneous)"
+      ],
+      "scopus_active": true,
+      "notes": "Gold Open Access. Indexed in Scopus since 2019 and in ESCI since 2015."
     },
     {
       "id": "9384a76a-0f92-49b4-94e2-fce2d818ddc8",
@@ -1611,26 +1635,5 @@
       "is_active": true
     }
   ],
-  "calls": [
-    {
-      "id": "c3df12f9-daa7-4672-9d44-77f57543c583",
-      "type": "special_issue",
-      "title": "Abierto el plazo de recepción de artículos para el monográfico “Integridad académica: explorando nuevos y viejos problemas en la era de la Inteligencia Artificial”",
-      "deadline": "2026-08-31",
-      "url": "https://educar.uab.cat/announcement/view/63",
-      "status": "active",
-      "source_url": "https://educar.uab.cat/index.php/educar/announcement",
-      "notes": null,
-      "source": {
-        "type": "journal",
-        "id": "01234efb-2929-4c02-84d4-a32441995caf",
-        "name": "Educar",
-        "areas": [
-          "educación",
-          "pedagogía",
-          "formación"
-        ]
-      }
-    }
-  ]
+  "calls": []
 }
