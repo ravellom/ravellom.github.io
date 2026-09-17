@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-11T10:17:13.147464+00:00",
+    "generated_at": "2026-09-17T09:13:41.832127+00:00",
     "version": "3",
     "total_calls": 0
   },
@@ -1307,24 +1307,10 @@
       "notes": "Publicación: IEEE Xplore. Organiza: IEEE Education Society."
     },
     {
-      "id": "f106fe66-b75d-4190-ad18-5c356b3ac0f7",
-      "name": "I Congreso Internacional y XVIII Jornadas de Innovaci?n Docente",
-      "acronym": "INNOVA Uniovi",
-      "url": "https://congresoinnova.uniovi.es/contribuciones",
-      "rss_url": null,
-      "areas": [
-        "innovaci?n docente",
-        "educaci?n superior",
-        "metodolog?as activas"
-      ],
-      "periodicity": "annual",
-      "notes": "I Congreso Internacional y XVIII Jornadas de Innovacion Docente (Universidad de Oviedo). Current contributions page includes a call with summary deadline 7 Jun 2026 and oral communication delivery before 21 Jun 2026. Maintained as a manually curated conference in the local catalog."
-    },
-    {
       "id": "93e76d0c-1b41-4477-8b69-8f1fef5ad266",
       "name": "I Congreso Internacional y XVIII Jornadas de Innovación Docente",
       "acronym": "INNOVA Uniovi",
-      "url": "https://congresoinnova.uniovi.es/contribuciones",
+      "url": "https://congresoinnova.uniovi.es/",
       "rss_url": null,
       "areas": [
         "innovación docente",
@@ -1405,6 +1391,34 @@
       "notes": "Organiza: Tecnológico de Monterrey."
     },
     {
+      "id": "c91f8591-30b9-409f-9441-fd802478909b",
+      "name": "Informing Science + IT Education Conference",
+      "acronym": "InSITE",
+      "url": "https://www.informingscience.org/Conferences",
+      "rss_url": null,
+      "areas": [
+        "informing science",
+        "information technology education",
+        "technology enhanced learning"
+      ],
+      "periodicity": "annual",
+      "notes": "Organiza: Informing Science Institute. Directorio oficial con las ediciones de InSITE."
+    },
+    {
+      "id": "ae3ee48d-712c-476f-a6ac-c25ce757682d",
+      "name": "International Computing Education Research Conference",
+      "acronym": "ICER",
+      "url": "https://sigcse.org/events/icer/index.html",
+      "rss_url": null,
+      "areas": [
+        "computing education",
+        "computer science education",
+        "educational research"
+      ],
+      "periodicity": "annual",
+      "notes": "Organiza: ACM SIGCSE. Portal general de la serie, celebrada desde 2005."
+    },
+    {
       "id": "a7b8286b-40ae-4246-824c-b6d4ad3a8b9e",
       "name": "International Conference of Education, Research and Innovation",
       "acronym": "ICERI",
@@ -1459,6 +1473,20 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: Springer LNAI. Organiza: International AIED Society."
+    },
+    {
+      "id": "f3a3aff8-e46f-49da-ba4d-ef091321ac7e",
+      "name": "International Conference on Computer Supported Education",
+      "acronym": "CSEDU",
+      "url": "https://csedu.scitevents.org/",
+      "rss_url": null,
+      "areas": [
+        "computer supported education",
+        "educational technology",
+        "AI in education"
+      ],
+      "periodicity": "annual",
+      "notes": "Organiza: INSTICC. Publicacion: SCITEPRESS Digital Library. Portal general de la serie."
     },
     {
       "id": "47bb2d9a-4c97-480c-81ee-6a12242d9e97",
