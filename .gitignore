@@ -17,3 +17,4 @@ apps/ai-ref-extractor
 # Archivos locales de trabajo (no publicar)
 temp_*.txt
 recuedu-labs-top.html
+apps/my-papers/data/openalex_profile.json
