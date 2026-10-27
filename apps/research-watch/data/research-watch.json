@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-17T09:13:41.832127+00:00",
+    "generated_at": "2026-10-27T08:31:25.620090+00:00",
     "version": "3",
     "total_calls": 0
   },
@@ -1543,6 +1543,20 @@
       ],
       "periodicity": "annual",
       "notes": "Publicación: actas indexadas en Elsevier Scopus y Thomson Reuters CPCI."
+    },
+    {
+      "id": "59f6b7c8-677f-441d-a342-16ec1a2ac5bc",
+      "name": "International Conference on Informatics in Schools: Situation, Evolution and Perspectives",
+      "acronym": "ISSEP",
+      "url": "https://issep2027.csited.be/",
+      "rss_url": null,
+      "areas": [
+        "informatics education",
+        "K-12 computing",
+        "computational thinking"
+      ],
+      "periodicity": "annual",
+      "notes": "20ª edición: 26-29 sep 2027, Namur (Bélgica). Organiza: CSITEd ASBL y Universidad de Namur. Proceedings históricamente en Springer LNCS."
     },
     {
       "id": "7b2d2a2c-17d2-4b07-935e-5a61ee75bb0c",
