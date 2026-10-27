@@ -67,9 +67,9 @@
     .lang button[aria-pressed="true"] { background: var(--hero-fg); color: var(--hero-a); }
     .hero-main { position: relative; z-index: 1; display: flex; align-items: center; gap: 28px; margin-top: 28px; }
     .monogram {
-      flex-shrink: 0; width: 104px; height: 104px; border-radius: 50%;
-      display: grid; place-items: center; font-family: var(--serif); font-size: 2.4rem; font-weight: 600;
-      background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.4); color: var(--hero-fg);
+      flex-shrink: 0; width: 120px; height: 120px; border-radius: 50%;
+      object-fit: cover; display: block; border: 3px solid rgba(255,255,255,.55);
+      box-shadow: 0 6px 20px rgba(0,0,0,.25); background: rgba(255,255,255,.1);
     }
     h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.08; margin: 0 0 6px; letter-spacing: -.01em; }
     .role { margin: 0; color: var(--hero-muted); font-size: 1.02rem; }
@@ -145,7 +145,7 @@
     @media (max-width: 520px) {
       .hero { padding-bottom: 64px; }
       .hero-main { flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 8px; }
-      .monogram { width: 72px; height: 72px; font-size: 1.7rem; }
+      .monogram { width: 88px; height: 88px; }
       .about { padding: 22px 20px; }
       .tiles, .tiles.four { grid-template-columns: 1fr; }
     }
@@ -164,7 +164,7 @@
         </div>
       </div>
       <div class="hero-main">
-        <div class="monogram" aria-hidden="true">RA</div>
+        <img class="monogram" src="assets/img/raidell.jpg" width="400" height="400" alt="Raidell Avello Martínez">
         <div>
           <h1>Raidell Avello Martínez</h1>
           <p class="role">
