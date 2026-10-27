@@ -1,5 +1,322 @@
 [
   {
+    "id": "https://doi.org/10.1109/TAEE68119.2026.11702007",
+    "slug": "robotic-simulation-in-vocational-education-learning-outcomes-from-the-aim-vet-project",
+    "title": "Robotic Simulation in Vocational Education: Learning Outcomes from the Aim@Vet Project",
+    "normalized_title": "robotic simulation in vocational education learning outcomes from the aim vet project",
+    "year": 2026,
+    "publication_date": "2026-07-01",
+    "type": "proceedings-article",
+    "subtype": "conference-paper",
+    "authors": [
+      "Raidell Avello-Martínez",
+      "Fran Bellas",
+      "Carlos Enrique George-Reyes",
+      "Abraham Prieto-García"
+    ],
+    "author_count": 4,
+    "venue": "2026 XVII Congreso Internacional Tecnología Aprendizaje y Enseñanza de la Electrónica (TAEE)",
+    "publisher": "IEEE",
+    "doi": "10.1109/TAEE68119.2026.11702007",
+    "issn": [
+      "2766-2616",
+      "2573-4059"
+    ],
+    "isbn": [
+      "979-8-3315-7283-9",
+      "979-8-3315-7284-6"
+    ],
+    "language": "en",
+    "volume": null,
+    "issue": null,
+    "first_page": "1",
+    "last_page": "6",
+    "page_range": "1-6",
+    "citations": 0,
+    "is_open_access": false,
+    "oa_status": "closed",
+    "oa_pdf_url": null,
+    "oa_landing_page_url": "https://ieeexplore.ieee.org/document/11702007",
+    "source_url": "https://ieeexplore.ieee.org/document/11702007",
+    "abstract": "The increasing integration of robotics and artificial intelligence in industrial environments requires vocational education and training (VET) programs to incorporate learning experiences that combine technical and transversal competencies. This paper presents the implementation and evaluation of a teaching unit focused on robotic arm simulation using RoboDK within the European AIM@VET project. The activity was conducted with twelve second-year VET students who were tasked with programming a simulated Dobot Magician robot to perform a pick-and-place operation using Python. The instructional design followed a project-based learning approach and was evaluated through three complementary instruments: a general rubric for transversal competencies, a technical performance rubric assessing the execution of the robotic task, and an individual student questionnaire. Results show that most students successfully completed the initial configuration and basic programming tasks, demonstrating the suitability of RoboDK as an introductory platform for robotics education. However, difficulties emerged in stages requiring spatial abstraction and reference frame management. The findings highlight both the pedagogical potential of simulation-based robotics learning in VET and the need for instructional strategies that better support students' understanding of spatial relationships in robotic programming.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Educational Robotics",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Vocational Education and Training",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Robot Simulation",
+        "score": null,
+        "subfield": "Control and Systems Engineering",
+        "field": "Engineering",
+        "domain": "Physical Sciences"
+      }
+    ],
+    "keywords": [
+      "Vocational education",
+      "educational robotics",
+      "simulation",
+      "RoboDK",
+      "formative assessment"
+    ],
+    "concepts": [
+      {
+        "display_name": "Educational robotics",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Robot programming",
+        "score": null,
+        "level": 2
+      },
+      {
+        "display_name": "Vocational education",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Raidell Avello-Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": []
+      },
+      {
+        "author": "Fran Bellas",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": []
+      },
+      {
+        "author": "Carlos Enrique George-Reyes",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "middle",
+        "raw_affiliation_strings": []
+      },
+      {
+        "author": "Abraham Prieto-García",
+        "author_id": null,
+        "institutions": [],
+        "countries": [],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": []
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.1109/TAEE68119.2026.11702007",
+      "type": "proceedings-article",
+      "publisher": "IEEE",
+      "language": "en",
+      "url": "https://doi.org/10.1109/TAEE68119.2026.11702007",
+      "page": "1-6",
+      "volume": null,
+      "issue": null,
+      "container_title": "2026 XVII Congreso Internacional Tecnología Aprendizaje y Enseñanza de la Electrónica (TAEE)",
+      "issn": [
+        "2766-2616",
+        "2573-4059"
+      ],
+      "isbn": [
+        "979-8-3315-7283-9",
+        "979-8-3315-7284-6"
+      ],
+      "subject": [
+        "Educational robotics",
+        "Vocational education"
+      ],
+      "abstract": null,
+      "year": 2026
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Congreso",
+      "indexed_in": [
+        "IEEE Xplore",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-10-27"
+    },
+    "source": "manual"
+  },
+  {
+    "id": "https://doi.org/10.21556/edutec.2025.94.3955",
+    "slug": "servocontrol-visual-para-el-control-de-robots-actividades-de-aprendizaje-con-robodk",
+    "title": "Servocontrol visual para el control de robots: actividades de aprendizaje con RoboDK",
+    "normalized_title": "servocontrol visual para el control de robots actividades de aprendizaje con robodk",
+    "year": 2025,
+    "publication_date": "2025-12-22",
+    "type": "article",
+    "subtype": null,
+    "authors": [
+      "Raidell Avello-Martínez",
+      "Abraham Prieto García"
+    ],
+    "author_count": 2,
+    "venue": "Edutec, Revista Electrónica de Tecnología Educativa",
+    "publisher": "Grupo de Tecnología Educativa, Universitat de les Illes Balears",
+    "doi": "10.21556/edutec.2025.94.3955",
+    "issn": [
+      "1135-9250"
+    ],
+    "isbn": null,
+    "language": "en",
+    "volume": null,
+    "issue": "94",
+    "first_page": "132",
+    "last_page": "143",
+    "page_range": "132-143",
+    "citations": 0,
+    "is_open_access": true,
+    "oa_status": "diamond",
+    "oa_pdf_url": "https://www.edutec.es/revista/index.php/edutec-e/article/download/3955/1521",
+    "oa_landing_page_url": "https://www.edutec.es/revista/index.php/edutec-e/article/view/3955",
+    "source_url": "https://www.edutec.es/revista/index.php/edutec-e/article/view/3955",
+    "abstract": "El servocontrol visual es una técnica clave de control robótico que utiliza retroalimentación visual para ajustar dinámicamente los movimientos. Este estudio, realizado en el marco del proyecto AIM@VET, evalúa la eficacia de una lección basada en RoboDK con 25 estudiantes de formación profesional. La lección se dividió en dos actividades: la Actividad 1, centrada en el procesamiento de imágenes y la configuración de la visión artificial, y la Actividad 2, que hizo hincapié en la implementación del servocontrol visual. Los datos se recopilaron mediante un cuestionario de opción múltiple y dos preguntas abiertas para evaluar tanto la adquisición de conocimientos como las percepciones de los estudiantes. La puntuación media fue de 5,96. Las preguntas con mayor puntuación se relacionaron con la Actividad 2, mientras que las de menor puntuación destacaron dificultades en el procesamiento de imágenes y la configuración de la visión artificial. Si bien los estudiantes valoraron positivamente la lección, muchos encontraron la Actividad 1 poco clara, lo que refuerza los hallazgos previos de que los conceptos abstractos de procesamiento de imágenes requieren enfoques de aprendizaje más estructurados. Para mejorar la comprensión, se recomiendan tutoriales estructurados, mecanismos de retroalimentación en tiempo real y ejercicios guiados en RoboDK.",
+    "abstract_inverted_index": null,
+    "topics": [
+      {
+        "display_name": "Educational Robotics",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      },
+      {
+        "display_name": "Robotics and Computer Vision",
+        "score": null,
+        "subfield": "Computer Vision and Pattern Recognition",
+        "field": "Computer Science",
+        "domain": "Physical Sciences"
+      },
+      {
+        "display_name": "Vocational Education and Training",
+        "score": null,
+        "subfield": "Education",
+        "field": "Social Sciences",
+        "domain": "Social Sciences"
+      }
+    ],
+    "keywords": [
+      "Visual Servoing",
+      "RoboDK",
+      "Visión artificial",
+      "Formación profesional",
+      "Control robótico"
+    ],
+    "concepts": [
+      {
+        "display_name": "Visual servoing",
+        "score": null,
+        "level": 2
+      },
+      {
+        "display_name": "Educational robotics",
+        "score": null,
+        "level": 1
+      },
+      {
+        "display_name": "Vocational education",
+        "score": null,
+        "level": 1
+      }
+    ],
+    "authorships": [
+      {
+        "author": "Raidell Avello-Martínez",
+        "author_id": "https://openalex.org/A5074957042",
+        "institutions": [
+          "Universidade da Coruña"
+        ],
+        "countries": [
+          "ES"
+        ],
+        "is_corresponding": false,
+        "author_position": "first",
+        "raw_affiliation_strings": [
+          "Universidade da Coruña"
+        ],
+        "orcid": "https://orcid.org/0000-0001-7200-632X"
+      },
+      {
+        "author": "Abraham Prieto García",
+        "author_id": null,
+        "institutions": [
+          "Universidade da Coruña"
+        ],
+        "countries": [
+          "ES"
+        ],
+        "is_corresponding": false,
+        "author_position": "last",
+        "raw_affiliation_strings": [
+          "Universidade da Coruña"
+        ],
+        "orcid": "https://orcid.org/0000-0002-5982-8983"
+      }
+    ],
+    "openalex": null,
+    "crossref": {
+      "doi": "10.21556/edutec.2025.94.3955",
+      "type": "journal-article",
+      "publisher": "Edutec",
+      "language": "en",
+      "url": "https://doi.org/10.21556/edutec.2025.94.3955",
+      "page": "132-143",
+      "volume": null,
+      "issue": "94",
+      "container_title": "Edutec, Revista Electrónica de Tecnología Educativa",
+      "issn": [
+        "1135-9250"
+      ],
+      "isbn": null,
+      "subject": [
+        "Tecnología educativa",
+        "Robótica"
+      ],
+      "abstract": null,
+      "year": 2025
+    },
+    "classification": {
+      "level": "",
+      "quartile": "",
+      "scope": "Scopus/WoS",
+      "indexed_in": [
+        "Scopus",
+        "DOAJ",
+        "ERIH PLUS",
+        "Sello FECYT",
+        "Crossref"
+      ],
+      "indexing_checked_at": "2026-10-27"
+    },
+    "source": "manual"
+  },
+  {
     "id": "https://doi.org/10.33262/exploradordigital.v10i2.3683",
     "slug": "gamification-in-mathematics-the-impact-of-kahoot-on-the-students-motivation-of-elementary-school",
     "title": "Gamification in mathematics: the impact of Kahoot on the students' motivation of elementary school",

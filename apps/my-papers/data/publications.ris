@@ -1,3 +1,47 @@
+TY  - CONF
+TI  - Robotic Simulation in Vocational Education: Learning Outcomes from the Aim@Vet Project
+AU  - Raidell Avello-Martínez
+AU  - Fran Bellas
+AU  - Carlos Enrique George-Reyes
+AU  - Abraham Prieto-García
+PY  - 2026
+DA  - 2026-07-01
+T2  - 2026 XVII Congreso Internacional Tecnología Aprendizaje y Enseñanza de la Electrónica (TAEE)
+PB  - IEEE
+CY  - Santander, Spain
+SN  - 979-8-3315-7283-9
+SP  - 1
+EP  - 6
+DO  - 10.1109/TAEE68119.2026.11702007
+UR  - https://ieeexplore.ieee.org/document/11702007
+KW  - Vocational education
+KW  - educational robotics
+KW  - simulation
+KW  - RoboDK
+KW  - formative assessment
+AB  - The increasing integration of robotics and artificial intelligence in industrial environments requires vocational education and training (VET) programs to incorporate learning experiences that combine technical and transversal competencies. This paper presents the implementation and evaluation of a teaching unit focused on robotic arm simulation using RoboDK within the European AIM@VET project. The activity was conducted with twelve second-year VET students who were tasked with programming a simulated Dobot Magician robot to perform a pick-and-place operation using Python. The instructional design followed a project-based learning approach and was evaluated through three complementary instruments: a general rubric for transversal competencies, a technical performance rubric assessing the execution of the robotic task, and an individual student questionnaire. Results show that most students successfully completed the initial configuration and basic programming tasks, demonstrating the suitability of RoboDK as an introductory platform for robotics education. However, difficulties emerged in stages requiring spatial abstraction and reference frame management. The findings highlight both the pedagogical potential of simulation-based robotics learning in VET and the need for instructional strategies that better support students' understanding of spatial relationships in robotic programming.
+ER  - 
+TY  - JOUR
+TI  - Servocontrol visual para el control de robots: actividades de aprendizaje con RoboDK
+AU  - Raidell Avello-Martínez
+AU  - Abraham Prieto García
+PY  - 2025
+DA  - 2025-12-22
+JO  - Edutec, Revista Electrónica de Tecnología Educativa
+SN  - 1135-9250
+IS  - 94
+SP  - 132
+EP  - 143
+DO  - 10.21556/edutec.2025.94.3955
+UR  - https://www.edutec.es/revista/index.php/edutec-e/article/view/3955
+L2  - https://www.edutec.es/revista/index.php/edutec-e/article/download/3955/1521
+KW  - Visual Servoing
+KW  - RoboDK
+KW  - Visión artificial
+KW  - Formación profesional
+KW  - Control robótico
+AB  - El servocontrol visual es una técnica clave de control robótico que utiliza retroalimentación visual para ajustar dinámicamente los movimientos. Este estudio, realizado en el marco del proyecto AIM@VET, evalúa la eficacia de una lección basada en RoboDK con 25 estudiantes de formación profesional. La lección se dividió en dos actividades: la Actividad 1, centrada en el procesamiento de imágenes y la configuración de la visión artificial, y la Actividad 2, que hizo hincapié en la implementación del servocontrol visual. Los datos se recopilaron mediante un cuestionario de opción múltiple y dos preguntas abiertas para evaluar tanto la adquisición de conocimientos como las percepciones de los estudiantes. La puntuación media fue de 5,96. Las preguntas con mayor puntuación se relacionaron con la Actividad 2, mientras que las de menor puntuación destacaron dificultades en el procesamiento de imágenes y la configuración de la visión artificial. Si bien los estudiantes valoraron positivamente la lección, muchos encontraron la Actividad 1 poco clara, lo que refuerza los hallazgos previos de que los conceptos abstractos de procesamiento de imágenes requieren enfoques de aprendizaje más estructurados. Para mejorar la comprensión, se recomiendan tutoriales estructurados, mecanismos de retroalimentación en tiempo real y ejercicios guiados en RoboDK.
+ER  - 
 TY  - JOUR
 TI  - Gamification in mathematics: the impact of Kahoot on the students' motivation of elementary school
 AU  - Katherine Yesenia Reyes Benitez
