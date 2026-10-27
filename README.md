@@ -1,4 +1,11 @@
-# RecuEdu Labs
+# ravellom.github.io
+
+Sitio personal de **Raidell Avello Martínez** y portal **RecuEdu Labs** de aplicaciones educativas abiertas, publicados en GitHub Pages.
+
+- Página personal: [https://ravellom.github.io/](https://ravellom.github.io/)
+- Catálogo RecuEdu Labs: [https://ravellom.github.io/apps/](https://ravellom.github.io/apps/)
+
+## RecuEdu Labs
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-brightgreen)](https://ravellom.github.io/)
@@ -6,7 +13,7 @@
 Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 
 **Desarrollado por:** Raidell Avello  
-**Sitio principal:** [https://ravellom.github.io/](https://ravellom.github.io/)
+**Catálogo:** [https://ravellom.github.io/apps/](https://ravellom.github.io/apps/)
 
 ---
 
@@ -63,7 +70,7 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 
 ### Otras apps publicadas
 - Simulador Multiagente: [apps/ia-apps/simulador-multiagente](apps/ia-apps/simulador-multiagente) - [Demo](https://ravellom.github.io/apps/ia-apps/simulador-multiagente/)
-- AI Ref Extractor: [apps/ai-ref-extractor](apps/ai-ref-extractor) - [Demo](https://ravellom.github.io/apps/ai-ref-extractor/)
+- Research Watch: [apps/research-watch](apps/research-watch) - [Demo](https://ravellom.github.io/apps/research-watch/)
 
 ---
 
@@ -87,7 +94,9 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 
 ## Estructura general
 
-- [index.html](index.html): portada del sitio
+- [index.html](index.html): página personal (ES/EN) con enlaces académicos e institucionales
+- [apps/index.html](apps/index.html): catálogo de RecuEdu Labs
+- [404.html](404.html): página de error con enlaces a inicio y catálogo
 - [apps/](apps/): aplicaciones web independientes
 - [assets/](assets/): estilos y recursos compartidos
 - [recuedu/](recuedu/): sitio institucional complementario
@@ -105,4 +114,4 @@ Plataforma de aplicaciones educativas abiertas publicadas en GitHub Pages.
 
 ## Licencia
 
-MIT License. Revisa [LICENSE](LICENSE).
+MIT License.

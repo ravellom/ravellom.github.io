@@ -13,3 +13,7 @@ server.js
 temp-origin-index.html
 test-render.html
 apps/ai-ref-extractor
+
+# Archivos locales de trabajo (no publicar)
+temp_*.txt
+recuedu-labs-top.html

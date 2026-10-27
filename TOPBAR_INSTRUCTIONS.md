@@ -27,7 +27,7 @@ Copia este código justo después del `<body>`:
 ```html
 <div class="recuedu-topbar">
     <div class="topbar-container">
-        <a href="../../index.html" class="topbar-brand">
+        <a href="../index.html" class="topbar-brand">
             <i class="fa-solid fa-flask-vial"></i>
             <span>RecuEdu Labs</span>
         </a>
