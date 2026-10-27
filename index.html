@@ -135,6 +135,36 @@
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
+    /* Barra de accesos directos */
+    .dock {
+      position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 50;
+      display: flex; flex-direction: column; gap: 6px; padding: 8px;
+      background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(8px);
+      border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-hover);
+    }
+    .dock a {
+      position: relative; width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center;
+      color: #fff; text-decoration: none; transition: transform .15s ease, filter .15s ease;
+    }
+    .dock a svg { width: 20px; height: 20px; }
+    .dock a:hover, .dock a:focus-visible { transform: scale(1.08); filter: brightness(1.08); }
+    .dock a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .dock hr { width: 24px; border: 0; border-top: 1px solid var(--line); margin: 2px auto; }
+    .dock .tip {
+      position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
+      white-space: nowrap; font-size: .78rem; font-weight: 500; padding: 4px 9px; border-radius: 6px;
+      background: var(--fg); color: var(--bg); opacity: 0; pointer-events: none; transition: opacity .12s ease;
+    }
+    .dock a:hover .tip, .dock a:focus-visible .tip { opacity: 1; }
+    @media (max-width: 1080px) and (min-width: 761px) { main.wrap, .hero .wrap { padding-right: 76px; } }
+    @media (max-width: 760px) {
+      .dock { top: auto; bottom: 10px; right: 50%; transform: translateX(50%); flex-direction: row; padding: 6px; gap: 4px; }
+      .dock hr { width: 0; height: 24px; border-top: 0; border-left: 1px solid var(--line); margin: auto 2px; }
+      .dock a { width: 38px; height: 38px; }
+      .dock .tip { display: none; }
+      body { padding-bottom: 72px; }
+    }
+
     [data-lang] { display: none; }
     html[lang="es"] [data-lang="es"], html[lang="en"] [data-lang="en"] { display: revert; }
 
@@ -154,6 +184,31 @@
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NTJRD37" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <nav class="dock" aria-label="Accesos directos / Shortcuts">
+    <a href="https://mail.google.com/" target="_blank" rel="noopener" style="background:#d44638" aria-label="Gmail">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg><span class="tip"><span data-lang="es">Gmail</span><span data-lang="en">Gmail</span></span>
+    </a>
+    <a href="https://calendar.google.com/" target="_blank" rel="noopener" style="background:#1a73e8" aria-label="Calendar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M8 13.5h2M14 13.5h2M8 17h2"/></svg><span class="tip"><span data-lang="es">Calendar</span><span data-lang="en">Calendar</span></span>
+    </a>
+    <a href="https://drive.google.com/" target="_blank" rel="noopener" style="background:#188038" aria-label="Google Drive">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg><span class="tip"><span data-lang="es">Google Drive</span><span data-lang="en">Google Drive</span></span>
+    </a>
+    <a href="https://onedrive.live.com/" target="_blank" rel="noopener" style="background:#0f6cbd" aria-label="OneDrive">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.75 4.75 0 0 0 7 18.5z"/></svg><span class="tip"><span data-lang="es">OneDrive</span><span data-lang="en">OneDrive</span></span>
+    </a>
+    <hr>
+    <a href="https://translate.google.com/" target="_blank" rel="noopener" style="background:#4f6bed" aria-label="Google Traductor">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h9M7.5 3v2M5 5c.6 3 2.6 5.6 5.5 7M10 5c-.6 3-2.6 5.6-5.5 7"/><path d="m12 21 4-9 4 9M13.4 18h5.2"/></svg><span class="tip"><span data-lang="es">Google Traductor</span><span data-lang="en">Google Translate</span></span>
+    </a>
+    <a href="https://www.udc.es/" target="_blank" rel="noopener" style="background:#8a1538" aria-label="Universidade da Coruña">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20.5h18"/></svg><span class="tip"><span data-lang="es">Universidade da Coruña</span><span data-lang="en">Universidade da Coruña</span></span>
+    </a>
+    <a href="https://claude.ai/" target="_blank" rel="noopener" style="background:#c96a3d" aria-label="Claude">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg><span class="tip"><span data-lang="es">Claude</span><span data-lang="en">Claude</span></span>
+    </a>
+  </nav>
 
   <header class="hero">
     <div class="wrap">
